@@ -1,0 +1,458 @@
+@import './mixin';
+@import './variable';
+
+body {
+    background: $secondary-color;
+    font-family: $raleway-font;
+}
+
+h5 {
+    font-size: 24px;
+    color: $primary-color;
+    font-weight: 700;
+}
+
+h6 {
+    font-size: 20px;
+    color: $primary-color;
+}
+
+
+.login {
+    .login-box {
+        .login-logo {
+            img {
+                width: 150px;
+                height: auto;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .user-name {
+            h6 {
+                font-weight: 500;
+                margin: 0 0 31px;
+                font-family: $raleway-font;
+            }
+        }
+
+        h6 {
+            font-family: $fontFamily;
+            font-weight: 500;
+        }
+    }
+
+    .login-form {
+        margin: 54px 0 10px;
+
+        form {
+            max-width: 448px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: left;
+            gap: 48px;
+            display: flex;
+            flex-direction: column;
+
+            .form-group {
+                label {
+                    display: block;
+                    margin-bottom: 8px;
+                    font-size: 16px;
+                    color: $text-color;
+                    font-weight: 700;
+
+                    span {
+                        font-weight: 400;
+                        font-size: 13px;
+                    }
+                }
+
+                .split-button {
+                    >div {
+                        &:nth-child(3) {
+                            @include split-btn;
+
+                            div {
+                                padding: 0;
+                                margin: 0;
+                                font-size: 15px;
+                                color: #94A7BF;
+
+                                &:nth-child(2) {
+                                    span {
+                                        display: none;
+                                    }
+
+                                    div {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:nth-child(4) {
+                            @include split-btn-dropdown;
+                        }
+                    }
+                }
+            }
+
+            .text-muted {
+                font-size: 13px;
+                color: $text-color;
+                font-weight: 400;
+            }
+
+            button {
+                @include action-button;
+            }
+        }
+    }
+}
+
+/***home page css ***/
+.custom-container {
+    max-width: 1392px;
+    margin: 0 auto;
+    padding: 0 12px;
+}
+
+.header {
+    @include flex-center;
+    padding: 12px 0;
+
+    .logo {
+        img {
+            width: 95px;
+            height: auto;
+        }
+    }
+
+    .nav {
+        ul {
+            list-style-type: none;
+            @include flex-align-center;
+            gap: 40px;
+            margin: 0;
+
+            li {
+                a {
+                    color: $text-color;
+                    font-size: 14px;
+                    font-weight: 600;
+                    text-decoration: none;
+
+                    &.active {
+                        color: $dark-green;
+                    }
+                }
+            }
+        }
+    }
+
+    .header-account {
+        gap: 16px;
+        @include flex-space-between;
+
+        .switch {
+            @include switch;
+        }
+
+        .logout {
+            gap: 8px;
+            border-left: 1px solid rgba(93, 118, 130, 0.50);
+            padding-left: 16px;
+            @include flex-space-between;
+
+            .user-avtar {
+                line-height: 1;
+                img {}
+            }
+
+            span {
+                line-height:16px;
+                a {
+                    color: $text-color;
+                    font-size: 14px;
+                    font-weight: 600;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.journey-box {
+    gap: 24px;
+    padding: 0 0 10px;
+    flex-wrap: wrap;
+    display: flex;
+
+    .explore-journey {
+        width: 100%;
+        border-radius: 10px;
+        background: $white;
+        box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+        padding: 24px;
+        min-height: 584px;
+        @include flex-middle;
+        flex-direction: column;
+
+        h5 {
+            text-transform: capitalize;
+        }
+
+        .patient-journey {
+            gap: 16px;
+            margin: 45px 0;
+            width: 100%;
+
+            .journey-link {
+                color: $text-color;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .line {
+                border-top: 1px dashed $text-color;
+                width: 100%;
+                flex: 1;
+            }
+        }
+
+        button {
+            @include action-button;
+            &:active{
+            background: $dark-green;
+            }
+        }
+    }
+
+    .col {
+        width: 33.33%;
+
+    }
+
+    .explore-box {
+        border-radius: 10px;
+        background: $white;
+        box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+        padding: 24px;
+        min-height: 200px;
+        @include vertical-list;
+        justify-content: center;
+        cursor: pointer;
+
+        h6 {
+            color: $text-color;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 10px;
+        }
+
+        p {
+            color: $primary-color;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: capitalize;
+            margin: 0;
+        }
+    }
+
+
+    .left-side {
+        width: 448px;
+        gap: 24px;
+        display: flex;
+        flex-direction: column;
+        height:100%;
+
+        .col {
+            width: 100%;
+            flex: 0 0 auto;
+            transform: translateY(2200px);
+            opacity: 0;
+            animation: slideUp 0.8s normal forwards;
+            height: calc(33.3% - 16px);
+
+            &:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            &:nth-child(3) {
+                animation-delay: 0.4s;
+            }
+            .explore-box{
+                height:100%;
+            }
+        }
+    }
+
+.flex-row-reverse{
+    .right-side{
+         animation: scale-up-hor-left 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0s 1 normal both; 
+         width: 100%;
+        transition: 2s width linear;
+    }
+}
+
+    .right-side {
+        flex: 1 1;
+        border-radius: 10px;
+        background: $white;
+        box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+        padding: 24px;
+        text-align: left;
+        gap: 24px;
+        display: flex;
+        flex-direction: column;
+        // animation: customAni 2s ease-in-out 0s 1 normal forwards;
+        animation: scale-up-hor-right 1s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0s 1 normal both;
+        width: 100%;
+        transition: 2s width linear;
+
+        .box-top {
+            h6 {
+                font-size: 16px;
+                color: $text-color;
+                margin: 0 0 10px;
+                font-weight: 700;
+            }
+
+            p {
+                font-size: 14px;
+                color: $primary-color;
+                margin: 0 0 12px;
+                font-weight: 500;
+            }
+            span{
+                img{
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .content-box {
+            border-radius: 2px;
+            border: 1px solid rgba(148, 167, 191, 0.30);
+            background: #F4F6F9;
+            padding: 12px;
+
+            .question {
+                color: $primary-color;
+                font-size: 14px;
+                font-weight: 600;
+                text-transform: capitalize;
+                margin: 0 0 7px;
+            }
+
+            .region {
+                color: $text-color;
+                font-size: 12px;
+                font-weight: 500;
+                margin: 0 0 16px;
+            }
+
+            .tags {
+                gap: 12px;
+                display: flex;
+                margin: 0 0 16px;
+                padding: 0 0 16px;
+                border-bottom: 1px solid rgba(93, 118, 130, 0.30);
+
+                div {
+                    border-radius: 2px;
+                    background: rgba(0, 173, 186, 0.10);
+                    padding: 2px 6px;
+                    color: #00ADBA;
+                    font-size: 10px;
+                    text-transform: capitalize;
+                }
+            }
+
+            .answer {
+                color: $primary-color;
+                font-size: 12px;
+                font-weight: 500;
+                margin: 0 0 8px;
+
+                span {
+                    font-size: 10px;
+                    font-weight: 500;
+                    color: $text-color;
+                    margin: 0 0 4px;
+                    display: block;
+                }
+            }
+
+            .date {
+                color: $text-color;
+                font-size: 12px;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+
+
+
+
+@keyframes customAni {
+    0% {
+        transform: translateY(400px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes scale-up-hor-right {
+    0% {
+        transform: scaleX(0.4) translateY(400px);
+        transform-origin: 100% 100%;
+    }
+
+    100% {
+        transform: scaleX(1) translateY(0px);
+        transform-origin: 100% 100%;
+    }
+}
+
+@keyframes scale-up-hor-left {
+    0% { transform: scaleX(0.4) translateY(400px); 
+        transform-origin: 0% 0%;
+     } 
+    100% { 
+    transform: scaleX(1) translateY(0px); 
+    transform-origin: 0% 0%;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(2040px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.btn{
+&:focus-visible, &:focus, &:active:focus{
+    box-shadow: none;
+}
+
+}
+/***home page css end ***/
