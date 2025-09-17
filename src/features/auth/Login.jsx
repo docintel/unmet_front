@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Form, Row } from 'react-bootstrap'
-import Logo from '../assets/images/logo-img.svg'
+import Logo from '../../assets/images/logo-img.svg'
 import Select from 'react-select'
 import { Button } from 'react-bootstrap'
 

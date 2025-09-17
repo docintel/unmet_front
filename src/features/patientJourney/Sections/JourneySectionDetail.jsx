@@ -1,12 +1,12 @@
 import React from 'react'
 import { Button, Col, Dropdown, DropdownButton, Row } from 'react-bootstrap'
-import FooterItems from './FooterItems';
-import Close from '../assets/images/close-arrow.svg'
-import formatImg from '../assets/images/dummy-format-img.png'
-import starImg from '../assets/images/star-img.svg'
-import optionImg from '../assets/images/options.svg'
+import JourneySectionList from './JourneySectionList';
+import Close from '../../../assets/images/close-arrow.svg'
+import formatImg from '../../../assets/images/dummy-format-img.png'
+import starImg from '../../../assets/images/star-img.svg'
+import optionImg from '../../../assets/images/options.svg'
 
-export default function FooterExpand({ handleSectionClicked, item }) {
+export default function JourneySectionDetail({ handleSectionClicked, item }) {
     // const rightSideData = [
     //     {
     //         question:
@@ -82,7 +82,7 @@ export default function FooterExpand({ handleSectionClicked, item }) {
     return (
         <div className={`journey-box d-flex ${item.class != "ask-ibu" ? "flex-row-reverse" : ""}`}>
             <div className="left-side">
-                <FooterItems />
+                <JourneySectionList />
             </div>
             <div className="right-side">
                 <div className='box-top d-flex justify-content-between'>

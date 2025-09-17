@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import Logo from '../assets/images/logo-img.svg'
-import Avtar from '../assets/images/avtar-icon.png'
-import FooterExpand from './FooterExpand'
-import FooterItems from './FooterItems'
+import Logo from '../../../assets/images/logo-img.svg'
+import Avtar from '../../../assets/images/avtar-icon.png'
+import JourneySectionList from '../Sections/JourneySectionList'
+import JourneySectionDetail from '../Sections/JourneySectionDetail'
 
-const Landing = () => {
+
+const PatientJourneyLanding = () => {
     const [isSectionClicked, setIsSectionClicked] = useState(null);
     const [isYes, setIsYes] = useState(false)
     const toggle = () => {
@@ -80,11 +81,11 @@ const Landing = () => {
                                 </Button>
 
                             </div>
-                                <FooterItems handleSectionClicked={handleSectionClicked} />
+                                <JourneySectionList handleSectionClicked={handleSectionClicked} />
                             </>
                             :
                             <>
-                                <FooterExpand handleSectionClicked={handleSectionClicked} item={isSectionClicked} />
+                                <JourneySectionDetail handleSectionClicked={handleSectionClicked} item={isSectionClicked} />
                             </>
                         }
                     </section>
@@ -96,4 +97,4 @@ const Landing = () => {
     )
 }
 
-export default Landing
+export default PatientJourneyLanding

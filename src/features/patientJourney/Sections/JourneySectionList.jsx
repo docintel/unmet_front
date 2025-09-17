@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col } from 'react-bootstrap'
 
-export default function FooterItems({ handleSectionClicked }) {
+export default function JourneySectionList({ handleSectionClicked }) {
     const data = [
         {
             class: "faq",
