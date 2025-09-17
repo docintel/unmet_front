@@ -1,5 +1,5 @@
-@import './mixin';
-@import './variable';
+@use "./variable" as *;
+@use './mixin' as *;
 
 body {
     background: $secondary-color;
@@ -410,6 +410,13 @@ padding:4px 16px;
                         padding:0;
                         &:after{
                             display: none;
+                        }
+                    }
+                    .dropdown-menu{
+                        a{
+                            color: #183B4D;
+                            font-size: 12px;
+                            font-weight: 500;
                         }
                     }
                 }

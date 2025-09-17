@@ -112,23 +112,18 @@ export default function FooterExpand({ handleSectionClicked, item }) {
                                         <p>{item.format}</p>
                                     </div>
                                     <>
-                                        {/* <Dropdown direction="down">
-                                    <Dropdown.Toggle variant="success">
+                                        <Dropdown align="end">
+                                    <Dropdown.Toggle>
                                         <img src={optionImg} alt=""/>
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-                                        <Dropdown.Item>Action</Dropdown.Item>
-                                        <Dropdown.Item>Another</Dropdown.Item>
-                                        <Dropdown.Item>Something</Dropdown.Item>
+                                        <Dropdown.Item>Share</Dropdown.Item>
+                                        <Dropdown.Item>Request</Dropdown.Item>
+                                        <Dropdown.Item>Copy Link</Dropdown.Item>
                                     </Dropdown.Menu>
-                                    </Dropdown> */}
-                                        <DropdownButton align="end">
-                                            <Dropdown.Item>Action</Dropdown.Item>
-                                            <Dropdown.Item>Another</Dropdown.Item>
-                                            <Dropdown.Item>Something</Dropdown.Item>
-                                            <Dropdown.Item>Separated</Dropdown.Item>
-                                        </DropdownButton>
+                                    </Dropdown>
+                                       
                                     </>
                                 </div>
                                 <div className="heading">
