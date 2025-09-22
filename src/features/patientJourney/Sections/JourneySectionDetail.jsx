@@ -1,13 +1,14 @@
 import React from 'react'
-import { Button, Col, Dropdown, DropdownButton, Row } from 'react-bootstrap'
 import JourneySectionList from './JourneySectionList';
 import Close from '../../../assets/images/close-arrow.svg'
 import formatImg from '../../../assets/images/dummy-format-img.png'
 import starImg from '../../../assets/images/star-img.svg'
 import optionImg from '../../../assets/images/options.svg'
+import Dropdown from 'react-bootstrap/Dropdown';
+import { Button } from 'react-bootstrap';
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
-    
+
     // const rightSideData = [
     //     {
     //         question:
@@ -43,7 +44,14 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
 
     const faq = [
         {
-            ageTags: ["Age 0-5", "Age 6-11", "Age 12-17", "Age 18-25", "Age 26-60", "Age 60+"],
+            ageTags: [
+                { label: "Age 0-5", class: "age0" },
+                { label: "Age 6-11", class: "age6" },
+                { label: "Age 12-17", class: "age12" },
+                { label: "Age 18-25", class: "age18" },
+                { label: "Age 26-60", class: "age26" },
+                { label: "Age 60+", class: "age60" },
+            ],
             format: "Video",
             heading: "Sebaga, diagnosed 7 years, VWD Type 3, many diagnosis difficultues",
             subheading: "Surviving the unknown - von Willebrand disease (VWD)",
@@ -52,7 +60,10 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
             likeArticle: "128",
         },
         {
-            ageTags: ["Age 18-25", "Age 26-60"],
+            ageTags: [
+                { label: "Age 18-25", class: "age18" },
+                { label: "Age 26-60", class: "age26" },
+            ],
             format: "Manuscript",
             heading: "Maria, living with VWD Type 1, diagnosed at 14, sharing her journey",
             subheading: "Breaking the silence – challenges and hope in managing VWD",
@@ -61,7 +72,9 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
             likeArticle: "256",
         },
         {
-            ageTags: ["Age 6-11", "Age 12-17"],
+            ageTags: [
+                { label: "Age 6-11", class: "age6" },
+            ],
             format: "Slide deck",
             heading: "James & family – navigating childhood VWD Type 2",
             subheading: "A parent’s perspective on raising a child with von Willebrand disease",
@@ -70,7 +83,10 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
             likeArticle: "342",
         },
         {
-            ageTags: ["Age 26-60", "Age 60+"],
+            ageTags: [
+                { label: "Age 26-60", class: "age26" },
+                { label: "Age 60+", class: "age60" },
+            ],
             format: "Video",
             heading: "Dr. Lee – improving early detection of von Willebrand disease",
             subheading: "Why awareness among providers can change patient outcomes",
@@ -83,7 +99,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
     return (
         <div className={`journey-box d-flex ${section.class != "ask-ibu" ? "flex-row-reverse" : ""}`}>
             <div className="left-side">
-                <JourneySectionList  section={section} />
+                <JourneySectionList section={section} />
             </div>
             <div className="right-side">
                 <div className='box-top d-flex justify-content-between'>
@@ -101,31 +117,29 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                     faq.map((section) => (
                         <>
                             <div className="age-format d-flex">
-                                {section.ageTags.map((tag) => (<div>
-                                    {tag}
+                                {section.ageTags.map((tag) => (<div className={tag.class}>
+                                    {tag.label}
                                 </div>))}
                             </div>
 
                             <div className='content-box'>
                                 <div className="format">
-                                    <div className='d-flex align-sections-center'>
+                                    <div className='d-flex align-items-center'>
                                         <img src={formatImg} alt="" />
                                         <p>{section.format}</p>
                                     </div>
-                                    <>
-                                        <Dropdown align="end">
-                                    <Dropdown.Toggle>
-                                        <img src={optionImg} alt=""/>
-                                    </Dropdown.Toggle>
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.section>Share</Dropdown.section>
-                                        <Dropdown.section>Request</Dropdown.section>
-                                        <Dropdown.section>Copy Link</Dropdown.section>
-                                    </Dropdown.Menu>
+                                    <Dropdown align="end" >
+                                        <Dropdown.Toggle>
+                                            <img src={optionImg} alt="dropdown" />
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item>Share</Dropdown.Item>
+                                            <Dropdown.Item>Request</Dropdown.Item>
+                                            <Dropdown.Item>Copy Link</Dropdown.Item>
+                                        </Dropdown.Menu>
                                     </Dropdown>
-                                       
-                                    </>
                                 </div>
                                 <div className="heading">
                                     {section.heading}
