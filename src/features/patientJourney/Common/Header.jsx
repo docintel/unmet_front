@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Avatar from '../../../assets/images/avtar-icon.png';
 import Logo from '../../../assets/images/logo-img.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Nav, Navbar, Row } from 'react-bootstrap';
 const Header = () => {
   const [isHcpSelected, setIsHcpSelected] = useState(false);
@@ -19,7 +19,7 @@ const Header = () => {
                   <Nav.Link href="/">Home</Nav.Link>
                   <Nav.Link href="/touchpoints">Touchpoints</Nav.Link>
                   <Nav.Link href="/resources">Resources</Nav.Link>
-                  <Nav.Link href="/touchpoints">My Account</Nav.Link>
+                  <Nav.Link href="/account">My Account</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -47,6 +47,7 @@ const Header = () => {
               </div>
             </div>
           </div>
+
         </Row>
       </div>
     </header>

@@ -1,0 +1,41 @@
+import React from 'react'
+import { Row } from 'react-bootstrap';
+import Header from '../Common/Header';
+import dummyProfile from '../../../assets/images/dummy-circle.svg';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+const Account = () => {
+  return (
+    <div className="main-page">
+                <Header />
+                <div className="custom-container">
+                    <Row>
+                        <div className="account-section">
+                            <div className="profile">
+                                <div className="profile-img">
+                                    <img src={dummyProfile} alt="profile" />
+                                </div>
+                                <div className="profile-content">
+                                    <h4>User name</h4>
+                                    <p>Role</p>
+                                    <p>Region....</p>
+                                </div>
+                            </div>
+                            <div className="content-download">
+                                <div className="download">
+                                    <h4>Content Download</h4>
+                                    <p>00</p>
+                                </div>
+                                <div className="shared">
+                                    <h4>Content Shared</h4>
+                                    <p>00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </Row>
+                </div>
+            </div>
+  )
+}
+
+export default Account

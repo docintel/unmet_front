@@ -9,7 +9,7 @@ import { Button } from 'react-bootstrap';
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
 
-    // const rightSideData = [
+    // const askIbu = [
     //     {
     //         question:
     //             "Q. Porttitor ultrices hendrerit consectetur et a pulvinar ac etiam vel. Tristique donec lobortis id sed. Vel id urna tellus tristique aliquam morbi Crassed?",
@@ -116,6 +116,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                     // rightSideData.map((section) => (
                     faq.map((section) => (
                         <>
+                        <div className='detail-data-box'>
                             <div className="age-format d-flex">
                                 {section.ageTags.map((tag) => (<div className={tag.class}>
                                     {tag.label}
@@ -163,6 +164,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                                     <Button variant="primary">Read</Button>
                                 </div>
                             </div>
+                        </div>
                         </>
                     ))
                 }
