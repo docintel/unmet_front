@@ -148,7 +148,7 @@ h6 {
 
     .header-inner {
         @include flex-center;
-        padding: 12px 0px;
+        padding: 12px 0px 7px;
 
         nav {
             width: 100%;
@@ -220,7 +220,7 @@ h6 {
 
 .journey-box {
     gap: 24px;
-    padding: 0 0 10px;
+    padding: 5px 0 10px;
     width: 100%;
     @include flex-wrap;
 

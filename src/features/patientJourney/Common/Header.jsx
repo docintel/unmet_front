@@ -16,7 +16,7 @@ const Header = () => {
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse id="header-navbar-nav" className='justify-content-center flex-grow-1'>
                 <Nav className="x-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="/home">Home</Nav.Link>
                   <Nav.Link href="/touchpoints">Touchpoints</Nav.Link>
                   <Nav.Link href="/resources">Resources</Nav.Link>
                   <Nav.Link href="/account">My Account</Nav.Link>

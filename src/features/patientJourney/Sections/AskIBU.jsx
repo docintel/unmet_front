@@ -1,5 +1,5 @@
-import React from "react";
-
+import React from 'react'
+import { Form } from 'react-bootstrap';
 const AskIBU = () => {
   const askIbu = [
     {
@@ -9,7 +9,7 @@ const AskIBU = () => {
       country: "India",
       visibility_status: "Private",
       question:
-        "User Q masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcmasa euismod phartra donec mas faucim nunc penatibus magna volutpat malesuada ullamcorper. Turpis nullam amet faucibbus quisque nuneque ipsum quamodio............................?",
+        "Q. Porttitor ultrices hendrerit consectetur et a pulvinar ac etiam vel. Tristique donec lobortis id sed. Vel id urna tellus tristique aliquam morbi Crassed?",
       answer: "all answers",
       status: 0,
       topics: ["valuweNew", "newwww"],
@@ -24,7 +24,7 @@ const AskIBU = () => {
       country: "India",
       visibility_status: "Published",
       question:
-        "User Q masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcmasa euismod phartra donec mas faucim nunc penatibus magna volutpat malesuada ullamcorper. Turpis nullam amet faucibbus quisque nuneque ipsum quamodio............................?",
+        "Q. masuismod phartra donec faucibus quisque nuneque mote condi ment zcsum nudolor nibhcmasa euismod phartra donec mas faucim nunc penatibus magna volutpat malesuada ullamcorper. Turpis nullam amet faucibbus quisque nuneque ipsum quamodio............................?",
       answer: "this is ignore answer",
       status: 0,
       topics: ["topics", "new", "tags"],
@@ -35,20 +35,40 @@ const AskIBU = () => {
   ];
   return (
     <>
-      {askIbu.map(() => (
-        <>
-          <div className="detail-data-box">
-            <div className="content-box">
-              <div className="format">
-                
-
-              
-              </div>
-             
+    <div>
+      {askIbu.map((item) => (
+        <div className="detail-data-box" key={item.id}>
+          <div className="content-box">
+            <div className="heading">
+                {item.question}
+            </div>
+            <div className="region">
+                {item.country}
+            </div>
+            <div className="tags">
+                {item.topics.map((tag, idx) => (
+                  <div key={idx}>
+                    {tag}
+                  </div>
+                ))}                    
+            </div>
+            <div className="answer">
+              <span>Answer:</span>
+                {item.answer}
+            </div>
+            <div className="date">
+              {item.created}
             </div>
           </div>
-        </>
+        </div>
       ))}
+      </div>
+      <Form className="ask-ibu-form">
+        <div className="form-group">
+          <textarea className="form-control" id="question" rows="4"></textarea>
+        </div>
+        <button type="submit" className="btn btn-primary">Send</button>
+      </Form>
     </>
   );
 };
