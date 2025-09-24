@@ -7,10 +7,10 @@ import TouchPoints from "./features/patientJourney/Pages/TouchPoints";
 const Routing = () => {
   return (
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/home" element={<PatientJourneyLanding />} />
         <Route path="/" element={<PatientJourneyLanding />} />
-        <Route path="*" element={<h1>404 Not Found</h1>} />
+        <Route path="*" element={<div className="d-flex align-items-center justify-content-center vh-100 page-404"><h1>404 Not Found</h1></div>} />
         <Route path="/touchpoints" element={<TouchPoints/>} />
       </Routes>
   );
