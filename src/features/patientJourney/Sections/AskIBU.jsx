@@ -35,7 +35,7 @@ const AskIBU = () => {
   ];
   return (
     <>
-    <div>
+    <div className='scroll-list'>
       {askIbu.map((item) => (
         <div className="detail-data-box" key={item.id}>
           <div className="content-box">

@@ -382,6 +382,27 @@ h6 {
                 @include content-box;
             }
         }
+        .ask-ibu-form{
+            margin-top:10px;
+            textarea{
+                border: 1px solid rgba(24, 59, 77, 0.50);
+                height: 143px;
+                resize: none;
+                border-radius: 0;
+                width: 100%;
+                margin-bottom: 12px;
+            }
+            button{
+                margin-left: auto;
+                display: flex;
+            }
+        }
+        .scroll-list{
+            max-height: 400px;
+            overflow-y: auto;
+            width: 100%;
+            padding-right: 3px;
+        }
     }
 }
 
@@ -878,3 +899,20 @@ h6 {
 }
 
 /***Account page css end ***/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: rgba(0, 173, 186, 0.1);
+    border-radius: 20px;
+    padding: 0 5px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    width: 14px;
+    background: #00ADBA;
+    border: 2px solid #dce6ef;
+    border-radius: 15px;
+}
