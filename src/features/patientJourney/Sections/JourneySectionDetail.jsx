@@ -6,41 +6,10 @@ import starImg from '../../../assets/images/star-img.svg'
 import optionImg from '../../../assets/images/options.svg'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Button } from 'react-bootstrap';
+import AskIBU from './AskIBU';
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
 
-    // const askIbu = [
-    //     {
-    //         question:
-    //             "Q. Porttitor ultrices hendrerit consectetur et a pulvinar ac etiam vel. Tristique donec lobortis id sed. Vel id urna tellus tristique aliquam morbi Crassed?",
-    //         region: "LATAM",
-    //         country: "Brazil",
-    //         tags: ["diagnosis", "women", "girls", "HMB", "VWDtest"],
-    //         answer:
-    //             "Lorem ipsum dolor sit amet consectetur. Odio erat sed vitae pulvinar facilisis rhoncus vel morbi ullamcorper. Porttitor ultrices hendrerit consectetur et a pulvinar ac etiam vel. Tristique donec lobortis id sed. Vel id urna tellus tristique aliquam morbi. Cras sed viverra et arcu lorem viverra.",
-    //         date: "29.July.2025",
-    //     },
-    //     {
-    //         question:
-    //             "Q. How can clinicians identify early symptoms of von Willebrand Disease (VWD) in adolescent girls presenting with heavy menstrual bleeding (HMB)?",
-    //         region: "APAC",
-    //         country: "India",
-    //         tags: ["VWD", "adolescents", "HMB", "screening"],
-    //         answer:
-    //             "Early symptoms often include prolonged or heavy menstrual bleeding, easy bruising, and frequent nosebleeds. Clinicians should take a detailed family and menstrual history and consider specific tests such as von Willebrand factor activity, antigen levels, and factor VIII assays to confirm the diagnosis.",
-    //         date: "05.August.2025",
-    //     },
-    //     {
-    //         question:
-    //             "Q. What strategies can healthcare providers use to raise awareness about HMB and VWD in women of reproductive age?",
-    //         region: "EMEA",
-    //         country: "Germany",
-    //         tags: ["awareness", "education", "providers", "HMB", "VWD"],
-    //         answer:
-    //             "Healthcare providers can promote awareness by integrating menstrual health discussions into routine check-ups, conducting community education programs, and collaborating with patient advocacy groups. Disseminating updated clinical guidelines through medical associations and digital platforms also plays a crucial role.",
-    //         date: "12.August.2025",
-    //     },
-    // ];
 
     const faq = [
         {
@@ -101,6 +70,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
             <div className="left-side">
                 <JourneySectionList section={section} />
             </div>
+
             <div className="right-side">
                 <div className='box-top d-flex justify-content-between'>
                     <div>
@@ -112,7 +82,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                         onSectionClick(null)
                     }}><img src={Close} alt="" /></span>
                 </div>
-                {
+                {/* {
                     // rightSideData.map((section) => (
                     faq.map((section) => (
                         <>
@@ -167,7 +137,63 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                         </div>
                         </>
                     ))
-                }
+                } */}
+
+                {section.class === "ask-ibu" ? (
+                    <AskIBU />
+                ) : section.class === "faq" ? (
+                    faq.map((section) => (
+                        <div className='detail-data-box'>
+                            <div className="age-format d-flex">
+                                {section.ageTags.map((tag) => (<div className={tag.class}>
+                                    {tag.label}
+                                </div>))}
+                            </div>
+
+                            <div className='content-box'>
+                                <div className="format">
+                                    <div className='d-flex align-items-center'>
+                                        <img src={formatImg} alt="" />
+                                        <p>{section.format}</p>
+                                    </div>
+
+                                    <Dropdown align="end" >
+                                        <Dropdown.Toggle>
+                                            <img src={optionImg} alt="dropdown" />
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item>Share</Dropdown.Item>
+                                            <Dropdown.Item>Request</Dropdown.Item>
+                                            <Dropdown.Item>Copy Link</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                                <div className="heading">
+                                    {section.heading}
+                                </div>
+                                <div className="subheading">
+                                    {section.subheading}
+                                </div>
+                                <div className="tags tag-list">
+                                    {section.tags.map((tag) => (<div>
+                                        {tag}
+                                    </div>))}
+                                </div>
+                                <div className="date">
+                                    {section.date}
+                                </div>
+                                <div className="favorite d-flex justify-content-between align-sections-center">
+                                    <div className='d-flex align-sections-center'>
+                                        <img src={starImg} alt="" />
+                                        {section.likeArticle}
+                                    </div>
+                                    <Button variant="primary">Read</Button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : null}
 
             </div>
 
