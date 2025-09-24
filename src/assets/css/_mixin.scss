@@ -220,3 +220,190 @@
   margin: 0 auto;
   padding: 4px;
 }
+@mixin age-format {
+            gap: 8px;
+            margin-top: 5px;
+
+            &:nth-of-type(2) {
+                margin-top: 0;
+            }
+
+            div {
+                padding: 2px 14px;
+                font-size: 10px;
+                font-weight: 500;
+                color: $white;
+                border-radius: 3px 3px 0 0;
+
+                &.age60 {
+                    background: #3597B2;
+                }
+
+                &.age26 {
+                    background: #2E859D;
+                }
+
+                &.age18 {
+                    background: #256D81;
+                }
+
+                &.age12 {
+                    background: #206072;
+                }
+
+                &.age6 {
+                    background: #1D5666;
+                }
+
+                &.age0 {
+                    background: $primary-color;
+                }
+            }
+        }
+
+@mixin content-box {
+            border-radius: 2px;
+            border: 1px solid rgba(148, 167, 191, 0.30);
+            background: $secondary-color;
+            padding: 12px;
+            margin: 0 0 24px;
+
+            &:last-child {
+                margin: 0;
+            }
+
+            .format {
+                @include flex-space-between;
+                margin: 0 0 12px;
+
+                div {
+                    gap: 8px;
+                }
+
+                p {
+                    color: $text-color;
+                    font-size: 10px;
+                    font-weight: 500;
+                    margin: 0;
+                }
+
+                .dropdown {
+                    button {
+                        background: transparent;
+                        border: 0;
+                        padding: 0;
+
+                        &:after {
+                            display: none;
+                        }
+                    }
+
+                    .dropdown-menu {
+                        padding: 3px 3px;
+
+                        a {
+                            color: $primary-color;
+                            font-size: 12px;
+                            font-weight: 500;
+                            padding: 4px 10px;
+                            margin: 0 0 1px;
+
+                            &:active {
+                                background: $dark-green;
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .heading {
+                font-size: 14px;
+                font-weight: 600;
+                color: $primary-color;
+                margin: 0 0 3px;
+            }
+
+            .subheading {
+                color: $primary-color;
+                font-size: 12px;
+                font-weight: 500;
+                margin: 0 0 16px;
+            }
+
+            .tag-list {
+                &.tags {
+                    border: 0;
+                    padding: 0;
+                }
+            }
+
+            .favorite {
+                margin: 16px 0 0;
+                font-size: 12px;
+                font-weight: 500;
+                color: #4CC6CF;
+
+                div {
+                    @include flex-align-center;
+                    gap: 4px;
+                }
+
+                img {
+                    width: 24px;
+                }
+            }
+
+            .question {
+                color: $primary-color;
+                font-size: 14px;
+                font-weight: 600;
+                text-transform: capitalize;
+                margin: 0 0 7px;
+            }
+
+            .region {
+                color: $text-color;
+                font-size: 12px;
+                font-weight: 500;
+                margin: 0 0 16px;
+            }
+
+            .tags {
+                gap: 12px;
+                display: flex;
+                margin: 0 0 16px;
+                padding: 0 0 16px;
+                border-bottom: 1px solid rgba(93, 118, 130, 0.30);
+
+                div {
+                    border-radius: 2px;
+                    background: rgba(0, 173, 186, 0.10);
+                    padding: 2px 6px;
+                    color: $dark-green;
+                    font-size: 10px;
+                    text-transform: capitalize;
+                }
+            }
+
+            .answer {
+                color: $primary-color;
+                font-size: 12px;
+                font-weight: 500;
+                margin: 0 0 8px;
+
+                span {
+                    font-size: 10px;
+                    font-weight: 500;
+                    color: $text-color;
+                    margin: 0 0 4px;
+                    display: block;
+                }
+            }
+
+            .date {
+                color: $text-color;
+                font-size: 12px;
+                font-weight: 500;
+            }
+        }
