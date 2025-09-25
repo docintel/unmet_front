@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import { Button, Col, Form, Row, Tab, Tabs } from 'react-bootstrap';
-import Header from '../Common/Header';
-import Search from '../../../assets/images/search-icon.svg';
-import formatImg from '../../../assets/images/dummy-format-img.png'
-import starImg from '../../../assets/images/star-img.svg'
-import optionImg from '../../../assets/images/options.svg'
+import Header from '../Common/Header'; 
 import Dropdown from 'react-bootstrap/Dropdown';
 const TouchPoints = () => {
+    const path_image = import.meta.env.VITE_IMAGES_PATH
     const [isAllSelected, setIsAllSelected] = useState(false);
     const toggleUserType = () => setIsAllSelected((prev) => !prev);
     const [activeKey, setActiveKey] = useState(null); // no tab selected initially
@@ -194,7 +191,7 @@ const TouchPoints = () => {
                                             type="search"
                                             aria-label="Search"
                                         />
-                                        <Button variant="outline-success"><img src={Search} alt="Search" /></Button>
+                                        <Button variant="outline-success"><img src={ path_image + "search-icon.svg"} alt="Search" /></Button>
                                     </Form>
                                 </div>
                                 <div className="tags d-flex align-items-center">
@@ -228,13 +225,13 @@ const TouchPoints = () => {
                                                         <div className='content-box'>
                                                             <div className="format">
                                                                 <div className='d-flex align-items-center'>
-                                                                    <img src={formatImg} alt="" />
+                                                                    <img src={path_image + "dummy-format-img.png"} alt="" />
                                                                     <p>{section.format}</p>
                                                                 </div>
 
                                                                 <Dropdown align="end" >
                                                                     <Dropdown.Toggle>
-                                                                        <img src={optionImg} alt="dropdown" />
+                                                                        <img src={path_image + "search-icon.svg"} alt="dropdown" />
                                                                     </Dropdown.Toggle>
 
                                                                     <Dropdown.Menu>
@@ -260,7 +257,7 @@ const TouchPoints = () => {
                                                             </div>
                                                             <div className="favorite d-flex justify-content-between align-sections-center">
                                                                 <div className='d-flex align-sections-center'>
-                                                                    <img src={starImg} alt="" />
+                                                                    <img src={path_image + "star-img.svg"} alt="" />
                                                                     {section.likeArticle}
                                                                 </div>
                                                                 <Button variant="primary">Read</Button>

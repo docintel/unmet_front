@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import Avatar from '../../../assets/images/avtar-icon.png';
-import Logo from '../../../assets/images/logo-img.svg';
-import { Link, NavLink } from 'react-router-dom';
+import { useState } from 'react' 
+import { Link} from 'react-router-dom';
 import { Nav, Navbar, Row } from 'react-bootstrap';
 const Header = () => {
+  const path_image = import.meta.env.VITE_IMAGES_PATH
   const [isHcpSelected, setIsHcpSelected] = useState(false);
   const toggleUserType = () => setIsHcpSelected((prev) => !prev);
   return (
@@ -12,7 +11,7 @@ const Header = () => {
         <Row>
           <div className="header-inner">
             <Navbar collapseOnSelect expand="lg" variant="light" className="nav">
-              <Navbar.Brand href="/"><img src={Logo} alt="logo" /></Navbar.Brand>
+              <Navbar.Brand href="/"><img src={path_image + "logo-img.svg"} alt="logo" /></Navbar.Brand>
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse id="header-navbar-nav" className='justify-content-center flex-grow-1'>
                 <Nav className="x-auto">
@@ -41,7 +40,7 @@ const Header = () => {
               </div>
               <div className="logout">
                 <div className="user-avatar">
-                  <img src={Avatar} alt="user" />
+                  <img src={path_image + "avtar-icon.png"} alt="user" />
                 </div>
                 <span><Link to="/">Log Out</Link></span>
               </div>

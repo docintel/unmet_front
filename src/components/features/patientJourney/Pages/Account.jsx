@@ -1,10 +1,10 @@
 import React from 'react'
 import { Row } from 'react-bootstrap';
-import Header from '../Common/Header';
-import dummyProfile from '../../../assets/images/dummy-circle.svg';
+import Header from '../Common/Header'; 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 const Account = () => {
+ const path_image = import.meta.env.VITE_IMAGES_PATH
   return (
     <div className="main-page">
                 <Header />
@@ -13,7 +13,7 @@ const Account = () => {
                         <div className="account-section">
                             <div className="profile">
                                 <div className="profile-img">
-                                    <img src={dummyProfile} alt="profile" />
+                                    <img src={path_image + "dummy-circle.svg"} alt="profile" />
                                 </div>
                                 <div className="profile-content">
                                     <h4>User name</h4>

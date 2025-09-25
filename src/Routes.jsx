@@ -1,17 +1,14 @@
 import React from "react";
 import {  Routes, Route,createBrowserRouter } from "react-router-dom";
-import Login from "./features/auth/Login";
-import TouchPoints from "./features/patientJourney/Pages/TouchPoints";
-import Account from "./features/patientJourney/Pages/Account";
-import LoginWithSSO from "./features/auth/LoginWithSSO";
+import Login from "./components/features/auth/components/Login"
+import TouchPoints from "./components/features/patientJourney/Pages/TouchPoints";
+import Account from "./components/features/patientJourney/Pages/Account" 
+import LoginWithSSO from "./components/features/auth/components/LoginWithSSO";
 import { lazy, Suspense } from 'react';
-import ProtectedRoute from "./features/auth/ProtectedRoute";
-
+import ProtectedRoute from "./components/features/auth/components/ProtectedRoute";
 // Lazy load pages for code splitting
-const PatientJourneyLanding = lazy(() => import('./features/patientJourney/Landing/PatientJourneyLanding'));
+const PatientJourneyLanding = lazy(() => import('./components/features/patientJourney/Landing/PatientJourneyLanding'));
 
-
- 
 const Routing = createBrowserRouter(
   [
     {

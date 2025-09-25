@@ -1,15 +1,11 @@
 import React from 'react'
-import JourneySectionList from './JourneySectionList';
-import Close from '../../../assets/images/close-arrow.svg'
-import formatImg from '../../../assets/images/dummy-format-img.png'
-import starImg from '../../../assets/images/star-img.svg'
-import optionImg from '../../../assets/images/options.svg'
+import JourneySectionList from './JourneySectionList'; 
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Button } from 'react-bootstrap';
 import AskIBU from './AskIBU';
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
-
+   const path_image = import.meta.env.VITE_IMAGES_PATH
 
     const faq = [
         {
@@ -80,7 +76,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
 
                     <span onClick={() => {
                         onSectionClick(null)
-                    }}><img src={Close} alt="" /></span>
+                    }}><img src={path_image + "close-arrow.svg"} alt="" /></span>
                 </div>
                 
 
@@ -98,13 +94,13 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                             <div className='content-box'>
                                 <div className="format">
                                     <div className='d-flex align-items-center'>
-                                        <img src={formatImg} alt="" />
+                                        <img src={path_image + "dummy-format-img.png"} alt="" />
                                         <p>{section.format}</p>
                                     </div>
 
                                     <Dropdown align="end" >
                                         <Dropdown.Toggle>
-                                            <img src={optionImg} alt="dropdown" />
+                                            <img src={path_image + "options.svg"} alt="dropdown" />
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
@@ -130,7 +126,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                                 </div>
                                 <div className="favorite d-flex justify-content-between align-sections-center">
                                     <div className='d-flex align-sections-center'>
-                                        <img src={starImg} alt="" />
+                                        <img src={path_image + "star-img.svg"} alt="" />
                                         {section.likeArticle}
                                     </div>
                                     <Button variant="primary">Read</Button>

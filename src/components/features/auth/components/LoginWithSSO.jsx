@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from "axios";
-import useAuth from "../../useAuth";
+import useAuth from "../../../../useAuth"
 
 const LoginWithSSO = () => {
 
@@ -63,7 +63,6 @@ const LoginWithSSO = () => {
 const handleSso = async () => {
   
   try {
-
     const data = await login();
     console.log("Login successful:", data);
     if (!data) {
@@ -89,7 +88,7 @@ const handleSso = async () => {
   }
 };
    return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className=" login-page">
       <div className="bg-white shadow-lg rounded-2xl p-8 w-80 text-center">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Welcome</h1>
         <button

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Container, Form, Row, Button } from "react-bootstrap";
-import Logo from "../../assets/images/logo-img.svg";
+import { Container, Form, Row, Button } from "react-bootstrap"; 
 import Select from "react-select";
 
 
 const Login = () => {
+
+  const path_image = import.meta.env.VITE_IMAGES_PATH
 
 
   // Separate states for each dropdown
@@ -45,7 +46,7 @@ const Login = () => {
           <div className="login">
             <div className="login-box">
               <div className="login-logo">
-                <img src={Logo} alt="logo" />
+                <img src={ path_image + "logo-img.svg"} alt="logo" />
               </div>
               <div className="user-name">
                 <h6>Welcome, FirstName</h6>
