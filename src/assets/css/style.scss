@@ -25,7 +25,7 @@ h6 {
     border: 0;
     padding: 4px 16px;
 
-    &:hover {
+    &:hover, &:active, &:focus {
         background: $dark-green;
         opacity: 0.8;
     }
@@ -96,7 +96,7 @@ h6 {
                                 padding: 0;
                                 margin: 0;
                                 font-size: 15px;
-                                color: #94A7BF;
+                                color: $gray;
                                 font-weight: 400;
 
                                 &:nth-child(2) {
@@ -143,7 +143,7 @@ h6 {
         position: sticky;
         top: 0;
         z-index: 100;
-        background: #F4F6F9;
+        background: $secondary-color;
     }
 
     .header-inner {
@@ -627,7 +627,7 @@ h6 {
                 position: relative;
 
                 input {
-                    background: #F4F6F9;
+                    background: $secondary-color;
                     border: 0;
                     border-radius: 0;
                     padding: 12px 54px 12px 24px;
@@ -666,11 +666,11 @@ h6 {
                     border: 0;
 
                     button {
-                        color: #5D7682;
+                        color: $text-color;
                         font-size: 12px;
                         font-weight: 500;
                         line-height: 122.6%;
-                        background: #F4F6F9;
+                        background: $secondary-color;
                         padding: 12px 0;
                         border-radius: 0;
                         border: 0;
@@ -678,7 +678,7 @@ h6 {
 
                         &.active {
                             background: #4CC6CF;
-                            color: #FFFFFF;
+                            color: $white;
                         }
                     }
                 }
@@ -696,11 +696,11 @@ h6 {
                 .touchpoint-data {
                     border-radius: 2px;
                     border: 1px solid rgba(148, 167, 191, 0.30);
-                    background: #F4F6F9;
+                    background: $secondary-color;
                     padding: 16px;
 
                     h6 {
-                        color: #183B4D;
+                        color: $primary-color;
                         font-size: 16px;
                         font-weight: 700;
                         margin-bottom: 16px;
@@ -716,7 +716,7 @@ h6 {
                             flex: 1 1;
 
                             p {
-                                color: #183B4D;
+                                color: $primary-color;
                                 font-size: 14px;
                                 font-weight: 700;
                                 margin-bottom: 11px;
@@ -727,7 +727,7 @@ h6 {
                                     font-size: 12px;
                                     font-weight: 500;
                                     line-height: 20px;
-                                    color: #183B4D;
+                                    color: $primary-color;
                                 }
                             }
                         }
@@ -740,7 +740,7 @@ h6 {
                 padding: 16px 24px;
                 font-size: 20px;
                 line-height: 31px;
-                color: #94A7BF;
+                color: $gray;
                 font-weight: 400;
             }
         }
@@ -754,7 +754,7 @@ h6 {
 
             .tag-title {
                 padding: 2px 6px;
-                color: #94A7BF;
+                color: $gray;
             }
 
             .tag-list {
@@ -766,7 +766,7 @@ h6 {
                     padding: 2px 6px;
                     border-radius: 2px;
                     background: rgba(0, 173, 186, 0.10);
-                    color: #00ADBA;
+                    color: $dark-green;
                     font-weight: 400;
                 }
 
@@ -775,7 +775,7 @@ h6 {
 
         .content-count-box {
             width: 100%;
-            border-top: 1px solid #94A7BF;
+            border-top: 1px solid $gray;
             padding: 14px 0 0;
 
             .content-count {
@@ -785,7 +785,7 @@ h6 {
 
                 div {
                     text-align: center;
-                    color: #5D7682;
+                    color: $text-color;
                     font-size: 12px;
                     font-weight: 500;
                     line-height: 122.6%;
@@ -844,9 +844,10 @@ h6 {
     @include outer-box;
     border-radius: 2px;
     gap:16px;
+    margin:0 0 15px;
     .profile, .content-download{
         border-radius: 10px;
-        background: #F4F6F9;
+        background: $secondary-color;
         width:100%;
         padding:16px;
     }
@@ -863,13 +864,13 @@ h6 {
         }
         .profile-content{
             h4{
-                color:#183B4D;
+                color:$primary-color;
                 font-size: 20px;
                 font-weight: 700;
                 margin:0 0 7px;
             }
             p{
-                color: #5D7682;
+                color: $text-color;
                 font-size: 16px;
                 font-weight: 500;
                 margin:0 0 7px;
@@ -889,7 +890,7 @@ h6 {
             text-align: center;
             padding:26px 16px;
             h4, p{
-                color: #5D7682;
+                color: $text-color;
                 font-size: 20px;
                 font-weight: 500;
                 margin: 0;
@@ -905,12 +906,13 @@ h6 {
         ul{
             border:0;
             gap:40px;
+            margin:8px 0 24px;
             @include flex-align-center;
             li{
                 button{
                     padding:0;
                     border:0;
-                    color: #5D7682;
+                    color: $text-color;
                     font-size: 14px;
                     font-weight: 600;
                     &.active{
@@ -921,9 +923,23 @@ h6 {
         }
         .tab-content{
             border-radius: 10px;
-            background: #F4F6F9;
+            background: $secondary-color;
             width: 100%;
             padding: 16px;
+
+            .detail-data-box{
+                margin: 0 0 30px;
+                .age-format{
+                    @include age-format;
+                }
+                .content-box{
+                    @include content-box;
+                    background: $white;
+                }
+                &:last-child{
+                    margin:0;
+                }
+            }
         }
     }
 }
@@ -942,7 +958,7 @@ h6 {
  
 ::-webkit-scrollbar-thumb {
     width: 14px;
-    background: #00ADBA;
+    background: $dark-green;
     border: 2px solid #dce6ef;
     border-radius: 15px;
 }
