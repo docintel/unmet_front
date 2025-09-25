@@ -1,4 +1,5 @@
 import { StrictMode, useEffect, useState } from 'react'
+import { RouterProvider } from 'react-router-dom';
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Routing from './Routes.jsx'
@@ -30,9 +31,7 @@ function App() {
 
   return (
  <MsalProvider instance={msalInstance}>
-    <BrowserRouter>
-      <Routing />
-    </BrowserRouter>
+     <RouterProvider router = {Routing}/> 
   </MsalProvider>
  
   )

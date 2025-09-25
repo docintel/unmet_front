@@ -398,10 +398,14 @@ h6 {
             }
         }
         .scroll-list{
-            max-height: 400px;
+            max-height: 482px;
             overflow-y: auto;
             width: 100%;
             padding-right: 3px;
+            &.full{
+                max-height: 678px;
+                max-height: 73.9vh;
+            }
         }
     }
 }
@@ -800,7 +804,7 @@ h6 {
                 .touchpoint-data-box {
                     min-width: 300px;
                     width: calc(33.33% - 3rem);
-                    animation: slideFade 1.6s normal forwards;
+                    animation: slideFade 0.6s normal forwards;
                     opacity: 0;
 
                     .age-format {
@@ -894,6 +898,32 @@ h6 {
                 font-weight: 700;
                 line-height: 1;
             }
+        }
+    }
+    .account-tabs{
+        margin:4px 0 0;
+        ul{
+            border:0;
+            gap:40px;
+            @include flex-align-center;
+            li{
+                button{
+                    padding:0;
+                    border:0;
+                    color: #5D7682;
+                    font-size: 14px;
+                    font-weight: 600;
+                    &.active{
+                        color:#4CC6CF;
+                    }
+                }
+            }
+        }
+        .tab-content{
+            border-radius: 10px;
+            background: #F4F6F9;
+            width: 100%;
+            padding: 16px;
         }
     }
 }

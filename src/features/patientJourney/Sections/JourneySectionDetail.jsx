@@ -87,6 +87,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                 {section.class === "ask-ibu" ? (
                     <AskIBU />
                 ) : section.class === "faq" ? (
+
                     faq.map((section) => (
                         <div className='detail-data-box'>
                             <div className="age-format d-flex">
@@ -138,11 +139,12 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                             </div>
                         </div>
                     ))
-                ) : null}
 
+
+                ) : null}
+                </div>
             </div>
 
 
-        </div>
     )
 }
