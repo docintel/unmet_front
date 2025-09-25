@@ -1,7 +1,10 @@
 import React from "react";
 import { Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function JourneySectionList({ onSectionClick, section }) {
+  const navigate = useNavigate();
+
   const data = [
     {
       class: "explore",
@@ -40,7 +43,10 @@ export default function JourneySectionList({ onSectionClick, section }) {
           className="explore-box"
           onClick={
             onSectionClick
-              ? () => {
+              ? () => { 
+                   if (item.class === "explore") {
+                    navigate("/touchpoints");
+                  }
                   onSectionClick(item);
                 }
               : null
