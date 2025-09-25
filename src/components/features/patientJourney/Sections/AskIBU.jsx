@@ -19,7 +19,7 @@ useEffect(() => {
   };
 
   fetchData();
-}, []);
+}, [question]);
 
  
   if (loading) {
