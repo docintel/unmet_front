@@ -82,6 +82,8 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                         onSectionClick(null)
                     }}><img src={Close} alt="" /></span>
                 </div>
+                <div className='scroll-list full'>
+
                 {/* {
                     // rightSideData.map((section) => (
                     faq.map((section) => (
@@ -142,6 +144,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                 {section.class === "ask-ibu" ? (
                     <AskIBU />
                 ) : section.class === "faq" ? (
+
                     faq.map((section) => (
                         <div className='detail-data-box'>
                             <div className="age-format d-flex">
@@ -193,8 +196,10 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                             </div>
                         </div>
                     ))
-                ) : null}
 
+
+                ) : null}
+                </div>
             </div>
 
 
