@@ -138,13 +138,15 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                                 <div className="favorite d-flex justify-content-between align-sections-center">
                                     <div className='d-flex align-sections-center'>
                                         <img
-                                            src={ path_image + likedIndexes.includes(idx)
-                                                ? "star-filled.svg"
-                                                : "star-img.svg"}
-                                            alt=""
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => handleStarClick(idx)}
-                                        />
+                                                src={
+                                                    path_image +
+                                                    (likedIndexes.includes(idx) ? "star-filled.svg" : "star-img.svg")
+                                                }
+                                                alt=""
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => handleStarClick(idx)}
+                                                />
+
                                         {section.likeArticle}
                                     </div>
                                     <Button variant="primary">Read</Button>
