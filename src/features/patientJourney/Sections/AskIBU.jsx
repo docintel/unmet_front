@@ -16,12 +16,12 @@ const AskIBU = () => {
           "http://192.168.10.11:3001/narrative/all-questions",
           {
             headers: {
-              Auth: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4NzAzMzg2LCJleHAiOjE3NTg3NDY1ODZ9.UBqZ5h-4_wcgKIDWAZlqmhVnXEaJ_kJe07hxoV33BB8`,
-              Token: "rjiGlqA9DXJVH7bDDTX0Lg==",
+              Auth: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4Nzc3NzIyLCJleHAiOjE3NTg3ODEzMjJ9.KCux8nfcviX4HEjOIAJNkk6FMlUHY72xbmL9wQn2Uvg`,
+              Token: "FOkB/AUT2wGXRv ablqvbg==",
             },
           }
         );
-        setAskIbu(response.data);
+        setAskIbu(response?.data?.data);
       } catch (error) {
         console.error("Error fetching Ask IBU questions:", error);
       } finally {
@@ -56,22 +56,22 @@ const AskIBU = () => {
         }
       );
 
-      setAskIbu((prev) => [
-          {
-            id: Date.now(),
-            user_id: 321,
-            // user_name: user?.name,
-            // country: user?.country,
-            visibility_status: "Private",
-            question: question,
-            answer: "",
-            status: 0,
-            topics: [],
-            delete_status: 0,
-            created: new Date().toISOString(),
-          },
-          ...prev,
-        ]);
+      // setAskIbu((prev) => [
+      //     {
+      //       id: Date.now(),
+      //       user_id: 321,
+      //       // user_name: user?.name,
+      //       // country: user?.country,
+      //       visibility_status: "Private",
+      //       question: question,
+      //       answer: "",
+      //       status: 0,
+      //       topics: [],
+      //       delete_status: 0,
+      //       created: new Date().toISOString(),
+      //     },
+      //     ...prev,
+      //   ]);
 
       setQuestion("");
     } catch (error) {

@@ -30,7 +30,7 @@ export default function JourneySectionList({ onSectionClick, section }) {
   ];
 
   return data.map((item, index) => {
-    console.log(item.class , section?.class)
+    
     if (item.class == "explore" && !section) return null;
     if (item.class == section?.class) return null;
 

@@ -4,6 +4,7 @@ import Login from "./features/auth/Login";
 import PatientJourneyLanding from "./features/patientJourney/Landing/PatientJourneyLanding";
 import TouchPoints from "./features/patientJourney/Pages/TouchPoints";
 import Account from "./features/patientJourney/Pages/Account";
+import LoginWithSSO from "./features/auth/LoginWithSSO";
 
 const Routing = () => {
   return (
