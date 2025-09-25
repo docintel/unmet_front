@@ -3,7 +3,6 @@ import { Row } from 'react-bootstrap'
 import {Link} from 'react-router-dom' 
 import JourneySectionList from '../Sections/JourneySectionList'
 import JourneySectionDetail from '../Sections/JourneySectionDetail'
-import Header from '../Common/Header'
 
 
 const PatientJourneyLanding = () => {
@@ -14,8 +13,7 @@ const PatientJourneyLanding = () => {
   const handleSectionClick = (section) => setActiveSection(section);
 
   return (
-    <div className="main-page">
-      <Header />
+    <div className="main-page"> 
       <div className="custom-container">
         <Row>
           <section className="journey-box">

@@ -69,8 +69,7 @@ const Account = () => {
             );
         };
     return (
-        <div className="main-page">
-            <Header />
+        <div className="main-page"> 
             <div className="custom-container">
                 <Row>
                     <div className="account-section">
