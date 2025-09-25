@@ -90,7 +90,7 @@ const Header = () => {
                   <img src={path_image + "avtar-icon.png"} alt="user" />
                 </div>
                 <span>
-                  <Link to="/">Log Out</Link>
+                  <Link to="/login">Log Out</Link>
                 </span>
               </div>
             </div>

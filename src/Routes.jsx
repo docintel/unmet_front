@@ -5,6 +5,8 @@ import TouchPoints from "./components/features/patientJourney/Pages/TouchPoints"
 import Account from "./components/features/patientJourney/Pages/Account";
 import ProtectedRoute from "./components/features/auth/components/ProtectedRoute";
 import Layout from "./components/features/patientJourney/Layout/Layout";
+import Login from "./components/features/auth/components/Login";
+import Resources from "./components/features/patientJourney/Pages/Resources";
 
 const PatientJourneyLanding = lazy(() =>
   import("./components/features/patientJourney/Landing/PatientJourneyLanding")
@@ -16,14 +18,17 @@ const Routing = createBrowserRouter([
     element: <LoginWithSSO />,
     index: true,
   },
+  {path : "/login", element: <Login />},
   {
     element: <ProtectedRoute />, // authentication check
     children: [
       {
         element: <Layout />, // header + outlet wrapper
         children: [
+          
           { path: "/home", element: <PatientJourneyLanding /> },
           { path: "/touchpoints", element: <TouchPoints /> },
+          {path: "/resources", element: <Resources /> },
           { path: "/account", element: <Account /> },
         ],
       },

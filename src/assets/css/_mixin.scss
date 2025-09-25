@@ -361,6 +361,7 @@
     font-weight: 600;
     text-transform: capitalize;
     margin: 0 0 7px;
+    word-break: break-word;
   }
 
   .region {
@@ -368,6 +369,7 @@
     font-size: 12px;
     font-weight: 500;
     margin: 0 0 13px;
+        word-break: break-word;
   }
 
   .tags {
@@ -392,6 +394,7 @@
     font-size: 12px;
     font-weight: 500;
     margin: 0 0 8px;
+    word-break: break-word;
 
     span {
       font-size: 10px;

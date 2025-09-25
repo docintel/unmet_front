@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import axios from "axios";
 import { fetchQuestions } from "../../../../services/homeService";
 import { handleSubmit } from "../../../../services/homeService";
 
@@ -58,7 +57,7 @@ useEffect(() => {
             onChange={(e) => setQuestion(e.target.value)}
             placeholder=""
           ></textarea>
-           {error && <p style={{ color: "red", marginTop: "5px" }}>{error}</p>}
+           {error && <div className="validation">{error}</div>}
         </div>
         <button type="submit" className="btn btn-primary">
           Send

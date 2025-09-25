@@ -73,6 +73,7 @@ h6 {
             @include flex-column;
 
             .form-group {
+                
                 label {
                     display: block;
                     margin-bottom: 8px;
@@ -292,6 +293,7 @@ h6 {
 
     .left-side {
         width: 448px;
+        flex:0 0 448px;
         gap: 24px;
         display: flex;
         flex-direction: column;
@@ -962,3 +964,9 @@ h6 {
     border: 2px solid #dce6ef;
     border-radius: 15px;
 }
+
+.validation{
+                    color: $pink;
+                    font-size: 13px;
+                    margin-top: 0px;
+                }
