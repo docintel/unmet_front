@@ -1,25 +1,67 @@
-import React, { useState } from 'react'
-import Avatar from '../../../assets/images/avtar-icon.png';
-import Logo from '../../../assets/images/logo-img.svg';
-import { Link, NavLink } from 'react-router-dom';
-import { Nav, Navbar, Row } from 'react-bootstrap';
+import React, { useState } from "react";
+import Avatar from "../../../assets/images/avtar-icon.png";
+import Logo from "../../../assets/images/logo-img.svg";
+import { Link, NavLink } from "react-router-dom";
+import { Nav, Navbar, Row } from "react-bootstrap";
 const Header = () => {
   const [isHcpSelected, setIsHcpSelected] = useState(false);
   const toggleUserType = () => setIsHcpSelected((prev) => !prev);
   return (
     <header className="header sticky" sticky="top">
-      <div className='custom-container'>
+      <div className="custom-container">
         <Row>
           <div className="header-inner">
-            <Navbar collapseOnSelect expand="lg" variant="light" className="nav">
-              <Navbar.Brand href="/"><img src={Logo} alt="logo" /></Navbar.Brand>
+            <Navbar
+              collapseOnSelect
+              expand="lg"
+              variant="light"
+              className="nav"
+            >
+              <Navbar.Brand href="/">
+                <img src={Logo} alt="logo" />
+              </Navbar.Brand>
               <Navbar.Toggle aria-controls="header-navbar-nav" />
-              <Navbar.Collapse id="header-navbar-nav" className='justify-content-center flex-grow-1'>
+              <Navbar.Collapse
+                id="header-navbar-nav"
+                className="justify-content-center flex-grow-1"
+              >
                 <Nav className="x-auto">
-                  <Nav.Link href="/home">Home</Nav.Link>
+                  {/* <Nav.Link href="/home">Home</Nav.Link>
                   <Nav.Link href="/touchpoints">Touchpoints</Nav.Link>
                   <Nav.Link href="/resources">Resources</Nav.Link>
-                  <Nav.Link href="/account">My Account</Nav.Link>
+                  <Nav.Link href="/account">My Account</Nav.Link> */}
+                  <NavLink
+                    to="/home"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    Home
+                  </NavLink>
+                  <NavLink
+                    to="/touchpoints"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    Touchpoints
+                  </NavLink>
+                  <NavLink
+                    to="/resources"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    Resources
+                  </NavLink>
+                  <NavLink
+                    to="/account"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    My Account
+                  </NavLink>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -33,8 +75,16 @@ const Header = () => {
                     style={{ margin: 0 }}
                   />
                   <span>
-                    <span className={`switch-btn ${!isHcpSelected ? "active" : ""}`}>Octapharma</span>
-                    <span className={`switch-btn ${isHcpSelected ? "active" : ""}`}>HCP</span>
+                    <span
+                      className={`switch-btn ${!isHcpSelected ? "active" : ""}`}
+                    >
+                      Octapharma
+                    </span>
+                    <span
+                      className={`switch-btn ${isHcpSelected ? "active" : ""}`}
+                    >
+                      HCP
+                    </span>
                   </span>
                   <a className="btn"></a>
                 </label>
@@ -43,15 +93,16 @@ const Header = () => {
                 <div className="user-avatar">
                   <img src={Avatar} alt="user" />
                 </div>
-                <span><Link to="/">Log Out</Link></span>
+                <span>
+                  <Link to="/">Log Out</Link>
+                </span>
               </div>
             </div>
           </div>
-
         </Row>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

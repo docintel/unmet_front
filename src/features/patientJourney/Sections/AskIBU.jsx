@@ -16,7 +16,7 @@ const AskIBU = () => {
           "http://192.168.10.11:3001/narrative/all-questions",
           {
             headers: {
-              Auth: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4Nzc3NzIyLCJleHAiOjE3NTg3ODEzMjJ9.KCux8nfcviX4HEjOIAJNkk6FMlUHY72xbmL9wQn2Uvg`,
+              Auth: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4NzgyOTkzLCJleHAiOjE3NTg3ODY1OTN9.6DH2IzIMeRkwjLTOptpxQxyGyRZ0f2WrBAAPFPpJzRE`,
               Token: "FOkB/AUT2wGXRv ablqvbg==",
             },
           }
