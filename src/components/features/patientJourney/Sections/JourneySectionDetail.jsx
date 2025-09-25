@@ -2,7 +2,7 @@ import React from 'react'
 import JourneySectionList from './JourneySectionList'; 
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Button } from 'react-bootstrap';
-import AskIBU from './AskIBU';
+import AskIBU from './AskIBU'; 
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
    const path_image = import.meta.env.VITE_IMAGES_PATH
@@ -61,6 +61,16 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
         }
     ];
 
+    const [likedIndexes, setLikedIndexes] = React.useState([]);
+
+    const handleStarClick = (index) => {
+        setLikedIndexes((prev) =>
+            prev.includes(index)
+                ? prev.filter((i) => i !== index)
+                : [...prev, index]
+        );
+    };
+
     return (
         <div className={`journey-box d-flex ${section.class != "ask-ibu" ? "flex-row-reverse" : ""}`}>
             <div className="left-side">
@@ -83,10 +93,11 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                 {section.class === "ask-ibu" ? (
                     <AskIBU />
                 ) : section.class === "faq" ? (
-                    faq.map((section) => (
-                        <div className='detail-data-box'>
+
+                    faq.map((section, idx) => (
+                        <div className='detail-data-box' key={idx}>
                             <div className="age-format d-flex">
-                                {section.ageTags.map((tag) => (<div className={tag.class}>
+                                {section.ageTags.map((tag, tagIdx) => (<div className={tag.class} key={tagIdx}>
                                     {tag.label}
                                 </div>))}
                             </div>
@@ -117,7 +128,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                                     {section.subheading}
                                 </div>
                                 <div className="tags tag-list">
-                                    {section.tags.map((tag) => (<div>
+                                    {section.tags.map((tag, tagIdx) => (<div key={tagIdx}>
                                         {tag}
                                     </div>))}
                                 </div>
@@ -126,7 +137,14 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                                 </div>
                                 <div className="favorite d-flex justify-content-between align-sections-center">
                                     <div className='d-flex align-sections-center'>
-                                        <img src={path_image + "star-img.svg"} alt="" />
+                                        <img
+                                            src={ path_image + likedIndexes.includes(idx)
+                                                ? "star-filled.svg"
+                                                : "star-img.svg"}
+                                            alt=""
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => handleStarClick(idx)}
+                                        />
                                         {section.likeArticle}
                                     </div>
                                     <Button variant="primary">Read</Button>
@@ -134,11 +152,10 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                             </div>
                         </div>
                     ))
+
+
                 ) : null}
-
+                </div>
             </div>
-
-
-        </div>
     )
 }

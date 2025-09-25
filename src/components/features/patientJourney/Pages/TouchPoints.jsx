@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Form, Row, Tab, Tabs } from 'react-bootstrap';
 import Header from '../Common/Header'; 
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from 'react-bootstrap/Dropdown'; 
 const TouchPoints = () => {
     const path_image = import.meta.env.VITE_IMAGES_PATH
     const [isAllSelected, setIsAllSelected] = useState(false);
@@ -66,6 +66,14 @@ const TouchPoints = () => {
             likeArticle: "415",
         }
     ];
+     const [likedIndexes, setLikedIndexes] = React.useState([]);
+         const handleStarClick = (index) => {
+        setLikedIndexes((prev) =>
+            prev.includes(index)
+                ? prev.filter((i) => i !== index)
+                : [...prev, index]
+        );
+    };
     return (
         <>
             <div className="main-page">
@@ -90,22 +98,10 @@ const TouchPoints = () => {
                                     </label>
                                 </div>
                                 <div className='journey-link-list d-flex align-items-center justify-content-between w-100'>
-                                    {/* {[
-                                        <div className="active">Childhood<br />Age 0-5</div>,
-                                        <div>Childhood<br />Age 6-11</div>,
-                                        <div>Teen years<br />Age 12-17</div>,
-                                        <div>Early adulthood<br />Age 18-25</div>,
-                                        <div>Adulthood<br />Age 26-60</div>,
-                                        <div>Older age<br />Age 60+</div>,
-                                    ].map((label, idx) => (
-                                        <React.Fragment key={idx}>
-                                            <div className="journey-link">{label}</div>
-                                            {idx !== 5 && <div className="line"></div>}
-                                        </React.Fragment>
-                                    ))} */}
                                     {journeyLabels.map((label, idx) => (
                                         <React.Fragment key={idx}>
-                                            <div
+                                            <div 
+                                                key={idx}
                                                 className={`journey-link ${activeJourney === idx ? "active" : ""}`}
                                                 // dangerouslySetInnerHTML={{ __html: label }}
                                                 onClick={() => setActiveJourney(idx)}
@@ -213,11 +209,10 @@ const TouchPoints = () => {
                                     </div>
                                     <div className='touchpoint-data-boxes'>
                                         {
-                                            touchpointContent.map((section) => (
-                                                <>
-                                                    <div className='touchpoint-data-box'>
+                                            touchpointContent.map((section, idx) => ( 
+                                                    <div className='touchpoint-data-box' key={idx}>
                                                         <div className="age-format d-flex">
-                                                            {section.ageTags.map((tag) => (<div className={tag.class}>
+                                                            {section.ageTags.map((tag, tagIdx) => (<div className={tag.class} key={tagIdx}>
                                                                 {tag.label}
                                                             </div>))}
                                                         </div>
@@ -248,7 +243,7 @@ const TouchPoints = () => {
                                                                 {section.subheading}
                                                             </div>
                                                             <div className="tags tag-list">
-                                                                {section.tags.map((tag) => (<div>
+                                                                {section.tags.map((tag,idx) => (<div key={idx}>
                                                                     {tag}
                                                                 </div>))}
                                                             </div>
@@ -257,14 +252,20 @@ const TouchPoints = () => {
                                                             </div>
                                                             <div className="favorite d-flex justify-content-between align-sections-center">
                                                                 <div className='d-flex align-sections-center'>
-                                                                    <img src={path_image + "star-img.svg"} alt="" />
+                                                                    <img
+                                                                        src={path_image +  likedIndexes.includes(idx)
+                                                                            ? "star-filled.svg"
+                                                                            : "star-img.svg"}
+                                                                        alt=""
+                                                                        style={{ cursor: "pointer" }}
+                                                                        onClick={() => handleStarClick(idx)}
+                                                                    />
                                                                     {section.likeArticle}
                                                                 </div>
                                                                 <Button variant="primary">Read</Button>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </>
+                                                    </div> 
                                             ))
                                         }
                                     </div>
