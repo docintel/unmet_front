@@ -7,6 +7,7 @@ import TouchPoints from "./features/patientJourney/Pages/TouchPoints";
 const Routing = () => {
   return (
       <Routes>
+        <Route path="/" element={<LoginWithSSO />} />
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<PatientJourneyLanding />} />
         <Route path="/" element={<PatientJourneyLanding />} />
