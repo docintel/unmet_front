@@ -82,64 +82,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
                         onSectionClick(null)
                     }}><img src={Close} alt="" /></span>
                 </div>
-                <div className='scroll-list full'>
-
-                {/* {
-                    // rightSideData.map((section) => (
-                    faq.map((section) => (
-                        <>
-                        <div className='detail-data-box'>
-                            <div className="age-format d-flex">
-                                {section.ageTags.map((tag) => (<div className={tag.class}>
-                                    {tag.label}
-                                </div>))}
-                            </div>
-
-                            <div className='content-box'>
-                                <div className="format">
-                                    <div className='d-flex align-items-center'>
-                                        <img src={formatImg} alt="" />
-                                        <p>{section.format}</p>
-                                    </div>
-
-                                    <Dropdown align="end" >
-                                        <Dropdown.Toggle>
-                                            <img src={optionImg} alt="dropdown" />
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item>Share</Dropdown.Item>
-                                            <Dropdown.Item>Request</Dropdown.Item>
-                                            <Dropdown.Item>Copy Link</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                <div className="heading">
-                                    {section.heading}
-                                </div>
-                                <div className="subheading">
-                                    {section.subheading}
-                                </div>
-                                <div className="tags tag-list">
-                                    {section.tags.map((tag) => (<div>
-                                        {tag}
-                                    </div>))}
-                                </div>
-                                <div className="date">
-                                    {section.date}
-                                </div>
-                                <div className="favorite d-flex justify-content-between align-sections-center">
-                                    <div className='d-flex align-sections-center'>
-                                        <img src={starImg} alt="" />
-                                        {section.likeArticle}
-                                    </div>
-                                    <Button variant="primary">Read</Button>
-                                </div>
-                            </div>
-                        </div>
-                        </>
-                    ))
-                } */}
+                
 
                 {section.class === "ask-ibu" ? (
                     <AskIBU />
@@ -203,6 +146,5 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
             </div>
 
 
-        </div>
     )
 }
