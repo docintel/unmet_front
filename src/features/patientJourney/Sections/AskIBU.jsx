@@ -1,0 +1,129 @@
+import React, { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
+import axios from "axios";
+
+const AskIBU = () => {
+  const [askIbu, setAskIbu] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [question, setQuestion] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        // const response = await axios.get('http://192.168.10.11:3001/narrative/all-questions');
+        const response = await axios.get(
+          "http://192.168.10.11:3001/narrative/all-questions",
+          {
+            headers: {
+              Auth: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4NzAzMzg2LCJleHAiOjE3NTg3NDY1ODZ9.UBqZ5h-4_wcgKIDWAZlqmhVnXEaJ_kJe07hxoV33BB8`,
+              Token: "rjiGlqA9DXJVH7bDDTX0Lg==",
+            },
+          }
+        );
+        setAskIbu(response.data);
+      } catch (error) {
+        console.error("Error fetching Ask IBU questions:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!question.trim()) {
+      setError("Please enter a question");
+      return;
+    }
+
+    setError(""); 
+    try {
+      const response = await axios.post(
+        "http://192.168.10.11:3001/auth/add-ibu-question",
+        {
+          userId: 321,
+          question: question,
+        },
+        {
+          headers: {
+            Authorization: `Bearer <your-token-here>`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setAskIbu((prev) => [
+          {
+            id: Date.now(),
+            user_id: 321,
+            // user_name: user?.name,
+            // country: user?.country,
+            visibility_status: "Private",
+            question: question,
+            answer: "",
+            status: 0,
+            topics: [],
+            delete_status: 0,
+            created: new Date().toISOString(),
+          },
+          ...prev,
+        ]);
+
+      setQuestion("");
+    } catch (error) {
+      console.error("Error submitting question:", error);
+    }
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <>
+      <div className="scroll-list">
+        {askIbu.map((item) => (
+          <div className="detail-data-box" key={item.id}>
+            <div className="content-box">
+              <div className="heading">{item.question}</div>
+              <div className="region">{item.country}</div>
+              <div className="tags">
+                {item.topics.map((tag, idx) => (
+                  <div key={idx}>{tag}</div>
+                ))}
+              </div>
+              <div className="answer">
+                <span>Answer:</span>
+                {item.answer}
+              </div>
+              <div className="date">{item.created}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Form className="ask-ibu-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <textarea
+            className="form-control"
+            id="question"
+            rows="4"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder=""
+          ></textarea>
+           {error && <p style={{ color: "red", marginTop: "5px" }}>{error}</p>}
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Send
+        </button>
+      </Form>
+    </>
+  );
+};
+
+export default AskIBU;

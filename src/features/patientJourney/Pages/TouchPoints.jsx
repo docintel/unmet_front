@@ -10,7 +10,7 @@ const TouchPoints = () => {
     const [isAllSelected, setIsAllSelected] = useState(false);
     const toggleUserType = () => setIsAllSelected((prev) => !prev);
     const [activeKey, setActiveKey] = useState(null); // no tab selected initially
-     const [activeJourney, setActiveJourney] = useState(0);
+     const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
      const journeyLabels = [
         "Childhood<br />Age 0-5",
         "Childhood<br />Age 6-11",

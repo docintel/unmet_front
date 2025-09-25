@@ -148,7 +148,7 @@ h6 {
 
     .header-inner {
         @include flex-center;
-        padding: 12px 0px;
+        padding: 12px 0px 7px;
 
         nav {
             width: 100%;
@@ -175,7 +175,8 @@ h6 {
                 font-weight: 600;
                 text-decoration: none;
 
-                &.active,&:hover {
+                &.active,
+                &:hover {
                     color: $dark-green;
                 }
             }
@@ -219,7 +220,7 @@ h6 {
 
 .journey-box {
     gap: 24px;
-    padding: 0 0 10px;
+    padding: 5px 0 10px;
     width: 100%;
     @include flex-wrap;
 
@@ -366,12 +367,41 @@ h6 {
             }
         }
 
-        .age-format {
-            @include age-format;
-        }
+        .detail-data-box {
+            margin: 0 0 24px;
 
-        .content-box {
-            @include content-box;
+            &:last-child {
+                margin: 0;
+            }
+
+            .age-format {
+                @include age-format;
+            }
+
+            .content-box {
+                @include content-box;
+            }
+        }
+        .ask-ibu-form{
+            margin-top:10px;
+            textarea{
+                border: 1px solid rgba(24, 59, 77, 0.50);
+                height: 143px;
+                resize: none;
+                border-radius: 0;
+                width: 100%;
+                margin-bottom: 12px;
+            }
+            button{
+                margin-left: auto;
+                display: flex;
+            }
+        }
+        .scroll-list{
+            max-height: 400px;
+            overflow-y: auto;
+            width: 100%;
+            padding-right: 3px;
         }
     }
 }
@@ -464,16 +494,18 @@ h6 {
         opacity: 1;
     }
 }
+
 @keyframes slideFade {
-      0% {
+    0% {
         transform: translateY(40px);
         opacity: 1;
-      }
-      100% {
+    }
+
+    100% {
         transform: translateY(0);
         opacity: 1;
-      }
     }
+}
 
 .btn {
 
@@ -488,7 +520,7 @@ h6 {
 
 /***Touchpoint page css ***/
 .touchpoints-section {
-    padding: 5px 0 0;
+    padding: 5px 0 10px;
 
     .switch {
         @include switch;
@@ -508,7 +540,9 @@ h6 {
         position: relative;
 
         .journey-link {
-             padding: 13px 9px;
+            padding: 13px 9px;
+            cursor: pointer;
+
             span,
             div {
                 font-size: 14px;
@@ -524,6 +558,7 @@ h6 {
                 background: $white;
                 box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
                 border-radius: 10px 10px 0 0;
+
                 div {
 
                     &:before {
@@ -542,7 +577,7 @@ h6 {
                         content: "";
                         position: absolute;
                         bottom: 0px;
-                        left:auto;
+                        left: auto;
                         right: -27px;
                         width: 27px;
                         height: 27px;
@@ -552,16 +587,17 @@ h6 {
                     }
                 }
             }
-            &:last-child{
-                &.active{
-                    div{
-                        &:after{
-                                content: "";
-    bottom: -16px;
-    right: 0px;
-    width: 27px;
-    height: 27px;
-    background: #fff;
+
+            &:last-child {
+                &.active {
+                    div {
+                        &:after {
+                            content: "";
+                            bottom: -16px;
+                            right: 0px;
+                            width: 27px;
+                            height: 27px;
+                            background: #fff;
                         }
                     }
                 }
@@ -570,14 +606,9 @@ h6 {
     }
 
     .touchpoint-box {
-        padding: 24px;
-        @include flex-align-start;
-        flex-direction: column;
-        // gap: 40px;
+        @include outer-box;
         border-radius: 10px 10px;
-        background: $white;
         filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
-        width: 100%;
 
         .touchpoints-header,
         .search-bar,
@@ -639,6 +670,7 @@ h6 {
                         padding: 12px 0;
                         border-radius: 0;
                         border: 0;
+                        width: 100%;
 
                         &.active {
                             background: #4CC6CF;
@@ -770,6 +802,7 @@ h6 {
                     width: calc(33.33% - 3rem);
                     animation: slideFade 1.6s normal forwards;
                     opacity: 0;
+
                     .age-format {
                         @include age-format;
                         margin: 0 0 -1px;
@@ -799,4 +832,87 @@ h6 {
     }
 
 }
+
 /**404 page css end ***/
+
+/***Account page css ***/
+.account-section {
+    @include outer-box;
+    border-radius: 2px;
+    gap:16px;
+    .profile, .content-download{
+        border-radius: 10px;
+        background: #F4F6F9;
+        width:100%;
+        padding:16px;
+    }
+    .profile{
+        @include flex-align-center;
+        padding:29px 16px;
+        gap:24px;
+        .profile-img{
+            img{
+                width: 109px;
+                height:109px;
+                border-radius: 50%;
+            }
+        }
+        .profile-content{
+            h4{
+                color:#183B4D;
+                font-size: 20px;
+                font-weight: 700;
+                margin:0 0 7px;
+            }
+            p{
+                color: #5D7682;
+                font-size: 16px;
+                font-weight: 500;
+                margin:0 0 7px;
+                &:last-child{
+                    margin:0;
+                }
+            }
+        }
+    }
+    .content-download{
+        @include flex-center;
+        gap:16px;
+        .download, .shared{
+            flex:1 1;
+            border-radius: 10px;
+            background: $white;
+            text-align: center;
+            padding:26px 16px;
+            h4, p{
+                color: #5D7682;
+                font-size: 20px;
+                font-weight: 500;
+                margin: 0;
+            }
+            p{
+                font-weight: 700;
+                line-height: 1;
+            }
+        }
+    }
+}
+
+/***Account page css end ***/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: rgba(0, 173, 186, 0.1);
+    border-radius: 20px;
+    padding: 0 5px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    width: 14px;
+    background: #00ADBA;
+    border: 2px solid #dce6ef;
+    border-radius: 15px;
+}

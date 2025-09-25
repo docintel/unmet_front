@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Avatar from '../../../assets/images/avtar-icon.png';
 import Logo from '../../../assets/images/logo-img.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Nav, Navbar, Row } from 'react-bootstrap';
 const Header = () => {
   const [isHcpSelected, setIsHcpSelected] = useState(false);
@@ -16,10 +16,10 @@ const Header = () => {
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse id="header-navbar-nav" className='justify-content-center flex-grow-1'>
                 <Nav className="x-auto">
-                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="/home">Home</Nav.Link>
                   <Nav.Link href="/touchpoints">Touchpoints</Nav.Link>
                   <Nav.Link href="/resources">Resources</Nav.Link>
-                  <Nav.Link href="/touchpoints">My Account</Nav.Link>
+                  <Nav.Link href="/account">My Account</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -47,6 +47,7 @@ const Header = () => {
               </div>
             </div>
           </div>
+
         </Row>
       </div>
     </header>
