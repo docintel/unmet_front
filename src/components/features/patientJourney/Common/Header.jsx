@@ -26,10 +26,6 @@ const Header = () => {
                 className="justify-content-center flex-grow-1"
               >
                 <Nav className="x-auto">
-                  {/* <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link href="/touchpoints">Touchpoints</Nav.Link>
-                  <Nav.Link href="/resources">Resources</Nav.Link>
-                  <Nav.Link href="/account">My Account</Nav.Link> */}
                   <NavLink
                     to="/home"
                     className={({ isActive }) =>
