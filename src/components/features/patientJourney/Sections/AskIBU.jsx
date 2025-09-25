@@ -11,7 +11,6 @@ const AskIBU = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        // const response = await axios.get('http://192.168.10.11:3001/narrative/all-questions');
         const response = await axios.get(
           "http://192.168.10.11:3001/narrative/all-questions",
           {
@@ -48,30 +47,8 @@ const AskIBU = () => {
           userId: 321,
           question: question,
         },
-        {
-          headers: {
-            Authorization: `Bearer <your-token-here>`,
-            "Content-Type": "application/json",
-          },
-        }
       );
 
-      // setAskIbu((prev) => [
-      //     {
-      //       id: Date.now(),
-      //       user_id: 321,
-      //       // user_name: user?.name,
-      //       // country: user?.country,
-      //       visibility_status: "Private",
-      //       question: question,
-      //       answer: "",
-      //       status: 0,
-      //       topics: [],
-      //       delete_status: 0,
-      //       created: new Date().toISOString(),
-      //     },
-      //     ...prev,
-      //   ]);
 
       setQuestion("");
     } catch (error) {
