@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Button, Col, Form, Row, Tab, Tabs } from 'react-bootstrap';
-import Header from '../Common/Header'; 
 import Dropdown from 'react-bootstrap/Dropdown'; 
 const TouchPoints = () => {
     const path_image = import.meta.env.VITE_IMAGES_PATH
@@ -76,8 +75,7 @@ const TouchPoints = () => {
     };
     return (
         <>
-            <div className="main-page">
-                <Header />
+            <div className="main-page"> 
                 <div className="custom-container">
                     <Row>
                         <div className='touchpoints-section'>
@@ -226,7 +224,7 @@ const TouchPoints = () => {
 
                                                                 <Dropdown align="end" >
                                                                     <Dropdown.Toggle>
-                                                                        <img src={path_image + "search-icon.svg"} alt="dropdown" />
+                                                                        <img src={path_image + "options.svg"} alt="dropdown" />
                                                                     </Dropdown.Toggle>
 
                                                                     <Dropdown.Menu>

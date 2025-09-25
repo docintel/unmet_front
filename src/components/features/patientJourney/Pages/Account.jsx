@@ -1,13 +1,11 @@
 import React from 'react'
 import { Row } from 'react-bootstrap';
-import Header from '../Common/Header'; 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 const Account = () => {
     const path_image = import.meta.env.VITE_IMAGES_PATH
     return (
-        <div className="main-page">
-            <Header />
+        <div className="main-page"> 
             <div className="custom-container">
                 <Row>
                     <div className="account-section">
