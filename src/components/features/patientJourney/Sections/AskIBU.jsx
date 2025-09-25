@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import axios from "axios";
+import { fetchQuestions } from "../../../../services/homeService";
+import { handleSubmit } from "../../../../services/homeService";
 
 const AskIBU = () => {
   const [askIbu, setAskIbu] = useState([]);
@@ -8,54 +10,18 @@ const AskIBU = () => {
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get(
-          "http://192.168.10.11:3001/narrative/all-questions",
-          {
-            headers: {
-              Auth: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4NzgyOTkzLCJleHAiOjE3NTg3ODY1OTN9.6DH2IzIMeRkwjLTOptpxQxyGyRZ0f2WrBAAPFPpJzRE`,
-              Token: "FOkB/AUT2wGXRv ablqvbg==",
-            },
-          }
-        );
-        setAskIbu(response?.data?.data);
-      } catch (error) {
-        console.error("Error fetching Ask IBU questions:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchQuestions();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!question.trim()) {
-      setError("Please enter a question");
-      return;
-    }
-
-    setError(""); 
-    try {
-      const response = await axios.post(
-        "http://192.168.10.11:3001/auth/add-ibu-question",
-        {
-          userId: 321,
-          question: question,
-        },
-      );
-
-
-      setQuestion("");
-    } catch (error) {
-      console.error("Error submitting question:", error);
+useEffect(() => {
+  const fetchData = async () => {
+    const data = await fetchQuestions(setLoading);
+    if (data) {
+      setAskIbu(data);
     }
   };
 
+  fetchData();
+}, []);
+
+ 
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -82,8 +48,7 @@ const AskIBU = () => {
           </div>
         ))}
       </div>
-
-      <Form className="ask-ibu-form" onSubmit={handleSubmit}>
+      <Form className="ask-ibu-form" onSubmit={(e) => handleSubmit(e,setError,question,setQuestion)}>
         <div className="form-group">
           <textarea
             className="form-control"
