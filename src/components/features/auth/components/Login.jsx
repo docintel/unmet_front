@@ -123,7 +123,7 @@ const Login = ({userDetails}) => {
                   Please enter your country and/or region. At least one is required — entering both
                   is recommended for the best experience.
                 </Form.Text>
-                <Button variant="primary" type="submit" className="mt-3">
+                <Button variant="primary" type="submit">
                   Login
                 </Button>
               </form>
