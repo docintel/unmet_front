@@ -85,7 +85,7 @@ const Login = ({userDetails}) => {
                     Role <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.role ? "split-button error" :"split-button" }
                     value={selectedRole}
                     onChange={setSelectedRole}
                     placeholder="Select your role"
@@ -98,7 +98,7 @@ const Login = ({userDetails}) => {
                     Region <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.region ? "split-button error" :"split-button" } 
                     value={selectedRegion}
                     onChange={setSelectedRegion}
                     placeholder="Select your region"
@@ -111,7 +111,7 @@ const Login = ({userDetails}) => {
                     Country <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className= {errors.country ? "split-button error" :"split-button" }
                     value={selectedCountry}
                     onChange={setSelectedCountry}
                     placeholder="Select your country"
