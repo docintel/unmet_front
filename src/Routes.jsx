@@ -14,7 +14,7 @@ const PatientJourneyLanding = lazy(() =>
 
 const Routing = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <LoginWithSSO />,
     index: true,
   },

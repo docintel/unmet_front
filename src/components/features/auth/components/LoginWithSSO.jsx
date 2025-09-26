@@ -88,7 +88,8 @@ const LoginWithSSO = () => {
     }
   };
   return (
-    <div className="login-page">
+    <>
+   {false && <div className="login-page">
       <div className="login sso-login">
         <div className="login-logo">
           <img src={path_image + "logo-img.svg"} alt="logo" />
@@ -99,17 +100,12 @@ const LoginWithSSO = () => {
         <Button variant="primary" type="submit" onClick={handleSso} className="rounded-lg transition">
           Login with SSO
         </Button>
-      </div>
-      {/* <div className="bg-white shadow-lg rounded-2xl p-8 w-80 text-center">
-        <h1>Welcome to VWD JOURNEY</h1>
-        <button
-          onClick={handleSso}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-        >
-          Login with SSO
-        </button>
-      </div> */}
-    </div>
+      </div> 
+    </div>}
+    {
+      true && <Login userDetails={userDetails}/>
+    }
+</>
   );
 }
 

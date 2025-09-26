@@ -85,39 +85,39 @@ const Login = ({userDetails}) => {
                     Role <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.role ? "split-button error" :"split-button" }
                     value={selectedRole}
                     onChange={setSelectedRole}
                     placeholder="Select your role"
                     options={roleOptions}
                   />
-                  {errors.role && <div className="text-danger">{errors.role}</div>}
+                  {errors.role && <div className="validation">{errors.role}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
                     Region <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.region ? "split-button error" :"split-button" } 
                     value={selectedRegion}
                     onChange={setSelectedRegion}
                     placeholder="Select your region"
                     options={regionOptions}
                   />
-                  {errors.region && <div className="text-danger">{errors.region}</div>}
+                  {errors.region && <div className="validation">{errors.region}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
                     Country <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className= {errors.country ? "split-button error" :"split-button" }
                     value={selectedCountry}
                     onChange={setSelectedCountry}
                     placeholder="Select your country"
                     options={countryOptions}
                   />
-                  {errors.country && <div className="text-danger">{errors.country}</div>}
+                  {errors.country && <div className="validation">{errors.country}</div>}
                 </Form.Group>
                 <Form.Text className="text-muted">
                   Please enter your country and/or region. At least one is required — entering both
