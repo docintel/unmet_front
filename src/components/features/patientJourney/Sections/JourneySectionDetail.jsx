@@ -7,9 +7,6 @@ import FaqAndLatestContent from './FaqAndLatestContent';
 
 export default function JourneySectionDetail({ onSectionClick, section }) {
    const path_image = import.meta.env.VITE_IMAGES_PATH
- 
-
-
     return (
         <div className={`journey-box d-flex ${section.class != "ask-ibu" ? "flex-row-reverse" : ""}`}>
             <div className="left-side">

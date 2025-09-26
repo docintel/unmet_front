@@ -1,4 +1,4 @@
 const endPoint ={
-    ALL_QUESTIONS:"narrative/all-questions"  
+    ALL_QUESTIONS:"/narrative/all-questions"
 }
 export default  endPoint;

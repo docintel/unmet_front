@@ -18,14 +18,12 @@ const Routing = createBrowserRouter([
     element: <LoginWithSSO />,
     index: true,
   },
-  {path : "/login", element: <Login />},
   {
-    element: <ProtectedRoute />, // authentication check
+    element: <ProtectedRoute />,
     children: [
       {
-        element: <Layout />, // header + outlet wrapper
+        element: <Layout />,
         children: [
-          
           { path: "/home", element: <PatientJourneyLanding /> },
           { path: "/touchpoints", element: <TouchPoints /> },
           {path: "/resources", element: <Resources /> },
