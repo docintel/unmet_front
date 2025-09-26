@@ -91,7 +91,7 @@ const Login = ({userDetails}) => {
                     placeholder="Select your role"
                     options={roleOptions}
                   />
-                  {errors.role && <div className="text-danger">{errors.role}</div>}
+                  {errors.role && <div className="validation">{errors.role}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
@@ -104,7 +104,7 @@ const Login = ({userDetails}) => {
                     placeholder="Select your region"
                     options={regionOptions}
                   />
-                  {errors.region && <div className="text-danger">{errors.region}</div>}
+                  {errors.region && <div className="validation">{errors.region}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
@@ -117,7 +117,7 @@ const Login = ({userDetails}) => {
                     placeholder="Select your country"
                     options={countryOptions}
                   />
-                  {errors.country && <div className="text-danger">{errors.country}</div>}
+                  {errors.country && <div className="validation">{errors.country}</div>}
                 </Form.Group>
                 <Form.Text className="text-muted">
                   Please enter your country and/or region. At least one is required — entering both
