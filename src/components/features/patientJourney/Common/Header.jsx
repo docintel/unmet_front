@@ -7,7 +7,7 @@ const Header = () => {
   const [isHcpSelected, setIsHcpSelected] = useState(false);
   const toggleUserType = () => setIsHcpSelected((prev) => !prev);
   return (
-    <header className="header sticky" sticky="top">
+    <header className="header sticky">
       <div className="custom-container">
         <Row>
           <div className="header-inner">
