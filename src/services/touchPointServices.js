@@ -12,7 +12,7 @@ export const fetchAgeGroupCategories = async () => {
           ? "<br />Age " +
             (item.max_age
               ? item.min_age + "-" + item.max_age
-              : item.min_age + " + ")
+              : item.min_age + "+")
           : "");
       return { id, label };
     });
@@ -49,6 +49,19 @@ export const fetchContentList = async () => {
     return { contents: data?.data?.data };
   } catch (error) {
     console.error("Error fetching narration list:", error);
+  } finally {
+  }
+};
+
+export const updateContentRating = async (id) => {
+  try {
+    const data = await postData(endPoint.UPDATE_CONTENT_RATING, {
+      pdf_id: id,
+    });
+    return { response: data?.data?.data?.total_ratings };
+  } catch (error) {
+    console.error("Error while updating rating:", error);
+    throw new Error("Error while updating rating");
   } finally {
   }
 };

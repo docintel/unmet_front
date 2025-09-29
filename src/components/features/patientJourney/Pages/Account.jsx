@@ -76,7 +76,7 @@ const Account = (content) => {
     setLoading(true);
     try {
       const response = await getData(endPoint.FAVORITE);
-      return response?.data || [];
+      return response?.data?.data || [];
     } catch (error) {
       console.error("Error fetching favorites:", error);
       return [];
@@ -194,7 +194,7 @@ const Account = (content) => {
                   </div>
                 </Tab>
                 <Tab eventKey="favorite" title="Favorite">
-                  {/* <div className="touchpoint-data-boxes">
+                  <div className="touchpoint-data-boxes">
                     {favorite ? (
                       favorite &&
                       favorite.map((section) => (
@@ -205,7 +205,7 @@ const Account = (content) => {
                     ) : (
                       <div className="text-center  w-100">No data Found</div>
                     )}
-                  </div> */}
+                  </div>
                 </Tab>
                 <Tab eventKey="question" title="Your questions">
                   Recently Question

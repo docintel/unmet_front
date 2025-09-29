@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { ContentContext } from "../../../../context/ContentContext";
+import { updateContentRating } from "../../../../services/touchPointServices";
 
 const Content = (props) => {
   const [section, setSection] = useState(props.section);
   const [idx, setIdx] = useState(props.idx);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const [likedIndexes, setLikedIndexes] = useState([]);
+  const { updateRating } = useContext(ContentContext);
 
-  const handleStarClick = (index) => {
-    setLikedIndexes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
+  const handleStarClick = async () => {
+    if (!section.self_rate) {
+      try {
+        const response = await updateContentRating(section.id);
+        updateRating(section.id, response.response);
+        setSection({
+          ...section,
+          ...{ self_rate: 1, rating: response.response },
+        });
+      } catch (ex) {}
+    }
   };
 
   const getAgeGroup = () => {
@@ -30,7 +39,7 @@ const Content = (props) => {
   };
 
   return (
-    <div className="touchpoint-data-box" key={idx}>
+    <div class="detail-data-box" key={idx}>
       <div className="age-format d-flex">
         {getAgeGroup().map((tag, tagIdx) => (
           <div className={tag.tagClass} key={tagIdx}>
@@ -65,19 +74,17 @@ const Content = (props) => {
             <div key={idx}>{tag}</div>
           ))}
         </div>
-        <div className="date">{section.date}</div>
+        <div className="date">{section.creation_date}</div>
         <div className="favorite d-flex justify-content-between align-sections-center">
           <div className="d-flex align-sections-center">
             <img
               src={
                 path_image +
-                (likedIndexes.includes(idx)
-                  ? "star-filled.svg"
-                  : "star-img.svg")
+                (section.self_rate ? "star-filled.svg" : "star-img.svg")
               }
               alt=""
               style={{ cursor: "pointer" }}
-              onClick={() => handleStarClick(idx)}
+              onClick={handleStarClick}
             />
             {section.rating}
           </div>
