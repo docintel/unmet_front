@@ -1,83 +1,10 @@
-// import React, { useEffect, useState } from "react";
-// import { Form, FormGroup } from "react-bootstrap";
-// import { fetchQuestions } from "../../../../services/homeService";
-// import { handleSubmit } from "../../../../services/homeService";
-
-// const AskIBU = () => {
-//   const [askIbu, setAskIbu] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [question, setQuestion] = useState("");
-//   const [error, setError] = useState("");
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const data = await fetchQuestions(setLoading);
-//       if (data) {
-//         setAskIbu(data);
-//       }
-//     };
-
-//     fetchData();
-//   }, [question]);
-
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
-
-//   return (
-//     <>
-//       <div className="scroll-list">
-//         {askIbu.map((item) => (
-//           <div className="detail-data-box" key={item.id}>
-//             <div className="content-box">
-//               <div className="heading">{item.question}</div>
-//               <div className="region">{item.country}</div>
-//               <div className="tags">
-//                 {item.topics.map((tag, idx) => (
-//                   <div key={idx}>{tag}</div>
-//                 ))}
-//               </div>
-//               <div className="answer">
-//                 <span>Answer:</span>
-//                 {item.answer}
-//               </div>
-//               <div className="date">{item.created}</div>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//       <Form className="ask-ibu-form" onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}>
-//         <FormGroup className="form-group">
-//            <Form.Control id="question" as="textarea" rows={4} value={question}
-//             onChange={(e) => setQuestion(e.target.value)}
-//             placeholder=""/>
-//           {/* <textarea
-//             className="form-control"
-//             id="question"
-//             rows="4"
-//             value={question}
-//             onChange={(e) => setQuestion(e.target.value)}
-//             placeholder=""
-//           ></textarea> */}
-//           {error && <div className="validation">{error}</div>}
-//         </FormGroup>
-//         <button type="submit" className="btn btn-primary">
-//           Send
-//         </button>
-//       </Form>
-//     </>
-//   );
-// };
-
-// export default AskIBU;
-
 import React, { useEffect, useState } from "react";
 import { Form, FormGroup, Dropdown } from "react-bootstrap";
 import {
   fetchQuestions,
   handleSubmit,
   fetchTags,
-  filterQuestionsByTag,
+  filterQuestionsByTags,
 } from "../../../../services/homeService";
 
 const AskIBU = () => {
@@ -87,8 +14,10 @@ const AskIBU = () => {
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
-  const [selectedTag, setSelectedTag] = useState(null);
-  const [showFilter, setShowFilter] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [appliedFilters, setAppliedFilters] = useState([]);
+  const [showFilterBox, setShowFilterBox] = useState(false);
+  const [showTagsDropdown, setShowTagsDropdown] = useState(false);
 
   // Fetch questions
   useEffect(() => {
@@ -111,46 +40,134 @@ const AskIBU = () => {
     loadTags();
   }, []);
 
-  // Handle filter
-  const handleTagFilter = (tag) => {
-    setSelectedTag(tag);
-    setFilteredQuestions(filterQuestionsByTag(askIbu, tag));
+  // Toggle tag selection
+  const toggleTag = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((t) => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  // Apply filter
+  const applyFilter = () => {
+    if (selectedTags.length > 0) {
+      setAppliedFilters(selectedTags);
+      setFilteredQuestions(filterQuestionsByTags(askIbu, selectedTags));
+    } else {
+      setAppliedFilters([]);
+      setFilteredQuestions(askIbu);
+    }
+    setShowFilterBox(false);
+  };
+
+  // Cancel filter
+  const cancelFilter = () => {
+    setSelectedTags([]);
+    setShowFilterBox(false);
+  };
+
+  // Remove single filter
+  const removeFilter = (tag) => {
+    const updated = appliedFilters.filter((t) => t !== tag);
+    setAppliedFilters(updated);
+    setFilteredQuestions(filterQuestionsByTags(askIbu, updated));
+    setSelectedTags(updated);
+  };
+
+  // Remove all filters
+  const clearAllFilters = () => {
+    setAppliedFilters([]);
+    setSelectedTags([]);
+    setFilteredQuestions(askIbu);
+  };
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <>
-      <div className="filter-container">
+      {/* Filter button */}
+      <div className="filter-container mb-3">
         <button
-          className="filter-btn"
-          onClick={() => setShowFilter(!showFilter)}
+          className="btn btn-primary"
+          onClick={() => setShowFilterBox(!showFilterBox)}
         >
-          <i className="bi bi-funnel"></i>
+          Filter {showFilterBox ? "✖" : ""}
         </button>
-
-        {showFilter && (
-          <Dropdown>
-            <Dropdown.Toggle variant="light" id="dropdown-basic">
-              {selectedTag || "All Tags"}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleTagFilter(null)}>
-                All
-              </Dropdown.Item>
-              {tags.map((tag, index) => (
-                <Dropdown.Item key={index} onClick={() => handleTagFilter(tag)}>
-                  {tag}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
       </div>
 
+      {/* Filter dropdown */}
+      {showFilterBox && (
+        <div className="filter-box p-3 border mb-3">
+     
+
+          {/* Tags Dropdown Toggle */}
+          <button
+            className="btn btn-light w-100 text-start mb-2"
+            onClick={() => setShowTagsDropdown(!showTagsDropdown)}
+          >
+            Tags
+            <span className="float-end">{showTagsDropdown ? "▲" : "▼"}</span>
+          </button>
+
+          {/* Tags options */}
+          {showTagsDropdown && (
+            <div
+              className="tags-options border p-2 mb-2"
+              style={{ maxHeight: "200px", overflowY: "auto" }}
+            >
+              {tags.map((tag, index) => (
+                <div key={index} className="form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id={`tag-${index}`}
+                    checked={selectedTags.includes(tag)}
+                    onChange={() => toggleTag(tag)}
+                  />
+                  <label className="form-check-label" htmlFor={`tag-${index}`}>
+                    {tag}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-2">
+            <button className="btn btn-success me-2" onClick={applyFilter}>
+              Apply
+            </button>
+            <button className="btn btn-secondary" onClick={cancelFilter}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Applied filters */}
+      {appliedFilters.length > 0 && (
+        <div className="applied-filters mb-3">
+          {appliedFilters.map((tag, index) => (
+            <span key={index} className="badge bg-info me-2">
+              {tag}{" "}
+              <button
+                className="btn btn-sm btn-light ms-1"
+                onClick={() => removeFilter(tag)}
+              >
+                ✖
+              </button>
+            </span>
+          ))}
+          <button
+            className="btn btn-link text-danger ms-2"
+            onClick={clearAllFilters}
+          >
+            Remove All
+          </button>
+        </div>
+      )}
+
+      {/* Questions list */}
       <div className="scroll-list">
         {filteredQuestions.map((item) => (
           <div className="detail-data-box" key={item.id}>
@@ -172,8 +189,9 @@ const AskIBU = () => {
         ))}
       </div>
 
+      {/* Ask question form */}
       <Form
-        className="ask-ibu-form"
+        className="ask-ibu-form mt-4"
         onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
       >
         <FormGroup className="form-group">
@@ -183,11 +201,11 @@ const AskIBU = () => {
             rows={4}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder=""
+            placeholder="Ask your question..."
           />
-          {error && <div className="validation">{error}</div>}
+          {error && <div className="validation text-danger">{error}</div>}
         </FormGroup>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mt-2">
           Send
         </button>
       </Form>
