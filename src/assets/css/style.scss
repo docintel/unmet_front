@@ -6,15 +6,47 @@ body {
     font-family: $raleway-font;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: $primary-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 42px;
+}
+
+h2 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size: 32px;
+}
+
+h4 {
+    font-size: 28px;
+}
+
 h5 {
     font-size: 24px;
-    color: $primary-color;
-    font-weight: 700;
 }
 
 h6 {
     font-size: 20px;
-    color: $primary-color;
+    font-family: $fontFamily;
+    font-weight: 500;
 }
 
 .btn-primary {
@@ -25,7 +57,9 @@ h6 {
     border: 0;
     padding: 4px 16px;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus{
         background: $dark-green;
         opacity: 0.8;
     }
@@ -35,22 +69,26 @@ h6 {
     min-height: 100vh;
     @include vertical-list;
     justify-content: center;
-    &.sso-login{
-        .login-logo{
-            img{
+    padding: 10px;
+
+    &.sso-login {
+        .login-logo {
+            img {
                 width: 240px;
             }
         }
-        .user-name{
-            h1{
+
+        .user-name {
+            h1 {
                 font-size: clamp(16px, 4vw, 42px);
-                margin:30px 0;
+                margin: 30px 0;
                 text-align: center;
                 font-weight: 700;
                 color: $primary-color;
             }
         }
-        button{
+
+        button {
             padding: 16px 30px;
         }
     }
@@ -74,10 +112,6 @@ h6 {
             }
         }
 
-        h6 {
-            font-family: $fontFamily;
-            font-weight: 500;
-        }
     }
 
     .login-form {
@@ -92,7 +126,7 @@ h6 {
             @include flex-column;
 
             .form-group {
-                
+
                 label {
                     display: block;
                     margin-bottom: 8px;
@@ -107,6 +141,14 @@ h6 {
                 }
 
                 .split-button {
+                    &.error {
+                        >div {
+                            &:nth-child(3) {
+                                box-shadow: rgba(214, 25, 117, 0.6) 0px 1px 6px;
+                            }
+                        }
+                    }
+
                     >div {
                         &:nth-child(3) {
                             @include split-btn;
@@ -116,8 +158,12 @@ h6 {
                                 padding: 0;
                                 margin: 0;
                                 font-size: 15px;
-                                color: $gray;
-                                font-weight: 400;
+                                color: $text-color;
+                                font-weight: 500;
+
+                                div[class*="-placeholder"] {
+                                    color: $gray;
+                                }
 
                                 &:nth-child(2) {
                                     span {
@@ -142,6 +188,7 @@ h6 {
                 font-size: 13px;
                 color: $text-color;
                 font-weight: 400;
+                margin: 0;
             }
 
             button {
@@ -232,6 +279,9 @@ h6 {
                     font-size: 14px;
                     font-weight: 600;
                     text-decoration: none;
+                    &:hover {
+                        color: $dark-green;
+                    }
                 }
             }
         }
@@ -297,6 +347,7 @@ h6 {
             font-size: 20px;
             font-weight: 700;
             margin: 0 0 10px;
+            font-family: $raleway-font;
         }
 
         p {
@@ -312,7 +363,7 @@ h6 {
 
     .left-side {
         width: 448px;
-        flex:0 0 448px;
+        flex: 0 0 448px;
         gap: 24px;
         display: flex;
         flex-direction: column;
@@ -324,7 +375,7 @@ h6 {
             transform: translateY(2200px);
             opacity: 0;
             animation: slideUp 0.8s normal forwards;
-            height: calc(33.3% - 16px);
+            height: calc(39% - 16px);
 
             &:nth-child(1) {
                 animation-delay: 0s;
@@ -340,6 +391,16 @@ h6 {
 
             .explore-box {
                 height: 100%;
+                min-height: initial;
+            }
+            &.explore{
+                height: calc(22% - 16px);
+                .explore-box{
+                    min-height: initial;
+                }
+                h6{
+                    margin:0;
+                }
             }
         }
     }
@@ -372,6 +433,7 @@ h6 {
                 color: $text-color;
                 margin: 0 0 10px;
                 font-weight: 700;
+                font-family: $raleway-font;
             }
 
             p {
@@ -387,9 +449,14 @@ h6 {
                 }
             }
         }
+        .data-box {
+            max-height: 73.8vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
 
         .detail-data-box {
-            margin: 0 0 24px;
+            margin: 0 0 32px;
 
             &:last-child {
                 margin: 0;
@@ -403,9 +470,11 @@ h6 {
                 @include content-box;
             }
         }
-        .ask-ibu-form{
-            margin-top:10px;
-            textarea{
+
+        .ask-ibu-form {
+            margin-top: 10px;
+
+            textarea {
                 border: 1px solid rgba(24, 59, 77, 0.50);
                 height: 143px;
                 resize: none;
@@ -413,17 +482,20 @@ h6 {
                 width: 100%;
                 margin-bottom: 12px;
             }
-            button{
+
+            button {
                 margin-left: auto;
                 display: flex;
             }
         }
-        .scroll-list{
+
+        .scroll-list {
             max-height: 482px;
             overflow-y: auto;
             width: 100%;
             padding-right: 3px;
-            &.full{
+
+            &.full {
                 max-height: 678px;
                 max-height: 73.9vh;
             }
@@ -558,7 +630,7 @@ h6 {
 
     .journey-link-list {
         padding: 0px 0px 0px 24px;
-        gap: 17px;
+        gap: 8px;
         @include flex-align-center;
         animation: scale-up-to-left 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0s 1 normal both;
         z-index: 2;
@@ -654,7 +726,7 @@ h6 {
                     padding: 12px 54px 12px 24px;
                     font-size: 14px;
                     font-weight: 500;
-
+                    color:$text-color;
                     &:focus {
                         box-shadow: none;
                     }
@@ -677,6 +749,34 @@ h6 {
         }
 
         .touchpoints-header {
+            .touchpoint-links {
+                @include flex-justify-between;
+                gap: 51px;
+
+                button {
+                    color: #5D7682;
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 122.6%;
+                    background: #F4F6F9;
+                    padding: 12px 0;
+                    width: 100%;
+                    text-transform: capitalize;
+                    border-radius: 0;
+
+                    &:hover {
+                        color: #00ADBA;
+                        background: rgba(0, 173, 186, 0.1);
+                        opacity: 1;
+                    }
+
+                    &.active {
+                        background: #4CC6CF;
+                        color: $white;
+                    }
+                }
+            }
+
             ul {
                 margin: 0;
                 border: 0;
@@ -864,101 +964,122 @@ h6 {
 .account-section {
     @include outer-box;
     border-radius: 2px;
-    gap:16px;
-    margin:0 0 15px;
-    .profile, .content-download{
+    gap: 16px;
+    margin: 0 0 15px;
+
+    .profile,
+    .content-download {
         border-radius: 10px;
         background: $secondary-color;
-        width:100%;
-        padding:16px;
+        width: 100%;
+        padding: 16px;
     }
-    .profile{
+
+    .profile {
         @include flex-align-center;
-        padding:29px 16px;
-        gap:24px;
-        .profile-img{
-            img{
+        padding: 29px 16px;
+        gap: 24px;
+
+        .profile-img {
+            img {
                 width: 109px;
-                height:109px;
+                height: 109px;
                 border-radius: 50%;
             }
         }
-        .profile-content{
-            h4{
-                color:$primary-color;
+
+        .profile-content {
+            h4 {
+                color: $primary-color;
                 font-size: 20px;
                 font-weight: 700;
-                margin:0 0 7px;
+                margin: 0 0 7px;
             }
-            p{
+
+            p {
                 color: $text-color;
                 font-size: 16px;
                 font-weight: 500;
-                margin:0 0 7px;
-                &:last-child{
-                    margin:0;
+                margin: 0 0 7px;
+
+                &:last-child {
+                    margin: 0;
                 }
             }
         }
     }
-    .content-download{
+
+    .content-download {
         @include flex-center;
-        gap:16px;
-        .download, .shared{
-            flex:1 1;
+        gap: 16px;
+
+        .download,
+        .shared {
+            flex: 1 1;
             border-radius: 10px;
             background: $white;
             text-align: center;
-            padding:26px 16px;
-            h4, p{
+            padding: 26px 16px;
+
+            h4,
+            p {
                 color: $text-color;
                 font-size: 20px;
                 font-weight: 500;
                 margin: 0;
             }
-            p{
+
+            p {
                 font-weight: 700;
                 line-height: 1;
             }
         }
     }
-    .account-tabs{
-        margin:4px 0 0;
-        ul{
-            border:0;
-            gap:40px;
-            margin:8px 0 24px;
+
+    .account-tabs {
+        margin: 4px 0 0;
+
+        ul {
+            border: 0;
+            gap: 40px;
+            margin: 8px 0 24px;
             @include flex-align-center;
-            li{
-                button{
-                    padding:0;
-                    border:0;
+
+            li {
+                button {
+                    padding: 0;
+                    border: 0;
                     color: $text-color;
                     font-size: 14px;
                     font-weight: 600;
-                    &.active{
-                        color:#4CC6CF;
+
+                    &.active {
+                        color: #4CC6CF;
                     }
                 }
             }
         }
-        .tab-content{
+
+        .tab-content {
             border-radius: 10px;
             background: $secondary-color;
             width: 100%;
             padding: 16px;
 
-            .detail-data-box{
+            .detail-data-box {
                 margin: 0 0 30px;
-                .age-format{
+
+                .age-format {
                     @include age-format;
                 }
-                .content-box{
+
+                .content-box {
                     @include content-box;
                     background: $white;
                 }
-                &:last-child{
-                    margin:0;
+
+                &:last-child {
+                    margin: 0;
                 }
             }
         }
@@ -968,15 +1089,15 @@ h6 {
 /***Account page css end ***/
 
 ::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
- 
+
 ::-webkit-scrollbar-track {
     background: rgba(0, 173, 186, 0.1);
     border-radius: 20px;
     padding: 0 5px;
 }
- 
+
 ::-webkit-scrollbar-thumb {
     width: 14px;
     background: $dark-green;
@@ -984,8 +1105,12 @@ h6 {
     border-radius: 15px;
 }
 
-.validation{
-                    color: $pink;
-                    font-size: 13px;
-                    margin-top: 0px;
-                }
+.validation {
+    color: $pink;
+    font-size: 14px;
+    margin-top: 3px;
+}
+:not(.btn-check)+.btn:active{
+    background: $dark-green;
+    opacity: 0.8;
+}
