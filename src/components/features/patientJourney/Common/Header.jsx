@@ -3,10 +3,18 @@ import { Link} from 'react-router-dom';
 import { Nav, Navbar, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { clearLocalStorage } from '../../../../helper/helper';
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
   const [isHcpSelected, setIsHcpSelected] = useState(false);
   const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+  const navigate = useNavigate();
+
+  const logout = () =>{
+    clearLocalStorage();
+    navigate("/");
+
+  }
 
   return (
     <header className="header sticky">
@@ -92,7 +100,11 @@ const Header = () => {
                   <img src={path_image + "avtar-icon.png"} alt="user" />
                 </div>
                 <span>
-                  <Link to="/login">Log Out</Link>
+                  <Link to="/"
+                   onClick={(e) => {
+                      e.preventDefault(); // stop default link navigation
+                      logout();
+                    }}>Log Out</Link>
                 </span>
               </div>
             </div>
