@@ -17,6 +17,10 @@ const TouchPoints = () => {
   const [categories, setCategories] = useState([]);
   const [narrations, setNarrations] = useState([]);
   const [contentTags, setContentTags] = useState([]);
+  const [currentReadClick, setCurrentReadClick] = useState({
+      previewArticle: null,
+      id: null
+    });
   const { content } = useContext(ContentContext);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
@@ -49,15 +53,15 @@ const TouchPoints = () => {
   }, [activeJourney]);
 
   useEffect(() => {
-    console.log(journeyLabels);
-    console.log(categories);
+    // console.log(journeyLabels);
+    // console.log(categories);
     if (activeKey && activeJourney) {
       const categoryName = categories.find((val) => val.id == activeKey).name;
       const ageGroupName = journeyLabels
         .find((val) => val.id == activeKey)
         .label.split("<br />")[1];
-      console.log(categoryName);
-      console.log(ageGroupName);
+      // console.log(categoryName);
+      // console.log(ageGroupName);
     } else if (activeKey) {
     } else if (activeJourney) {
     }
@@ -212,42 +216,46 @@ const TouchPoints = () => {
                     fill
                   >
                     {/* to see the original layout please comment and uncomment the the uncommented and commented below code */}
+
                     {categories &&
-                      categories.map((cat) => (
-                        <Tab
-                          key={cat.id}
-                          eventKey={cat.id}
-                          title={cat.name}
-                          disabled={isTabDisabled(cat.id)}
-                          className={isTabDisabled(cat.id) ? "disabled" : ""}
-                        >
-                          {activeJourney && activeKey && activeNarration && (
-                            <div className="touchpoint-data">
-                              <h6>Short Narrative</h6>
-                              <div className="d-flex justify-content-between narrative-block">
-                                <div className="content">
-                                  <p>{activeNarration.narrative_title}</p>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
-                                        activeNarration.narrative_description,
-                                    }}
-                                  ></div>
-                                </div>
-                                <div className="content">
-                                  <p>{activeNarration.contibution_title}</p>
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html:
-                                        activeNarration.contibution_description,
-                                    }}
-                                  ></div>
+                      categories.map((cat) => {
+                        console.log(cat);
+                        return (
+                          <Tab
+                            key={cat.id}
+                            eventKey={cat.id}
+                            title={cat.name}
+                            disabled={isTabDisabled(cat.id)}
+                            className={isTabDisabled(cat.id) ? "disabled" : ""}
+                          >
+                            {activeJourney && activeKey && activeNarration && (
+                              <div className="touchpoint-data">
+                                <h6>Short Narrative</h6>
+                                <div className="d-flex justify-content-between narrative-block">
+                                  <div className="content">
+                                    <p>{activeNarration.narrative_title}</p>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          activeNarration.narrative_description,
+                                      }}
+                                    ></div>
+                                  </div>
+                                  <div className="content">
+                                    <p>{activeNarration.contibution_title}</p>
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          activeNarration.contibution_description,
+                                      }}
+                                    ></div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          )}
-                        </Tab>
-                      ))}
+                            )}
+                          </Tab>
+                        );
+                      })}
                     {/* <Tab eventKey="home" title="Diagnosis">
                       {activeKey === "home" ? (
                         <div className="touchpoint-data">
@@ -407,9 +415,10 @@ const TouchPoints = () => {
                     {" "}
                     {content ? (
                       content &&
-                      content.map((section) => (
+                      content.map((section,idx) => (
                         <React.Fragment key={section.id}>
-                          <Content section={section} idx={section.id} />
+                          <Content section={section} idx={section.id} key ={idx} currentReadClick={currentReadClick}
+                             setCurrentReadClick={setCurrentReadClick}  />
                         </React.Fragment>
                       ))
                     ) : (
