@@ -7,7 +7,6 @@ import "./assets/css/style.scss";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./hooks/authConfig.jsx";
-import { ContentProvider } from "./context/ContentContext.jsx";
 const msalInstance = new PublicClientApplication(msalConfig);
 
 function App() {
@@ -30,9 +29,7 @@ function App() {
 
   return (
     <MsalProvider instance={msalInstance}>
-      <ContentProvider>
-        <RouterProvider router={Routing} />{" "}
-      </ContentProvider>
+      <RouterProvider router={Routing} />{" "}
     </MsalProvider>
   );
 }
