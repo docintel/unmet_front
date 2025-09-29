@@ -1,11 +1,11 @@
 import React, { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import LoginWithSSO from "./components/features/auth/components/LoginWithSSO";
 import TouchPoints from "./components/features/patientJourney/Pages/TouchPoints";
 import Account from "./components/features/patientJourney/Pages/Account";
 import ProtectedRoute from "./components/features/auth/components/ProtectedRoute";
+import PublicRoute from "./components/features/auth/components/PublicRoute.jsx";
 import Layout from "./components/features/patientJourney/Layout/Layout";
-import Login from "./components/features/auth/components/Login";
 import Resources from "./components/features/patientJourney/Pages/Resources";
 
 const PatientJourneyLanding = lazy(() =>
@@ -14,12 +14,17 @@ const PatientJourneyLanding = lazy(() =>
 
 const Routing = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginWithSSO />,
-    index: true,
+    path: "/",
+    element: <Navigate to="/login" replace />,
   },
   {
-    element: <ProtectedRoute />,
+    element: <PublicRoute />, // 👈 wraps login
+    children: [
+      { path: "/login", element: <LoginWithSSO /> },
+    ],
+  },
+  {
+    element: <ProtectedRoute />, // 👈 wraps private pages
     children: [
       {
         element: <Layout />,

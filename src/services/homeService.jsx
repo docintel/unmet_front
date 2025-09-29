@@ -44,7 +44,14 @@ export const fetchTags = async () => {
   }
 };
 
-export const filterQuestionsByTag = (questions, tag) => {
-  if (!tag) return questions;
-  return questions.filter((item) => item.topics.includes(tag));
+
+
+export const filterQuestionsByTags = (questions, appliedTags) => {
+  if (!appliedTags || appliedTags.length === 0) return questions;
+
+  return questions.filter((q) =>
+    appliedTags.every((tag) => q.topics?.includes(tag))
+  );
 };
+
+

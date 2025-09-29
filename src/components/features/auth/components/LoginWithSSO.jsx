@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
-import axios from "axios";
+import React, { useState } from 'react' 
 import useAuth from "../../../../useAuth"
-import { useNavigate } from 'react-router-dom';
-import { postData } from '../../../../services/axios/apiHelper';
-import endPoint from '../../../../services/axios/apiEndpoint';
+import { useNavigate } from 'react-router-dom'; 
+import { handleSso } from '../../../../services/authService';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
 const LoginWithSSO = () => {
@@ -22,48 +20,22 @@ const LoginWithSSO = () => {
       };
       const handleLoginSuccess = (res, email = "") => {
         clearLocalStorageExcept();
-
         const { jwtToken,userRegistered,name,userToken } = res?.data?.data || {};
+        console.log(jwtToken,userRegistered,name,userToken,"jwtToken,userRegistered,name,userToken")
         localStorage.setItem("user_id", userToken); 
         localStorage.setItem("name", name);
         localStorage.setItem("decrypted_token", jwtToken);
-        if(userRegistered){
+        if(!userRegistered){
           setUserVerified(true) 
           setUserDetails({name})
+        }else{
+          navigate("/home");
         }
       };
-
-  const handleSso = async () => {
-    try {
-      const data = await login();
-      console.log("Login successful:", data);
-      if (!data) {
-        throw new Error("Something went wrong. Please try again");
-      }
-      const { id, token, id_token, email } = data;
-      const res = await postData(endPoint.Login, {
-        id,
-        token,
-        idToken: id_token,
-        type: "sso",
-      });
-
-      console.log(res)
-      handleLoginSuccess(res, email);
-    } catch (error) {
-      if (error.errorCode === "user_cancelled") {
-        console.warn("User cancelled login flow");
-        // optional: show a toast/alert instead of console
-        alert("Login was cancelled. Please try again.");
-      } else {
-        console.error("Unexpected login error:", error);
-        alert("Login failed. Please try again later.");
-      }
-    }
-  };
+ 
   return (
     <>
-   {true && <div className="login-page">
+   {!userVerified && <div className="login-page">
       <div className="login sso-login">
         <div className="login-logo">
           <img src={path_image + "logo-img.svg"} alt="logo" />
@@ -71,7 +43,7 @@ const LoginWithSSO = () => {
         <div className="user-name">
           <h1>Welcome to<br/>VWD JOURNEY</h1>
         </div>
-        <Button variant="primary" type="submit" onClick={handleSso} className="rounded-lg transition">
+        <Button variant="primary" type="submit" onClick={() => handleSso(login,handleLoginSuccess)} className="rounded-lg transition">
           Login with SSO
         </Button>
       </div> 

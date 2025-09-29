@@ -1,6 +1,7 @@
  
 const endPoint ={
-  ALL_QUESTIONS:"/ibu/get-publish-content",
+  ALL_QUESTIONS:"/ibu/get-publish-content", 
+  VERIFY_USER:"/users/add-user-details",
   Login: "/auth/check-token",
   ALL_QUESTIONS: "/narrative/all-questions",
   GET_AGE_GROUP_CATEGORIES: "/content/categories-age-groups",
