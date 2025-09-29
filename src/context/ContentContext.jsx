@@ -13,6 +13,8 @@ export const ContentProvider = ({ children }) => {
     })();
   }, []);
 
+  const updateRating = (id) => {};
+
   return (
     <ContentContext.Provider value={{ content }}>
       {children}
