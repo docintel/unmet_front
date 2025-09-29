@@ -17,6 +17,10 @@ const TouchPoints = () => {
   const [categories, setCategories] = useState([]);
   const [narrations, setNarrations] = useState([]);
   const [contentTags, setContentTags] = useState([]);
+  const [currentReadClick, setCurrentReadClick] = useState({
+      previewArticle: null,
+      id: null
+    });
   const { content } = useContext(ContentContext);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
@@ -50,7 +54,6 @@ const TouchPoints = () => {
 
   useEffect(() => {
     console.log(journeyLabels);
-    console.log(categories);
     if (activeKey && activeJourney) {
       const categoryName = categories.find((val) => val.id == activeKey).name;
       const ageGroupName = journeyLabels
@@ -407,9 +410,10 @@ const TouchPoints = () => {
                     {" "}
                     {content ? (
                       content &&
-                      content.map((section) => (
+                      content.map((section,idx) => (
                         <React.Fragment key={section.id}>
-                          <Content section={section} idx={section.id} />
+                          <Content section={section} idx={section.id} key ={idx} currentReadClick={currentReadClick}
+                             setCurrentReadClick={setCurrentReadClick}  />
                         </React.Fragment>
                       ))
                     ) : (

@@ -6,9 +6,8 @@ const LatestContent = () => {
   const { content } = useContext(ContentContext);
   const [latestContent, setLatestContent] = useState([]);
 
-  useEffect(() => {
-    console.log("sortedData",content)
-    // Sort content by creation_date descending (latest first)
+  useEffect(() => { 
+     if(content.length === 0) return;
     const sortedData = content.sort((a, b) => {
       const dateA = new Date(a.creation_date.split('.').reverse().join('-')); // "25.September.2025" -> "2025-September-25"
       const dateB = new Date(b.creation_date.split('.').reverse().join('-'));
@@ -19,7 +18,12 @@ const LatestContent = () => {
   }, []);
 
   return (
-    <FaqAndLatestContent content={latestContent} isFaq={false} />
+    <>
+    {
+        latestContent.length > 0 &&  <FaqAndLatestContent content={latestContent} isFaq={false} />
+    }
+    </>
+   
   );
 }
 
