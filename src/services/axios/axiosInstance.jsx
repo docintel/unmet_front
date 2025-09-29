@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.0.78:3009",
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.0.78:3009/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,11 +31,11 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error.response) {
-      const { status } = error.response; 
+      const { status } = error.response;
       // if (status === 401) {
       //   localStorage.removeItem("accessToken");
       //   window.location.href = "/";
-      // } 
+      // }
       // if (status === 403) {
       //   console.error("You don’t have permission to perform this action.");
       // }
