@@ -1,0 +1,54 @@
+import { postData, getData } from "./axios/apiHelper";
+import endPoint from "./axios/apiEndpoint";
+
+export const fetchAgeGroupCategories = async () => {
+  try {
+    const data = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
+    const itemList = data?.data?.data?.ageGroups.map((item) => {
+      const id = item.id;
+      const label =
+        item.label +
+        (item.max_age || item.min_age
+          ? "<br />Age " +
+            (item.max_age
+              ? item.min_age + "-" + item.max_age
+              : item.min_age + " + ")
+          : "");
+      return { id, label };
+    });
+
+    return {
+      ageGroups: itemList,
+      category: data?.data?.data?.categories,
+      tags: data?.data?.data?.tags,
+    };
+  } catch (error) {
+    console.error("Error fetching age groups and categories:", error);
+  } finally {
+  }
+};
+
+export const fetchNarrativeList = async (narration_type) => {
+  try {
+    const data = await getData(endPoint.FETCH_NARRATION_LIST);
+    const response = data?.data?.data.filter(
+      (item) => item.narration_type === narration_type
+    );
+
+    return { narratives: response };
+  } catch (error) {
+    console.error("Error fetching narration list:", error);
+  } finally {
+  }
+};
+
+export const fetchContentList = async () => {
+  try {
+    const data = await getData(endPoint.FETCH_CONTENT_LIST);
+
+    return { contents: data?.data?.data };
+  } catch (error) {
+    console.error("Error fetching narration list:", error);
+  } finally {
+  }
+};

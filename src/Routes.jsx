@@ -26,7 +26,7 @@ const Routing = createBrowserRouter([
         children: [
           { path: "/home", element: <PatientJourneyLanding /> },
           { path: "/touchpoints", element: <TouchPoints /> },
-          {path: "/resources", element: <Resources /> },
+          { path: "/resources", element: <Resources /> },
           { path: "/account", element: <Account /> },
         ],
       },
