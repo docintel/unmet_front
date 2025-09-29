@@ -3,7 +3,6 @@ import axios from "axios";
 
 // Create axios instance
 const axiosInstance = axios.create({
-  // baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.10.11:3001",
   baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.0.78:3009",
   headers: {
     "Content-Type": "application/json",
@@ -13,14 +12,10 @@ const axiosInstance = axios.create({
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
- 
-    const token = "FOkB/AUT2wGXRv ablqvbg==";
-    const Auth = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbS5jaGF1aGFuQHNoaW5lZGV6aWduLmNvbSIsIm5hbWUiOiJ2YXJ1biIsImdyb3VwSWQiOjcsImxvZ2luVHlwZSI6ImRpcmVjdCIsInVzZXJUb2tlbiI6IlQwWjEzVHFVNTF6cUVHUnhKWFNCUHc9PSIsInR5cGUiOiJzc28iLCJzc29NYWlsIjoic2hpdmFtLmNoYXVoYW5Ac2hpbmVkZXppZ24uY29tIiwiaWF0IjoxNzU5MTIzNDczLCJleHAiOjE3NTkxNjY2NzN9.1ITyuS-GRHSeIqB9i2ClSXDY_8SY65VxDS2SL2cFVYA`
-    if (token) {
-      config.headers.token = token;
-    }
-     if (Auth) {
-      config.headers.Auth = Auth;
+  
+    const auth = localStorage.getItem("decrypted_token");
+     if (auth) {
+      config.headers.auth = auth;
     }
     return config;
   },

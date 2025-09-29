@@ -1,4 +1,5 @@
 const endPoint ={
-    ALL_QUESTIONS:"/api/ibu/get-publish-content"
+    ALL_QUESTIONS:"/narrative/all-questions",
+    Login : "/api/auth/check-token"
 }
 export default  endPoint;
