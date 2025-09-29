@@ -796,10 +796,14 @@ h6 {
                         border-radius: 0;
                         border: 0;
                         width: 100%;
-
-                        &.active {
+                        
+                        &.active, &.active:hover {
                             background: #4CC6CF;
                             color: $white;
+                        }
+                        &:hover{
+                            background: rgba(0, 173, 186, 0.1);
+                            color: #00ADBA;
                         }
                     }
                 }
