@@ -39,7 +39,7 @@ const Content = (props) => {
   };
 
   return (
-    <div class="detail-data-box" key={idx}>
+    <div className="detail-data-box" key={idx}>
       <div className="age-format d-flex">
         {getAgeGroup().map((tag, tagIdx) => (
           <div className={tag.tagClass} key={tagIdx}>

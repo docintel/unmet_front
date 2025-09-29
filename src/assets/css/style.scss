@@ -795,19 +795,19 @@ h6 {
             }
           }
 
-          button {
-            position: absolute;
-            top: 50%;
-            right: 14px;
-            transform: translateY(-50%);
-            border: 0;
-            background: transparent;
+          // button {
+          //   position: absolute;
+          //   top: 50%;
+          //   right: 14px;
+          //   transform: translateY(-50%);
+          //   border: 0;
+          //   background: transparent;
 
-            img {
-              width: 16px;
-              height: auto;
-            }
-          }
+          //   img {
+          //     width: 16px;
+          //     height: auto;
+          //   }
+          //}
         }
       }
 
@@ -849,7 +849,7 @@ h6 {
             flex: 1 1;
             border: 0;
 
-            button {
+            .nav-link {
               color: $text-color;
               font-size: 12px;
               font-weight: 500;
