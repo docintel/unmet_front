@@ -18,13 +18,13 @@ const Routing = createBrowserRouter([
     element: <Navigate to="/login" replace />,
   },
   {
-    element: <PublicRoute />, // 👈 wraps login
+    element: <PublicRoute />,
     children: [
       { path: "/login", element: <LoginWithSSO /> },
     ],
   },
   {
-    element: <ProtectedRoute />, // 👈 wraps private pages
+    element: <ProtectedRoute />,
     children: [
       {
         element: <Layout />,

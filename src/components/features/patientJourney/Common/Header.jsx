@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Link} from 'react-router-dom';
 import { Nav, Navbar, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
   const [isHcpSelected, setIsHcpSelected] = useState(false);
   const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+
   return (
     <header className="header sticky">
       <div className="custom-container">
