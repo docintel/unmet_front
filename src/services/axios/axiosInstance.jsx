@@ -3,7 +3,8 @@ import axios from "axios";
 
 // Create axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.10.11:3001",
+  // baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.10.11:3001",
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.0.78:3009",
   headers: {
     "Content-Type": "application/json",
   },
@@ -14,7 +15,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
  
     const token = "FOkB/AUT2wGXRv ablqvbg==";
-    const Auth = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IndpbHByb3BoeUBpbmZvcm1lZC5wcm8iLCJuYW1lIjoid2lscHJvcGh5IiwiZ3JvdXBJZCI6MywibG9naW5UeXBlIjoiZGlyZWN0IiwidXNlclRva2VuIjoiRk9rQi9BVVQyd0dYUnYgYWJscXZiZz09IiwicGFzc3dvcmRJZCI6MjE0NzU0MTMwMCwiaWF0IjoxNzU4Nzk0NDkzLCJleHAiOjE3NTg3OTgwOTN9.7w6CcqLIPOhfHrbi-48vhdAxD5uIgFg1WSMh2tmRmeM`
+    const Auth = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoaXZhbS5jaGF1aGFuQHNoaW5lZGV6aWduLmNvbSIsIm5hbWUiOiJ2YXJ1biIsImdyb3VwSWQiOjcsImxvZ2luVHlwZSI6ImRpcmVjdCIsInVzZXJUb2tlbiI6IlQwWjEzVHFVNTF6cUVHUnhKWFNCUHc9PSIsInR5cGUiOiJzc28iLCJzc29NYWlsIjoic2hpdmFtLmNoYXVoYW5Ac2hpbmVkZXppZ24uY29tIiwiaWF0IjoxNzU5MTIzNDczLCJleHAiOjE3NTkxNjY2NzN9.1ITyuS-GRHSeIqB9i2ClSXDY_8SY65VxDS2SL2cFVYA`
     if (token) {
       config.headers.token = token;
     }
