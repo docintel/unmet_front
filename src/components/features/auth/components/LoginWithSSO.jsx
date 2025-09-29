@@ -4,22 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { handleSso } from '../../../../services/authService';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
+import { clearLocalStorage } from '../../../../helper/helper';
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
       const { login,logout, isAuthenticated } = useAuth();
       const navigate = useNavigate();
       const [userVerified, setUserVerified] =  useState(false);
       const [userDetails,setUserDetails]=useState({})
-      const clearLocalStorageExcept = () => { 
-        for (let i = localStorage.length - 1; i >= 0; i--) {
-          const key = localStorage.key(i);
-          if (key) {
-            localStorage.removeItem(key);
-          }
-        }
-      };
+
       const handleLoginSuccess = (res, email = "") => {
-        clearLocalStorageExcept();
+        clearLocalStorage();
         const { jwtToken,userRegistered,name,userToken } = res?.data?.data || {};
         console.log(jwtToken,userRegistered,name,userToken,"jwtToken,userRegistered,name,userToken")
         localStorage.setItem("user_id", userToken); 

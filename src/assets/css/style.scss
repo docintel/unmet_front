@@ -782,16 +782,56 @@ h6 {
           flex: 1 1;
           border: 0;
 
-          button {
+          input {
+            background: $secondary-color;
+            border: 0;
+            border-radius: 0;
+            padding: 12px 54px 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
             color: $text-color;
+            &:focus {
+              box-shadow: none;
+            }
+          }
+
+          button {
+            position: absolute;
+            top: 50%;
+            right: 14px;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+
+            img {
+              width: 16px;
+              height: auto;
+            }
+          }
+        }
+      }
+
+      .touchpoints-header {
+        .touchpoint-links {
+          @include flex-justify-between;
+          gap: 51px;
+
+          button {
+            color: #5d7682;
             font-size: 12px;
             font-weight: 500;
             line-height: 122.6%;
-            background: $secondary-color;
+            background: #f4f6f9;
             padding: 12px 0;
-            border-radius: 0;
-            border: 0;
             width: 100%;
+            text-transform: capitalize;
+            border-radius: 0;
+
+            &:hover {
+              color: #00adba;
+              background: rgba(0, 173, 186, 0.1);
+              opacity: 1;
+            }
 
             &.active {
               background: #4cc6cf;
@@ -799,144 +839,254 @@ h6 {
             }
           }
         }
-      }
 
-      .tab-content {
-        margin: 40px 0 0;
+        ul {
+          margin: 0;
+          border: 0;
+          gap: 51px;
 
-        .tab-pane {
-          &.active {
-            animation: slidedown 0.6s normal forwards;
+          li {
+            flex: 1 1;
+            border: 0;
+
+            button {
+              color: $text-color;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 122.6%;
+              background: $secondary-color;
+              padding: 12px 0;
+              border-radius: 0;
+              border: 0;
+              width: 100%;
+
+              &.active,
+              &.active:hover {
+                background: #4cc6cf;
+                color: $white;
+              }
+              &:hover {
+                background: rgba(0, 173, 186, 0.1);
+                color: #00adba;
+              }
+            }
           }
         }
 
-        .touchpoint-data {
-          border-radius: 2px;
-          border: 1px solid rgba(148, 167, 191, 0.3);
-          background: $secondary-color;
-          padding: 16px;
+        .tab-content {
+          margin: 40px 0 0;
 
-          h6 {
-            color: $primary-color;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
+          .tab-pane {
+            &.active {
+              animation: slidedown 0.6s normal forwards;
+            }
           }
 
-          .narrative-block {
-            @include flex-justify-between;
-            gap: 16px;
+          .touchpoint-data {
+            border-radius: 2px;
+            border: 1px solid rgba(148, 167, 191, 0.3);
+            background: $secondary-color;
+            padding: 16px;
 
-            .content {
-              padding: 16px;
-              background: $white;
-              flex: 1 1;
+            h6 {
+              color: $primary-color;
+              font-size: 16px;
+              font-weight: 700;
+              margin-bottom: 16px;
+            }
 
-              p {
-                color: $primary-color;
-                font-size: 14px;
-                font-weight: 700;
-                margin-bottom: 11px;
-              }
+            .narrative-block {
+              @include flex-justify-between;
+              gap: 16px;
 
-              ul {
-                li {
-                  font-size: 12px;
-                  font-weight: 500;
-                  line-height: 20px;
+              .content {
+                padding: 16px;
+                background: $white;
+                flex: 1 1;
+
+                p {
                   color: $primary-color;
+                  font-size: 14px;
+                  font-weight: 700;
+                  margin-bottom: 11px;
+                }
+
+                ul {
+                  li {
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 20px;
+                    color: $primary-color;
+                  }
                 }
               }
             }
           }
         }
-      }
 
-      .no_data {
-        margin: 40px 0 0;
-        padding: 16px 24px;
-        font-size: 20px;
-        line-height: 31px;
-        color: $gray;
-        font-weight: 400;
-      }
-    }
-
-    .tags {
-      gap: 12px;
-      font-size: 10px;
-      font-weight: 500;
-      text-transform: capitalize;
-      margin: 12px 0 40px;
-      flex-wrap: wrap;
-
-      .tag-title {
-        padding: 2px 6px;
-        color: $gray;
-      }
-
-      .tag-list {
-        @include flex-align-center;
-        flex-wrap: wrap;
-        gap: 12px;
-
-        .tag-item {
-          padding: 2px 6px;
-          border-radius: 2px;
-          background: rgba(0, 173, 186, 0.1);
-          color: $dark-green;
+        .no_data {
+          margin: 40px 0 0;
+          padding: 16px 24px;
+          font-size: 20px;
+          line-height: 31px;
+          color: $gray;
           font-weight: 400;
-          flex-wrap: wrap;
+        }
+      }
+
+      .tags {
+        gap: 12px;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 122.6%;
+        background: $secondary-color;
+        padding: 12px 0;
+        border-radius: 0;
+        border: 0;
+        width: 100%;
+
+        &.active {
+          background: #4cc6cf;
+          color: $white;
         }
       }
     }
+  }
 
-    .content-count-box {
-      width: 100%;
-      border-top: 1px solid $gray;
-      padding: 14px 0 0;
+  .tab-content {
+    margin: 40px 0 0;
 
-      .content-count {
-        @include flex-align-start;
-        margin: 0 0 40px;
-        gap: 40px;
+    .tab-pane {
+      &.active {
+        animation: slidedown 0.6s normal forwards;
+      }
+    }
 
-        div {
-          text-align: center;
-          color: $text-color;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 122.6%;
-          text-transform: capitalize;
+    .touchpoint-data {
+      border-radius: 2px;
+      border: 1px solid rgba(148, 167, 191, 0.3);
+      background: $secondary-color;
+      padding: 16px;
 
-          &.all {
-            color: $dark-green;
+      h6 {
+        color: $primary-color;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      .narrative-block {
+        @include flex-justify-between;
+        gap: 16px;
+
+        .content {
+          padding: 16px;
+          background: $white;
+          flex: 1 1;
+
+          p {
+            color: $primary-color;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 11px;
+          }
+
+          ul {
+            li {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 20px;
+              color: $primary-color;
+            }
           }
         }
       }
+    }
+  }
 
-      .touchpoint-data-boxes {
-        gap: 3.4rem 4.5rem;
-        @include flex-wrap;
+  .no_data {
+    margin: 40px 0 0;
+    padding: 16px 24px;
+    font-size: 20px;
+    line-height: 31px;
+    color: $gray;
+    font-weight: 400;
+  }
+}
 
-        .touchpoint-data-box,
-        .detail-data-box {
-          min-width: 300px;
-          width: calc(33.33% - 3rem);
-          animation: slideFade 0.6s normal forwards;
-          opacity: 0;
+.tags {
+  gap: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin: 12px 0 40px;
+  flex-wrap: wrap;
 
-          .age-format {
-            @include age-format;
-            margin: 0 0 -1px;
-          }
+  .tag-title {
+    padding: 2px 6px;
+    color: $gray;
+  }
 
-          .content-box {
-            @include content-box;
-            @include flex-column;
-            height: calc(100% - 18px);
-          }
-        }
+  .tag-list {
+    @include flex-align-center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    .tag-item {
+      padding: 2px 6px;
+      border-radius: 2px;
+      background: rgba(0, 173, 186, 0.1);
+      color: $dark-green;
+      font-weight: 400;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.content-count-box {
+  width: 100%;
+  border-top: 1px solid $gray;
+  padding: 14px 0 0;
+
+  .content-count {
+    @include flex-align-start;
+    margin: 0 0 40px;
+    gap: 40px;
+
+    div {
+      text-align: center;
+      color: $text-color;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 122.6%;
+      text-transform: capitalize;
+
+      &.all {
+        color: $dark-green;
+      }
+    }
+  }
+
+  .touchpoint-data-boxes {
+    gap: 3.4rem 4.5rem;
+    @include flex-wrap;
+
+    .touchpoint-data-box,
+    .detail-data-box {
+      min-width: 300px;
+      width: calc(33.33% - 3rem);
+      animation: slideFade 0.6s normal forwards;
+      opacity: 0;
+
+      .age-format {
+        @include age-format;
+        margin: 0 0 -1px;
+      }
+
+      .content-box {
+        @include content-box;
+        @include flex-column;
+        height: calc(100% - 18px);
       }
     }
   }
