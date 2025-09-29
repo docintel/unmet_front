@@ -5,7 +5,9 @@ import {
   handleSubmit,
   fetchTags,
   filterQuestionsByTags,
+  fetchYourQuestions,
 } from "../../../../services/homeService";
+import { useLocation } from "react-router-dom";
 
 const AskIBU = () => {
   const [askIbu, setAskIbu] = useState([]);
@@ -18,9 +20,12 @@ const AskIBU = () => {
   const [appliedFilters, setAppliedFilters] = useState([]);
   const [showFilterBox, setShowFilterBox] = useState(false);
   const [showTagsDropdown, setShowTagsDropdown] = useState(false);
+  const [yourQuestion, setYourQuestion] = useState([]);
+  const location = useLocation();
 
   // Fetch questions
   useEffect(() => {
+    if (location.pathname === "/account") return;
     const fetchData = async () => {
       const data = await fetchQuestions(setLoading);
       if (data) {
@@ -29,10 +34,22 @@ const AskIBU = () => {
       }
     };
     fetchData();
-  }, [question]);
+  }, []);
+
+  useEffect(() => {
+    if (location.pathname === "/home") return;
+    const fetchData = async () => {
+      const data = await fetchYourQuestions(setLoading);
+      if (data) {
+        setYourQuestion(data);
+      }
+    };
+    fetchData();
+  }, []);
 
   // Fetch tags
   useEffect(() => {
+    if (location.pathname === "/account") return;
     const loadTags = async () => {
       const data = await fetchTags();
       if (data) setTags(data);
@@ -82,94 +99,104 @@ const AskIBU = () => {
     setFilteredQuestions(askIbu);
   };
 
+  const dataToMap =
+    location.pathname === "/account" ? yourQuestion : filteredQuestions;
+
   if (loading) return <p>Loading...</p>;
 
   return (
     <>
       {/* Filter button */}
-      <div className="filter-container mb-3">
-        <button
-          className="btn btn-primary"
-          onClick={() => setShowFilterBox(!showFilterBox)}
-        >
-          Filter {showFilterBox ? "✖" : ""}
-        </button>
-      </div>
-
-      {/* Filter dropdown */}
-      {showFilterBox && (
-        <div className="filter-box p-3 border mb-3">
-     
-
-          {/* Tags Dropdown Toggle */}
-          <button
-            className="btn btn-light w-100 text-start mb-2"
-            onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-          >
-            Tags
-            <span className="float-end">{showTagsDropdown ? "▲" : "▼"}</span>
-          </button>
-
-          {/* Tags options */}
-          {showTagsDropdown && (
-            <div
-              className="tags-options border p-2 mb-2"
-              style={{ maxHeight: "200px", overflowY: "auto" }}
+      {location.pathname !== "/account" && (
+        <div>
+          <div className="filter-container mb-3">
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowFilterBox(!showFilterBox)}
             >
-              {tags.map((tag, index) => (
-                <div key={index} className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`tag-${index}`}
-                    checked={selectedTags.includes(tag)}
-                    onChange={() => toggleTag(tag)}
-                  />
-                  <label className="form-check-label" htmlFor={`tag-${index}`}>
-                    {tag}
-                  </label>
+              Filter {showFilterBox ? "✖" : ""}
+            </button>
+          </div>
+
+          {/* Filter dropdown */}
+          {showFilterBox && (
+            <div className="filter-box p-3 border mb-3">
+              {/* Tags Dropdown Toggle */}
+              <button
+                className="btn btn-light w-100 text-start mb-2"
+                onClick={() => setShowTagsDropdown(!showTagsDropdown)}
+              >
+                Tags
+                <span className="float-end">
+                  {showTagsDropdown ? "▲" : "▼"}
+                </span>
+              </button>
+
+              {/* Tags options */}
+              {showTagsDropdown && (
+                <div
+                  className="tags-options border p-2 mb-2"
+                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                >
+                  {tags.map((tag, index) => (
+                    <div key={index} className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id={`tag-${index}`}
+                        checked={selectedTags.includes(tag)}
+                        onChange={() => toggleTag(tag)}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={`tag-${index}`}
+                      >
+                        {tag}
+                      </label>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+
+              <div className="mt-2">
+                <button className="btn btn-success me-2" onClick={applyFilter}>
+                  Apply
+                </button>
+                <button className="btn btn-secondary" onClick={cancelFilter}>
+                  Cancel
+                </button>
+              </div>
             </div>
           )}
 
-          <div className="mt-2">
-            <button className="btn btn-success me-2" onClick={applyFilter}>
-              Apply
-            </button>
-            <button className="btn btn-secondary" onClick={cancelFilter}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Applied filters */}
-      {appliedFilters.length > 0 && (
-        <div className="applied-filters mb-3">
-          {appliedFilters.map((tag, index) => (
-            <span key={index} className="badge bg-info me-2">
-              {tag}{" "}
+          {/* Applied filters */}
+          {appliedFilters.length > 0 && (
+            <div className="applied-filters mb-3">
+              {appliedFilters.map((tag, index) => (
+                <span key={index} className="badge bg-info me-2">
+                  {tag}{" "}
+                  <button
+                    className="btn btn-sm btn-light ms-1"
+                    onClick={() => removeFilter(tag)}
+                  >
+                    ✖
+                  </button>
+                </span>
+              ))}
               <button
-                className="btn btn-sm btn-light ms-1"
-                onClick={() => removeFilter(tag)}
+                className="btn btn-link text-danger ms-2"
+                onClick={clearAllFilters}
               >
-                ✖
+                Remove All
               </button>
-            </span>
-          ))}
-          <button
-            className="btn btn-link text-danger ms-2"
-            onClick={clearAllFilters}
-          >
-            Remove All
-          </button>
+            </div>
+          )}
         </div>
       )}
 
       {/* Questions list */}
       <div className="scroll-list">
-        {filteredQuestions.map((item) => (
+        {dataToMap.map((item) => (
           <div className="detail-data-box" key={item.id}>
             <div className="content-box">
               <div className="heading">{item.question}</div>
@@ -190,25 +217,27 @@ const AskIBU = () => {
       </div>
 
       {/* Ask question form */}
-      <Form
-        className="ask-ibu-form mt-4"
-        onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
-      >
-        <FormGroup className="form-group">
-          <Form.Control
-            id="question"
-            as="textarea"
-            rows={4}
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask your question..."
-          />
-          {error && <div className="validation text-danger">{error}</div>}
-        </FormGroup>
-        <button type="submit" className="btn btn-primary mt-2">
-          Send
-        </button>
-      </Form>
+      {location.pathname !== "/account" && (
+        <Form
+          className="ask-ibu-form mt-4"
+          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
+        >
+          <FormGroup className="form-group">
+            <Form.Control
+              id="question"
+              as="textarea"
+              rows={4}
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Ask your question..."
+            />
+            {error && <div className="validation text-danger">{error}</div>}
+          </FormGroup>
+          <button type="submit" className="btn btn-primary mt-2">
+            Send
+          </button>
+        </Form>
+      )}
     </>
   );
 };
