@@ -76,7 +76,7 @@ const Login = ({userDetails}) => {
                 <img src={path_image + "logo-img.svg"} alt="logo" />
               </div>
               <div className="user-name">
-                <h6>Welcome, {userDetails?.name || "FirstName"}</h6>
+                <h6>Welcome, {userDetails?.name || ""}</h6>
               </div>
               <h6>Tell us a bit about you to tailor your experience</h6>
             </div>
