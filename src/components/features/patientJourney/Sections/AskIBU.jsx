@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, FormGroup } from "react-bootstrap";
 import { fetchQuestions } from "../../../../services/homeService";
 import { handleSubmit } from "../../../../services/homeService";
 
@@ -9,18 +9,18 @@ const AskIBU = () => {
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
 
-useEffect(() => {
-  const fetchData = async () => {
-    const data = await fetchQuestions(setLoading);
-    if (data) {
-      setAskIbu(data);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchQuestions(setLoading);
+      if (data) {
+        setAskIbu(data);
+      }
+    };
 
-  fetchData();
-}, [question]);
+    fetchData();
+  }, [question]);
 
- 
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -47,18 +47,21 @@ useEffect(() => {
           </div>
         ))}
       </div>
-      <Form className="ask-ibu-form" onSubmit={(e) => handleSubmit(e,setError,question,setQuestion)}>
-        <div className="form-group">
-          <textarea
+      <Form className="ask-ibu-form" onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}>
+        <FormGroup className="form-group">
+           <Form.Control id="question" as="textarea" rows={4} value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder=""/>
+          {/* <textarea
             className="form-control"
             id="question"
             rows="4"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder=""
-          ></textarea>
-           {error && <div className="validation">{error}</div>}
-        </div>
+          ></textarea> */}
+          {error && <div className="validation">{error}</div>}
+        </FormGroup>
         <button type="submit" className="btn btn-primary">
           Send
         </button>

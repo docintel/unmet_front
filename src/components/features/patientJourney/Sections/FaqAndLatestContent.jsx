@@ -59,78 +59,78 @@ const FaqAndLatestContent = () => {
         }
     ];
 
-        const handleStarClick = (index) => {
-            setLikedIndexes((prev) =>
-                prev.includes(index)
-                    ? prev.filter((i) => i !== index)
-                    : [...prev, index]
-            );
-        };
+    const handleStarClick = (index) => {
+        setLikedIndexes((prev) =>
+            prev.includes(index)
+                ? prev.filter((i) => i !== index)
+                : [...prev, index]
+        );
+    };
 
-  return (
-    <div>{
-        faq.map((section, idx) => (
-                        <div className='detail-data-box' key={idx}>
-                            <div className="age-format d-flex">
-                                {section.ageTags.map((tag, tagIdx) => (<div className={tag.class} key={tagIdx}>
-                                    {tag.label}
-                                </div>))}
+    return (
+        <div>{
+            faq.map((section, idx) => (
+                <div className='detail-data-box' key={idx}>
+                    <div className="age-format d-flex">
+                        {section.ageTags.map((tag, tagIdx) => (<div className={tag.class} key={tagIdx}>
+                            {tag.label}
+                        </div>))}
+                    </div>
+
+                    <div className='content-box'>
+                        <div className="format">
+                            <div className='d-flex align-items-center'>
+                                <img src={path_image + "dummy-format-img.png"} alt="" />
+                                <p>{section.format}</p>
                             </div>
 
-                            <div className='content-box'>
-                                <div className="format">
-                                    <div className='d-flex align-items-center'>
-                                        <img src={path_image + "dummy-format-img.png"} alt="" />
-                                        <p>{section.format}</p>
-                                    </div>
+                            <Dropdown align="end" >
+                                <Dropdown.Toggle>
+                                    <img src={path_image + "options.svg"} alt="dropdown" />
+                                </Dropdown.Toggle>
 
-                                    <Dropdown align="end" >
-                                        <Dropdown.Toggle>
-                                            <img src={path_image + "options.svg"} alt="dropdown" />
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item>Share</Dropdown.Item>
-                                            <Dropdown.Item>Request</Dropdown.Item>
-                                            <Dropdown.Item>Copy Link</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                <div className="heading">
-                                    {section.heading}
-                                </div>
-                                <div className="subheading">
-                                    {section.subheading}
-                                </div>
-                                <div className="tags tag-list">
-                                    {section.tags.map((tag, tagIdx) => (<div key={tagIdx}>
-                                        {tag}
-                                    </div>))}
-                                </div>
-                                <div className="date">
-                                    {section.date}
-                                </div>
-                                <div className="favorite d-flex justify-content-between align-sections-center">
-                                    <div className='d-flex align-sections-center'>
-                                        <img
-                                                src={
-                                                    path_image +
-                                                    (likedIndexes.includes(idx) ? "star-filled.svg" : "star-img.svg")
-                                                }
-                                                alt=""
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => handleStarClick(idx)}
-                                                />
-
-                                        {section.likeArticle}
-                                    </div>
-                                    <Button variant="primary">Read</Button>
-                                </div>
-                            </div>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item>Share</Dropdown.Item>
+                                    <Dropdown.Item>Request</Dropdown.Item>
+                                    <Dropdown.Item>Copy Link</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
-                    ))
+                        <div className="heading">
+                            {section.heading}
+                        </div>
+                        <div className="subheading">
+                            {section.subheading}
+                        </div>
+                        <div className="tags tag-list">
+                            {section.tags.map((tag, tagIdx) => (<div key={tagIdx}>
+                                {tag}
+                            </div>))}
+                        </div>
+                        <div className="date">
+                            {section.date}
+                        </div>
+                        <div className="favorite d-flex justify-content-between align-sections-center">
+                            <div className='d-flex align-sections-center'>
+                                <img
+                                    src={
+                                        path_image +
+                                        (likedIndexes.includes(idx) ? "star-filled.svg" : "star-img.svg")
+                                    }
+                                    alt=""
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleStarClick(idx)}
+                                />
+
+                                {section.likeArticle}
+                            </div>
+                            <Button variant="primary">Read</Button>
+                        </div>
+                    </div>
+                </div>
+            ))
         }</div>
-  )
+    )
 }
 
 export default FaqAndLatestContent
