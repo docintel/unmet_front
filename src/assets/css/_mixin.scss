@@ -218,7 +218,7 @@
   }
 
   .favorite {
-    margin: 16px 0 0;
+    margin-top: auto;
     font-size: 12px;
     font-weight: 500;
     color: #4CC6CF;
@@ -287,6 +287,7 @@
     color: $text-color;
     font-size: 12px;
     font-weight: 500;
+    margin:0 0 16px;
   }
 }
 
