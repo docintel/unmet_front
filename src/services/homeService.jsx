@@ -34,20 +34,17 @@ export const handleSubmit = async (e, setError, question, setQuestion) => {
   }
 };
 
-
-// ✅ new function to fetch tags
 export const fetchTags = async () => {
   try {
     const response = await getData("/api/content/categories-age-groups");
-    return response?.data?.data;
+    return response?.data?.data?.tags || [];
   } catch (error) {
     console.error("Error fetching tags:", error);
     return [];
   }
 };
 
-// ✅ helper for local filtering
 export const filterQuestionsByTag = (questions, tag) => {
-  if (!tag) return questions; // return all if no tag selected
+  if (!tag) return questions;
   return questions.filter((item) => item.topics.includes(tag));
 };

@@ -20,7 +20,6 @@
 //     fetchData();
 //   }, [question]);
 
-
 //   if (loading) {
 //     return <p>Loading...</p>;
 //   }
@@ -71,8 +70,6 @@
 // };
 
 // export default AskIBU;
-
-
 
 import React, { useEffect, useState } from "react";
 import { Form, FormGroup, Dropdown } from "react-bootstrap";
@@ -144,12 +141,9 @@ const AskIBU = () => {
               <Dropdown.Item onClick={() => handleTagFilter(null)}>
                 All
               </Dropdown.Item>
-              {tags.map((tag) => (
-                <Dropdown.Item
-                  key={tag.id}
-                  onClick={() => handleTagFilter(tag.name)}
-                >
-                  {tag.name}
+              {tags.map((tag, index) => (
+                <Dropdown.Item key={index} onClick={() => handleTagFilter(tag)}>
+                  {tag}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
@@ -180,9 +174,7 @@ const AskIBU = () => {
 
       <Form
         className="ask-ibu-form"
-        onSubmit={(e) =>
-          handleSubmit(e, setError, question, setQuestion)
-        }
+        onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
       >
         <FormGroup className="form-group">
           <Form.Control

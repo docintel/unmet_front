@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
   
     const auth = localStorage.getItem("decrypted_token");
      if (auth) {
-      config.headers.auth = auth;
+      config.headers.auth = `Bearer `+ auth;
     }
     return config;
   },
