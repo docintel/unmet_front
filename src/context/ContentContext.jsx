@@ -13,10 +13,18 @@ export const ContentProvider = ({ children }) => {
     })();
   }, []);
 
-  const updateRating = (id) => {};
+  const updateRating = (id, rating) => {
+    setContent((prevContent) =>
+      prevContent.map((cntnt) => {
+        if (cntnt.id === id) {
+          return { ...cntnt, ...{ self_rate: 1, rating: rating } };
+        } else return cntnt;
+      })
+    );
+  };
 
   return (
-    <ContentContext.Provider value={{ content }}>
+    <ContentContext.Provider value={{ content, updateRating }}>
       {children}
     </ContentContext.Provider>
   );

@@ -49,6 +49,18 @@ const TouchPoints = () => {
   }, [activeJourney]);
 
   useEffect(() => {
+    console.log(journeyLabels);
+    console.log(categories);
+    if (activeKey && activeJourney) {
+      const categoryName = categories.find((val) => val.id == activeKey).name;
+      const ageGroupName = journeyLabels
+        .find((val) => val.id == activeKey)
+        .label.split("<br />")[1];
+      console.log(categoryName);
+      console.log(ageGroupName);
+    } else if (activeKey) {
+    } else if (activeJourney) {
+    }
     if (activeKey && activeJourney) {
       const activeNarrative = narrations.find(
         (narration) =>
@@ -378,10 +390,11 @@ const TouchPoints = () => {
                 <div className="content-count-box">
                   <div className="content-count">
                     {categoryTags &&
-                      Object.keys(categoryTags).map((cat) => {
+                      Object.keys(categoryTags).map((cat, idx) => {
                         return (
                           <div
                             className={cat.toLowerCase() == "all" ? "all" : ""}
+                            key={idx}
                           >
                             {cat}
                             <br />
@@ -391,6 +404,7 @@ const TouchPoints = () => {
                       })}
                   </div>
                   <div className="touchpoint-data-boxes">
+                    {" "}
                     {content ? (
                       content &&
                       content.map((section) => (
