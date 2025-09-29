@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import axios from "axios";
 import useAuth from "../../../../useAuth"
 import { useNavigate } from 'react-router-dom';
+import { postData } from '../../../../services/axios/apiHelper';
+import endPoint from '../../../../services/axios/apiEndpoint';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
 const LoginWithSSO = () => {
@@ -10,11 +12,10 @@ const LoginWithSSO = () => {
       const navigate = useNavigate();
       const [userVerified, setUserVerified] =  useState(false);
       const [userDetails,setUserDetails]=useState({})
-      const clearLocalStorageExcept = () => {
-        const keysToKeep = ["uname", "pass", "acceptedCookies"];
+      const clearLocalStorageExcept = () => { 
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
-          if (!keysToKeep.includes(key)) {
+          if (key) {
             localStorage.removeItem(key);
           }
         }
@@ -22,46 +23,17 @@ const LoginWithSSO = () => {
       const handleLoginSuccess = (res, email = "") => {
         clearLocalStorageExcept();
 
-        const { userToken, groupId, webinar_flag, name, jwtToken, loginCounter, ssoMail } =
-          res?.data?.data || {};
-
-        localStorage.setItem("user_id", userToken);
-        localStorage.setItem("group_id", groupId);
-        localStorage.setItem("webinar_flag", webinar_flag);
+        const { jwtToken,userRegistered,name,userToken } = res?.data?.data || {};
+        localStorage.setItem("user_id", userToken); 
         localStorage.setItem("name", name);
         localStorage.setItem("decrypted_token", jwtToken);
-
-        const normalizedEmail = (ssoMail || email || "").toLowerCase();
-        const currentUserId = localStorage.getItem("user_id");
-
-        const accessMap = {
-          "iSnEsKu5gB/DRlycxB6G4g==": {
-            all: ["lina.aires@octapharma.com"],
-            vincent: ["vincent.milleret@octapharma.com"],
-            limited: [
-              "julien.lejeune@octapharma.com",
-              "nina.ljubojevic@octapharma.com",
-              "sabine.de-jong@octapharma.com",
-            ],
-          },
-          "bWmUjqX7J011WUTYn9g==": {
-            motivate: ["stefano.carta@octapharma.com"],
-          },
-        };
-
-        const userAccessConfig = accessMap[currentUserId];
-        if (userAccessConfig) {
-          for (const [accessLevel, emails] of Object.entries(userAccessConfig)) {
-            if (emails.includes(normalizedEmail)) {
-              localStorage.setItem("switch_account", accessLevel);
-              break;
-            }
-          }
-        } 
+        if(userRegistered){
+          setUserVerified(true) 
+          setUserDetails({name})
+        }
       };
 
   const handleSso = async () => {
-
     try {
       const data = await login();
       console.log("Login successful:", data);
@@ -69,13 +41,15 @@ const LoginWithSSO = () => {
         throw new Error("Something went wrong. Please try again");
       }
       const { id, token, id_token, email } = data;
-      const res = await axios.post("https://infobackend.docintelhub.com/auth/login", {
+      const res = await postData(endPoint.Login, {
         id,
         token,
         idToken: id_token,
         type: "sso",
       });
-      // handleLoginSuccess(res, email);
+
+      console.log(res)
+      handleLoginSuccess(res, email);
     } catch (error) {
       if (error.errorCode === "user_cancelled") {
         console.warn("User cancelled login flow");
@@ -88,7 +62,8 @@ const LoginWithSSO = () => {
     }
   };
   return (
-    <div className="login-page">
+    <>
+   {true && <div className="login-page">
       <div className="login sso-login">
         <div className="login-logo">
           <img src={path_image + "logo-img.svg"} alt="logo" />
@@ -99,17 +74,12 @@ const LoginWithSSO = () => {
         <Button variant="primary" type="submit" onClick={handleSso} className="rounded-lg transition">
           Login with SSO
         </Button>
-      </div>
-      {/* <div className="bg-white shadow-lg rounded-2xl p-8 w-80 text-center">
-        <h1>Welcome to VWD JOURNEY</h1>
-        <button
-          onClick={handleSso}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-        >
-          Login with SSO
-        </button>
-      </div> */}
-    </div>
+      </div> 
+    </div>}
+    {
+      userVerified && <Login userDetails={userDetails}/>
+    }
+</>
   );
 }
 

@@ -21,6 +21,9 @@ const Login = ({userDetails}) => {
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
+        { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
   ];
 
   const regionOptions = [
@@ -73,7 +76,7 @@ const Login = ({userDetails}) => {
                 <img src={path_image + "logo-img.svg"} alt="logo" />
               </div>
               <div className="user-name">
-                <h6>Welcome, {userDetails?.name || "FirstName"}</h6>
+                <h6>Welcome, {userDetails?.name || ""}</h6>
               </div>
               <h6>Tell us a bit about you to tailor your experience</h6>
             </div>
@@ -85,45 +88,45 @@ const Login = ({userDetails}) => {
                     Role <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.role ? "split-button error" :"split-button" }
                     value={selectedRole}
                     onChange={setSelectedRole}
                     placeholder="Select your role"
                     options={roleOptions}
                   />
-                  {errors.role && <div className="text-danger">{errors.role}</div>}
+                  {errors.role && <div className="validation">{errors.role}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
                     Region <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className={errors.region ? "split-button error" :"split-button" } 
                     value={selectedRegion}
                     onChange={setSelectedRegion}
                     placeholder="Select your region"
                     options={regionOptions}
                   />
-                  {errors.region && <div className="text-danger">{errors.region}</div>}
+                  {errors.region && <div className="validation">{errors.region}</div>}
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
                     Country <span>(Required)</span>
                   </Form.Label>
                   <Select
-                    className="split-button"
+                    className= {errors.country ? "split-button error" :"split-button" }
                     value={selectedCountry}
                     onChange={setSelectedCountry}
                     placeholder="Select your country"
                     options={countryOptions}
                   />
-                  {errors.country && <div className="text-danger">{errors.country}</div>}
+                  {errors.country && <div className="validation">{errors.country}</div>}
                 </Form.Group>
                 <Form.Text className="text-muted">
                   Please enter your country and/or region. At least one is required — entering both
                   is recommended for the best experience.
                 </Form.Text>
-                <Button variant="primary" type="submit" className="mt-3">
+                <Button variant="primary" type="submit">
                   Login
                 </Button>
               </form>

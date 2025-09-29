@@ -9,9 +9,10 @@ export default function JourneySectionList({ onSectionClick, section }) {
     {
       class: "explore",
       title: "Explore your patient's Journey",
-      subtitle:
-        "Lorem ipsum dolor sit amet consectetur. Odio erat sed vitae pulvinar fcilisis rhoncus vel morbi ullamcorper.",
-    },
+      // subtitle:
+      //   "Lorem ipsum dolor sit amet consectetur. Odio erat sed vitae pulvinar fcilisis rhoncus vel morbi ullamcorper.",
+    }
+    ,
     {
       class: "faq",
       title: "FAQ",
