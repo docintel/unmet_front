@@ -161,9 +161,7 @@ const Account = () => {
                                                 </div>
                                             </div>
                                         ))}
-
                                     </div>
-
                                 </Tab>
                                 <Tab eventKey="favorite" title="Favorite">
                                     Recently Favorite
