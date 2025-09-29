@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import axios from "axios";
+import React, { useState } from 'react' 
 import useAuth from "../../../../useAuth"
 import { useNavigate } from 'react-router-dom';
 import { postData } from '../../../../services/axios/apiHelper';
 import endPoint from '../../../../services/axios/apiEndpoint';
+import { handleSso } from '../../../../services/authService';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
 const LoginWithSSO = () => {
@@ -24,12 +24,15 @@ const LoginWithSSO = () => {
         clearLocalStorageExcept();
 
         const { jwtToken,userRegistered,name,userToken } = res?.data?.data || {};
+        console.log(jwtToken,userRegistered,name,userToken,"jwtToken,userRegistered,name,userToken")
         localStorage.setItem("user_id", userToken); 
         localStorage.setItem("name", name);
         localStorage.setItem("decrypted_token", jwtToken);
-        if(userRegistered){
+        if(!userRegistered){
           setUserVerified(true) 
           setUserDetails({name})
+        }else{
+          navigate("/home");
         }
       };
 
@@ -48,7 +51,6 @@ const LoginWithSSO = () => {
         type: "sso",
       });
 
-      console.log(res)
       handleLoginSuccess(res, email);
     } catch (error) {
       if (error.errorCode === "user_cancelled") {
@@ -61,9 +63,11 @@ const LoginWithSSO = () => {
       }
     }
   };
+
+
   return (
     <>
-   {true && <div className="login-page">
+   {!userVerified && <div className="login-page">
       <div className="login sso-login">
         <div className="login-logo">
           <img src={path_image + "logo-img.svg"} alt="logo" />
@@ -71,7 +75,7 @@ const LoginWithSSO = () => {
         <div className="user-name">
           <h1>Welcome to<br/>VWD JOURNEY</h1>
         </div>
-        <Button variant="primary" type="submit" onClick={handleSso} className="rounded-lg transition">
+        <Button variant="primary" type="submit" onClick={() => handleSso(login,handleLoginSuccess)} className="rounded-lg transition">
           Login with SSO
         </Button>
       </div> 
