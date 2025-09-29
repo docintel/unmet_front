@@ -1,4 +1,5 @@
   
+import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
   
  export const handleSso = async (login,handleLoginSuccess) => {
@@ -25,4 +26,20 @@ import { postData } from "./axios/apiHelper";
         alert("Login failed. Please try again later.");
       }
     }
+  };
+
+
+export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    } 
+    const data = {
+      role: selectedRole.value,
+      region: selectedRegion.value,
+      country: selectedCountry.value,
+    };
+    await postData(endPoint.VERIFY_USER,data);
+    navigate("/home");
+
   };

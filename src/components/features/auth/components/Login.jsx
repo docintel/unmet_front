@@ -1,10 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { Container, Form, Row, Button } from "react-bootstrap"; 
 import Select from "react-select";
-import { countryRegionArray } from "../../../../constants/countryRegion";
-import { postData } from "../../../../services/axios/apiHelper";
-import endPoint from "../../../../services/axios/apiEndpoint";
+import { countryRegionArray } from "../../../../constants/countryRegion"; 
 import { useNavigate } from "react-router-dom";
+import { handleSubmit } from "../../../../services/authService";
 
 const Login = ({ userDetails }) => { 
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -57,23 +56,7 @@ const Login = ({ userDetails }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) {
-
-      return;
-    } 
-
-    const data = {
-      role: selectedRole.value,
-      region: selectedRegion.value,
-      country: selectedCountry.value,
-    };
-    await postData(endPoint.VERIFY_USER,data);
-    navigate("/home");
-  
-  };
-
+ 
   return (
     <div className="login-page">
       <Container>
@@ -90,7 +73,7 @@ const Login = ({ userDetails }) => {
             </div>
 
             <div className="login-form">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(e) => handleSubmit(e, selectedRole, selectedRegion, selectedCountry, validateForm,navigate)}>
                 {/* Role */}
                 <Form.Group className="form-group">
                   <Form.Label>
