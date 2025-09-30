@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Form, Row, Tab, Tabs } from "react-bootstrap";
 
 import Content from "../Common/Content";
 import {
@@ -23,7 +23,7 @@ const TouchPoints = () => {
     previewArticle: null,
     id: null,
   });
-  const { content } = useContext(ContentContext);
+  const { content, setIsLoading } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
@@ -31,22 +31,26 @@ const TouchPoints = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { ageGroups, category, tags } = await fetchAgeGroupCategories();
 
       setJourneyLabels(ageGroups);
       setCategories(category);
       setContentTags(tags);
+      setIsLoading(false);
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { narratives } = await fetchNarrativeList(isAllSelected ? 2 : 1);
       setNarrations(narratives);
       setActiveKey(null);
       setActiveJourney(null);
       setActiveNarration(null);
       setSearchText("");
+      setIsLoading(false);
     })();
   }, [isAllSelected]);
 
