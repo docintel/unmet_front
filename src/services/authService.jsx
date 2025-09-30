@@ -29,7 +29,7 @@ import { postData } from "./axios/apiHelper";
   };
 
 
-export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate) => {
+export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate,userDetails) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -39,7 +39,14 @@ export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry
       region: selectedRegion.value,
       country: selectedCountry.value,
     };
-    await postData(endPoint.VERIFY_USER,data);
+    console.log(userDetails?.jwtToken)
+    await postData(endPoint.VERIFY_USER, data, {
+      headers: {
+        auth: `Bearer ${userDetails?.jwtToken}`,
+      },
+    });
+    localStorage.setItem("user_id", userDetails?.userToken);
+    localStorage.setItem("name", userDetails?.name);
+    localStorage.setItem("decrypted_token", userDetails?.jwtToken);
     navigate("/home");
-
   };

@@ -7,6 +7,7 @@ import Content from "../Common/Content";
 import { getData } from "../../../../services/axios/apiHelper";
 import endPoint from "../../../../services/axios/apiEndpoint";
 import AskIBU from "../Sections/AskIBU";
+import Loader from "../Common/Loader";
 const Account = (content) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const faq = [
@@ -99,8 +100,13 @@ const Account = (content) => {
   }, []);
   
 
-//   console.log(favorite,'favorite')
-if (loading) return <p>Loading...</p>;
+if (loading) {
+    return (
+      <div className="loader-overlay">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="main-page">
@@ -202,7 +208,7 @@ if (loading) return <p>Loading...</p>;
                 </Tab>
                 <Tab eventKey="favorite" title="Favorite">
                   <div className="touchpoint-data-boxes">
-                    {favorite ? (
+                    {favorite.length > 0 ? (
                       favorite &&
                       favorite.map((section) => (
                         <React.Fragment key={section.id}>
@@ -211,7 +217,7 @@ if (loading) return <p>Loading...</p>;
                         </React.Fragment>
                       ))
                     ) : (
-                      <div className="text-center  w-100">No data Found</div>
+                      <div className="no-data-found">No data Found</div>
                     )}
                   </div>
                 </Tab>

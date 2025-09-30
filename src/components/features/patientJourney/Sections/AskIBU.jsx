@@ -8,6 +8,7 @@ import {
   fetchYourQuestions,
 } from "../../../../services/homeService";
 import { useLocation } from "react-router-dom";
+import Loader from "../Common/Loader";
 
 const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -33,6 +34,7 @@ const AskIBU = () => {
         setAskIbu(data);
         setFilteredQuestions(data);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -44,6 +46,7 @@ const AskIBU = () => {
       if (data) {
         setYourQuestion(data);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -54,6 +57,7 @@ const AskIBU = () => {
     const loadTags = async () => {
       const data = await fetchTags();
       if (data) setTags(data);
+      setLoading(false);
     };
     loadTags();
   }, []);
@@ -103,7 +107,13 @@ const AskIBU = () => {
   const dataToMap =
     location.pathname === "/account" ? yourQuestion : filteredQuestions;
 
-  if (loading) return <p>Loading...</p>;
+if (loading) {
+    return (
+      <div className="loader-overlay">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -199,7 +209,7 @@ const AskIBU = () => {
 
       {/* Questions list */}
       <div className="scroll-list">
-        {dataToMap.map((item) => (
+        {dataToMap.length > 0 ? (dataToMap.map((item) => (
           <div className="detail-data-box" key={item.id}>
             <div className="content-box">
               <div className="heading">{item.question}</div>
@@ -216,14 +226,14 @@ const AskIBU = () => {
               <div className="date">{item.created}</div>
             </div>
           </div>
-        ))}
+        ))): <div className="no-data-found">No data Found</div> }
       </div>
 
       {/* Ask question form */}
       {location.pathname !== "/account" && (
         <Form
           className="ask-ibu-form"
-          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
+          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion,setLoading)}
         >
           <FormGroup className="form-group">
             <Form.Control

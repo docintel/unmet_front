@@ -7,7 +7,24 @@ import { clearLocalStorage } from '../../../../helper/helper';
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
   const [isHcpSelected, setIsHcpSelected] = useState(false);
-  const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+  // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+  
+   const toggleUserType = () => {
+    setIsHcpSelected((prev) => {
+      const newValue = !prev;
+
+      // If switching to HCP and not already on touchpoints/resources → redirect to /touchpoints
+      if (
+        newValue &&
+        location.pathname !== '/touchpoints' &&
+        location.pathname !== '/resources'
+      ) {
+        navigate('/touchpoints');
+      }
+
+      return newValue;
+    });
+  };
   const navigate = useNavigate();
 
   const logout = () =>{
@@ -36,6 +53,7 @@ const Header = () => {
                 className="justify-content-center flex-grow-1"
               >
                 <Nav className="x-auto">
+                  {!isHcpSelected && (
                   <NavLink
                     to="/home"
                     className={({ isActive }) =>
@@ -43,7 +61,7 @@ const Header = () => {
                     }
                   >
                     Home
-                  </NavLink>
+                  </NavLink>)}
                   <NavLink
                     to="/touchpoints"
                     className={({ isActive }) =>
@@ -60,14 +78,15 @@ const Header = () => {
                   >
                     Resources
                   </NavLink>
-                  <NavLink
+
+                  {!isHcpSelected && (<NavLink
                     to="/account"
                     className={({ isActive }) =>
                       isActive ? "nav-link active" : "nav-link"
                     }
                   >
                     My Account
-                  </NavLink>
+                  </NavLink>)}
                 </Nav>
               </Navbar.Collapse>
             </Navbar>

@@ -12,40 +12,38 @@ const LoginWithSSO = () => {
       const [userVerified, setUserVerified] =  useState(false);
       const [userDetails,setUserDetails]=useState({})
 
-      const handleLoginSuccess = (res, email = "") => {
+      const isUserVerified = (res, email = "") => {
         clearLocalStorage();
         const { jwtToken,userRegistered,name,userToken } = res?.data?.data || {};
-        console.log(jwtToken,userRegistered,name,userToken,"jwtToken,userRegistered,name,userToken")
-        localStorage.setItem("user_id", userToken); 
-        localStorage.setItem("name", name);
-        localStorage.setItem("decrypted_token", jwtToken);
         if(!userRegistered){
-          setUserVerified(true) 
-          setUserDetails({name})
+          setUserVerified(true)
+          setUserDetails({name,jwtToken,userToken})
         }else{
+          localStorage.setItem("user_id", userToken);
+          localStorage.setItem("name", name);
+          localStorage.setItem("decrypted_token", jwtToken);
           navigate("/home");
         }
       };
- 
   return (
-    <>
-   {!userVerified && <div className="login-page">
-      <div className="login sso-login">
-        <div className="login-logo">
-          <img src={path_image + "logo-img.svg"} alt="logo" />
-        </div>
-        <div className="user-name">
-          <h1>Welcome to<br/>VWD JOURNEY</h1>
-        </div>
-        <Button variant="primary" type="submit" onClick={() => handleSso(login,handleLoginSuccess)} className="rounded-lg transition">
-          Login with SSO
-        </Button>
-      </div> 
-    </div>}
-    {
-      userVerified && <Login userDetails={userDetails}/>
-    }
-</>
+        <>
+      {!userVerified && <div className="login-page">
+          <div className="login sso-login">
+            <div className="login-logo">
+              <img src={path_image + "logo-img.svg"} alt="logo" />
+            </div>
+            <div className="user-name">
+              <h1>Welcome to<br/>VWD JOURNEY</h1>
+            </div>
+            <Button variant="primary" type="submit" onClick={() => handleSso(login,isUserVerified)} className="rounded-lg transition">
+              Login with SSO
+            </Button>
+          </div>
+        </div>}
+      {
+        userVerified && <Login userDetails={userDetails}/>
+      }
+  </>
   );
 }
 

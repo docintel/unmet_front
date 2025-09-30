@@ -4,32 +4,46 @@ import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import { updateContentRating } from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
+import { toast } from "react-toastify";
 
-const Content = ({ section: initialSection, idx, currentReadClick, setCurrentReadClick }) => {
+const Content = ({
+  section: initialSection,
+  idx,
+  currentReadClick,
+  setCurrentReadClick,
+}) => {
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { updateRating } = useContext(ContentContext);
+  const [updating, setUpdating] = useState(false);
   const iframeRef = useRef(null);
 
   const handleStarClick = async () => {
-    if (!section.self_rate) {
-      try {
-        const response = await updateContentRating(section.id);
-        updateRating(section.id, response.response);
-        setSection({
-          ...section,
-          self_rate: 1,
-          rating: response.response,
-        });
-      } catch (ex) {}
-    }
+    setUpdating(true);
+
+    try {
+      const response = await updateContentRating(section.id);
+      updateRating(section.id, response.response);
+      setSection({
+        ...section,
+        self_rate: section.self_rate === 1 ? 0 : 1,
+        rating: response.response,
+      });
+      if (section.self_rate !== 1) {
+        toast("Rating saved successfully");
+        setUpdating(false);
+      } else {
+        toast("Rating removed successfully");
+        setUpdating(false);
+      }
+    } catch (ex) {}
   };
 
   useEffect(() => {
-  if (currentReadClick.id === section.id && iframeRef.current) {
-    iframeRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}, [currentReadClick, section.id]);
+    if (currentReadClick.id === section.id && iframeRef.current) {
+      iframeRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [currentReadClick, section.id]);
 
   const getAgeGroup = () => {
     const tags = JSON.parse(section.age_groups);
@@ -95,13 +109,15 @@ const Content = ({ section: initialSection, idx, currentReadClick, setCurrentRea
               }
               alt=""
               style={{ cursor: "pointer" }}
-              onClick={handleStarClick}
+              onClick={!updating ? handleStarClick : null}
             />
             {section.rating}
           </div>
           <Button
             variant="primary"
-            onClick={(e) => handleReadClick(e, section.previewArticle, section.id)}
+            onClick={(e) =>
+              handleReadClick(e, section.previewArticle, section.id)
+            }
           >
             {currentReadClick.id === section.id ? "Close" : "Read"}
           </Button>
@@ -119,6 +135,5 @@ const Content = ({ section: initialSection, idx, currentReadClick, setCurrentRea
     </div>
   );
 };
-
 
 export default Content;
