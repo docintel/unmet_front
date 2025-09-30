@@ -66,6 +66,10 @@ const Account = (content) => {
   const [likedIndexes, setLikedIndexes] = React.useState([]);
   const [favorite, setFavorite] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentReadClick, setCurrentReadClick] = useState({
+      previewArticle: null,
+      id: null
+    });
 
   const handleStarClick = (index) => {
     setLikedIndexes((prev) =>
@@ -93,6 +97,7 @@ const Account = (content) => {
     };
     fetchData();
   }, []);
+  
 
 //   console.log(favorite,'favorite')
 if (loading) return <p>Loading...</p>;
@@ -201,7 +206,8 @@ if (loading) return <p>Loading...</p>;
                       favorite &&
                       favorite.map((section) => (
                         <React.Fragment key={section.id}>
-                          <Content section={section} idx={section.id} />
+                          <Content section={section} idx={section.id}  currentReadClick={currentReadClick}
+                             setCurrentReadClick={setCurrentReadClick}/>
                         </React.Fragment>
                       ))
                     ) : (
