@@ -318,7 +318,11 @@ const TouchPoints = () => {
                           ></div>
                         </div>
                         {lbl.id !== journeyLabels.length + 1 && (
-                          <div className="line"></div>
+                          <div
+                            className={`line ${
+                              isTabDisabled(lbl.id, false) ? "disabled" : ""
+                            }`}
+                          ></div>
                         )}
                       </React.Fragment>
                     ))}
