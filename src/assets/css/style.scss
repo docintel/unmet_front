@@ -717,15 +717,16 @@ h6 {
         display: inline-block;
       }
 
-      // padding: 13px 9px;
+      &.disabled{
+        color:rgba(93, 118, 130, 0.4);
+      }
       &.active {
         color: #4cc6cf;
-        font-weight: 500;
         position: relative;
         background: $white;
         box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
         border-radius: 10px 10px 0 0;
-
+ 
         div {
           &:before {
             content: "";
