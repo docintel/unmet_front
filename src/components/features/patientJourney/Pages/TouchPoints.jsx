@@ -385,7 +385,7 @@ const TouchPoints = () => {
                   </div>
                   <div className="touchpoint-data-boxes">
                     {" "}
-                    {contents ? (
+                    {contents.length > 0 ? (
                       contents &&
                       contents.map((section, idx) => (
                         <React.Fragment key={section.id}>
@@ -399,7 +399,7 @@ const TouchPoints = () => {
                         </React.Fragment>
                       ))
                     ) : (
-                    <div className="no-data-found">No data Found</div>
+                      <div className="no-data-found">No data Found</div>
                     )}
                   </div>
                 </div>
