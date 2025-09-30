@@ -8,7 +8,6 @@ const endPoint = {
   FETCH_CONTENT_LIST: "/content/get-content",
   ADD_QUESTIONS: "/questions/add-question",
   FAVORITE: "/content/get-favourite-content",
-  UPDATE_CONTENT_RATING: "/content/add-rating",
   YOUR_QUESTION: "/questions/your-question",
   UPDATE_CONTENT_RATING: "/content/toggle-rating",
 };
