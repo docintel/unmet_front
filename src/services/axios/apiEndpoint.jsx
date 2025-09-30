@@ -6,9 +6,9 @@ const endPoint = {
   GET_AGE_GROUP_CATEGORIES: "/content/categories-age-groups",
   FETCH_NARRATION_LIST: "/content/get-narratives",
   FETCH_CONTENT_LIST: "/content/get-content",
-  ADD_QUESTIONS:'/ibu/add-ibu-question',
-  FAVORITE:'/content/get-favourite-content',
-  UPDATE_CONTENT_RATING: "/content/add-rating",
-}
+  ADD_QUESTIONS: "/ibu/add-ibu-question",
+  FAVORITE: "/content/get-favourite-content",
+  UPDATE_CONTENT_RATING: "/content/toggle-rating",
+};
 
 export default endPoint;

@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+
 import Content from "../Common/Content";
 import {
   fetchAgeGroupCategories,
   fetchNarrativeList,
 } from "../../../../services/touchPointServices";
 import { ContentContext } from "../../../../context/ContentContext";
+import { toast } from "react-toastify";
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -18,8 +20,10 @@ const TouchPoints = () => {
   const [narrations, setNarrations] = useState([]);
   const [contentTags, setContentTags] = useState([]);
   const { content } = useContext(ContentContext);
+  const [contents, setContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -41,26 +45,21 @@ const TouchPoints = () => {
       setActiveKey(null);
       setActiveJourney(null);
       setActiveNarration(null);
+      setSearchText("");
     })();
   }, [isAllSelected]);
 
   useEffect(() => {
     setActiveKey(null);
+    setSearchText("");
   }, [activeJourney]);
 
   useEffect(() => {
-    // console.log(journeyLabels);
-    // console.log(categories);
-    if (activeKey && activeJourney) {
-      const categoryName = categories.find((val) => val.id == activeKey).name;
-      const ageGroupName = journeyLabels
-        .find((val) => val.id == activeKey)
-        .label.split("<br />")[1];
-      // console.log(categoryName);
-      // console.log(ageGroupName);
-    } else if (activeKey) {
-    } else if (activeJourney) {
-    }
+    setSearchText("");
+  }, [activeKey]);
+
+  useEffect(() => {
+    filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrations.find(
         (narration) =>
@@ -72,6 +71,61 @@ const TouchPoints = () => {
     }
   }, [activeKey, activeJourney]);
 
+  const filterContents = () => {
+    if (activeKey && activeJourney) {
+      const categoryName = categories.find((val) => val.id == activeKey).name;
+      const ageGroupName = journeyLabels
+        .find((val) => val.id == activeJourney)
+        .label.split("<br />")[1];
+
+      const filteredArray = [];
+      content.map((item) => {
+        if (
+          item.age_groups.indexOf(ageGroupName) != -1 &&
+          item.diagnosis.indexOf(categoryName) != -1 &&
+          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+        )
+          filteredArray.push(item);
+      });
+      setContents(filteredArray);
+    } else if (activeKey) {
+      const categoryName = categories.find((val) => val.id == activeKey).name;
+
+      const filteredArray = [];
+      content.map((item) => {
+        if (
+          item.diagnosis.indexOf(categoryName) != -1 &&
+          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+        )
+          filteredArray.push(item);
+      });
+      setContents(filteredArray);
+    } else if (activeJourney) {
+      const ageGroupName = journeyLabels
+        .find((val) => val.id == activeJourney)
+        .label.split("<br />")[1];
+
+      const filteredArray = [];
+      content.map((item) => {
+        if (
+          item.age_groups.indexOf(ageGroupName) != -1 &&
+          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+        )
+          filteredArray.push(item);
+      });
+      setContents(filteredArray);
+    } else if (searchText) {
+      const filteredArray = [];
+      content.map((item) => {
+        if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
+          filteredArray.push(item);
+      });
+      setContents(filteredArray);
+    } else {
+      setContents(content);
+    }
+  };
+
   const isTabDisabled = (cat_id) => {
     if (!activeJourney) return true;
     const narrative = narrations.find(
@@ -81,7 +135,9 @@ const TouchPoints = () => {
     );
     return narrative ? false : true;
   };
+
   useEffect(() => {
+    setContents(content);
     if (content) getCategoryTags(content);
   }, [content]);
 
@@ -92,6 +148,19 @@ const TouchPoints = () => {
     });
 
     setCategoryTags(CategoryCount);
+  };
+
+  const handleSearchClick = (e) => {
+    if (e) e.preventDefault();
+    if (searchText.length >= 3 || searchText.length === 0) filterContents();
+    else toast("Please enter at least three characters to search");
+  };
+
+  const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearchClick();
+    }
   };
 
   const touchpointContent = [
@@ -148,6 +217,7 @@ const TouchPoints = () => {
   return (
     <>
       <div className="main-page">
+        {" "}
         <div className="custom-container">
           <Row>
             <div className="touchpoints-section">
@@ -215,7 +285,6 @@ const TouchPoints = () => {
 
                     {categories &&
                       categories.map((cat) => {
-                        console.log(cat);
                         return (
                           <Tab
                             key={cat.id}
@@ -373,9 +442,18 @@ const TouchPoints = () => {
                   )}
                 </div>
                 <div className="search-bar">
-                  <Form className="d-flex">
-                    <Form.Control type="search" aria-label="Search" />
-                    <Button variant="outline-success">
+                  <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+                    <Form.Control
+                      type="search"
+                      aria-label="Search"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      onKeyUp={handleSearchTextKeyUp}
+                    />
+                    <Button
+                      variant="outline-success"
+                      onClick={handleSearchClick}
+                    >
                       <img src={path_image + "search-icon.svg"} alt="Search" />
                     </Button>
                   </Form>
@@ -409,9 +487,9 @@ const TouchPoints = () => {
                   </div>
                   <div className="touchpoint-data-boxes">
                     {" "}
-                    {content ? (
-                      content &&
-                      content.map((section) => (
+                    {contents ? (
+                      contents &&
+                      contents.map((section) => (
                         <React.Fragment key={section.id}>
                           <Content section={section} idx={section.id} />
                         </React.Fragment>

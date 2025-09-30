@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import { updateContentRating } from "../../../../services/touchPointServices";
+import { toast } from "react-toastify";
 
 const Content = (props) => {
   const [section, setSection] = useState(props.section);
@@ -11,16 +12,20 @@ const Content = (props) => {
   const { updateRating } = useContext(ContentContext);
 
   const handleStarClick = async () => {
-    if (!section.self_rate) {
-      try {
-        const response = await updateContentRating(section.id);
-        updateRating(section.id, response.response);
-        setSection({
-          ...section,
-          ...{ self_rate: 1, rating: response.response },
-        });
-      } catch (ex) {}
-    }
+    try {
+      const response = await updateContentRating(section.id);
+      console.log(response.response);
+      updateRating(section.id, response.response);
+      setSection({
+        ...section,
+        ...{
+          self_rate: section.self_rate === 1 ? 0 : 1,
+          rating: response.response,
+        },
+      });
+      if (section.self_rate !== 1) toast("Rating saved successfully");
+      else toast("Rating removed successfully");
+    } catch (ex) {}
   };
 
   const getAgeGroup = () => {

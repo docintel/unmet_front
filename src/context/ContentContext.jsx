@@ -17,7 +17,10 @@ export const ContentProvider = ({ children }) => {
     setContent((prevContent) =>
       prevContent.map((cntnt) => {
         if (cntnt.id === id) {
-          return { ...cntnt, ...{ self_rate: 1, rating: rating } };
+          return {
+            ...cntnt,
+            ...{ self_rate: cntnt.self_rate === 1 ? 0 : 1, rating: rating },
+          };
         } else return cntnt;
       })
     );
