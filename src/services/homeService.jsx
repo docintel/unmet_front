@@ -50,7 +50,7 @@ export const handleSubmit = async (e, setError, question, setQuestion,setIsLoadi
   }
 };
 
-export const fetchTags = async () => {
+export const fetchTags = async (setIsLoading) => {
   setIsLoading(true);
   try {
     const response = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
