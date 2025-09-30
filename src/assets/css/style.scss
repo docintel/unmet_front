@@ -775,6 +775,11 @@ h6 {
     @include outer-box;
     border-radius: 10px 10px;
     filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
+    &.resource-container {
+      .content-count-box {
+        margin: 4px 0 0;
+      }
+    }
 
     .touchpoints-header,
     .search-bar,
@@ -783,7 +788,7 @@ h6 {
     }
 
     .search-bar {
-      margin: 40px 0 0;
+      margin: 40px 0 12px;
 
       form {
         position: relative;
@@ -1054,6 +1059,9 @@ h6 {
         }
       }
     }
+    .tags {
+      margin: 0 0 12px;
+    }
   }
 
   .tab-content {
@@ -1159,6 +1167,7 @@ h6 {
   width: 100%;
   border-top: 1px solid $gray;
   padding: 14px 0 0;
+  margin: 28px 0 0;
 
   .content-count {
     @include flex-align-start;
@@ -1410,12 +1419,23 @@ h6 {
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: rgba(151, 151, 151, 0.37);
   z-index: 9999;
+  @include flex-middle;
   div {
     @include shapes;
   }
+}
+.section-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(244, 246, 249);
+  z-index: 10;
+  @include dots;
 }

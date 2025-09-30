@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { Form, FormGroup, Dropdown } from "react-bootstrap";
 import {
   fetchQuestions,
@@ -8,13 +8,13 @@ import {
   fetchYourQuestions,
 } from "../../../../services/homeService";
 import { useLocation } from "react-router-dom";
-import Loader from "../Common/Loader";
+import { ContentContext } from "../../../../context/ContentContext";
 
 const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [askIbu, setAskIbu] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { setIsLoading } = useContext(ContentContext);
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
@@ -29,12 +29,12 @@ const AskIBU = () => {
   useEffect(() => {
     if (location.pathname === "/account") return;
     const fetchData = async () => {
-      const data = await fetchQuestions(setLoading);
+      const data = await fetchQuestions(setIsLoading);
       if (data) {
         setAskIbu(data);
         setFilteredQuestions(data);
       }
-      setLoading(false);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -42,11 +42,11 @@ const AskIBU = () => {
   useEffect(() => {
     if (location.pathname === "/home") return;
     const fetchData = async () => {
-      const data = await fetchYourQuestions(setLoading);
+      const data = await fetchYourQuestions(setIsLoading);
       if (data) {
         setYourQuestion(data);
       }
-      setLoading(false);
+      setIsLoading(false);
     };
     fetchData();
   }, []);
@@ -57,7 +57,7 @@ const AskIBU = () => {
     const loadTags = async () => {
       const data = await fetchTags();
       if (data) setTags(data);
-      setLoading(false);
+      setIsLoading(false);
     };
     loadTags();
   }, []);
@@ -107,13 +107,6 @@ const AskIBU = () => {
   const dataToMap =
     location.pathname === "/account" ? yourQuestion : filteredQuestions;
 
-if (loading) {
-    return (
-      <div className="loader-overlay">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -233,7 +226,7 @@ if (loading) {
       {location.pathname !== "/account" && (
         <Form
           className="ask-ibu-form"
-          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion,setLoading)}
+          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion,setIsLoading)}
         >
           <FormGroup className="form-group">
             <Form.Control
