@@ -830,7 +830,7 @@ h6 {
         gap: 51px;
 
         button {
-          color: #5d7682;
+          color: $text-color;
           font-size: 12px;
           font-weight: 500;
           line-height: 122.6%;
@@ -849,6 +849,9 @@ h6 {
           &.active {
             background: #4cc6cf;
             color: $white;
+            &:focus{
+              opacity: 1;
+            }
           }
            &.disabled {
               opacity: 0.4;
@@ -923,129 +926,6 @@ h6 {
           }
         }
       }
-
-      //   .touchpoints-header {
-      //     .touchpoint-links {
-      //       @include flex-justify-between;
-      //       gap: 51px;
-
-      //       button {
-      //         color: #5d7682;
-      //         font-size: 12px;
-      //         font-weight: 500;
-      //         line-height: 122.6%;
-      //         background: #f4f6f9;
-      //         padding: 12px 0;
-      //         width: 100%;
-      //         text-transform: capitalize;
-      //         border-radius: 0;
-
-      //         &:hover {
-      //           color: #00adba;
-      //           background: rgba(0, 173, 186, 0.1);
-      //           opacity: 1;
-      //         }
-
-      //         &.active {
-      //           background: #4cc6cf;
-      //           color: $white;
-      //         }
-      //       }
-      //     }
-
-      //     ul {
-      //       margin: 0;
-      //       border: 0;
-      //       gap: 51px;
-
-      //       li {
-      //         flex: 1 1;
-      //         border: 0;
-
-      //         .nav-link {
-      //           color: $text-color;
-      //           font-size: 12px;
-      //           font-weight: 500;
-      //           line-height: 122.6%;
-      //           background: $secondary-color;
-      //           padding: 12px 0;
-      //           border-radius: 0;
-      //           border: 0;
-      //           width: 100%;
-
-      //           &.active,
-      //           &.active:hover {
-      //             background: #4cc6cf;
-      //             color: $white;
-      //           }
-      //           &:hover {
-      //             background: rgba(0, 173, 186, 0.1);
-      //             color: #00adba;
-      //           }
-      //         }
-      //       }
-      //     }
-
-      //     .tab-content {
-      //       margin: 40px 0 0;
-
-      //       .tab-pane {
-      //         &.active {
-      //           animation: slidedown 0.6s normal forwards;
-      //         }
-      //       }
-
-      //       .touchpoint-data {
-      //         border-radius: 2px;
-      //         border: 1px solid rgba(148, 167, 191, 0.3);
-      //         background: $secondary-color;
-      //         padding: 16px;
-
-      //         h6 {
-      //           color: $primary-color;
-      //           font-size: 16px;
-      //           font-weight: 700;
-      //           margin-bottom: 16px;
-      //         }
-
-      //         .narrative-block {
-      //           @include flex-justify-between;
-      //           gap: 16px;
-
-      //           .content {
-      //             padding: 16px;
-      //             background: $white;
-      //             flex: 1 1;
-
-      //             p {
-      //               color: $primary-color;
-      //               font-size: 14px;
-      //               font-weight: 700;
-      //               margin-bottom: 11px;
-      //             }
-
-      //             ul {
-      //               li {
-      //                 font-size: 12px;
-      //                 font-weight: 500;
-      //                 line-height: 20px;
-      //                 color: $primary-color;
-      //               }
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-
-      //     .no_data {
-      //       margin: 40px 0 0;
-      //       padding: 16px 24px;
-      //       font-size: 20px;
-      //       line-height: 31px;
-      //       color: $gray;
-      //       font-weight: 400;
-      //     }
-      //   }
 
       .tags {
         gap: 12px;
