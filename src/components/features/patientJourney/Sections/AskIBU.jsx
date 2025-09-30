@@ -10,6 +10,7 @@ import {
 import { useLocation } from "react-router-dom";
 
 const AskIBU = () => {
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [askIbu, setAskIbu] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -108,22 +109,23 @@ const AskIBU = () => {
     <>
       {/* Filter button */}
       {location.pathname !== "/account" && (
-        <div>
-          <div className="filter-container mb-3">
+        <div className="filter-section">
+          <div className="filter-container">
             <button
-              className="btn btn-primary"
+              className="btn btn-link filter-btn"
               onClick={() => setShowFilterBox(!showFilterBox)}
             >
-              Filter {showFilterBox ? "✖" : ""}
+              {showFilterBox ? <img src={path_image + "close-arrow.svg"} alt="Filter Icon" /> : <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />}
             </button>
           </div>
 
           {/* Filter dropdown */}
           {showFilterBox && (
-            <div className="filter-box p-3 border mb-3">
+            <div className="filter-box">
+              <h6>Filter:</h6>
               {/* Tags Dropdown Toggle */}
               <button
-                className="btn btn-light w-100 text-start mb-2"
+                className="btn btn-light w-100 text-start"
                 onClick={() => setShowTagsDropdown(!showTagsDropdown)}
               >
                 Tags
@@ -135,9 +137,9 @@ const AskIBU = () => {
               {/* Tags options */}
               {showTagsDropdown && (
                 <div
-                  className="tags-options border p-2 mb-2"
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
+                  className="tags-options"
                 >
+                  <div className="tags-list">
                   {tags.map((tag, index) => (
                     <div key={index} className="form-check">
                       <input
@@ -155,14 +157,15 @@ const AskIBU = () => {
                       </label>
                     </div>
                   ))}
+                  </div>
                 </div>
               )}
 
-              <div className="mt-2">
-                <button className="btn btn-success me-2" onClick={applyFilter}>
+              <div className="mt-2 d-flex justify-content-between">
+                <button className="btn btn-primary" onClick={applyFilter}>
                   Apply
                 </button>
-                <button className="btn btn-secondary" onClick={cancelFilter}>
+                <button className="btn btn-primary btn-bordered" onClick={cancelFilter}>
                   Cancel
                 </button>
               </div>
@@ -219,7 +222,7 @@ const AskIBU = () => {
       {/* Ask question form */}
       {location.pathname !== "/account" && (
         <Form
-          className="ask-ibu-form mt-4"
+          className="ask-ibu-form"
           onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
         >
           <FormGroup className="form-group">

@@ -28,7 +28,7 @@ const Header = () => {
               className="nav"
             >
               <Navbar.Brand href="/">
-                <img src={path_image + "logo-img.svg"}/>
+                <img src={path_image + "logo-img.svg"} alt="logo"/>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse
