@@ -1,29 +1,31 @@
 import { postData, getData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
-export const fetchQuestions = async (setLoading) => {
+export const fetchQuestions = async (setIsLoading) => {
+  setIsLoading(true);
   try {
     const response = await getData(endPoint.ASK_IBU_QUESTIONS);
     return response?.data?.data;
   } catch (error) {
     console.error("Error fetching Ask IBU questions:", error);
   } finally {
-    setLoading(false);
+    setIsLoading(false);
   }
 };
 
-export const fetchYourQuestions = async (setLoading) => {
+export const fetchYourQuestions = async (setIsLoading) => {
+  setIsLoading(true);
   try {
     const response = await getData(endPoint.YOUR_QUESTION);
     return response?.data?.data;
   } catch (error) {
     console.error("Error fetching Ask IBU questions:", error);
   } finally {
-    setLoading(false);
+    setIsLoading(false);
   }
 };
 
-export const handleSubmit = async (e, setError, question, setQuestion,setLoading) => {
+export const handleSubmit = async (e, setError, question, setQuestion,setIsLoading) => {
   e.preventDefault();
 
   // console.log("handleSubmit")
@@ -34,7 +36,7 @@ export const handleSubmit = async (e, setError, question, setQuestion,setLoading
   }
 
   setError("");
-  setLoading(true); 
+  setIsLoading(true); 
   try {
     const response = await postData(endPoint.ADD_QUESTIONS, {
       question: question,
@@ -44,11 +46,12 @@ export const handleSubmit = async (e, setError, question, setQuestion,setLoading
   } catch (error) {
     console.error("Error submitting question:", error);
   }finally {
-    setLoading(false); 
+    setIsLoading(false); 
   }
 };
 
 export const fetchTags = async () => {
+  setIsLoading(true);
   try {
     const response = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
     return response?.data?.data?.tags || [];

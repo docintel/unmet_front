@@ -81,7 +81,7 @@ const Resources = () => {
         <Row>
           {" "}
           <div className="touchpoints-section">
-            <div className="touchpoint-box">
+            <div className="touchpoint-box resource-container">
               <div className="search-bar">
                 {" "}
                 <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>

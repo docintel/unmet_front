@@ -61,6 +61,13 @@ const Content = ({
     }
   };
 
+  const handleShareClick = () => {};
+  const handleDownloadClick = () => {};
+  const handleCopyClick = async () => {
+    await navigator.clipboard.writeText(section.previewArticle);
+    toast("Content link copied to clipboard");
+  };
+
   return (
     <div className="detail-data-box" key={idx}>
       <div className="age-format d-flex">
@@ -84,9 +91,11 @@ const Content = ({
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>Share</Dropdown.Item>
-              <Dropdown.Item>Request</Dropdown.Item>
-              <Dropdown.Item>Copy Link</Dropdown.Item>
+              <Dropdown.Item onClick={handleShareClick}>Share</Dropdown.Item>
+              <Dropdown.Item onClick={handleDownloadClick}>
+                Download
+              </Dropdown.Item>
+              <Dropdown.Item onClick={handleCopyClick}>Copy Link</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
