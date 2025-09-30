@@ -94,7 +94,7 @@ const TouchPoints = () => {
         )[0];
         setActiveNarration(leastIdNarration);
       } else setActiveNarration(null);
-    }
+    } else setActiveNarration(null);
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
@@ -327,15 +327,26 @@ const TouchPoints = () => {
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
-                    <Button>Diagnosis</Button>
-                     <Button>Surgery</Button> 
-                      <Button>Pregnancy & childbirth</Button>
-                      <Button>Joint & bone health</Button>
-                     <Button>HMB</Button> 
-                      <Button>Wilprophy</Button>  
-                      <Button>On-demand</Button> 
+                    {categories &&
+                      categories.map((cat) => {
+                        return (
+                          <Button
+                            key={cat.id}
+                            onClick={() => {
+                              if (activeKey !== cat.id) setActiveKey(cat.id);
+                              else setActiveKey(null);
+                            }}
+                            disabled={isTabDisabled(cat.id, true)}
+                            className={` ${
+                              isTabDisabled(cat.id, true) ? "disabled" : ""
+                            } ${activeKey === cat.id ? "active" : ""}`}
+                          >
+                            {cat.name}
+                          </Button>
+                        );
+                      })}
                   </div>
-                  <Tabs
+                  {/* <Tabs
                     activeKey={activeKey}
                     onSelect={(k) => {
                       if (activeKey !== k) setActiveKey(k);
@@ -343,9 +354,9 @@ const TouchPoints = () => {
                     }}
                     fill
                   >
-                    {/* to see the original layout please comment and uncomment the the uncommented and commented below code */}
+                    to see the original layout please comment and uncomment the the uncommented and commented below code 
 
-                     {categories &&
+                    {categories &&
                       categories.map((cat) => {
                         return (
                           <Tab
@@ -385,13 +396,33 @@ const TouchPoints = () => {
                           </Tab>
                         );
                       })}
-                  </Tabs>
-
-                  {/* Default message when no tab is selected */}
-                  {(!activeJourney || !activeKey) && (
+                  </Tabs> */}
+                  {activeNarration ? (
+                    <div className="touchpoint-data">
+                      <h6>Short Narrative</h6>
+                      <div className="d-flex justify-content-between narrative-block">
+                        <div className="content">
+                          <p>{activeNarration.narrative_title}</p>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: activeNarration.narrative_description,
+                            }}
+                          ></div>
+                        </div>
+                        <div className="content">
+                          <p>{activeNarration.contibution_title}</p>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: activeNarration.contibution_description,
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
                     <div className="text-center no_data">
-                      Choose the patient’s age and touchpoint from the options
-                      above
+                      Choose the patient&apos;s age and touchpoint from the
+                      options above
                       <br />
                       to access content tailored to their unmet needs.
                     </div>
