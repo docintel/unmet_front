@@ -589,6 +589,9 @@ h6 {
     border-top: 1px dashed $text-color;
     width: 100%;
     flex: 1;
+     &.disabled{
+      opacity: 0.4;
+    }
   }
 }
 
@@ -1035,7 +1038,7 @@ h6 {
   .tag-list {
     @include flex-align-center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px 12px;
     flex: 1;
 
     .tag-item {
