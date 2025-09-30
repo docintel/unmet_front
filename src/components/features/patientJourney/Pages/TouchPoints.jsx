@@ -75,6 +75,10 @@ const TouchPoints = () => {
     }
   }, [activeKey, activeJourney]);
 
+  useEffect(() => {
+    if (searchText.length == 0) handleSearchClick();
+  }, [searchText]);
+
   const filterContents = () => {
     if (activeKey && activeJourney) {
       const categoryName = categories.find((val) => val.id == activeKey).name;

@@ -4,6 +4,7 @@ import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import { updateContentRating } from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
+import { toast } from "react-toastify";
 
 const Content = ({
   section: initialSection,
@@ -25,6 +26,8 @@ const Content = ({
         self_rate: section.self_rate === 1 ? 0 : 1,
         rating: response.response,
       });
+      if (section.self_rate !== 1) toast("Rating saved successfully");
+      else toast("Rating removed successfully");
     } catch (ex) {}
   };
 
