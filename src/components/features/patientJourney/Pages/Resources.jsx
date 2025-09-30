@@ -7,7 +7,7 @@ import { fetchAgeGroupCategories } from "../../../../services/touchPointServices
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
-  const { content } = useContext(ContentContext);
+  const { content, setIsLoading } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [categoryTags, setCategoryTags] = useState();
@@ -27,10 +27,12 @@ const Resources = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { ageGroups, category, tags } = await fetchAgeGroupCategories();
       setAgeGroup(ageGroups);
       setCategories(category);
       setTag(tags);
+      setIsLoading(false);
     })();
   }, []);
 
@@ -79,8 +81,9 @@ const Resources = () => {
         <Row>
           {" "}
           <div className="touchpoints-section">
-            <div className="touchpoint-box">
+            <div className="touchpoint-box resource-container">
               <div className="search-bar">
+                {" "}
                 <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                   <Form.Control
                     type="search"

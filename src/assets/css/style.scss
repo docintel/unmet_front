@@ -1,5 +1,5 @@
-@use "./variable"as *;
-@use "./mixin"as *;
+@use "./variable" as *;
+@use "./mixin" as *;
 
 body {
   background: $secondary-color;
@@ -60,10 +60,12 @@ h6 {
     background: transparent;
     border: 1px solid $dark-green;
     color: $dark-green;
-    &:hover,&:active,&:focus {
+    &:hover,
+    &:active,
+    &:focus {
       background: $dark-green;
       color: $white;
-      opacity:1;
+      opacity: 1;
     }
   }
 
@@ -150,14 +152,14 @@ h6 {
 
         .split-button {
           &.error {
-            >div {
+            > div {
               &:nth-child(3) {
                 box-shadow: rgba(214, 25, 117, 0.6) 0px 1px 6px;
               }
             }
           }
 
-          >div {
+          > div {
             &:nth-child(3) {
               @include split-btn;
               background-size: 13px;
@@ -276,7 +278,8 @@ h6 {
       .user-avtar {
         line-height: 1;
 
-        img {}
+        img {
+        }
       }
 
       span {
@@ -415,7 +418,8 @@ h6 {
 
   .flex-row-reverse {
     .right-side {
-      animation: scale-up-hor-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
+      animation: scale-up-hor-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1
+        normal both;
       width: 100%;
       transition: 2s width linear;
     }
@@ -431,7 +435,8 @@ h6 {
     gap: 0px;
     @include flex-column;
     // animation: customAni 2s ease-in-out 0s 1 normal forwards;
-    animation: scale-up-hor-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
+    animation: scale-up-hor-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1
+      normal both;
     width: 100%;
     transition: 2s width linear;
 
@@ -486,34 +491,34 @@ h6 {
           position: absolute;
           top: 30px;
           margin-bottom: 10px;
-          h6{
+          h6 {
             font-size: 16px;
           }
-          >.btn{
-              background: $white;
-              box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-              border-radius: 19px;
-              border: 0;
+          > .btn {
+            background: $white;
+            box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 19px;
+            border: 0;
+          }
+          .tags-options {
+            background: $white;
+            box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+            border-radius: 19px;
+            padding: 38px 10px 10px;
+            margin-top: -30px;
+            .tags-list {
+              max-height: 55px;
+              overflow-y: auto;
             }
-            .tags-options{
-              background: $white;
-              box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-              border-radius: 19px;
-              padding: 38px 10px 10px;
-              margin-top: -30px;
-              .tags-list{
-                max-height: 55px;
-                overflow-y: auto;
-              }
-              .form-check{
-                label{
-                  font-size: 12px;
-                  font-weight: 500;
-                  color: $text-color;
-                }
+            .form-check {
+              label {
+                font-size: 12px;
+                font-weight: 500;
+                color: $text-color;
               }
             }
-          .btn{
+          }
+          .btn {
             font-size: 12px;
           }
         }
@@ -670,7 +675,6 @@ h6 {
 }
 
 .btn {
-
   &:focus-visible,
   &:focus,
   &:active:focus {
@@ -697,7 +701,8 @@ h6 {
     padding: 0px 0px 0px 24px;
     gap: 8px;
     @include flex-align-center;
-    animation: scale-up-to-left 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
+    animation: scale-up-to-left 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1
+      normal both;
     z-index: 2;
     position: relative;
 
@@ -770,6 +775,11 @@ h6 {
     @include outer-box;
     border-radius: 10px 10px;
     filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
+    &.resource-container {
+      .content-count-box {
+        margin: 4px 0 0;
+      }
+    }
 
     .touchpoints-header,
     .search-bar,
@@ -778,7 +788,7 @@ h6 {
     }
 
     .search-bar {
-      margin: 40px 0 0;
+      margin: 40px 0 12px;
 
       form {
         position: relative;
@@ -907,7 +917,7 @@ h6 {
 
             &.disabled {
               opacity: 0.4;
-              background: #F4F6F9;
+              background: #f4f6f9;
             }
           }
         }
@@ -1053,6 +1063,9 @@ h6 {
         }
       }
     }
+    .tags {
+      margin: 0 0 12px;
+    }
   }
 
   .tab-content {
@@ -1158,6 +1171,7 @@ h6 {
   width: 100%;
   border-top: 1px solid $gray;
   padding: 14px 0 0;
+  margin: 28px 0 0;
 
   .content-count {
     @include flex-align-start;
@@ -1377,22 +1391,22 @@ h6 {
   margin-top: 3px;
 }
 
-:not(.btn-check)+.btn:active {
+:not(.btn-check) + .btn:active {
   background: $dark-green;
   opacity: 0.8;
 }
 
 .no-data-found {
-  @include vertical-list; 
+  @include vertical-list;
   justify-content: center;
   width: 100%;
   margin: 10px 0;
   padding: 20px;
-  min-height: 200px; 
+  min-height: 200px;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
-  color: $light-gray; 
+  color: $light-gray;
   background-color: $secondary-color;
   border: 2px dashed #ddd;
   border-radius: 12px;
@@ -1403,19 +1417,29 @@ h6 {
     color: #333;
   }
 }
-.loader-overlay{
+.loader-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  background: rgba(151, 151, 151, 0.37);
+  z-index: 9999;
+  @include flex-middle;
+  div {
+    @include shapes;
+  }
+}
+.section-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(151, 151, 151, 0.37); 
-  z-index: 9999;
-  div{
-    @include shapes
- }
+  background: rgb(244, 246, 249);
+  z-index: 10;
+  @include dots;
 }
-

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Form, Row, Tab, Tabs } from "react-bootstrap";
 
 import Content from "../Common/Content";
 import {
@@ -23,7 +23,7 @@ const TouchPoints = () => {
     previewArticle: null,
     id: null,
   });
-  const { content } = useContext(ContentContext);
+  const { content, setIsLoading } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
@@ -31,27 +31,30 @@ const TouchPoints = () => {
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { ageGroups, category, tags } = await fetchAgeGroupCategories();
 
       setJourneyLabels(ageGroups);
       setCategories(category);
       setContentTags(tags);
+      setIsLoading(false);
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { narratives } = await fetchNarrativeList(isAllSelected ? 2 : 1);
       setNarrations(narratives);
       setActiveKey(null);
       setActiveJourney(null);
       setActiveNarration(null);
       setSearchText("");
+      setIsLoading(false);
     })();
   }, [isAllSelected]);
 
   useEffect(() => {
-    setActiveKey(null);
     setSearchText("");
   }, [activeJourney]);
 
@@ -69,6 +72,28 @@ const TouchPoints = () => {
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
+    } else if (activeKey) {
+      const activeNarrative = narrations.filter(
+        (narration) =>
+          narration.category_id == activeKey &&
+          !["Not applicable", "Missing"].includes(narration.status)
+      );
+      if (activeNarrative.length > 0)
+        setActiveNarration([...activeNarrative].sort((a, b) => a.id - b.id)[0]);
+      else setActiveNarration(null);
+    } else if (activeJourney) {
+      const activeNarratives = narrations.filter(
+        (narration) =>
+          narration.age_group_id == activeJourney &&
+          !["Not applicable", "Missing"].includes(narration.status)
+      );
+
+      if (activeNarratives.length > 0) {
+        const leastIdNarration = activeNarratives.sort(
+          (a, b) => a.id - b.id
+        )[0];
+        setActiveNarration(leastIdNarration);
+      } else setActiveNarration(null);
     }
   }, [activeKey, activeJourney]);
 
@@ -131,14 +156,27 @@ const TouchPoints = () => {
     }
   };
 
-  const isTabDisabled = (cat_id) => {
-    if (!activeJourney) return true;
-    const narrative = narrations.find(
-      (narration) =>
-        narration.category_id == cat_id &&
-        !["Not applicable", "Missing"].includes(narration.status)
-    );
-    return narrative ? false : true;
+  const isTabDisabled = (cat_id, isTab) => {
+    if (isTab) {
+      if (activeJourney) {
+        const narrative = narrations.find(
+          (narration) =>
+            narration.category_id == cat_id &&
+            narration.age_group_id == activeJourney &&
+            !["Not applicable", "Missing"].includes(narration.status)
+        );
+        return narrative ? false : true;
+      } else return false;
+    } else {
+      if (activeKey) {
+        if (
+          (activeKey == 4 && [2, 3, 7].includes(cat_id)) ||
+          (activeKey == 6 && [2, 3].includes(cat_id))
+        )
+          return true;
+        else return false;
+      } else return false;
+    }
   };
 
   useEffect(() => {
@@ -263,9 +301,15 @@ const TouchPoints = () => {
                           key={lbl.id}
                           className={`journey-link ${
                             activeJourney === lbl.id ? "active" : ""
-                          }`}
+                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
                           // dangerouslySetInnerHTML={{ __html: label }}
-                          onClick={() => setActiveJourney(lbl.id)}
+                          onClick={() => {
+                            if (!isTabDisabled(lbl.id, false)) {
+                              if (activeJourney !== lbl.id)
+                                setActiveJourney(lbl.id);
+                              else setActiveJourney(null);
+                            }
+                          }}
                         >
                           <div
                             dangerouslySetInnerHTML={{
@@ -293,7 +337,10 @@ const TouchPoints = () => {
                   </div>
                   <Tabs
                     activeKey={activeKey}
-                    onSelect={(k) => setActiveKey(k)}
+                    onSelect={(k) => {
+                      if (activeKey !== k) setActiveKey(k);
+                      else setActiveKey(null);
+                    }}
                     fill
                   >
                     {/* to see the original layout please comment and uncomment the the uncommented and commented below code */}
@@ -305,10 +352,12 @@ const TouchPoints = () => {
                             key={cat.id}
                             eventKey={cat.id}
                             title={cat.name}
-                            disabled={isTabDisabled(cat.id)}
-                            className={isTabDisabled(cat.id) ? "disabled" : ""}
+                            disabled={isTabDisabled(cat.id, true)}
+                            className={
+                              isTabDisabled(cat.id, true) ? "disabled" : ""
+                            }
                           >
-                            {activeJourney && activeKey && activeNarration && (
+                            {activeNarration && (
                               <div className="touchpoint-data">
                                 <h6>Short Narrative</h6>
                                 <div className="d-flex justify-content-between narrative-block">

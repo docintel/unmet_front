@@ -1,15 +1,18 @@
 import React, { createContext, useEffect, useState } from "react";
 import { fetchContentList } from "../services/touchPointServices";
-
+import Loader from "../components/features/patientJourney/Common/Loader";
 export const ContentContext = createContext();
 
 export const ContentProvider = ({ children }) => {
   const [content, setContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { contents } = await fetchContentList();
       setContent(contents);
+      setIsLoading(false);
     })();
   }, []);
 
@@ -27,7 +30,13 @@ export const ContentProvider = ({ children }) => {
   };
 
   return (
-    <ContentContext.Provider value={{ content, updateRating }}>
+    <ContentContext.Provider value={{ content, updateRating, setIsLoading }}>
+      {" "}
+      <div style={{ display: isLoading ? "block" : "none" }}>
+        <div className="loader-overlay">
+          <Loader />
+        </div>
+      </div>
       {children}
     </ContentContext.Provider>
   );

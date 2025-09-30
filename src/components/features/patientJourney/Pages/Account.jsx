@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { Row, Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import Tab from "react-bootstrap/Tab";
@@ -7,8 +7,9 @@ import Content from "../Common/Content";
 import { getData } from "../../../../services/axios/apiHelper";
 import endPoint from "../../../../services/axios/apiEndpoint";
 import AskIBU from "../Sections/AskIBU";
-import Loader from "../Common/Loader";
-const Account = (content) => {
+import { ContentContext } from "../../../../context/ContentContext";
+
+const Account = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const faq = [
     {
@@ -66,11 +67,12 @@ const Account = (content) => {
   ];
   const [likedIndexes, setLikedIndexes] = React.useState([]);
   const [favorite, setFavorite] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const [currentReadClick, setCurrentReadClick] = useState({
       previewArticle: null,
       id: null
     });
+   const { setIsLoading } = useContext(ContentContext);
 
   const handleStarClick = (index) => {
     setLikedIndexes((prev) =>
@@ -79,7 +81,7 @@ const Account = (content) => {
   };
 
    const fetchFavorite = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await getData(endPoint.FAVORITE);
       return response?.data?.data || [];
@@ -87,7 +89,7 @@ const Account = (content) => {
       console.error("Error fetching favorites:", error);
       return [];
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -100,13 +102,6 @@ const Account = (content) => {
   }, []);
   
 
-if (loading) {
-    return (
-      <div className="loader-overlay">
-        <Loader />
-      </div>
-    );
-  }
 
   return (
     <div className="main-page">
