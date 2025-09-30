@@ -31,10 +31,7 @@ const TouchPoints = () => {
 
   useEffect(() => {
     (async () => {
-      const { ageGroups, category, tags } = await fetchAgeGroupCategories(
-        setJourneyLabels,
-        setCategories
-      );
+      const { ageGroups, category, tags } = await fetchAgeGroupCategories();
 
       setJourneyLabels(ageGroups);
       setCategories(category);
@@ -74,6 +71,10 @@ const TouchPoints = () => {
       else setActiveNarration(null);
     }
   }, [activeKey, activeJourney]);
+
+  useEffect(() => {
+    if (searchText.length == 0) handleSearchClick();
+  }, [searchText]);
 
   const filterContents = () => {
     if (activeKey && activeJourney) {
