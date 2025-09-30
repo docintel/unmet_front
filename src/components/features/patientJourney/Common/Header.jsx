@@ -7,7 +7,24 @@ import { clearLocalStorage } from '../../../../helper/helper';
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
   const [isHcpSelected, setIsHcpSelected] = useState(false);
-  const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+  // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+  
+   const toggleUserType = () => {
+    setIsHcpSelected((prev) => {
+      const newValue = !prev;
+
+      // If switching to HCP and not already on touchpoints/resources → redirect to /touchpoints
+      if (
+        newValue &&
+        location.pathname !== '/touchpoints' &&
+        location.pathname !== '/resources'
+      ) {
+        navigate('/touchpoints');
+      }
+
+      return newValue;
+    });
+  };
   const navigate = useNavigate();
 
   const logout = () =>{
