@@ -12,6 +12,17 @@ export const fetchQuestions = async (setLoading) => {
   }
 };
 
+export const fetchYourQuestions = async (setLoading) => {
+  try {
+    const response = await getData(endPoint.YOUR_QUESTION);
+    return response?.data?.data;
+  } catch (error) {
+    console.error("Error fetching Ask IBU questions:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 export const handleSubmit = async (e, setError, question, setQuestion) => {
   e.preventDefault();
 
@@ -43,7 +54,6 @@ export const fetchTags = async () => {
     return [];
   }
 };
-
 
 
 export const filterQuestionsByTags = (questions, appliedTags) => {

@@ -6,6 +6,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Content from "../Common/Content";
 import { getData } from "../../../../services/axios/apiHelper";
 import endPoint from "../../../../services/axios/apiEndpoint";
+import AskIBU from "../Sections/AskIBU";
 const Account = (content) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const faq = [
@@ -64,7 +65,11 @@ const Account = (content) => {
   ];
   const [likedIndexes, setLikedIndexes] = React.useState([]);
   const [favorite, setFavorite] = useState([]);
-   const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [currentReadClick, setCurrentReadClick] = useState({
+      previewArticle: null,
+      id: null
+    });
 
   const handleStarClick = (index) => {
     setLikedIndexes((prev) =>
@@ -92,8 +97,10 @@ const Account = (content) => {
     };
     fetchData();
   }, []);
+  
 
-  console.log(favorite,'favorite')
+//   console.log(favorite,'favorite')
+if (loading) return <p>Loading...</p>;
 
   return (
     <div className="main-page">
@@ -199,7 +206,8 @@ const Account = (content) => {
                       favorite &&
                       favorite.map((section) => (
                         <React.Fragment key={section.id}>
-                          <Content section={section} idx={section.id} />
+                          <Content section={section} idx={section.id}  currentReadClick={currentReadClick}
+                             setCurrentReadClick={setCurrentReadClick}/>
                         </React.Fragment>
                       ))
                     ) : (
@@ -208,7 +216,7 @@ const Account = (content) => {
                   </div>
                 </Tab>
                 <Tab eventKey="question" title="Your questions">
-                  Recently Question
+                 <AskIBU/>
                 </Tab>
               </Tabs>
             </div>

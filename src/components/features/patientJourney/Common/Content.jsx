@@ -1,46 +1,55 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import { updateContentRating } from "../../../../services/touchPointServices";
-import { toast } from "react-toastify";
+import IframeComponent from "./IframeComponent";
 
-const Content = (props) => {
-  const [section, setSection] = useState(props.section);
-  const [idx, setIdx] = useState(props.idx);
+const Content = ({
+  section: initialSection,
+  idx,
+  currentReadClick,
+  setCurrentReadClick,
+}) => {
+  const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { updateRating } = useContext(ContentContext);
+  const iframeRef = useRef(null);
 
   const handleStarClick = async () => {
     try {
       const response = await updateContentRating(section.id);
-      console.log(response.response);
       updateRating(section.id, response.response);
       setSection({
         ...section,
-        ...{
-          self_rate: section.self_rate === 1 ? 0 : 1,
-          rating: response.response,
-        },
+        self_rate: section.self_rate === 1 ? 0 : 1,
+        rating: response.response,
       });
-      if (section.self_rate !== 1) toast("Rating saved successfully");
-      else toast("Rating removed successfully");
     } catch (ex) {}
   };
 
+  useEffect(() => {
+    if (currentReadClick.id === section.id && iframeRef.current) {
+      iframeRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [currentReadClick, section.id]);
+
   const getAgeGroup = () => {
     const tags = JSON.parse(section.age_groups);
-    const formattedTags = [];
-    tags.map((tag) => {
-      const tagClass = tag.slice(0, 6).replace(/[\s-]/g, "").toLowerCase();
-      formattedTags.push({ tagLabel: tag, tagClass: tagClass });
-    });
-    return formattedTags;
+    return tags.map((tag) => ({
+      tagLabel: tag,
+      tagClass: tag.slice(0, 6).replace(/[\s-]/g, "").toLowerCase(),
+    }));
   };
 
-  const handleReadClick = (e) => {
+  const handleReadClick = (e, link, id) => {
     e.preventDefault();
-    window.open(section.previewArticle, "_blank", "noopener,noreferrer");
+    // If clicking same article, toggle off
+    if (currentReadClick.id === id) {
+      setCurrentReadClick({ previewArticle: null, id: null });
+    } else {
+      setCurrentReadClick({ previewArticle: link, id });
+    }
   };
 
   return (
@@ -93,11 +102,25 @@ const Content = (props) => {
             />
             {section.rating}
           </div>
-          <Button variant="primary" onClick={handleReadClick}>
-            Read
+          <Button
+            variant="primary"
+            onClick={(e) =>
+              handleReadClick(e, section.previewArticle, section.id)
+            }
+          >
+            {currentReadClick.id === section.id ? "Close" : "Read"}
           </Button>
         </div>
       </div>
+
+      {currentReadClick.id === section.id && (
+        <div className="content-data" ref={iframeRef}>
+          <IframeComponent
+            previewArticle={currentReadClick.previewArticle}
+            setCurrentReadClick={setCurrentReadClick}
+          />
+        </div>
+      )}
     </div>
   );
 };

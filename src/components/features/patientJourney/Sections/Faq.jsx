@@ -10,6 +10,8 @@ const Faq = () => {
   const [faqContent, setFaqContent] = useState([]);
 
   useEffect(()=>{
+
+    if(content.length === 0) return;
     const filteredData = content.filter(item => {
         const categoryLower = item.category.toLowerCase(); 
         return categoryLower === "faq"
@@ -17,7 +19,9 @@ const Faq = () => {
         setFaqContent(filteredData);
   },[])
   return (
-    <FaqAndLatestContent content ={faqContent} isFaq = {true}/>
+    <>
+    {faqContent.length > 0 &&  <FaqAndLatestContent content ={faqContent} isFaq = {true}/>}
+    </>
   )
 }
 

@@ -19,6 +19,10 @@ const TouchPoints = () => {
   const [categories, setCategories] = useState([]);
   const [narrations, setNarrations] = useState([]);
   const [contentTags, setContentTags] = useState([]);
+  const [currentReadClick, setCurrentReadClick] = useState({
+    previewArticle: null,
+    id: null,
+  });
   const { content } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
@@ -138,6 +142,7 @@ const TouchPoints = () => {
 
   useEffect(() => {
     setContents(content);
+    filterContents();
     if (content) getCategoryTags(content);
   }, [content]);
 
@@ -489,9 +494,15 @@ const TouchPoints = () => {
                     {" "}
                     {contents ? (
                       contents &&
-                      contents.map((section) => (
+                      contents.map((section, idx) => (
                         <React.Fragment key={section.id}>
-                          <Content section={section} idx={section.id} />
+                          <Content
+                            section={section}
+                            idx={section.id}
+                            key={idx}
+                            currentReadClick={currentReadClick}
+                            setCurrentReadClick={setCurrentReadClick}
+                          />
                         </React.Fragment>
                       ))
                     ) : (
