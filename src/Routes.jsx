@@ -41,7 +41,7 @@ const Routing = createBrowserRouter([
     path: "*",
     element: (
       <div className="d-flex align-items-center justify-content-center vh-100 page-404">
-        <h1>404 Not Found</h1>
+        <h1><span>404</span>Not Found</h1>
       </div>
     ),
   },

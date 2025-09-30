@@ -256,114 +256,6 @@ const TouchPoints = () => {
                           </Tab>
                         );
                       })}
-                    {/* <Tab eventKey="home" title="Diagnosis">
-                      {activeKey === "home" ? (
-                        <div className="touchpoint-data">
-                          <h6>Short Narrative</h6>
-                          <div className="d-flex justify-content-between narrative-block">
-                            <div className="content">
-                              <p>Challenges and unmet needs</p>
-                              <ul>
-                                <li>
-                                  Increased opportunities to observe bleeding
-                                  symptoms (e.g. increased sport and activity
-                                  levels, dental and orthodontic work, onset of
-                                  menstrual bleeding)
-                                </li>
-                                <li>
-                                  Nonspecific symptoms (e.g., bruising,
-                                  nosebleeds, oral bleeds) may seem common for
-                                  adolescents with increased risk-taking
-                                  behaviour and be under-recognized, especially
-                                  in the absence of family history
-                                </li>
-                                <li>
-                                  Often no family history of VWD, especially in
-                                  de novo Type 3 cases
-                                </li>
-                                <li>
-                                  VWF levels may fluctuate due to hormones,
-                                  stress, infections, and other factors, making
-                                  clear confirmation or exclusion of VWD
-                                  difficult
-                                </li>
-                              </ul>
-                            </div>
-                            <div className="content">
-                              <p>Octapharma's contribution</p>
-                              <ul>
-                                <li>
-                                  Supports VWDtest.com, a global awareness
-                                  platform offering resources for early symptom
-                                  recognition and timely referral
-                                </li>
-                                <li>
-                                  Provides caregiver and HCP resources to
-                                  recognize signs and seek appropriate testing
-                                </li>
-                                <li>
-                                  Offers a VWD genotyping service for early,
-                                  accurate, and personalized diagnosis and
-                                  treatment
-                                  <ul>
-                                    <li>
-                                      Enables early identification of affected
-                                      siblings before symptoms arise
-                                    </li>
-                                    <li>
-                                      Useful for surgical planning or trauma
-                                      preparedness
-                                    </li>
-                                  </ul>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="surgery" title="Surgery">
-                      {activeKey === "surgery" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Profile
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="pregnancy" title="Pregnancy & childbirth">
-                      {activeKey === "pregnancy" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Loooonger Tab
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="bone" title="Joint & bone health">
-                      {activeKey === "bone" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Contact
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="hmb" title="HMB">
-                      {activeKey === "hmb" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Contact
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="wilprophy" title="Wilprophy">
-                      {activeKey === "wilprophy" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Contact
-                        </div>
-                      ) : null}
-                    </Tab>
-                    <Tab eventKey="on-demand" title="On-demand">
-                      {activeKey === "on-demand" ? (
-                        <div className="touchpoint-data">
-                          Tab content for Contact
-                        </div>
-                      ) : null}
-                    </Tab> */}
                   </Tabs>
 
                   {/* Default message when no tab is selected */}
@@ -384,7 +276,7 @@ const TouchPoints = () => {
                     </Button>
                   </Form>
                 </div>
-                <div className="tags d-flex align-items-center">
+                <div className="tags d-flex">
                   <div className="tag-title">Tags:</div>
                   <div className="tag-list d-flex">
                     {contentTags &&
