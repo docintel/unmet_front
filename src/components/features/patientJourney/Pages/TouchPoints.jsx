@@ -338,8 +338,12 @@ const TouchPoints = () => {
                             }}
                             disabled={isTabDisabled(cat.id, true)}
                             className={` ${
-                              isTabDisabled(cat.id, true) ? "disabled" : ""
-                            } ${activeKey === cat.id ? "active" : ""}`}
+                              isTabDisabled(cat.id, true)
+                                ? "disabled"
+                                : activeKey === cat.id
+                                ? "active"
+                                : ""
+                            }`}
                           >
                             {cat.name}
                           </Button>
