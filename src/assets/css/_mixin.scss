@@ -415,3 +415,38 @@
     }
   }
 }
+@mixin shapes {
+  width: 44.8px;
+  height: 44.8px;
+  color: #256d81;
+background:
+    linear-gradient(135deg, #256d81, #3db4d4) top left,
+    linear-gradient(135deg, #e94262, #df4c67) top right,
+    linear-gradient(135deg, #f89548, #e69457) bottom right,
+    linear-gradient(135deg, #01adba, #62c5cc) bottom left;
+  background-size: 23.4px 23.4px;
+  background-repeat: no-repeat;
+  animation: loader-shapes 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+
+@keyframes loader-shapes {
+  0% {
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+  }
+
+  33% {
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    width: 67.2px;
+    height: 67.2px;
+  }
+
+  66% {
+    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
+    width: 67.2px;
+    height: 67.2px;
+  }
+
+  100% {
+    background-position: 100% 0, 100% 100%, 0 100%, 0 0;
+  }
+}
