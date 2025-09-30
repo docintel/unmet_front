@@ -15,9 +15,12 @@ const Content = ({
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { updateRating } = useContext(ContentContext);
+  const [updating, setUpdating] = useState(false);
   const iframeRef = useRef(null);
 
   const handleStarClick = async () => {
+    setUpdating(true);
+
     try {
       const response = await updateContentRating(section.id);
       updateRating(section.id, response.response);
@@ -26,8 +29,13 @@ const Content = ({
         self_rate: section.self_rate === 1 ? 0 : 1,
         rating: response.response,
       });
-      if (section.self_rate !== 1) toast("Rating saved successfully");
-      else toast("Rating removed successfully");
+      if (section.self_rate !== 1) {
+        toast("Rating saved successfully");
+        setUpdating(false);
+      } else {
+        toast("Rating removed successfully");
+        setUpdating(false);
+      }
     } catch (ex) {}
   };
 
@@ -101,7 +109,7 @@ const Content = ({
               }
               alt=""
               style={{ cursor: "pointer" }}
-              onClick={handleStarClick}
+              onClick={!updating ? handleStarClick : null}
             />
             {section.rating}
           </div>
