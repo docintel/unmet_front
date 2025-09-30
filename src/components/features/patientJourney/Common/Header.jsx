@@ -36,6 +36,7 @@ const Header = () => {
                 className="justify-content-center flex-grow-1"
               >
                 <Nav className="x-auto">
+                  {!isHcpSelected && (
                   <NavLink
                     to="/home"
                     className={({ isActive }) =>
@@ -43,7 +44,7 @@ const Header = () => {
                     }
                   >
                     Home
-                  </NavLink>
+                  </NavLink>)}
                   <NavLink
                     to="/touchpoints"
                     className={({ isActive }) =>
@@ -60,14 +61,15 @@ const Header = () => {
                   >
                     Resources
                   </NavLink>
-                  <NavLink
+
+                  {!isHcpSelected && (<NavLink
                     to="/account"
                     className={({ isActive }) =>
                       isActive ? "nav-link active" : "nav-link"
                     }
                   >
                     My Account
-                  </NavLink>
+                  </NavLink>)}
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
