@@ -8,6 +8,7 @@ import {
   fetchYourQuestions,
 } from "../../../../services/homeService";
 import { useLocation } from "react-router-dom";
+import Loader from "../Common/Loader";
 
 const AskIBU = () => {
   const [askIbu, setAskIbu] = useState([]);
@@ -32,6 +33,7 @@ const AskIBU = () => {
         setAskIbu(data);
         setFilteredQuestions(data);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -43,6 +45,7 @@ const AskIBU = () => {
       if (data) {
         setYourQuestion(data);
       }
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -53,6 +56,7 @@ const AskIBU = () => {
     const loadTags = async () => {
       const data = await fetchTags();
       if (data) setTags(data);
+      setLoading(false);
     };
     loadTags();
   }, []);
@@ -102,7 +106,13 @@ const AskIBU = () => {
   const dataToMap =
     location.pathname === "/account" ? yourQuestion : filteredQuestions;
 
-  if (loading) return <p>Loading...</p>;
+if (loading) {
+    return (
+      <div className="loader-overlay">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -220,7 +230,7 @@ const AskIBU = () => {
       {location.pathname !== "/account" && (
         <Form
           className="ask-ibu-form mt-4"
-          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion)}
+          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion,setLoading)}
         >
           <FormGroup className="form-group">
             <Form.Control

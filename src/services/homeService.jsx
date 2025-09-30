@@ -23,7 +23,7 @@ export const fetchYourQuestions = async (setLoading) => {
   }
 };
 
-export const handleSubmit = async (e, setError, question, setQuestion) => {
+export const handleSubmit = async (e, setError, question, setQuestion,setLoading) => {
   e.preventDefault();
 
   // console.log("handleSubmit")
@@ -34,6 +34,7 @@ export const handleSubmit = async (e, setError, question, setQuestion) => {
   }
 
   setError("");
+  setLoading(true); 
   try {
     const response = await postData(endPoint.ADD_QUESTIONS, {
       question: question,
@@ -42,6 +43,8 @@ export const handleSubmit = async (e, setError, question, setQuestion) => {
     setQuestion("");
   } catch (error) {
     console.error("Error submitting question:", error);
+  }finally {
+    setLoading(false); 
   }
 };
 
