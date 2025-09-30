@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import { updateContentRating } from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
@@ -14,10 +14,11 @@ const Content = ({
 }) => {
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { updateRating } = useContext(ContentContext);
+  const { updateRating, setIsLoading } = useContext(ContentContext);
   const iframeRef = useRef(null);
 
   const handleStarClick = async () => {
+    setIsLoading(true);
     try {
       const response = await updateContentRating(section.id);
       updateRating(section.id, response.response);
@@ -26,8 +27,13 @@ const Content = ({
         self_rate: section.self_rate === 1 ? 0 : 1,
         rating: response.response,
       });
-      if (section.self_rate !== 1) toast("Rating saved successfully");
-      else toast("Rating removed successfully");
+      if (section.self_rate !== 1) {
+        toast("Rating saved successfully");
+        setIsLoading(false);
+      } else {
+        toast("Rating removed successfully");
+        setIsLoading(false);
+      }
     } catch (ex) {}
   };
 
