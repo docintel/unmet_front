@@ -73,8 +73,7 @@ const Login = ({ userDetails }) => {
             </div>
 
             <div className="login-form">
-              <form onSubmit={(e) => handleSubmit(e, selectedRole, selectedRegion, selectedCountry, validateForm,navigate)}>
-                {/* Role */}
+              <form onSubmit={(e) => handleSubmit(e, selectedRole, selectedRegion, selectedCountry, validateForm,navigate,userDetails)}>
                 <Form.Group className="form-group">
                   <Form.Label>
                     Role <span>(Required)</span>
@@ -88,8 +87,6 @@ const Login = ({ userDetails }) => {
                   />
                   {errors.role && <div className="validation">{errors.role}</div>}
                 </Form.Group>
-
-                {/* Region */}
                 <Form.Group className="form-group">
                   <Form.Label>
                     Region <span>(Required)</span>
