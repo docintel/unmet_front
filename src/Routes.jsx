@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/features/auth/components/ProtectedRoute
 import PublicRoute from "./components/features/auth/components/PublicRoute.jsx";
 import Layout from "./components/features/patientJourney/Layout/Layout";
 import Resources from "./components/features/patientJourney/Pages/Resources";
+import { privateRoutes } from "./Routes/Routes.jsx";
 
 const PatientJourneyLanding = lazy(() =>
   import("./components/features/patientJourney/Landing/PatientJourneyLanding")
@@ -28,12 +29,7 @@ const Routing = createBrowserRouter([
     children: [
       {
         element: <Layout />,
-        children: [
-          { path: "/home", element: <PatientJourneyLanding /> },
-          { path: "/touchpoints", element: <TouchPoints /> },
-          { path: "/resources", element: <Resources /> },
-          { path: "/account", element: <Account /> },
-        ],
+        children: privateRoutes,
       },
     ],
   },

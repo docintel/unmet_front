@@ -11,7 +11,6 @@ const Layout = () => {
         {" "}
         <ContentProvider>
           <ToastContainer />
-
           <Outlet />
         </ContentProvider>
       </main>

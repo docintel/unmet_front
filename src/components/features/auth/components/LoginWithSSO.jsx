@@ -5,12 +5,14 @@ import { handleSso } from '../../../../services/authService';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
 import { clearLocalStorage } from '../../../../helper/helper';
+import Loader from '../../patientJourney/Common/Loader';
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
       const { login,logout, isAuthenticated } = useAuth();
       const navigate = useNavigate();
       const [userVerified, setUserVerified] =  useState(false);
       const [userDetails,setUserDetails]=useState({})
+      const [loader,setLoader]=useState(false)
 
       const isUserVerified = (res, email = "") => {
         clearLocalStorage();
@@ -24,6 +26,7 @@ const LoginWithSSO = () => {
           localStorage.setItem("decrypted_token", jwtToken);
           navigate("/home");
         }
+        setLoader(false)
       };
   return (
         <>
@@ -35,13 +38,20 @@ const LoginWithSSO = () => {
             <div className="user-name">
               <h1>Welcome to<br/>VWD JOURNEY</h1>
             </div>
-            <Button variant="primary" type="submit" onClick={() => handleSso(login,isUserVerified)} className="rounded-lg transition">
+            <Button variant="primary" type="submit" onClick={() => handleSso(login,isUserVerified,setLoader)} className="rounded-lg transition">
               Login with SSO
             </Button>
           </div>
         </div>}
       {
-        userVerified && <Login userDetails={userDetails}/>
+        userVerified && <Login userDetails={userDetails} setLoader = {setLoader}/>
+      }
+      {
+        loader && <div style={{ display: loader ? "block" : "none" }}>
+        <div className="loader-overlay">
+          <Loader />
+        </div>
+      </div>
       }
   </>
   );

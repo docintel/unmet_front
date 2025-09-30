@@ -3,12 +3,13 @@ import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
 import { clearLocalStorage } from "../helper/helper";
   
- export const handleSso = async (login,handleLoginSuccess) => {
+ export const handleSso = async (login,handleLoginSuccess,setLoader) => {
     try {
-      const data = await login(); 
+      const data = await login();
       if (!data) {
         throw new Error("Something went wrong. Please try again");
       }
+      setLoader(true)
       const { id, token, id_token, email } = data;
       const res = await postData(endPoint.Login, {
         id,
@@ -30,11 +31,12 @@ import { clearLocalStorage } from "../helper/helper";
   };
 
 
-export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate,userDetails) => {
+export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate,userDetails,setLoader) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     } 
+    setLoader(true)
     const data = {
       role: selectedRole.value,
       region: selectedRegion.value,
@@ -50,5 +52,6 @@ export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry
     localStorage.setItem("user_id", userDetails?.userToken);
     localStorage.setItem("name", userDetails?.name);
     localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+    setLoader(false)
     navigate("/home");
   };
