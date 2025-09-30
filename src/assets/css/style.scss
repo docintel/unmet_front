@@ -849,6 +849,9 @@ h6 {
           &.active {
             background: #4cc6cf;
             color: $white;
+            &:focus{
+              opacity: 1;
+            }
           }
            &.disabled {
               opacity: 0.4;
