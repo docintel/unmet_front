@@ -55,7 +55,7 @@ const AskIBU = () => {
   useEffect(() => {
     if (location.pathname === "/account") return;
     const loadTags = async () => {
-      const data = await fetchTags();
+      const data = await fetchTags(setIsLoading);
       if (data) setTags(data);
       setIsLoading(false);
     };
