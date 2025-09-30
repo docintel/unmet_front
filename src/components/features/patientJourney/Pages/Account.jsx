@@ -202,7 +202,7 @@ if (loading) return <p>Loading...</p>;
                 </Tab>
                 <Tab eventKey="favorite" title="Favorite">
                   <div className="touchpoint-data-boxes">
-                    {favorite>length > 0 ? (
+                    {favorite.length > 0 ? (
                       favorite &&
                       favorite.map((section) => (
                         <React.Fragment key={section.id}>

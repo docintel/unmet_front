@@ -196,7 +196,7 @@ const AskIBU = () => {
 
       {/* Questions list */}
       <div className="scroll-list">
-        {dataToMap?.length > 0 ? (dataToMap.map((item) => (
+        {dataToMap.length > 0 ? (dataToMap.map((item) => (
           <div className="detail-data-box" key={item.id}>
             <div className="content-box">
               <div className="heading">{item.question}</div>
