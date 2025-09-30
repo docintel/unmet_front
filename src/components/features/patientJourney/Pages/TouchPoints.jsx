@@ -31,10 +31,7 @@ const TouchPoints = () => {
 
   useEffect(() => {
     (async () => {
-      const { ageGroups, category, tags } = await fetchAgeGroupCategories(
-        setJourneyLabels,
-        setCategories
-      );
+      const { ageGroups, category, tags } = await fetchAgeGroupCategories();
 
       setJourneyLabels(ageGroups);
       setCategories(category);
