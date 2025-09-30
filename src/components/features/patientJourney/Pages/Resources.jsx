@@ -122,7 +122,7 @@ const Resources = () => {
                   {ageGroup &&
                     ageGroup.map((ageGrp) => (
                       <div className="tag-item" key={ageGrp.id}>
-                        {ageGrp.label}
+                        {ageGrp.label.split("<br />")[1]}
                       </div>
                     ))}
                 </div>

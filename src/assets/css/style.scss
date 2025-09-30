@@ -1290,3 +1290,24 @@ h6 {
   background: $dark-green;
   opacity: 0.8;
 }
+.no-data-found {
+  @include vertical-list; 
+  justify-content: center;
+  width: 100%;
+  margin: 10px 0;
+  padding: 20px;
+  min-height: 200px; 
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: $light-gray; 
+  background-color: $secondary-color;
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+}

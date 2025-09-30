@@ -211,7 +211,7 @@ if (loading) return <p>Loading...</p>;
                         </React.Fragment>
                       ))
                     ) : (
-                      <div className="no-data-found">No data Found</div> 
+                      <div className="no-data-found">No data Found</div>
                     )}
                   </div>
                 </Tab>
