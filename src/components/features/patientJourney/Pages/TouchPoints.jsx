@@ -282,6 +282,15 @@ const TouchPoints = () => {
               </div>
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
+                  <div className="touchpoint-links">
+                    <Button>Diagnosis</Button>
+                     <Button>Surgery</Button> 
+                      <Button>Pregnancy & childbirth</Button>
+                      <Button>Joint & bone health</Button>
+                     <Button>HMB</Button> 
+                      <Button>Wilprophy</Button>  
+                      <Button>On-demand</Button> 
+                  </div>
                   <Tabs
                     activeKey={activeKey}
                     onSelect={(k) => setActiveKey(k)}
@@ -289,7 +298,7 @@ const TouchPoints = () => {
                   >
                     {/* to see the original layout please comment and uncomment the the uncommented and commented below code */}
 
-                    {categories &&
+                     {categories &&
                       categories.map((cat) => {
                         return (
                           <Tab
