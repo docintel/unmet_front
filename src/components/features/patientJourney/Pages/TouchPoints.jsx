@@ -399,7 +399,7 @@ const TouchPoints = () => {
                         </React.Fragment>
                       ))
                     ) : (
-                      <div className="text-center  w-100">No data Found</div>
+                    <div className="no-data-found">No data Found</div>
                     )}
                   </div>
                 </div>
