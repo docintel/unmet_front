@@ -1,5 +1,6 @@
 // src/api/axiosInstance.js
 import axios from "axios";
+import { clearLocalStorage } from "../../helper/helper";
 
 // Create axios instance
 const axiosInstance = axios.create({
@@ -32,10 +33,10 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     if (error.response) {
       const { status } = error.response;
-      // if (status === 401) {
-      //   localStorage.removeItem("accessToken");
-      //   window.location.href = "/";
-      // }
+      if (status === 401) {
+        clearLocalStorage() 
+        window.location.href = "/";
+      }
       // if (status === 403) {
       //   console.error("You don’t have permission to perform this action.");
       // }

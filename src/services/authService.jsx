@@ -1,6 +1,7 @@
   
 import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
+import { clearLocalStorage } from "../helper/helper";
   
  export const handleSso = async (login,handleLoginSuccess) => {
     try {
@@ -45,6 +46,7 @@ export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry
         auth: `Bearer ${userDetails?.jwtToken}`,
       },
     });
+    clearLocalStorage();
     localStorage.setItem("user_id", userDetails?.userToken);
     localStorage.setItem("name", userDetails?.name);
     localStorage.setItem("decrypted_token", userDetails?.jwtToken);
