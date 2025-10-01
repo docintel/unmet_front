@@ -18,7 +18,7 @@ import { clearLocalStorage } from "../helper/helper";
         type: "sso",
       });
 
-      handleLoginSuccess(res, email);
+     await handleLoginSuccess(res, email);
     } catch (error) {
       if (error.errorCode === "user_cancelled") {
         console.warn("User cancelled login flow"); 
