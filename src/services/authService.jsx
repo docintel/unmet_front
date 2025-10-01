@@ -2,7 +2,7 @@
 import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
 import { clearLocalStorage } from "../helper/helper";
-  
+
  export const handleSso = async (login,handleLoginSuccess,setLoader) => {
     try {
       const data = await login();
@@ -23,13 +23,14 @@ import { clearLocalStorage } from "../helper/helper";
       if (error.errorCode === "user_cancelled") {
         console.warn("User cancelled login flow"); 
         alert("Login was cancelled. Please try again.");
+        setLoader(false)
       } else {
         console.error("Unexpected login error:", error);
         alert("Login failed. Please try again later.");
+        setLoader(false)
       }
     }
   };
-
 
 export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry,validateForm,navigate,userDetails,setLoader) => {
     e.preventDefault();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react' 
 import useAuth from "../../../../hooks/useAuth"
-import { useNavigate } from 'react-router-dom'; 
+import { Navigate, useNavigate } from 'react-router-dom'; 
 import { handleSso } from '../../../../services/authService';
 import Login from './Login';
 import { Button } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import Loader from '../../patientJourney/Common/Loader';
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH
       const { login,logout, isAuthenticated } = useAuth();
+      const isAuthenticatedUser =  localStorage.getItem("decrypted_token") ? true : false;
       const navigate = useNavigate();
       const [userVerified, setUserVerified] =  useState(false);
       const [userDetails,setUserDetails]=useState({})
@@ -28,6 +29,13 @@ const LoginWithSSO = () => {
         }
         setLoader(false)
       };
+
+    if (isAuthenticatedUser) { 
+        return <Navigate to="/home" replace />;
+      }
+
+
+
   return (
         <>
       {!userVerified && <div className="login-page">
