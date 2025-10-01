@@ -77,3 +77,18 @@ export const TrackDownloads = async (id) => {
   } finally {
   }
 };
+
+export const SubmitShareContent = async (id, email, message, name) => {
+  try {
+    const data = await postData(endPoint.CONTENT_SHARE, {
+      pdf_id: id,
+      email: email,
+      message: message,
+      name: name,
+    });
+  } catch (error) {
+    console.error("Error while updating rating:", error);
+    throw new Error("Error while updating rating");
+  } finally {
+  }
+};

@@ -2,8 +2,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
 import {
+  SubmitShareContent,
   TrackDownloads,
   updateContentRating,
 } from "../../../../services/touchPointServices";
@@ -24,6 +25,9 @@ const Content = ({
   const { updateRating, setIsLoading } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleStarClick = async () => {
     setIsLoading(true);
@@ -69,7 +73,9 @@ const Content = ({
     }
   };
 
-  const handleShareClick = () => {setShowModal(true)};
+  const handleShareClick = () => {
+    setShowModal(true);
+  };
 
   const handleDownloadClick = async () => {
     try {
@@ -118,6 +124,24 @@ const Content = ({
     toast("Content link copied to clipboard");
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEmail("");
+    setName("");
+    setMessage("");
+  };
+
+  const handleSubmitClick = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast("Email is required!!");
+      return;
+    }
+    await SubmitShareContent(section.id, email, message || null, name || null);
+    toast("Content shared via email successfully");
+    handleCloseModal();
+  };
+
   return (
     <div className="detail-data-box" key={idx}>
       <div className="age-format d-flex">
@@ -128,60 +152,60 @@ const Content = ({
         ))}
       </div>
 
-  <div className="pop_up">
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        backdrop="static"
+      <div className="pop_up">
+        <Modal
+          show={showModal}
+          onHide={handleCloseModal}
+          backdrop="static"
           keyboard={false}
           centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Contact Form</Modal.Title>
-        </Modal.Header>
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Contact Form</Modal.Title>
+          </Modal.Header>
 
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                name="name"
-                // value={formData.name}
-                // onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter your email"
-                name="email"
-                // value={formData.email}
-                // onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formMessage">
-              <Form.Label>Message</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="Enter your message"
-                name="message"
-                // value={formData.message}
-                // onChange={handleChange}
-              />
+          <Modal.Body>
+            <Form onSubmit={handleSubmitClick}>
+              <Form.Group className="mb-3" controlId="formName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your name"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </Form.Group>
-              <Button variant="primary" onClick="">
-            Submit
-          </Button>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </div>
+
+              <Form.Group className="mb-3" controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter your email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value.trim())}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formMessage">
+                <Form.Label>Message</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter your message"
+                  name="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={handleSubmitClick}>
+                Submit
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
+      </div>
 
       <div className="content-box">
         <div className="format">
