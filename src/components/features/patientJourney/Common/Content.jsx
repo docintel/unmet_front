@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
+import Modal from 'react-bootstrap/Modal';
 import {
   TrackDownloads,
   updateContentRating,
@@ -22,6 +23,7 @@ const Content = ({
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { updateRating, setIsLoading } = useContext(ContentContext);
   const iframeRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
 
   const handleStarClick = async () => {
     setIsLoading(true);
@@ -67,7 +69,7 @@ const Content = ({
     }
   };
 
-  const handleShareClick = () => {};
+  const handleShareClick = () => {setShowModal(true)};
 
   const handleDownloadClick = async () => {
     try {
@@ -125,6 +127,61 @@ const Content = ({
           </div>
         ))}
       </div>
+
+  <div className="pop_up">
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        backdrop="static"
+          keyboard={false}
+          centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Contact Form</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formName">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your name"
+                name="name"
+                // value={formData.name}
+                // onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter your email"
+                name="email"
+                // value={formData.email}
+                // onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formMessage">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter your message"
+                name="message"
+                // value={formData.message}
+                // onChange={handleChange}
+              />
+              </Form.Group>
+              <Button variant="primary" onClick="">
+            Submit
+          </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </div>
 
       <div className="content-box">
         <div className="format">
