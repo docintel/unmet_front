@@ -2,9 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Button } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
-import { updateContentRating } from "../../../../services/touchPointServices";
+import {
+  TrackDownloads,
+  updateContentRating,
+} from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
 import { toast } from "react-toastify";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 const Content = ({
   section: initialSection,
@@ -12,6 +17,7 @@ const Content = ({
   currentReadClick,
   setCurrentReadClick,
 }) => {
+  const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { updateRating, setIsLoading } = useContext(ContentContext);
@@ -62,7 +68,49 @@ const Content = ({
   };
 
   const handleShareClick = () => {};
-  const handleDownloadClick = () => {};
+
+  const handleDownloadClick = async () => {
+    try {
+      if (
+        section.file_type.toLowerCase() === "pdf" ||
+        section.file_type.toLowerCase() === "video"
+      ) {
+        const downloadUrl = `${staticUrl}/${section.file_type}/${section.folder_name}/${section.pdf_files}`;
+        const response = await fetch(downloadUrl);
+        const blob = await response.blob();
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+      } else if (section.file_type.toLowerCase() === "iframe") {
+        const downloadUrl = section.pdf_files.split("=")[1];
+        const response = await fetch(downloadUrl);
+        const blob = await response.blob();
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+      } else {
+        const zip = new JSZip();
+        const fileLinks = section.pdf_files.split(",");
+        for (let i = 0; i < fileLinks.length; i++) {
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
+          try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const fileName = url.split("/").pop() || `file${i + 1}`;
+            zip.file(fileName, blob);
+          } catch (err) {
+            console.error(`Failed to fetch ${url}`, err);
+          }
+        }
+        const content = await zip.generateAsync({ type: "blob" });
+        saveAs(content, section.title + ".zip");
+      }
+      await TrackDownloads(section.id);
+    } catch (ex) {
+      toast("Failed to download the content.");
+    }
+  };
+
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(section.previewArticle);
     toast("Content link copied to clipboard");

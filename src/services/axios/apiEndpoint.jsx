@@ -10,6 +10,8 @@ const endPoint = {
   FAVORITE: "/content/get-favourite-content",
   YOUR_QUESTION: "/questions/your-question",
   UPDATE_CONTENT_RATING: "/content/toggle-rating",
+  TRACK_DOWNLOADS: "/content/content-download",
+  CONTENT_SHARE: "/content/content-share",
 };
 
 export default endPoint;

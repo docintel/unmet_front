@@ -65,3 +65,15 @@ export const updateContentRating = async (id) => {
   } finally {
   }
 };
+
+export const TrackDownloads = async (id) => {
+  try {
+    const data = await postData(endPoint.TRACK_DOWNLOADS, {
+      pdf_id: id,
+    });
+  } catch (error) {
+    console.error("Error while updating rating:", error);
+    throw new Error("Error while updating rating");
+  } finally {
+  }
+};
