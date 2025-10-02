@@ -12,7 +12,7 @@ const PatientJourneyLanding = () => {
 
   useEffect(() => {
     (async () => await fetchAgeGroups())();
-  });
+  }, []);
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
   const handleSectionClick = (section) => setActiveSection(section);
 

@@ -28,6 +28,9 @@ const Content = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+  const circumference = 2 * Math.PI * 45;
 
   const handleStarClick = async () => {
     setIsLoading(true);
@@ -40,10 +43,10 @@ const Content = ({
         rating: response.response,
       });
       if (section.self_rate !== 1) {
-        toast("Rating saved successfully");
+        toast.success("Rating saved successfully");
         setIsLoading(false);
       } else {
-        toast("Rating removed successfully");
+        toast.warn("Rating removed successfully");
         setIsLoading(false);
       }
     } catch (ex) {}
@@ -78,32 +81,117 @@ const Content = ({
   };
 
   const handleDownloadClick = async () => {
+    let received = 0;
+    let total = 0;
+
+    const getContentSize = async (fileUrl) => {
+      const response = await fetch(fileUrl, { method: "HEAD" });
+      if (!response.ok) throw new Error("Request failed");
+      total += parseInt(response.headers.get("Content-Length"));
+    };
+
+    const downloadFileChuck = async (fileUrl) => {
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error("Download failed");
+      const reader = response.body.getReader();
+      const chunks = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        received += value.length;
+        if (total) {
+          setProgress(Math.floor((received / total) * 100));
+        }
+      }
+      return new Blob(chunks);
+    };
+
     try {
+      // setDownloading(true);
       if (
         section.file_type.toLowerCase() === "pdf" ||
         section.file_type.toLowerCase() === "video"
       ) {
         const downloadUrl = `${staticUrl}/${section.file_type}/${section.folder_name}/${section.pdf_files}`;
-        const response = await fetch(downloadUrl);
-        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = downloadUrl;
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        link.download = section.title + "." + extenstion;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // await getContentSize(downloadUrl);
+        // const blob = await downloadFileChuck(downloadUrl);
+        // const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        // saveAs(blob, section.title + "." + extenstion);
+        // setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
-        const response = await fetch(downloadUrl);
-        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = downloadUrl;
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        link.download = section.title + "." + extenstion;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // await getContentSize(downloadUrl);
+        // const blob = await downloadFileChuck(downloadUrl);
+
+        // const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        // saveAs(blob, section.title + "." + extenstion);
+        // setDownloading(false);
       } else {
+        setDownloading(true);
         const zip = new JSZip();
         const fileLinks = section.pdf_files.split(",");
+        // for (let i = 0; i < fileLinks.length; i++) {
+        //   const file = fileLinks[i];
+        //   try {
+        //     const url = `${staticUrl}/${
+        //       fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+        //     }/${section.folder_name}/${fileLinks[i]}`;
+        //     const response = await fetch(url);
+        //     if (!response.ok) throw new Error("Failed to fetch " + file.url);
+
+        //     const blob = await response.blob();
+        //     zip.file(file.name, blob);
+        //   } catch (err) {
+        //     console.error(`Error fetching ${file.name}:`, err);
+        //   }
+        // }
+
+        // const content = await zip.generateAsync({ type: "blob" });
+        // const url = URL.createObjectURL(content);
+
+        // // Create a temporary <a> tag and click it to trigger browser download
+        // const link = document.createElement("a");
+        // link.href = url;
+        // link.download = section.title + ".zip";
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+
+        // Release the object URL
+        // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
           const url = `${staticUrl}/${
             fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
           }/${section.folder_name}/${fileLinks[i]}`;
           try {
-            const response = await fetch(url);
-            const blob = await response.blob();
+            await getContentSize(url);
+          } catch (err) {
+            console.error(`Failed to fetch ${url}`, err);
+          }
+        }
+
+        for (let i = 0; i < fileLinks.length; i++) {
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
+          try {
+            const blob = await downloadFileChuck(url);
+
             const fileName = url.split("/").pop() || `file${i + 1}`;
             zip.file(fileName, blob);
           } catch (err) {
@@ -113,9 +201,12 @@ const Content = ({
         const content = await zip.generateAsync({ type: "blob" });
         saveAs(content, section.title + ".zip");
       }
+      setDownloading(false);
+
       await TrackDownloads(section.id);
     } catch (ex) {
       toast("Failed to download the content.");
+      setDownloading(false);
     }
   };
 
@@ -146,7 +237,6 @@ const Content = ({
           </div>
         ))}
       </div>
-
       <div className="pop_up">
         <Modal
           show={showModal}
@@ -212,7 +302,6 @@ const Content = ({
           </Modal.Body>
         </Modal>
       </div>
-
       <div className="content-box">
         <div className="format">
           <div className="d-flex align-items-center">
@@ -264,13 +353,73 @@ const Content = ({
           </Button>
         </div>
       </div>
-
       {currentReadClick.id === section.id && (
         <div className="content-data" ref={iframeRef}>
           <IframeComponent
             previewArticle={currentReadClick.previewArticle}
             setCurrentReadClick={setCurrentReadClick}
           />
+        </div>
+      )}{" "}
+      {/* Transparent overlay with circular progress */}
+      {downloading && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(255,255,255,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "8px",
+          }}
+        >
+          <div style={{ position: "relative", width: 120, height: 120 }}>
+            <svg
+              width="120"
+              height="120"
+              style={{ transform: "rotate(-90deg)" }}
+            >
+              <circle
+                cx="60"
+                cy="60"
+                r="45"
+                stroke="#e0e0e0"
+                strokeWidth="10"
+                fill="none"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="45"
+                stroke="#007bff"
+                strokeWidth="10"
+                fill="none"
+                strokeDasharray={circumference}
+                strokeDashoffset={
+                  circumference - (progress / 100) * circumference
+                }
+                strokeLinecap="round"
+                style={{ transition: "stroke-dashoffset 0.3s ease" }}
+              />
+            </svg>
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                fontWeight: "bold",
+                fontSize: "18px",
+                color: "#007bff",
+              }}
+            >
+              {progress}%
+            </div>
+          </div>
         </div>
       )}
     </div>
