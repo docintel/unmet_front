@@ -81,31 +81,31 @@ const Content = ({
   };
 
   const handleDownloadClick = async () => {
-    // let received = 0;
-    // let total = 0;
+    let received = 0;
+    let total = 0;
 
-    // const getContentSize = async (fileUrl) => {
-    //   const response = await fetch(fileUrl, { method: "HEAD" });
-    //   if (!response.ok) throw new Error("Request failed");
-    //   total += parseInt(response.headers.get("Content-Length"));
-    // };
+    const getContentSize = async (fileUrl) => {
+      const response = await fetch(fileUrl, { method: "HEAD" });
+      if (!response.ok) throw new Error("Request failed");
+      total += parseInt(response.headers.get("Content-Length"));
+    };
 
-    // const downloadFileChuck = async (fileUrl) => {
-    //   const response = await fetch(fileUrl);
-    //   if (!response.ok) throw new Error("Download failed");
-    //   const reader = response.body.getReader();
-    //   const chunks = [];
-    //   while (true) {
-    //     const { done, value } = await reader.read();
-    //     if (done) break;
-    //     chunks.push(value);
-    //     received += value.length;
-    //     if (total) {
-    //       setProgress(Math.floor((received / total) * 100));
-    //     }
-    //   }
-    //   return new Blob(chunks);
-    // };
+    const downloadFileChuck = async (fileUrl) => {
+      const response = await fetch(fileUrl);
+      if (!response.ok) throw new Error("Download failed");
+      const reader = response.body.getReader();
+      const chunks = [];
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        received += value.length;
+        if (total) {
+          setProgress(Math.floor((received / total) * 100));
+        }
+      }
+      return new Blob(chunks);
+    };
 
     try {
       // setDownloading(true);
@@ -142,70 +142,71 @@ const Content = ({
         // saveAs(blob, section.title + "." + extenstion);
         // setDownloading(false);
       } else {
+        setDownloading(true);
         const zip = new JSZip();
         const fileLinks = section.pdf_files.split(",");
-        for (let i = 0; i < fileLinks.length; i++) {
-          const file = fileLinks[i];
-          try {
-            const url = `${staticUrl}/${
-              fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error("Failed to fetch " + file.url);
+        // for (let i = 0; i < fileLinks.length; i++) {
+        //   const file = fileLinks[i];
+        //   try {
+        //     const url = `${staticUrl}/${
+        //       fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+        //     }/${section.folder_name}/${fileLinks[i]}`;
+        //     const response = await fetch(url);
+        //     if (!response.ok) throw new Error("Failed to fetch " + file.url);
 
-            const blob = await response.blob();
-            zip.file(file.name, blob);
+        //     const blob = await response.blob();
+        //     zip.file(file.name, blob);
+        //   } catch (err) {
+        //     console.error(`Error fetching ${file.name}:`, err);
+        //   }
+        // }
+
+        // const content = await zip.generateAsync({ type: "blob" });
+        // const url = URL.createObjectURL(content);
+
+        // // Create a temporary <a> tag and click it to trigger browser download
+        // const link = document.createElement("a");
+        // link.href = url;
+        // link.download = section.title + ".zip";
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+
+        // Release the object URL
+        // URL.revokeObjectURL(url);
+        for (let i = 0; i < fileLinks.length; i++) {
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
+          try {
+            await getContentSize(url);
           } catch (err) {
-            console.error(`Error fetching ${file.name}:`, err);
+            console.error(`Failed to fetch ${url}`, err);
           }
         }
 
+        for (let i = 0; i < fileLinks.length; i++) {
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
+          try {
+            const blob = await downloadFileChuck(url);
+
+            const fileName = url.split("/").pop() || `file${i + 1}`;
+            zip.file(fileName, blob);
+          } catch (err) {
+            console.error(`Failed to fetch ${url}`, err);
+          }
+        }
         const content = await zip.generateAsync({ type: "blob" });
-        const url = URL.createObjectURL(content);
-
-        // Create a temporary <a> tag and click it to trigger browser download
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = section.title + ".zip";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        // Release the object URL
-        URL.revokeObjectURL(url);
-        // for (let i = 0; i < fileLinks.length; i++) {
-        // const url = `${staticUrl}/${
-        //   fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-        // }/${section.folder_name}/${fileLinks[i]}`;
-        //   try {
-        //     await getContentSize(url);
-        //   } catch (err) {
-        //     console.error(`Failed to fetch ${url}`, err);
-        //   }
-        // }
-
-        // for (let i = 0; i < fileLinks.length; i++) {
-        //   const url = `${staticUrl}/${
-        //     fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-        //   }/${section.folder_name}/${fileLinks[i]}`;
-        //   try {
-        //     const blob = await downloadFileChuck(url);
-
-        //     const fileName = url.split("/").pop() || `file${i + 1}`;
-        //     zip.file(fileName, blob);
-        //   } catch (err) {
-        //     console.error(`Failed to fetch ${url}`, err);
-        //   }
-        // }
-        // const content = await zip.generateAsync({ type: "blob" });
-        // saveAs(content, section.title + ".zip");
+        saveAs(content, section.title + ".zip");
       }
-      // setDownloading(false);
+      setDownloading(false);
 
       await TrackDownloads(section.id);
     } catch (ex) {
       toast("Failed to download the content.");
-      // setDownloading(false);
+      setDownloading(false);
     }
   };
 
@@ -360,7 +361,7 @@ const Content = ({
           />
         </div>
       )}{" "}
-      {/* Transparent overlay with circular progress
+      {/* Transparent overlay with circular progress */}
       {downloading && (
         <div
           style={{
@@ -420,7 +421,7 @@ const Content = ({
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
