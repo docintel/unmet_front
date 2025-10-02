@@ -43,10 +43,10 @@ const Content = ({
         rating: response.response,
       });
       if (section.self_rate !== 1) {
-        toast("Rating saved successfully");
+        toast.success("Rating saved successfully");
         setIsLoading(false);
       } else {
-        toast("Rating removed successfully");
+        toast.warn("Rating removed successfully");
         setIsLoading(false);
       }
     } catch (ex) {}
