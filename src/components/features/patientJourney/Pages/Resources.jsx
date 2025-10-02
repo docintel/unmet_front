@@ -68,7 +68,6 @@ const Resources = () => {
         if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
           filteredArray.push(item);
       });
-      console.log(ageGroup);
       const temp = [];
       filteredArray.forEach((element) => {
         let found = false;
