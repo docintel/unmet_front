@@ -12,6 +12,7 @@ const endPoint = {
   UPDATE_CONTENT_RATING: "/content/toggle-rating",
   TRACK_DOWNLOADS: "/content/content-download",
   CONTENT_SHARE: "/content/content-share",
+  USER_DETAILS:'/users/get-user-details'
 };
 
 export default endPoint;
