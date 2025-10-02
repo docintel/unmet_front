@@ -43,7 +43,6 @@ export const handleSubmit = async (e,selectedRole,selectedRegion,selectedCountry
       region: selectedRegion.value,
       country: selectedCountry.value,
     };
-    console.log(userDetails?.jwtToken)
     await postData(endPoint.VERIFY_USER, data, {
       headers: {
         auth: `Bearer ${userDetails?.jwtToken}`,

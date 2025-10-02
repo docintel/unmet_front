@@ -189,7 +189,6 @@ const TouchPoints = () => {
               }
               return count === selectedTag.length ? true : false;
             });
-      console.log(newArr);
 
       setContents(newArr);
     } else if (searchText) {
