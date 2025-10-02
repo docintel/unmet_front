@@ -589,7 +589,7 @@ h6 {
     border-top: 1px dashed $text-color;
     width: 100%;
     flex: 1;
-     &.disabled{
+    &.disabled {
       opacity: 0.4;
     }
   }
@@ -720,8 +720,8 @@ h6 {
         display: inline-block;
       }
 
-      &.disabled{
-        color:rgba(93, 118, 130, 0.4);
+      &.disabled {
+        color: rgba(93, 118, 130, 0.4);
       }
       &.active {
         color: #4cc6cf;
@@ -729,7 +729,7 @@ h6 {
         background: $white;
         box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
         border-radius: 10px 10px 0 0;
- 
+
         div {
           &:before {
             content: "";
@@ -853,14 +853,14 @@ h6 {
           &.active {
             background: #4cc6cf;
             color: $white;
-            &:focus{
+            &:focus {
               opacity: 1;
             }
           }
-           &.disabled {
-              opacity: 0.4;
-              background: #F4F6F9;
-            }
+          &.disabled {
+            opacity: 0.4;
+            background: #f4f6f9;
+          }
         }
       }
 
@@ -961,7 +961,6 @@ h6 {
         animation: slidedown 0.6s normal forwards;
       }
     }
-
   }
   .touchpoint-data {
     border-radius: 2px;
@@ -1327,4 +1326,8 @@ h6 {
   background: rgb(244, 246, 249);
   z-index: 10;
   @include dots;
+}
+#question:focus {
+  box-shadow: none;
+  border-color: $dark-green;
 }

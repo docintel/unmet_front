@@ -129,11 +129,11 @@ const Content = ({
   const handleSubmitClick = async (e) => {
     e.preventDefault();
     if (!email) {
-      toast("Email is required!!");
+      toast.error("Email is required!!");
       return;
     }
     await SubmitShareContent(section.id, email, message || null, name || null);
-    toast("Content shared via email successfully");
+    toast.success("Content shared via email successfully");
     handleCloseModal();
   };
 
@@ -173,7 +173,18 @@ const Content = ({
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>Email</Form.Label>
+                <Form.Label>
+                  Email
+                  <span
+                    style={{
+                      color: "red",
+                      fontWeight: "bold",
+                      marginLeft: "1px",
+                    }}
+                  >
+                    *
+                  </span>
+                </Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter your email"
