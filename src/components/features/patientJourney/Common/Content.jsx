@@ -119,11 +119,6 @@ const Content = ({
     }
   };
 
-  const handleCopyClick = async () => {
-    await navigator.clipboard.writeText(section.previewArticle);
-    toast("Content link copied to clipboard");
-  };
-
   const handleCloseModal = () => {
     setShowModal(false);
     setEmail("");
@@ -224,7 +219,6 @@ const Content = ({
               <Dropdown.Item onClick={handleDownloadClick}>
                 Download
               </Dropdown.Item>
-              <Dropdown.Item onClick={handleCopyClick}>Copy Link</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

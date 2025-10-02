@@ -124,13 +124,16 @@ const TouchPoints = () => {
       const newArr =
         selectedTag.length === 0
           ? filteredArray
-          : filteredArray.filter((item) =>
-              JSON.parse(item.tags).some((tag) =>
-                selectedTag.some(
-                  (sel) => tag.toLowerCase() === sel.toLowerCase()
-                )
-              )
-            );
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
       setContents(newArr);
     } else if (activeKey) {
       const categoryName = filterCategory.find(
@@ -148,13 +151,16 @@ const TouchPoints = () => {
       const newArr =
         selectedTag.length === 0
           ? filteredArray
-          : filteredArray.filter((item) =>
-              JSON.parse(item.tags).some((tag) =>
-                selectedTag.some(
-                  (sel) => tag.toLowerCase() === sel.toLowerCase()
-                )
-              )
-            );
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
       setContents(newArr);
     } else if (activeJourney) {
       const ageGroupName = filterAges
@@ -173,13 +179,16 @@ const TouchPoints = () => {
       const newArr =
         selectedTag.length === 0
           ? filteredArray
-          : filteredArray.filter((item) =>
-              JSON.parse(item.tags).some((tag) =>
-                selectedTag.some(
-                  (sel) => tag.toLowerCase() === sel.toLowerCase()
-                )
-              )
-            );
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
       console.log(newArr);
 
       setContents(newArr);
@@ -193,26 +202,32 @@ const TouchPoints = () => {
       const newArr =
         selectedTag.length === 0
           ? filteredArray
-          : filteredArray.filter((item) =>
-              JSON.parse(item.tags).some((tag) =>
-                selectedTag.some(
-                  (sel) => tag.toLowerCase() === sel.toLowerCase()
-                )
-              )
-            );
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
       setContents(newArr);
     } else {
       if (content && content.length > 0) {
         const newArr =
           selectedTag.length === 0
             ? content
-            : content.filter((item) =>
-                JSON.parse(item.tags).some((tag) =>
-                  selectedTag.some(
-                    (sel) => tag.toLowerCase() === sel.toLowerCase()
-                  )
-                )
-              );
+            : content.filter((item) => {
+                const tagArray = JSON.parse(item.tags.toLowerCase());
+                let count = 0;
+                for (let i = 0; i < selectedTag.length; i++) {
+                  count = tagArray.includes(selectedTag[i].toLowerCase())
+                    ? count + 1
+                    : count;
+                }
+                return count === selectedTag.length ? true : false;
+              });
         setContents(newArr);
       } else {
         setContents(content);
