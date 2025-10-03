@@ -5,14 +5,15 @@ import { ToastContainer } from "react-toastify";
 const Layout = () => {
   return (
     <>
-      <Header />
-      <main>
-        {" "}
-        <ContentProvider>
+      {" "}
+      <ContentProvider>
+        <Header />
+        <main>
+          {" "}
           <ToastContainer closeOnClick pauseOnHover />
           <Outlet />
-        </ContentProvider>
-      </main>
+        </main>{" "}
+      </ContentProvider>
     </>
   );
 };

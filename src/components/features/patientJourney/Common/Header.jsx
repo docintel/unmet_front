@@ -1,25 +1,25 @@
-import { useState } from 'react' 
-import { Link} from 'react-router-dom';
-import { Nav, Navbar, Row } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { clearLocalStorage } from '../../../../helper/helper';
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Nav, Navbar, Row } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { clearLocalStorage } from "../../../../helper/helper";
+import { ContentContext } from "../../../../context/ContentContext";
 const Header = () => {
-  const path_image = import.meta.env.VITE_IMAGES_PATH
-  const [isHcpSelected, setIsHcpSelected] = useState(false);
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
+  const { isHcp, setIsHcp } = useContext(ContentContext);
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
-  
-   const toggleUserType = () => {
-    setIsHcpSelected((prev) => {
+  const toggleUserType = () => {
+    setIsHcp((prev) => {
       const newValue = !prev;
 
       // If switching to HCP and not already on touchpoints/resources → redirect to /touchpoints
       if (
         newValue &&
-        location.pathname !== '/touchpoints' &&
-        location.pathname !== '/resources'
+        location.pathname !== "/touchpoints" &&
+        location.pathname !== "/resources"
       ) {
-        navigate('/touchpoints');
+        navigate("/touchpoints");
       }
 
       return newValue;
@@ -27,11 +27,10 @@ const Header = () => {
   };
   const navigate = useNavigate();
 
-  const logout = () =>{
+  const logout = () => {
     clearLocalStorage();
     navigate("/");
-
-  }
+  };
 
   return (
     <header className="header sticky">
@@ -45,7 +44,7 @@ const Header = () => {
               className="nav"
             >
               <Navbar.Brand href="/">
-                <img src={path_image + "logo-img.svg"} alt="logo"/>
+                <img src={path_image + "logo-img.svg"} alt="logo" />
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse
@@ -53,15 +52,16 @@ const Header = () => {
                 className="justify-content-center flex-grow-1"
               >
                 <Nav className="x-auto">
-                  {!isHcpSelected && (
-                  <NavLink
-                    to="/home"
-                    className={({ isActive }) =>
-                      isActive ? "nav-link active" : "nav-link"
-                    }
-                  >
-                    Home
-                  </NavLink>)}
+                  {!isHcp && (
+                    <NavLink
+                      to="/home"
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                    >
+                      Home
+                    </NavLink>
+                  )}
                   <NavLink
                     to="/touchpoints"
                     className={({ isActive }) =>
@@ -79,14 +79,16 @@ const Header = () => {
                     Resources
                   </NavLink>
 
-                  {!isHcpSelected && (<NavLink
-                    to="/account"
-                    className={({ isActive }) =>
-                      isActive ? "nav-link active" : "nav-link"
-                    }
-                  >
-                    My Account
-                  </NavLink>)}
+                  {!isHcp && (
+                    <NavLink
+                      to="/account"
+                      className={({ isActive }) =>
+                        isActive ? "nav-link active" : "nav-link"
+                      }
+                    >
+                      My Account
+                    </NavLink>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
@@ -95,19 +97,15 @@ const Header = () => {
                 <label className="switch-light">
                   <input
                     type="checkbox"
-                    checked={isHcpSelected}
+                    checked={isHcp}
                     onChange={toggleUserType}
                     style={{ margin: 0 }}
                   />
                   <span>
-                    <span
-                      className={`switch-btn ${!isHcpSelected ? "active" : ""}`}
-                    >
+                    <span className={`switch-btn ${!isHcp ? "active" : ""}`}>
                       Octapharma
                     </span>
-                    <span
-                      className={`switch-btn ${isHcpSelected ? "active" : ""}`}
-                    >
+                    <span className={`switch-btn ${isHcp ? "active" : ""}`}>
                       HCP
                     </span>
                   </span>
@@ -119,11 +117,15 @@ const Header = () => {
                   <img src={path_image + "avtar-icon.png"} alt="user" />
                 </div>
                 <span>
-                  <Link to="/"
-                   onClick={(e) => {
+                  <Link
+                    to="/"
+                    onClick={(e) => {
                       e.preventDefault(); // stop default link navigation
                       logout();
-                    }}>Log Out</Link>
+                    }}
+                  >
+                    Log Out
+                  </Link>
                 </span>
               </div>
             </div>

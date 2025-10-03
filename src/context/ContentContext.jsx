@@ -8,21 +8,34 @@ import Loader from "../components/features/patientJourney/Common/Loader";
 export const ContentContext = createContext();
 
 export const ContentProvider = ({ children }) => {
+  const [contents, setContents] = useState(null);
   const [content, setContent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [filterAges, setFilterAges] = useState([]);
   const [filterTag, setFilterTag] = useState([]);
   const [filterCategory, setFilterCategory] = useState([]);
   const [narrative, setNarrative] = useState([]);
+  const [isHcp, setIsHcp] = useState(false);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const { contents } = await fetchContentList();
-      setContent(contents);
+      const cntnts = (await fetchContentList()).contents;
+      setContents(cntnts);
       setIsLoading(false);
     })();
   }, []);
+
+  useEffect(() => {
+    if (contents) {
+      const filteredList = [];
+      contents.map((item) => {
+        if (isHcp && item.hide_in_hcp == "1") return;
+        filteredList.push(item);
+      });
+      setContent(filteredList);
+    }
+  }, [contents, isHcp]);
 
   const fetchAgeGroups = async () => {
     if (
@@ -69,10 +82,12 @@ export const ContentProvider = ({ children }) => {
         filterTag,
         filterCategory,
         narrative,
+        isHcp,
         updateRating,
         setIsLoading,
         fetchAgeGroups,
         getNarratives,
+        setIsHcp,
       }}
     >
       {" "}

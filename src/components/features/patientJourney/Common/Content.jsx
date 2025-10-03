@@ -61,17 +61,27 @@ const Content = ({
   const getAgeGroup = () => {
     const tags = JSON.parse(section.age_groups);
     return tags
-      .map((tag) => ({
-        tagLabel: tag,
-        tagClass: tag
-          .slice(0, 6)
-          .replace(/[\s-><]/g, "")
-          .toLowerCase(),
-      }))
+      .map((tag) => {
+        if (tag === "<Age 6")
+          return {
+            tagLabel: tag,
+            tagClass: "age0",
+          };
+        else
+          return {
+            tagLabel: tag,
+            tagClass: tag
+              .replace(/[\s><+]/g, "")
+              .split("-")[0]
+              .slice(0, 6)
+              .replace(/[\s-><]/g, "")
+              .toLowerCase(),
+          };
+      })
       .sort(
         (a, b) =>
-          parseInt(a.tagLabel.split(" ")[1].slice(0, 2)) -
-          parseInt(b.tagLabel.split(" ")[1].slice(0, 2))
+          parseInt(a.tagClass.split("ge")[1]) -
+          parseInt(b.tagClass.split("ge")[1])
       );
   };
 
@@ -318,18 +328,26 @@ const Content = ({
             <p>{section.category}</p>
           </div>
 
-          <Dropdown align="end">
-            <Dropdown.Toggle>
-              <img src={path_image + "options.svg"} alt="dropdown" />
-            </Dropdown.Toggle>
+          {(section.share == 1 || section.download == 1) && (
+            <Dropdown align="end">
+              <Dropdown.Toggle>
+                <img src={path_image + "options.svg"} alt="dropdown" />
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={handleShareClick}>Share</Dropdown.Item>
-              <Dropdown.Item onClick={handleDownloadClick}>
-                Download
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                {section.share == 1 && (
+                  <Dropdown.Item onClick={handleShareClick}>
+                    Share
+                  </Dropdown.Item>
+                )}{" "}
+                {section.download == 1 && (
+                  <Dropdown.Item onClick={handleDownloadClick}>
+                    Download
+                  </Dropdown.Item>
+                )}{" "}
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
         </div>
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>

@@ -22,6 +22,7 @@ const TouchPoints = () => {
     filterTag,
     filterCategory,
     narrative,
+    isHcp,
     fetchAgeGroups,
     getNarratives,
   } = useContext(ContentContext);
