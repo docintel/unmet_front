@@ -422,6 +422,7 @@ h6 {
         normal both;
       width: 100%;
       transition: 2s width linear;
+      min-height: 80vh;
     }
   }
 
@@ -693,6 +694,7 @@ h6 {
 
   .switch {
     @include switch;
+    margin:13px 0 13px;
   }
 
   .patient-journey {
@@ -704,7 +706,7 @@ h6 {
     padding: 0px 0px 0px 24px;
     gap: 8px;
     @include flex-align-center;
-    animation: scale-up-to-left 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1
+    animation: scale-up-to-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) 0.5s 1
       normal both;
     z-index: 2;
     position: relative;
