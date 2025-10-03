@@ -27,7 +27,11 @@ const Login = ({ userDetails, setLoader }) => {
 
   const regionOptions = useMemo(() => {
     const uniqueRegions = [...new Set(Object.values(countryRegionArray))];
-    return uniqueRegions.map((region) => ({ value: region, label: region }));
+    return uniqueRegions
+      .map((region) => ({ value: region, label: region }))
+      .sort((a, b) =>
+        a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+      );
   }, []);
 
   const countryOptions = useMemo(() => {
@@ -106,7 +110,9 @@ const Login = ({ userDetails, setLoader }) => {
                     placeholder="Select your role"
                     options={roleOptions}
                   />
-                  {errors.role && <div className="validation">{errors.role}</div>}
+                  {errors.role && (
+                    <div className="validation">{errors.role}</div>
+                  )}
                 </Form.Group>
 
                 {/* Region */}
@@ -121,7 +127,9 @@ const Login = ({ userDetails, setLoader }) => {
                     placeholder="Select your region"
                     options={regionOptions}
                   />
-                  {errors.region && <div className="validation">{errors.region}</div>}
+                  {errors.region && (
+                    <div className="validation">{errors.region}</div>
+                  )}
                 </Form.Group>
 
                 {/* Country */}

@@ -15,42 +15,44 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const [journeyLabels, setJourneyLabels] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [narrations, setNarrations] = useState([]);
-  const [contentTags, setContentTags] = useState([]);
+
   const [currentReadClick, setCurrentReadClick] = useState({
     previewArticle: null,
     id: null,
   });
-  const { content, setIsLoading } = useContext(ContentContext);
+  const {
+    content,
+    filterAges,
+    filterTag,
+    filterCategory,
+    narrative,
+    fetchAgeGroups,
+    getNarratives,
+  } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const [selectedTag, setSelectedTag] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const { ageGroups, category, tags } = await fetchAgeGroupCategories();
-
-      setJourneyLabels(ageGroups);
-      setCategories(category);
-      setContentTags(tags);
-      setIsLoading(false);
+      await fetchAgeGroups();
     })();
   }, []);
 
   useEffect(() => {
+    if (filterTag.length > 0) setTags([...filterTag].sort());
+  }, [filterTag]);
+
+  useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const { narratives } = await fetchNarrativeList(isAllSelected ? 2 : 1);
-      setNarrations(narratives);
+      await getNarratives(isAllSelected ? 2 : 1);
       setActiveKey(null);
       setActiveJourney(null);
       setActiveNarration(null);
       setSearchText("");
-      setIsLoading(false);
     })();
   }, [isAllSelected]);
 
@@ -65,7 +67,7 @@ const TouchPoints = () => {
   useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
-      const activeNarrative = narrations.find(
+      const activeNarrative = narrative.find(
         (narration) =>
           narration.category_id == activeKey &&
           narration.age_group_id == activeJourney
@@ -73,19 +75,19 @@ const TouchPoints = () => {
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey) {
-      const activeNarrative = narrations.filter(
+      const activeNarrative = narrative.filter(
         (narration) =>
           narration.category_id == activeKey &&
-          !["Not applicable", "Missing"].includes(narration.status)
+          !["Not applicable"].includes(narration.status)
       );
       if (activeNarrative.length > 0)
         setActiveNarration([...activeNarrative].sort((a, b) => a.id - b.id)[0]);
       else setActiveNarration(null);
     } else if (activeJourney) {
-      const activeNarratives = narrations.filter(
+      const activeNarratives = narrative.filter(
         (narration) =>
           narration.age_group_id == activeJourney &&
-          !["Not applicable", "Missing"].includes(narration.status)
+          !["Not applicable"].includes(narration.status)
       );
 
       if (activeNarratives.length > 0) {
@@ -103,8 +105,10 @@ const TouchPoints = () => {
 
   const filterContents = () => {
     if (activeKey && activeJourney) {
-      const categoryName = categories.find((val) => val.id == activeKey).name;
-      const ageGroupName = journeyLabels
+      const categoryName = filterCategory.find(
+        (val) => val.id == activeKey
+      ).name;
+      const ageGroupName = filterAges
         .find((val) => val.id == activeJourney)
         .label.split("<br />")[1];
 
@@ -117,9 +121,24 @@ const TouchPoints = () => {
         )
           filteredArray.push(item);
       });
-      setContents(filteredArray);
+      const newArr =
+        selectedTag.length === 0
+          ? filteredArray
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
+      setContents(newArr);
     } else if (activeKey) {
-      const categoryName = categories.find((val) => val.id == activeKey).name;
+      const categoryName = filterCategory.find(
+        (val) => val.id == activeKey
+      ).name;
 
       const filteredArray = [];
       content.map((item) => {
@@ -129,9 +148,22 @@ const TouchPoints = () => {
         )
           filteredArray.push(item);
       });
-      setContents(filteredArray);
+      const newArr =
+        selectedTag.length === 0
+          ? filteredArray
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
+      setContents(newArr);
     } else if (activeJourney) {
-      const ageGroupName = journeyLabels
+      const ageGroupName = filterAges
         .find((val) => val.id == activeJourney)
         .label.split("<br />")[1];
 
@@ -143,29 +175,75 @@ const TouchPoints = () => {
         )
           filteredArray.push(item);
       });
-      setContents(filteredArray);
+
+      const newArr =
+        selectedTag.length === 0
+          ? filteredArray
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
+
+      setContents(newArr);
     } else if (searchText) {
       const filteredArray = [];
       content.map((item) => {
         if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
           filteredArray.push(item);
       });
-      setContents(filteredArray);
+
+      const newArr =
+        selectedTag.length === 0
+          ? filteredArray
+          : filteredArray.filter((item) => {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
+      setContents(newArr);
     } else {
-      setContents(content);
+      if (content && content.length > 0) {
+        const newArr =
+          selectedTag.length === 0
+            ? content
+            : content.filter((item) => {
+                const tagArray = JSON.parse(item.tags.toLowerCase());
+                let count = 0;
+                for (let i = 0; i < selectedTag.length; i++) {
+                  count = tagArray.includes(selectedTag[i].toLowerCase())
+                    ? count + 1
+                    : count;
+                }
+                return count === selectedTag.length ? true : false;
+              });
+        setContents(newArr);
+      } else {
+        setContents(content);
+      }
     }
   };
 
   const isTabDisabled = (cat_id, isTab) => {
     if (isTab) {
       if (activeJourney) {
-        const narrative = narrations.find(
+        const nrtv = narrative.find(
           (narration) =>
             narration.category_id == cat_id &&
             narration.age_group_id == activeJourney &&
-            !["Not applicable", "Missing"].includes(narration.status)
+            !["Not applicable"].includes(narration.status)
         );
-        return narrative ? false : true;
+        return nrtv ? false : true;
       } else return false;
     } else {
       if (activeKey) {
@@ -207,56 +285,19 @@ const TouchPoints = () => {
     }
   };
 
-  const touchpointContent = [
-    {
-      ageTags: [
-        { label: "Age 0-5", class: "age0" },
-        { label: "Age 6-11", class: "age6" },
-      ],
-      format: "Video",
-      heading:
-        "Sebaga, diagnosed 7 years, VWD Type 3, many diagnosis difficultues",
-      subheading: "Surviving the unknown - von Willebrand disease (VWD)",
-      tags: ["awareness", "education", "providers", "HMB", "VWD"],
-      date: "12.August.2025",
-      likeArticle: "128",
-    },
-    {
-      ageTags: [
-        { label: "Age 18-25", class: "age18" },
-        { label: "Age 26-60", class: "age26" },
-      ],
-      format: "Manuscript",
-      heading:
-        "Maria, living with VWD Type 1, diagnosed at 14, sharing her journey",
-      subheading: "Breaking the silence – challenges and hope in managing VWD",
-      tags: ["advocacy", "youth", "HMB", "bleedingdisorders", "support"],
-      date: "03.September.2025",
-      likeArticle: "256",
-    },
-    {
-      ageTags: [{ label: "Age 6-11", class: "age6" }],
-      format: "Slide deck",
-      heading: "James & family – navigating childhood VWD Type 2",
-      subheading:
-        "A parent’s perspective on raising a child with von Willebrand disease",
-      tags: ["parents", "family", "children", "education", "VWD"],
-      date: "21.July.2025",
-      likeArticle: "342",
-    },
-    {
-      ageTags: [
-        { label: "Age 26-60", class: "age26" },
-        { label: "Age 60+", class: "age60" },
-      ],
-      format: "Video",
-      heading: "Dr. Lee – improving early detection of von Willebrand disease",
-      subheading: "Why awareness among providers can change patient outcomes",
-      tags: ["awareness", "education", "providers", "diagnosis", "research"],
-      date: "29.June.2025",
-      likeArticle: "415",
-    },
-  ];
+  const handleTagClick = (tag) => {
+    setSelectedTag([...selectedTag, tag].sort());
+    setTags([...tags].filter((tg) => tg !== tag).sort());
+  };
+
+  const removeFilter = (tag) => {
+    setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
+    setTags([...tags, tag].sort());
+  };
+
+  useEffect(() => {
+    filterContents();
+  }, [selectedTag]);
 
   return (
     <>
@@ -294,8 +335,8 @@ const TouchPoints = () => {
                   </label>
                 </div>
                 <div className="journey-link-list d-flex align-items-center justify-content-between w-100">
-                  {journeyLabels &&
-                    journeyLabels.map((lbl) => (
+                  {filterAges &&
+                    filterAges.map((lbl) => (
                       <React.Fragment key={lbl.id}>
                         <div
                           key={lbl.id}
@@ -317,7 +358,7 @@ const TouchPoints = () => {
                             }}
                           ></div>
                         </div>
-                        {lbl.id !== journeyLabels.length + 1 && (
+                        {lbl.id !== filterAges.length + 1 && (
                           <div
                             className={`line ${
                               isTabDisabled(lbl.id, false) ? "disabled" : ""
@@ -331,8 +372,8 @@ const TouchPoints = () => {
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
-                    {categories &&
-                      categories.map((cat) => {
+                    {filterCategory &&
+                      filterCategory.map((cat) => {
                         return (
                           <Button
                             key={cat.id}
@@ -354,57 +395,7 @@ const TouchPoints = () => {
                         );
                       })}
                   </div>
-                  {/* <Tabs
-                    activeKey={activeKey}
-                    onSelect={(k) => {
-                      if (activeKey !== k) setActiveKey(k);
-                      else setActiveKey(null);
-                    }}
-                    fill
-                  >
-                    to see the original layout please comment and uncomment the the uncommented and commented below code 
 
-                    {categories &&
-                      categories.map((cat) => {
-                        return (
-                          <Tab
-                            key={cat.id}
-                            eventKey={cat.id}
-                            title={cat.name}
-                            disabled={isTabDisabled(cat.id, true)}
-                            className={
-                              isTabDisabled(cat.id, true) ? "disabled" : ""
-                            }
-                          >
-                            {activeNarration && (
-                              <div className="touchpoint-data">
-                                <h6>Short Narrative</h6>
-                                <div className="d-flex justify-content-between narrative-block">
-                                  <div className="content">
-                                    <p>{activeNarration.narrative_title}</p>
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html:
-                                          activeNarration.narrative_description,
-                                      }}
-                                    ></div>
-                                  </div>
-                                  <div className="content">
-                                    <p>{activeNarration.contibution_title}</p>
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html:
-                                          activeNarration.contibution_description,
-                                      }}
-                                    ></div>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </Tab>
-                        );
-                      })}
-                  </Tabs> */}
                   {activeNarration ? (
                     <div className="touchpoint-data">
                       <h6>Short Narrative</h6>
@@ -453,12 +444,36 @@ const TouchPoints = () => {
                     </Button>
                   </Form>
                 </div>
+                {selectedTag.length > 0 && (
+                  <div className="tags d-flex">
+                    <div className="tag-title">Selected Tags:</div>
+                    <div className="tag-list d-flex">
+                      {selectedTag &&
+                        selectedTag.map((tag, idx) => (
+                          <span key={idx} className="badge bg-info me-2">
+                            {tag}{" "}
+                            <button
+                              className="btn btn-sm btn-light ms-1"
+                              onClick={() => removeFilter(tag)}
+                            >
+                              ✖
+                            </button>
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                )}
                 <div className="tags d-flex">
                   <div className="tag-title">Tags:</div>
                   <div className="tag-list d-flex">
-                    {contentTags &&
-                      contentTags.map((tag, idx) => (
-                        <div className="tag-item" key={idx}>
+                    {tags &&
+                      tags.map((tag, idx) => (
+                        <div
+                          className="tag-item"
+                          key={idx}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleTagClick(tag)}
+                        >
                           {tag}
                         </div>
                       ))}
