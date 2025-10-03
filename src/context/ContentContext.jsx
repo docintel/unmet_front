@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   fetchAgeGroupCategories,
   fetchContentList,
@@ -19,7 +19,6 @@ export const ContentProvider = ({ children }) => {
     (async () => {
       setIsLoading(true);
       const { contents } = await fetchContentList();
-
       setContent(contents);
       setIsLoading(false);
     })();

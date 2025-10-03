@@ -3,10 +3,11 @@ import { Button, Form, Row } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Content from "../Common/Content";
 import { toast } from "react-toastify";
+import Pagination from "react-bootstrap/Pagination";
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-
+  const contentPerPage = 9;
   const { content, fetchAgeGroups, filterAges, filterTag, filterCategory } =
     useContext(ContentContext);
   const [contents, setContents] = useState([]);
@@ -20,6 +21,8 @@ const Resources = () => {
     previewArticle: null,
     id: null,
   });
+  const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     if (filterAges)
@@ -36,6 +39,14 @@ const Resources = () => {
         )
       );
   }, [filterAges, filterTag, filterCategory]);
+
+  useEffect(() => {
+    filterContents();
+  }, [filters]);
+
+  useEffect(() => {
+    if (contents) setTotalPages(Math.ceil(contents.length / contentPerPage));
+  }, [contents]);
 
   useEffect(() => {
     filterContents();
@@ -181,9 +192,9 @@ const Resources = () => {
     }
   };
 
-  useEffect(() => {
-    filterContents();
-  }, [filters]);
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+  };
 
   return (
     <div className="main-page">
@@ -212,7 +223,11 @@ const Resources = () => {
                   <div className="tag-title">Filters:</div>
                   <div className="tag-list d-flex">
                     {filters.map((fltr, idx) => (
-                      <span key={idx} className="badge bg-info me-2">
+                      <span
+                        key={idx}
+                        className="badge bg-info me-2"
+                        style={{ fontSize: "10px", letterSpacing: 1 }}
+                      >
                         {fltr.typ === "age"
                           ? fltr.txt.split("<br />")[1]
                           : fltr.txt}{" "}
@@ -297,22 +312,59 @@ const Resources = () => {
                 </div>
                 <div className="touchpoint-data-boxes">
                   {" "}
-                  {contents ? (
-                    contents &&
-                    contents.map((section, idx) => (
-                      <React.Fragment key={section.id}>
-                        <Content
-                          section={section}
-                          idx={section.id}
-                          key={idx}
-                          currentReadClick={currentReadClick}
-                          setCurrentReadClick={setCurrentReadClick}
-                        />
-                      </React.Fragment>
-                    ))
+                  {contents && contents.length > 0 ? (
+                    contents.map(
+                      (section, idx) =>
+                        idx >= (activePage - 1) * contentPerPage &&
+                        idx < activePage * contentPerPage && (
+                          <React.Fragment key={section.id}>
+                            <Content
+                              section={section}
+                              idx={section.id}
+                              key={idx}
+                              currentReadClick={currentReadClick}
+                              setCurrentReadClick={setCurrentReadClick}
+                            />
+                          </React.Fragment>
+                        )
+                    )
                   ) : (
-                    <div className="text-center  w-100">No data Found</div>
+                    <div className="no-data-found">No data Found</div>
                   )}
+                </div>{" "}
+                <div>
+                  {totalPages && totalPages > 1 ? (
+                    <Pagination>
+                      <Pagination.First
+                        onClick={() => handlePageChange(1)}
+                        disabled={activePage === 1}
+                        style={{ marginLeft: "auto" }}
+                      />
+                      <Pagination.Prev
+                        onClick={() => handlePageChange(activePage - 1)}
+                        disabled={activePage === 1}
+                      />
+
+                      {[...Array(totalPages)].map((_, index) => (
+                        <Pagination.Item
+                          key={index + 1}
+                          active={index + 1 === activePage}
+                          onClick={() => handlePageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </Pagination.Item>
+                      ))}
+
+                      <Pagination.Next
+                        onClick={() => handlePageChange(activePage + 1)}
+                        disabled={activePage === totalPages}
+                      />
+                      <Pagination.Last
+                        onClick={() => handlePageChange(totalPages)}
+                        disabled={activePage === totalPages}
+                      />
+                    </Pagination>
+                  ) : null}
                 </div>
               </div>
             </div>

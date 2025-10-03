@@ -1,13 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Row, Tab, Tabs } from "react-bootstrap";
-
+import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
-import {
-  fetchAgeGroupCategories,
-  fetchNarrativeList,
-} from "../../../../services/touchPointServices";
 import { ContentContext } from "../../../../context/ContentContext";
 import { toast } from "react-toastify";
+import Pagination from "react-bootstrap/Pagination";
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -15,7 +11,7 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-
+  const contentPerPage = 9;
   const [currentReadClick, setCurrentReadClick] = useState({
     previewArticle: null,
     id: null,
@@ -35,6 +31,16 @@ const TouchPoints = () => {
   const [searchText, setSearchText] = useState("");
   const [selectedTag, setSelectedTag] = useState([]);
   const [tags, setTags] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    filterContents();
+  }, [selectedTag]);
+
+  useEffect(() => {
+    if (contents) setTotalPages(Math.ceil(contents.length / contentPerPage));
+  }, [contents]);
 
   useEffect(() => {
     (async () => {
@@ -102,6 +108,12 @@ const TouchPoints = () => {
   useEffect(() => {
     if (searchText.length == 0) handleSearchClick();
   }, [searchText]);
+
+  useEffect(() => {
+    setContents(content);
+    filterContents();
+    if (content) getCategoryTags(content);
+  }, [content]);
 
   const filterContents = () => {
     if (activeKey && activeJourney) {
@@ -257,12 +269,6 @@ const TouchPoints = () => {
     }
   };
 
-  useEffect(() => {
-    setContents(content);
-    filterContents();
-    if (content) getCategoryTags(content);
-  }, [content]);
-
   const getCategoryTags = (content) => {
     const CategoryCount = { all: content.length };
     content.map((cntnt) => {
@@ -295,9 +301,9 @@ const TouchPoints = () => {
     setTags([...tags, tag].sort());
   };
 
-  useEffect(() => {
-    filterContents();
-  }, [selectedTag]);
+  const handlePageChange = (pageNumber) => {
+    setActivePage(pageNumber);
+  };
 
   return (
     <>
@@ -450,7 +456,11 @@ const TouchPoints = () => {
                     <div className="tag-list d-flex">
                       {selectedTag &&
                         selectedTag.map((tag, idx) => (
-                          <span key={idx} className="badge bg-info me-2">
+                          <span
+                            key={idx}
+                            className="badge bg-info me-2"
+                            style={{ fontSize: "10px", letterSpacing: 1 }}
+                          >
                             {tag}{" "}
                             <button
                               className="btn btn-sm btn-light ms-1"
@@ -499,20 +509,58 @@ const TouchPoints = () => {
                     {" "}
                     {contents && contents.length > 0 ? (
                       contents &&
-                      contents.map((section, idx) => (
-                        <React.Fragment key={section.id}>
-                          <Content
-                            section={section}
-                            idx={section.id}
-                            key={idx}
-                            currentReadClick={currentReadClick}
-                            setCurrentReadClick={setCurrentReadClick}
-                          />
-                        </React.Fragment>
-                      ))
+                      contents.map(
+                        (section, idx) =>
+                          idx >= (activePage - 1) * contentPerPage &&
+                          idx < activePage * contentPerPage && (
+                            <React.Fragment key={section.id}>
+                              <Content
+                                section={section}
+                                idx={section.id}
+                                key={idx}
+                                currentReadClick={currentReadClick}
+                                setCurrentReadClick={setCurrentReadClick}
+                              />
+                            </React.Fragment>
+                          )
+                      )
                     ) : (
                       <div className="no-data-found">No data Found</div>
                     )}
+                  </div>
+                  <div>
+                    {totalPages && totalPages > 1 ? (
+                      <Pagination>
+                        <Pagination.First
+                          onClick={() => handlePageChange(1)}
+                          disabled={activePage === 1}
+                          style={{ marginLeft: "auto" }}
+                        />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(activePage - 1)}
+                          disabled={activePage === 1}
+                        />
+
+                        {[...Array(totalPages)].map((_, index) => (
+                          <Pagination.Item
+                            key={index + 1}
+                            active={index + 1 === activePage}
+                            onClick={() => handlePageChange(index + 1)}
+                          >
+                            {index + 1}
+                          </Pagination.Item>
+                        ))}
+
+                        <Pagination.Next
+                          onClick={() => handlePageChange(activePage + 1)}
+                          disabled={activePage === totalPages}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(totalPages)}
+                          disabled={activePage === totalPages}
+                        />
+                      </Pagination>
+                    ) : null}
                   </div>
                 </div>
               </div>
