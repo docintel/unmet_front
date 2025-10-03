@@ -10,7 +10,7 @@ const Layout = () => {
       <main>
         {" "}
         <ContentProvider>
-          <ToastContainer />
+          <ToastContainer closeOnClick pauseOnHover />
           <Outlet />
         </ContentProvider>
       </main>

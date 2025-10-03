@@ -25,10 +25,14 @@ export const fetchYourQuestions = async (setIsLoading) => {
   }
 };
 
-export const handleSubmit = async (e, setError, question, setQuestion,setIsLoading) => {
+export const handleSubmit = async (
+  e,
+  setError,
+  question,
+  setQuestion,
+  setIsLoading
+) => {
   e.preventDefault();
-
-  // console.log("handleSubmit")
 
   if (!question.trim()) {
     setError("Please enter a question");
@@ -36,7 +40,7 @@ export const handleSubmit = async (e, setError, question, setQuestion,setIsLoadi
   }
 
   setError("");
-  setIsLoading(true); 
+  setIsLoading(true);
   try {
     const response = await postData(endPoint.ADD_QUESTIONS, {
       question: question,
@@ -45,8 +49,8 @@ export const handleSubmit = async (e, setError, question, setQuestion,setIsLoadi
     setQuestion("");
   } catch (error) {
     console.error("Error submitting question:", error);
-  }finally {
-    setIsLoading(false); 
+  } finally {
+    setIsLoading(false);
   }
 };
 
@@ -61,7 +65,6 @@ export const fetchTags = async (setIsLoading) => {
   }
 };
 
-
 export const filterQuestionsByTags = (questions, appliedTags) => {
   if (!appliedTags || appliedTags.length === 0) return questions;
 
@@ -69,5 +72,3 @@ export const filterQuestionsByTags = (questions, appliedTags) => {
     appliedTags.every((tag) => q.topics?.includes(tag))
   );
 };
-
-

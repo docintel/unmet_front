@@ -29,13 +29,7 @@ const LoginWithSSO = () => {
         }
         setLoader(false)
       };
-
-    if (isAuthenticatedUser) { 
-        return <Navigate to="/home" replace />;
-      }
-
-
-
+ 
   return (
         <>
       {!userVerified && <div className="login-page">
