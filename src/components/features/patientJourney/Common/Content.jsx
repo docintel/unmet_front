@@ -60,10 +60,19 @@ const Content = ({
 
   const getAgeGroup = () => {
     const tags = JSON.parse(section.age_groups);
-    return tags.map((tag) => ({
-      tagLabel: tag,
-      tagClass: tag.slice(0, 6).replace(/[\s-]/g, "").toLowerCase(),
-    }));
+    return tags
+      .map((tag) => ({
+        tagLabel: tag,
+        tagClass: tag
+          .slice(0, 6)
+          .replace(/[\s-><]/g, "")
+          .toLowerCase(),
+      }))
+      .sort(
+        (a, b) =>
+          parseInt(a.tagLabel.split(" ")[1].slice(0, 2)) -
+          parseInt(b.tagLabel.split(" ")[1].slice(0, 2))
+      );
   };
 
   const handleReadClick = (e, link, id) => {

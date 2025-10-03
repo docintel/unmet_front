@@ -79,30 +79,31 @@ const Resources = () => {
         if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
           filteredArray.push(item);
       });
+
       const temp = [];
       filteredArray.forEach((element) => {
-        let found = false;
+        let count = 0;
         for (let i = 0; i < filters.length; i++) {
           if (
             filters[i].typ === "age" &&
-            element.age_groups.indexOf(filters[i].txt) !== -1
+            element.age_groups.indexOf(filters[i].txt.split("<br />")[1]) !== -1
           )
-            found = true;
+            count++;
           else if (
             filters[i].typ === "cat" &&
             element.diagnosis.indexOf(filters[i].txt) !== -1
           )
-            found = true;
+            count++;
           else if (
             filters[i].typ === "tag" &&
             JSON.parse(element.tags.toLowerCase()).includes(
               filters[i].txt.toLowerCase()
             )
           )
-            found = true;
+            count++;
         }
 
-        if (found) temp.push(element);
+        if (count === filters.length) temp.push(element);
       });
       setContents(temp);
     } else if (filters && filters.length > 0) {
@@ -157,7 +158,20 @@ const Resources = () => {
         [...ageGroup]
           .filter((ag) => ag.id !== id)
           .sort((a, b) =>
-            b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
+            b.label
+              .replace("&lt;", "<")
+              .replace("&gt;", ">")
+              .split(" ")[1]
+              .slice(0, 2)
+              .localeCompare(
+                a.label
+                  .replace("&lt;", "<")
+                  .replace("&gt;", ">")
+                  .split(" ")[1]
+                  .slice(0, 2),
+                undefined,
+                { sensitivity: "base" }
+              )
           )
       );
     else if (typ === "cat")
@@ -176,7 +190,20 @@ const Resources = () => {
       setFilters([...filters].filter((ag) => ag.id !== id && typ === "age"));
       setAgeGroup(
         [...ageGroup, { label: txt, id }].sort((a, b) =>
-          b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
+          b.label
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .split(" ")[1]
+            .slice(0, 2)
+            .localeCompare(
+              a.label
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .split(" ")[1]
+                .slice(0, 2),
+              undefined,
+              { sensitivity: "base" }
+            )
         )
       );
     } else if (typ === "cat") {
@@ -286,10 +313,21 @@ const Resources = () => {
                         key={ageGrp.id}
                         style={{ cursor: "pointer" }}
                         onClick={() =>
-                          selectFilters(ageGrp.label, ageGrp.id, "age")
+                          selectFilters(
+                            ageGrp.label
+                              .replace("&lt;", "<")
+                              .replace("&gt;", ">"),
+                            ageGrp.id,
+                            "age"
+                          )
                         }
                       >
-                        {ageGrp.label.split("<br />")[1]}
+                        {
+                          ageGrp.label
+                            .replace("&lt;", "<")
+                            .replace("&gt;", ">")
+                            .split("<br />")[1]
+                        }
                       </div>
                     ))}
                 </div>

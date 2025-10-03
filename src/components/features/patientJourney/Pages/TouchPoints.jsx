@@ -122,7 +122,9 @@ const TouchPoints = () => {
       ).name;
       const ageGroupName = filterAges
         .find((val) => val.id == activeJourney)
-        .label.split("<br />")[1];
+        .label.replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .split("<br />")[1];
 
       const filteredArray = [];
       content.map((item) => {
@@ -177,7 +179,9 @@ const TouchPoints = () => {
     } else if (activeJourney) {
       const ageGroupName = filterAges
         .find((val) => val.id == activeJourney)
-        .label.split("<br />")[1];
+        .label.replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .split("<br />")[1];
 
       const filteredArray = [];
       content.map((item) => {

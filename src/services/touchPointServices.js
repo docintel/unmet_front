@@ -8,12 +8,16 @@ export const fetchAgeGroupCategories = async () => {
       const id = item.id;
       const label =
         item.label +
-        (item.max_age || item.min_age
-          ? "<br />Age " +
-            (item.max_age
-              ? item.min_age + "-" + item.max_age
-              : item.min_age + "+")
-          : "");
+        (`<br />${
+          (parseInt(item.min_age) == 0 && "&lt;") ||
+          (item.max_age === null && "&gt;") ||
+          ""
+        }Age ` +
+          (item.max_age
+            ? item.min_age === 0
+              ? item.max_age
+              : item.min_age + "-" + item.max_age
+            : item.min_age));
       return { id, label };
     });
 

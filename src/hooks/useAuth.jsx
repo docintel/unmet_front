@@ -7,7 +7,7 @@ const useAuth = () => {
 
   useEffect(() => {
     if (accounts.length > 0) {
-      instance.setActiveAccount(accounts[0]); 
+      instance.setActiveAccount(accounts[0]);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
@@ -19,10 +19,15 @@ const useAuth = () => {
       const loginRequest = {
         scopes: ["openid", "profile", "email", "User.Read"],
       };
+
       const response = await instance.loginPopup(loginRequest);
       instance.setActiveAccount(response.account);
-      setIsAuthenticated(true);     
-      return{token:response.accessToken,id_token:response.idToken,email:response.account.username}
+      setIsAuthenticated(true);
+      return {
+        token: response.accessToken,
+        id_token: response.idToken,
+        email: response.account.username,
+      };
     } catch (error) {
       if (error instanceof InteractionRequiredAuthError) {
         try {
@@ -44,8 +49,7 @@ const useAuth = () => {
     }
   };
 
-
-  return { isAuthenticated,  login, logout };
+  return { isAuthenticated, login, logout };
 };
 
 export default useAuth;
