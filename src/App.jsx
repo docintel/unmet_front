@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Routing from "./Routes.jsx";
 import "./assets/css/style.scss";
 import "./assets/css/responsive.scss";
+import "./assets/fonts/fonts.css";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./hooks/authConfig.jsx";

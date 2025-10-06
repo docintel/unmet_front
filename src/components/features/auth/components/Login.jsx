@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import { Container, Form, Row, Button, Col } from "react-bootstrap";
 import Select from "react-select";
 import { countryRegionArray } from "../../../../constants/countryRegion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
 const Login = ({ userDetails, setLoader }) => {
@@ -83,11 +83,32 @@ const Login = ({ userDetails, setLoader }) => {
 
   return (
     <div className="login-page">
+      <Container fluid>
       <Row>
         <Col>
+        <div className="login-left">
+          <div className="terms">
+            <div>
+              <Link to="/">Octapharma Privacy Statement</Link>
+            </div>
+            <div>
+              <Link to="/">Docintel Privacy Policy</Link>
+            </div>
+            <div>
+              <Link to="/">Terms of Use</Link>
+            </div>
+          </div>
+          <div className="vwd-journey">
+              <div className="vwd-logo">
+                <img src={path_image + "vwd-logo.svg"} alt=""/>
+              </div>
+              <h6>Lorem ipsum dolor sit amet consectetur. Eu ac consectetur purus volutpat. Odio ac enim a justo feugiat varius morbi nulla justo. Sed quam risus tempor dui quam bibendum. </h6>
+          </div>
+          <div></div>
+        </div>
         </Col>
         <Col>
-          <div className="login">
+          <div className="login-right">
             <div className="login-box">
               {/* <div className="login-logo">
                 <img src={`${path_image}logo-img.svg`} alt="logo" />
@@ -177,15 +198,17 @@ const Login = ({ userDetails, setLoader }) => {
                     <div className="validation">{errors.country}</div>
                   )}
                 </Form.Group>
-
-                <Form.Text className="text-muted">
-                  Please enter your country and/or region. At least one is
-                  required — entering both is recommended for the best
-                  experience.
+                <div className="message">
+                  <div className="info-icon">
+                    <img src={path_image + "info-icon.svg"} alt=""/>
+                  </div>
+                  <Form.Text className="text-muted">
+                  Please enter your country and/or region. At least one is required — entering both is recommended for the best experience.
                 </Form.Text>
-
+                </div>
+                
                 <Button variant="primary" type="submit">
-                  Login
+                  Login <img src={path_image + "login-icon.svg"} alt=""/>
                 </Button>
               </form>
             </div>
@@ -193,6 +216,7 @@ const Login = ({ userDetails, setLoader }) => {
         </Col>
 
       </Row>
+      </Container>
     </div>
   );
 };

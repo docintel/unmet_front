@@ -50,17 +50,20 @@ h6 {
 }
 
 .btn-primary {
-  border-radius: 2px;
-  background: $dark-green;
+  border-radius: 40px;
+  background: linear-gradient(97deg, $gradient-orange 0%, $gradient-pink 100%);
   font-size: 16px;
   font-weight: 500;
   border: 0;
   padding: 4px 16px;
+  &:hover, &:focus{
+    background: linear-gradient(277deg, $gradient-orange 0%, $gradient-pink 100%);
+  }
   &.btn-bordered {
     background: transparent;
     border: 1px solid $dark-green;
     color: $dark-green;
-    &:hover,
+    &:hover
     &:active,
     &:focus {
       background: $dark-green;
@@ -69,20 +72,73 @@ h6 {
     }
   }
 
-  &:hover,
-  &:active,
-  &:focus {
-    background: $dark-green;
-    opacity: 0.8;
+
+}
+.login-page{
+  background: linear-gradient(112deg, #4CC6CF 0%, #D99E60 19.87%, #F79548 29.43%, #E94262 60.44%);
+}
+.login-left{
+  padding:43px 65px;
+  height: 100%;
+  @include flex-center ;
+  flex-direction: column;
+  background: url(../images/vwd-background.svg) no-repeat;
+  background-position: left 95%;
+  .terms{
+    @include flex-middle;
+    gap:36px;
+    div{
+      a{
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 18px;
+        color:$white;
+        text-decoration: none;
+        font-family: $sofia-font;
+      }
+    }
+  }
+  .vwd-journey{
+    gap:42px;
+    @include flex-column;
+    .vwd-logo{
+      text-align: center;
+      img{
+        max-width: 304px;
+        width:100%;
+      }
+    }
+    h6{
+    font-family: $sofia-font;
+    color:$white;
+    font-weight: 300;
+    line-height: 26.5px;
+    text-align: center;
+    margin:0 auto;
+    max-width: 576px;
+    }
   }
 }
-
-.login {
+.login-right {
   min-height: 100vh;
   @include vertical-list;
   justify-content: center;
   padding: 10px;
-
+  background: $white;
+  box-shadow: -17px 0 18px rgba(0, 0, 0, 0.08);
+  border-radius: 190px 0 0 0;
+  position: relative;
+&:before{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: -347px;
+    width: 347px;
+    height: 357px;
+    background: transparent;
+    border-radius: 49%;
+    box-shadow: 164px 168px 0 $white;
+}
   &.sso-login {
     .login-logo {
       img {

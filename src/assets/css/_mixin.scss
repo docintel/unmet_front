@@ -91,14 +91,14 @@
 }
 
 @mixin action-button {
-  border-radius: 2px;
-  background: $dark-green;
+  border-radius: 40px;
+  // background: linear-gradient(97deg, $gradient-orange 0%, $gradient-pink 100%);
   border: 0;
   font-size: 16px;
   font-weight: 500;
-  width: 122px;
+  width: 116px;
   margin: 0 auto;
-  padding: 4px;
+  padding: 8px 8px;
 }
 
 @mixin age-format {
