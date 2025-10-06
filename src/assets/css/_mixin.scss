@@ -404,8 +404,8 @@
      overflow-y: auto;
        max-height: 158px;
     transition: all 0.3s ease-in-out;
-    scrollbar-width: thin;
-    scrollbar-color: $dark-green transparent;
+    // scrollbar-width: thin;
+    // scrollbar-color: $dark-green transparent;
     padding-right: 2px;
     div {
       color: $primary-color;
