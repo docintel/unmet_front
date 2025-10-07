@@ -351,6 +351,13 @@ const Content = ({
         </div>
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
+        <div className="">
+          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
+            <span key={idx}>
+              {dgns + (arr.length - 1 !== idx ? " | " : "")}
+            </span>
+          ))}
+        </div>
         <div className="tags tag-list">
           {JSON.parse(section.tags).map((tag, idx) => (
             <div key={idx}>{tag}</div>

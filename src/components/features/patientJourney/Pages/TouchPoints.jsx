@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
@@ -43,7 +49,10 @@ const TouchPoints = () => {
   }, [selectedTag]);
 
   useEffect(() => {
-    if (contents) setTotalPages(Math.ceil(contents.length / contentPerPage));
+    if (contents) {
+      setTotalPages(Math.ceil(contents.length / contentPerPage));
+      getCategoryTags(contents);
+    }
   }, [contents]);
 
   useEffect(() => {
@@ -154,31 +163,34 @@ const TouchPoints = () => {
     }
   };
 
-  const isTabDisabled = (cat_id, isTab) => {
-    if (isTab) {
-      if (activeJourney) {
-        const nrtv = narrative.find(
-          (narration) =>
-            narration.category_id == cat_id &&
-            narration.age_group_id == activeJourney &&
-            !["Not applicable"].includes(narration.status)
-        );
-        return nrtv ? false : true;
-      } else return false;
-    } else {
-      if (activeKey) {
-        if (
-          (activeKey == 4 && [2, 3, 7].includes(cat_id)) ||
-          (activeKey == 6 && [2, 3].includes(cat_id))
-        )
-          return true;
-        else return false;
-      } else return false;
-    }
-  };
+  const isTabDisabled = useCallback(
+    (cat_id, isTab) => {
+      if (isTab) {
+        if (activeJourney) {
+          const nrtv = narrative.find(
+            (narration) =>
+              narration.category_id == cat_id &&
+              narration.age_group_id == activeJourney &&
+              !["Not applicable"].includes(narration.status)
+          );
+          return nrtv ? false : true;
+        } else return false;
+      } else {
+        if (activeKey) {
+          if (
+            (activeKey == 4 && [2, 3, 7].includes(cat_id)) ||
+            (activeKey == 6 && [2, 3].includes(cat_id))
+          )
+            return true;
+          else return false;
+        } else return false;
+      }
+    },
+    [activeJourney, activeKey, narrative]
+  );
 
   const getCategoryTags = (content) => {
-    const CategoryCount = { all: content.length };
+    const CategoryCount = { All: content.length };
     content.map((cntnt) => {
       CategoryCount[cntnt.category] = (CategoryCount[cntnt.category] || 0) + 1;
     });

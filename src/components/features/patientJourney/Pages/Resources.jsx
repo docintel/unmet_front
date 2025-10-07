@@ -46,7 +46,10 @@ const Resources = () => {
   }, [filters]);
 
   useEffect(() => {
-    if (contents) setTotalPages(Math.ceil(contents.length / contentPerPage));
+    if (contents) {
+      setTotalPages(Math.ceil(contents.length / contentPerPage));
+      getCategoryTags(contents);
+    }
   }, [contents]);
 
   useEffect(() => {
@@ -74,7 +77,7 @@ const Resources = () => {
   };
 
   const filterContents = () => {
-    if (searchText) {
+    if (searchText || (filters && filters.length > 0)) {
       const filteredArray = [];
       content.map((item) => {
         if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
@@ -83,33 +86,6 @@ const Resources = () => {
 
       const temp = [];
       filteredArray.forEach((element) => {
-        let count = 0;
-        for (let i = 0; i < filters.length; i++) {
-          if (
-            filters[i].typ === "age" &&
-            element.age_groups.indexOf(filters[i].txt.split("<br />")[1]) !== -1
-          )
-            count++;
-          else if (
-            filters[i].typ === "cat" &&
-            element.diagnosis.indexOf(filters[i].txt) !== -1
-          )
-            count++;
-          else if (
-            filters[i].typ === "tag" &&
-            JSON.parse(element.tags.toLowerCase()).includes(
-              filters[i].txt.toLowerCase()
-            )
-          )
-            count++;
-        }
-
-        if (count === filters.length) temp.push(element);
-      });
-      setContents(temp);
-    } else if (filters && filters.length > 0) {
-      const temp = [];
-      content.forEach((element) => {
         let count = 0;
         for (let i = 0; i < filters.length; i++) {
           if (
@@ -342,12 +318,15 @@ const Resources = () => {
                     Object.keys(categoryTags).map((cat, idx) => {
                       return (
                         <div
-                          className={cat.toLowerCase() == "all" ? "filter all" : "filter"}
+                          className={
+                            cat.toLowerCase() == "all" ? "filter all" : "filter"
+                          }
                           key={idx}
                         >
                           {cat}
-                          <div><span>{categoryTags[cat]}</span></div>
-                          
+                          <div>
+                            <span>{categoryTags[cat]}</span>
+                          </div>
                         </div>
                       );
                     })}
