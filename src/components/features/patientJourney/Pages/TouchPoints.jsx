@@ -367,13 +367,14 @@ const TouchPoints = () => {
                         </div>
                       </div>
                     </div>
-                  ) : isInfoVisible ? (
+                  ) : (
                     <div
                       className="text-center no_data"
                       style={{
                         transformOrigin: "top",
                         transform: `scaleY(${isInfoVisible ? 1 : 0})`,
                         transition: "transform 0.3s ease",
+                        height: isInfoVisible ? "parent" : "0px",
                       }}
                     >
                       <div className="close-icon">
@@ -389,7 +390,7 @@ const TouchPoints = () => {
                         style={{ userSelect: "none" }}
                       />
                     </div>
-                  ) : null}
+                  )}
                 </div>
                 <div className="search-bar">
                   <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
