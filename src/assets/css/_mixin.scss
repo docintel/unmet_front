@@ -200,6 +200,8 @@
 
       .dropdown-menu {
         padding: 3px 3px;
+        border:0;
+        box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.2);
 
         a {
           color: $primary-color;
