@@ -1,6 +1,7 @@
 @use "./variable"as *;
 @use "./mixin"as *;
 
+
 body {
   background: $primary-color;
   font-family: $sofia-font;
@@ -1154,6 +1155,7 @@ h6 {
 
     .search-bar {
       margin: 30px 0 12px;
+      // transition: 0.5s ease;
 
       form {
         position: relative;
@@ -1204,14 +1206,13 @@ h6 {
           line-height: 18px;
           background: none;
           border: 1px solid $gray;
-          padding: 8px 12px;
-          text-transform: capitalize;
+          padding: 8px 15px;
+          // text-transform: capitalize;
           border-radius: 27px;
           gap: 8px;
 
           &:hover {
             color: $white;
-            ;
             background: linear-gradient(97deg, #E94262 0%, #F79548 100%);
             border-color: transparent;
             opacity: 1;
@@ -1334,6 +1335,7 @@ h6 {
 
     .tags {
       margin: 0 0 12px;
+      //  transition: 0.5s ease;
     }
   }
 
@@ -1348,10 +1350,11 @@ h6 {
   }
 
   .touchpoint-data {
-    border-radius: 2px;
-    border: 1px solid rgba(148, 167, 191, 0.3);
-    background: $secondary-color;
-    padding: 16px;
+    border-radius: 16px;
+background: rgba(253, 254, 255, 0.08);
+box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
+padding:12px;
+margin:0 0 50px;
 
     h6 {
       color: $primary-color;
@@ -1366,14 +1369,23 @@ h6 {
 
       .content {
         padding: 16px;
-        background: $white;
+        border-radius: 16px;
+        background: #FDFEFF;
         flex: 1 1;
+        line-height: 1;
 
-        p {
+        .content-title {
           color: $primary-color;
-          font-size: 14px;
-          font-weight: 700;
-          margin-bottom: 11px;
+          font-size: 16px;
+          font-weight: 500;
+          margin-bottom: 20px;
+          background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-fill-color: transparent;
+          display: inline-block;
+          line-height: 1;
         }
 
         a {
