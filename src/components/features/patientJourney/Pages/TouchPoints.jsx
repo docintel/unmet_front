@@ -34,6 +34,7 @@ const TouchPoints = () => {
   const [tags, setTags] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [activeAgeClass, setActiveAgeClass] = useState("");
 
   useEffect(() => {
     filterContents();
@@ -311,7 +312,7 @@ const TouchPoints = () => {
         {" "}
         <div className="custom-container">
           <Row>
-            <div className="touchpoints-section">
+            <div className={`touchpoints-section ${activeAgeClass}`}>
               <div className="patient-journey d-flex align-items-end w-100">
                 <div className="switch">
                   <label className="switch-light">
@@ -352,6 +353,18 @@ const TouchPoints = () => {
                           // dangerouslySetInnerHTML={{ __html: label }}
                           onClick={() => {
                             if (!isTabDisabled(lbl.id, false)) {
+                              const agesList = lbl.label
+                                .replace("&lt;", "")
+                                .replace("&gt;", "")
+                                .split("<br />")[1]
+                                .split(" ")[1]
+                                .split("-");
+                              let ageName = "";
+                              if (agesList.length === 1 && agesList[0] === "6")
+                                ageName = "age" + "0";
+                              else ageName = "age" + agesList[0];
+                              setActiveAgeClass(ageName);
+
                               if (activeJourney !== lbl.id)
                                 setActiveJourney(lbl.id);
                               else setActiveJourney(null);
