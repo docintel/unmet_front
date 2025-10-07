@@ -345,7 +345,7 @@ const TouchPoints = () => {
                     <a className="btn"></a>
                   </label>
                 </div>
-                <div className="journey-link-list d-flex align-items-center justify-content-between w-100">
+                <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
                   {filterAges &&
                     filterAges.map((lbl) => (
                       <React.Fragment key={lbl.id}>
@@ -363,6 +363,9 @@ const TouchPoints = () => {
                             }
                           }}
                         >
+                        <div className="userImg">
+                            <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80" alt="" />
+                          </div>
                           <div
                             dangerouslySetInnerHTML={{
                               __html: lbl.label,

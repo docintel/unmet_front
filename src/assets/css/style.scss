@@ -830,9 +830,13 @@ h6 {
     position: relative;
 
     .journey-link {
+      min-width: 132px;
       padding: 13px 9px;
       cursor: pointer;
-
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
       span,
       div {
         font-size: 14px;
@@ -894,6 +898,31 @@ h6 {
       }
     }
   }
+
+ .userImg {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 12px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+}
+
+.journey-link {
+  &:not(.disabled):hover,
+  &.active {
+    img {
+      filter: grayscale(0%);
+    }
+  }
+}
+  
 
   .touchpoint-box {
     @include outer-box;
