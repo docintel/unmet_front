@@ -259,7 +259,9 @@
 
     div {
       @include flex-align-center;
-      gap: 4px;
+      gap: 8px;
+      font-size: 14px;
+      color: $border-color;
     }
 
     img {
