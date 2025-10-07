@@ -89,13 +89,13 @@ const Login = ({ userDetails, setLoader }) => {
         <div className="login-left">
           <div className="terms">
             <div>
-              <Link to="/">Octapharma Privacy Statement</Link>
+              <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank" rel="noopener noreferrer">Octapharma Privacy Statement</a>
             </div>
             <div>
-              <Link to="/">Docintel Privacy Policy</Link>
+              <a href="https://albert.docintel.app/octapharma-privacy" target="_blank" rel="noopener noreferrer">Docintel Privacy Policy</a>
             </div>
             <div>
-              <Link to="/">Terms of Use</Link>
+              <a href="https://albert.docintel.app/docintel-terms" target="_blank" rel="noopener noreferrer">Terms of Use</a>
             </div>
           </div>
           <div className="vwd-journey">
@@ -128,23 +128,29 @@ const Login = ({ userDetails, setLoader }) => {
                   <Form.Label>
                     Role <span>(Required)</span>
                   </Form.Label>
-                  <Select
-                    className={`split-button ${errors.role ? "error" : ""}`}
-                    value={selectedRole}
-                    onChange={setSelectedRole}
-                    placeholder="Select your role"
-                    options={roleOptions}
-                  />
-                  <span>
-                    <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 13.2565L11 14.7565" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M2 9.25647L2.15288 12.1197C2.31714 15.7335 2.39927 17.5403 3.55885 18.6484C4.71843 19.7565 6.52716 19.7565 10.1446 19.7565H11.8554C15.4728 19.7565 17.2816 19.7565 18.4412 18.6484C19.6007 17.5403 19.6829 15.7335 19.8471 12.1197L20 9.25647" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                      <path d="M1.84718 8.69953C3.54648 11.9309 7.3792 13.2565 11 13.2565C14.6208 13.2565 18.4535 11.9309 20.1528 8.69953C20.964 7.15703 20.3498 4.25647 18.352 4.25647H3.648C1.65023 4.25647 1.03603 7.15703 1.84718 8.69953Z" stroke="#B5C2D3" stroke-width="1.5" />
-                      <path d="M15 4.25647L14.9117 3.94741C14.4717 2.40736 14.2517 1.63734 13.7279 1.1969C13.2041 0.75647 12.5084 0.75647 11.117 0.75647H10.883C9.49159 0.75647 8.79587 0.75647 8.2721 1.1969C7.74832 1.63734 7.52832 2.40736 7.0883 3.94741L7 4.25647" stroke="#B5C2D3" stroke-width="1.5" />
-                    </svg></span>
-                  {errors.role && (
-                    <div className="validation">{errors.role}</div>
-                  )}
+                  <div
+                    onMouseEnter={e => e.currentTarget.querySelector('.split-button').classList.add('active')}
+                    onMouseLeave={e => e.currentTarget.querySelector('.split-button').classList.remove('active')}
+                  >
+                    <Select
+                      className={`split-button ${errors.role ? "error" : ""}`}
+                      value={selectedRole}
+                      onChange={setSelectedRole}
+                      placeholder="Select your role"
+                      options={roleOptions}
+                    />
+                    <span>
+                      <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 13.2565L11 14.7565" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2 9.25647L2.15288 12.1197C2.31714 15.7335 2.39927 17.5403 3.55885 18.6484C4.71843 19.7565 6.52716 19.7565 10.1446 19.7565H11.8554C15.4728 19.7565 17.2816 19.7565 18.4412 18.6484C19.6007 17.5403 19.6829 15.7335 19.8471 12.1197L20 9.25647" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1.84718 8.69953C3.54648 11.9309 7.3792 13.2565 11 13.2565C14.6208 13.2565 18.4535 11.9309 20.1528 8.69953C20.964 7.15703 20.3498 4.25647 18.352 4.25647H3.648C1.65023 4.25647 1.03603 7.15703 1.84718 8.69953Z" stroke="#B5C2D3" stroke-width="1.5" />
+                        <path d="M15 4.25647L14.9117 3.94741C14.4717 2.40736 14.2517 1.63734 13.7279 1.1969C13.2041 0.75647 12.5084 0.75647 11.117 0.75647H10.883C9.49159 0.75647 8.79587 0.75647 8.2721 1.1969C7.74832 1.63734 7.52832 2.40736 7.0883 3.94741L7 4.25647" stroke="#B5C2D3" stroke-width="1.5" />
+                      </svg>
+                    </span>
+                    {errors.role && (
+                      <div className="validation">{errors.role}</div>
+                    )}
+                  </div>
                 </Form.Group>
 
                 {/* Region */}
@@ -152,6 +158,10 @@ const Login = ({ userDetails, setLoader }) => {
                   <Form.Label>
                     Region <span>(Required)</span>
                   </Form.Label>
+                  <div
+                    onMouseEnter={e => e.currentTarget.querySelector('.split-button').classList.add('active')}
+                    onMouseLeave={e => e.currentTarget.querySelector('.split-button').classList.remove('active')}
+                  >
                   <Select
                     className={`split-button ${errors.region ? "error" : ""}`}
                     value={selectedRegion}
@@ -171,6 +181,7 @@ const Login = ({ userDetails, setLoader }) => {
                   {errors.region && (
                     <div className="validation">{errors.region}</div>
                   )}
+                  </div>
                 </Form.Group>
 
                 {/* Country */}
@@ -178,6 +189,10 @@ const Login = ({ userDetails, setLoader }) => {
                   <Form.Label>
                     Country <span>(Required)</span>
                   </Form.Label>
+                  <div
+                    onMouseEnter={e => e.currentTarget.querySelector('.split-button').classList.add('active')}
+                    onMouseLeave={e => e.currentTarget.querySelector('.split-button').classList.remove('active')}
+                  >
                   <Select
                     className={`split-button ${errors.country ? "error" : ""}`}
                     value={selectedCountry}
@@ -197,6 +212,7 @@ const Login = ({ userDetails, setLoader }) => {
                   {errors.country && (
                     <div className="validation">{errors.country}</div>
                   )}
+                  </div>
                 </Form.Group>
                 <div className="message">
                   <div className="info-icon">
