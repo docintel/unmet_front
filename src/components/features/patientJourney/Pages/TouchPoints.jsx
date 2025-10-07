@@ -111,140 +111,53 @@ const TouchPoints = () => {
   }, [content]);
 
   const filterContents = () => {
-    if (activeKey && activeJourney) {
-      const categoryName = filterCategory.find(
-        (val) => val.id == activeKey
-      ).name;
-      const ageGroupName = filterAges
-        .find((val) => val.id == activeJourney)
-        .label.replace("&lt;", "<")
-        .replace("&gt;", ">")
-        .split("<br />")[1];
-
-      const filteredArray = [];
-      content.map((item) => {
-        if (
-          item.age_groups.indexOf(ageGroupName) != -1 &&
-          item.diagnosis.indexOf(categoryName) != -1 &&
-          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-        )
-          filteredArray.push(item);
-      });
-      const newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length ? true : false;
-            });
-      setContents(newArr);
-    } else if (activeKey) {
-      const categoryName = filterCategory.find(
-        (val) => val.id == activeKey
-      ).name;
-
-      const filteredArray = [];
-      content.map((item) => {
-        if (
-          item.diagnosis.indexOf(categoryName) != -1 &&
-          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-        )
-          filteredArray.push(item);
-      });
-      const newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length ? true : false;
-            });
-      setContents(newArr);
-    } else if (activeJourney) {
-      const ageGroupName = filterAges
-        .find((val) => val.id == activeJourney)
-        .label.replace("&lt;", "<")
-        .replace("&gt;", ">")
-        .split("<br />")[1];
-      const filteredArray = [];
-      content.map((item) => {
-        if (
-          item.age_groups
-            .replace("<", "")
-            .replace(">", "")
-            .indexOf(ageGroupName.replace("<", "").replace(">", "")) != -1 &&
-          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-        )
-          filteredArray.push(item);
-      });
-
-      const newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length ? true : false;
-            });
-
-      setContents(newArr);
-    } else if (searchText) {
-      const filteredArray = [];
-      content.map((item) => {
-        if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
-          filteredArray.push(item);
-      });
-
-      const newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length ? true : false;
-            });
-      setContents(newArr);
-    } else {
-      if (content && content.length > 0) {
-        const newArr =
-          selectedTag.length === 0
-            ? content
-            : content.filter((item) => {
-                const tagArray = JSON.parse(item.tags.toLowerCase());
-                let count = 0;
-                for (let i = 0; i < selectedTag.length; i++) {
-                  count = tagArray.includes(selectedTag[i].toLowerCase())
-                    ? count + 1
-                    : count;
-                }
-                return count === selectedTag.length ? true : false;
-              });
-        setContents(newArr);
-      } else {
-        setContents(content);
-      }
+    if (
+      !activeKey &&
+      !activeJourney &&
+      !searchText &&
+      selectedTag.length === 0
+    ) {
+      setContents(content);
+      return;
     }
+    const categoryNameFilter = filterCategory.find(
+      (val) => val.id == activeKey
+    );
+    const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+
+    const ageGroupFilter = filterAges.find((val) => val.id == activeJourney);
+    const ageGroupName = ageGroupFilter
+      ? ageGroupFilter.label
+          .replace("&lt;", "<")
+          .replace("&gt;", ">")
+          .split("<br />")[1]
+      : "";
+    console.log(categoryName);
+    console.log(ageGroupName);
+    const filteredArray = [];
+    content.map((item) => {
+      if (
+        item.age_groups.indexOf(ageGroupName) != -1 &&
+        item.diagnosis.indexOf(categoryName) != -1 &&
+        item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+      )
+        filteredArray.push(item);
+    });
+
+    const newArr =
+      selectedTag.length === 0
+        ? filteredArray
+        : filteredArray.filter((item) => {
+            const tagArray = JSON.parse(item.tags.toLowerCase());
+            let count = 0;
+            for (let i = 0; i < selectedTag.length; i++) {
+              count = tagArray.includes(selectedTag[i].toLowerCase())
+                ? count + 1
+                : count;
+            }
+            return count === selectedTag.length ? true : false;
+          });
+    setContents(newArr);
   };
 
   const isTabDisabled = (cat_id, isTab) => {

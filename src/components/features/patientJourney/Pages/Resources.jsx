@@ -27,8 +27,9 @@ const Resources = () => {
   useEffect(() => {
     if (filterAges)
       setAgeGroup(
-        [...filterAges].sort((a, b) =>
-          b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
+        [...filterAges].sort(
+          (a, b) => a.id - b.id
+          // b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
         )
       );
     if (filterTag) setTag([...filterTag].sort());
@@ -157,21 +158,22 @@ const Resources = () => {
       setAgeGroup(
         [...ageGroup]
           .filter((ag) => ag.id !== id)
-          .sort((a, b) =>
-            b.label
-              .replace("&lt;", "<")
-              .replace("&gt;", ">")
-              .split(" ")[1]
-              .slice(0, 2)
-              .localeCompare(
-                a.label
-                  .replace("&lt;", "<")
-                  .replace("&gt;", ">")
-                  .split(" ")[1]
-                  .slice(0, 2),
-                undefined,
-                { sensitivity: "base" }
-              )
+          .sort(
+            (a, b) => a.id - b.id
+            // b.label
+            //   .replace("&lt;", "<")
+            //   .replace("&gt;", ">")
+            //   .split(" ")[1]
+            //   .slice(0, 2)
+            //   .localeCompare(
+            //     a.label
+            //       .replace("&lt;", "<")
+            //       .replace("&gt;", ">")
+            //       .split(" ")[1]
+            //       .slice(0, 2),
+            //     undefined,
+            //     { sensitivity: "base" }
+            //   )
           )
       );
     else if (typ === "cat")
@@ -189,21 +191,22 @@ const Resources = () => {
     if (typ === "age") {
       setFilters([...filters].filter((ag) => ag.id !== id && typ === "age"));
       setAgeGroup(
-        [...ageGroup, { label: txt, id }].sort((a, b) =>
-          b.label
-            .replace("&lt;", "<")
-            .replace("&gt;", ">")
-            .split(" ")[1]
-            .slice(0, 2)
-            .localeCompare(
-              a.label
-                .replace("&lt;", "<")
-                .replace("&gt;", ">")
-                .split(" ")[1]
-                .slice(0, 2),
-              undefined,
-              { sensitivity: "base" }
-            )
+        [...ageGroup, { label: txt, id }].sort(
+          (a, b) => a.id - b.id
+          // b.label
+          //   .replace("&lt;", "<")
+          //   .replace("&gt;", ">")
+          //   .split(" ")[1]
+          //   .slice(0, 2)
+          //   .localeCompare(
+          //     a.label
+          //       .replace("&lt;", "<")
+          //       .replace("&gt;", ">")
+          //       .split(" ")[1]
+          //       .slice(0, 2),
+          //     undefined,
+          //     { sensitivity: "base" }
+          //   )
         )
       );
     } else if (typ === "cat") {
