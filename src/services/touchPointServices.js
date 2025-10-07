@@ -8,11 +8,11 @@ export const fetchAgeGroupCategories = async () => {
       const id = item.id;
       const label =
         item.label +
-        (`<br />${
+        (`<br />Age ${
           (parseInt(item.min_age) == 0 && "&lt;") ||
           (item.max_age === null && "&gt;") ||
           ""
-        }Age ` +
+        }` +
           (item.max_age
             ? item.min_age === 0
               ? item.max_age
@@ -77,7 +77,7 @@ export const TrackDownloads = async (id) => {
     });
   } catch (error) {
     console.error("Error while updating rating:", error);
-    throw new Error("Error while updating rating");
+    throw new Error("Error while tracking download");
   } finally {
   }
 };
@@ -92,7 +92,7 @@ export const SubmitShareContent = async (id, email, message, name) => {
     });
   } catch (error) {
     console.error("Error while updating rating:", error);
-    throw new Error("Error while updating rating");
+    throw new Error("Error while sharing content");
   } finally {
   }
 };
