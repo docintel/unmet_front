@@ -28,7 +28,6 @@ const TouchPoints = () => {
     filterTag,
     filterCategory,
     narrative,
-    isHcp,
     fetchAgeGroups,
     getNarratives,
   } = useContext(ContentContext);
@@ -373,7 +372,7 @@ const TouchPoints = () => {
                       style={{
                         transformOrigin: "top",
                         transform: `scaleY(${isInfoVisible ? 1 : 0})`,
-                        transition: "transform 0.3s ease",
+                        transition: "transform 0.5s ease",
                         height: isInfoVisible ? "parent" : "0px",
                       }}
                     >
@@ -455,12 +454,18 @@ const TouchPoints = () => {
                       Object.keys(categoryTags).map((cat, idx) => {
                         return (
                           <div
-                            className={cat.toLowerCase() == "all" ? "filter all" : "filter"}
+                            className={
+                              cat.toLowerCase() == "all"
+                                ? "filter all"
+                                : "filter"
+                            }
                             key={idx}
                           >
                             {cat}
                             <br />
-                            <div><span>{categoryTags[cat]}</span></div>
+                            <div>
+                              <span>{categoryTags[cat]}</span>
+                            </div>
                           </div>
                         );
                       })}
