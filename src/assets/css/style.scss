@@ -3,7 +3,7 @@
 
 body {
   background: $primary-color;
-  font-family: $raleway-font;
+  font-family: $sofia-font;
 }
 
 h1,
@@ -48,7 +48,11 @@ h6 {
   font-family: $fontFamily;
   font-weight: 500;
 }
-
+.row{
+  .col{
+    padding:0;
+  }
+}
 .btn-primary {
   border-radius: 40px;
   background: linear-gradient(97deg, $gradient-orange 0%, $gradient-pink 100%);
@@ -56,7 +60,7 @@ h6 {
   font-weight: 500;
   border: 0;
   padding: 4px 16px;
-  &:hover, &:focus{
+  &:hover, &:active{
     background: linear-gradient(277deg, $gradient-orange 0%, $gradient-pink 100%);
   }
   &.btn-bordered {
@@ -76,7 +80,41 @@ h6 {
 }
 .login-page{
   background: linear-gradient(112deg, #4CC6CF 0%, #D99E60 19.87%, #F79548 29.43%, #E94262 60.44%);
-}
+  min-height:100vh;
+  &.sso{
+    @include flex-middle;
+    .sso-login{
+          @include vertical-list;
+    justify-content: center;
+    box-shadow: -17px 0 18px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    border-radius: 20px;
+    .login-logo {
+      img {
+        width: 240px;
+      }
+    }
+
+    .user-name {
+      h1 {
+        font-size: clamp(20px, 4vw, 42px);
+        margin: 30px 0;
+        text-align: center;
+        font-weight: 700;
+        color: $primary-color;
+      }
+    }
+
+    button {
+      padding: 16px 30px;
+    }
+  }
+    }
+  }
+
 .login-left{
   padding:43px 65px;
   height: 100%;
@@ -139,27 +177,7 @@ h6 {
     border-radius: 49%;
     box-shadow: 164px 168px 0 $white;
 }
-  &.sso-login {
-    .login-logo {
-      img {
-        width: 240px;
-      }
-    }
 
-    .user-name {
-      h1 {
-        font-size: clamp(20px, 4vw, 42px);
-        margin: 30px 0;
-        text-align: center;
-        font-weight: 700;
-        color: $primary-color;
-      }
-    }
-
-    button {
-      padding: 16px 30px;
-    }
-  }
 
   .login-box {
     text-align: center;
@@ -173,16 +191,24 @@ h6 {
     }
 
     .user-name {
-      h6 {
-        font-weight: 500;
-        margin: 0 0 31px;
-        font-family: $raleway-font;
+      h3 {
+        font-weight: 300;
+        margin: 0 0 40px;
+        font-family: $sofia-font;
+        strong{
+          font-weight: 600;
+        }
       }
+    }
+    h6{
+      font-weight: 600;
+      font-family: $sofia-font;
+      margin:0;
     }
   }
 
   .login-form {
-    margin: 44px 0 10px;
+    margin: 48px 0 10px;
 
     form {
       max-width: 448px;
@@ -193,24 +219,60 @@ h6 {
       @include flex-column;
 
       .form-group {
+        position: relative;
         label {
           display: block;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
           font-size: 16px;
           color: $text-color;
-          font-weight: 700;
+          font-weight: 600;
 
           span {
-            font-weight: 400;
+            font-weight: 300;
             font-size: 13px;
           }
         }
 
         .split-button {
+          &.active{
+            +span{
+              svg{
+                path{
+                  stroke: #4CC6CF;
+                }
+              }
+            }
+          }
+          &.error{
+              +span{
+                svg{
+                  path{
+                    stroke:#E94262;
+                  }
+                }
+              
+            }
+          }
+          &.error{
+            &.active{
+              +span{
+                svg{
+                  path{
+                    stroke:#E94262;
+                  }
+                }
+              }
+            }
+          }
+          +span{
+            position: absolute;
+            top: 44px;
+            left: 26px;
+          }
           &.error {
             > div {
               &:nth-child(3) {
-                box-shadow: rgba(214, 25, 117, 0.6) 0px 1px 6px;
+                box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
               }
             }
           }
@@ -218,14 +280,14 @@ h6 {
           > div {
             &:nth-child(3) {
               @include split-btn;
-              background-size: 13px;
+              background-size: 15px;
 
               div {
                 padding: 0;
                 margin: 0;
                 font-size: 15px;
                 color: $text-color;
-                font-weight: 500;
+                font-weight: 400;
 
                 div[class*="-placeholder"] {
                   color: $gray;
@@ -248,6 +310,14 @@ h6 {
             }
           }
         }
+      }
+      .message{
+        border-radius: 8px 12px 12px 8px;
+        border-left: 5px solid  #4CC6CF;
+        background: rgba(148, 167, 191, 0.06);
+        padding:8px 30px 8px 8px;
+        @include flex-align-start;
+        gap:10px;
       }
 
       .text-muted {
@@ -381,14 +451,6 @@ h6 {
       color: $white;
       text-decoration: none;
       text-align: center;
-
-      &:active {
-        background: $dark-green;
-      }
-
-      &:hover {
-        opacity: 0.9;
-      }
     }
   }
 
@@ -1328,14 +1390,18 @@ h6 {
 }
 
 .validation {
-  color: $pink;
-  font-size: 14px;
-  margin-top: 3px;
+  color: $gradient-pink;
+  font-size: 12px;
+  margin-top: 10px;
+  font-weight: 300;
 }
 
-:not(.btn-check) + .btn:active {
-  background: $dark-green;
-  opacity: 0.8;
+// :not(.btn-check) + .btn:active {
+//   background: $dark-green;
+//   opacity: 0.8;
+// }
+:not(.btn-check)+.btn:active:focus-visible {
+    box-shadow: none;
 }
 
 .no-data-found {

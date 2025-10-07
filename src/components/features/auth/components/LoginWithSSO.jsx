@@ -35,7 +35,7 @@ const LoginWithSSO = () => {
   return (
     <>
       {!userVerified && (
-        <div className="login-page">
+        <div className="login-page sso">
           <div className="login sso-login">
             <div className="login-logo">
               <img src={path_image + "logo-img.svg"} alt="logo" />
