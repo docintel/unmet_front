@@ -943,6 +943,7 @@ h6 {
     @include outer-box;
     border-radius: 10px 10px;
     filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
+    background: $primary-color;
     &.resource-container {
       .content-count-box {
         margin: 4px 0 0;
@@ -994,29 +995,40 @@ h6 {
     .touchpoints-header {
       .touchpoint-links {
         @include flex-justify-between;
-        margin: 0px 0 40px;
-        gap: 51px;
+        margin: 12px 0 12px;
+        gap: 17px;
 
         button {
-          color: $text-color;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 122.6%;
-          background: #f4f6f9;
-          padding: 12px 0;
-          width: 100%;
+          display: flex;
+          color: $gray;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 18px;
+          background: none;
+          border: 1px solid $gray;
+          padding: 8px 12px;
           text-transform: capitalize;
-          border-radius: 0;
+          border-radius: 27px;
+          gap: 8px;
 
           &:hover {
-            color: #00adba;
-            background: rgba(0, 173, 186, 0.1);
+            color: $white;;
+            background: linear-gradient(97deg, #E94262  0%,  #F79548 100%);
+            border-color: transparent;
             opacity: 1;
+            img{
+              filter: brightness(0) invert(1);
+            }
           }
 
           &.active {
-            background: #4cc6cf;
+            background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
             color: $white;
+            border-color: transparent;
+              img{
+              filter: brightness(0) invert(1);
+            }
             &:focus {
               opacity: 1;
             }
@@ -1024,6 +1036,10 @@ h6 {
           &.disabled {
             opacity: 0.4;
             background: #f4f6f9;
+          }
+          img{
+            width: 20px;
+            height: 20px;
           }
         }
       }
@@ -1176,13 +1192,29 @@ h6 {
   }
 
   .no_data {
+    position: relative;
     margin: 40px 0 0;
-    padding: 16px 24px;
-    font-size: 20px;
-    line-height: 31px;
-    color: $gray;
-    font-weight: 400;
+    border: 2px dashed $border-color;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    align-self: stretch;
+    border-radius: 20px;
+    background: rgba(254, 244, 237, 0.04);
   }
+  img{
+    width: 100%;
+  }
+}
+.close-icon{
+  position: absolute;
+  padding: 10px 16px;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
 
 .tags {
