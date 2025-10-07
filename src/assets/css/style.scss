@@ -57,9 +57,10 @@ h6 {
   border-radius: 40px;
   background: linear-gradient(97deg, $gradient-orange 0%, $gradient-pink 100%);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   border: 0;
   padding: 4px 16px;
+  min-width: 87px;
   &:hover, &:active{
     background: linear-gradient(277deg, $gradient-orange 0%, $gradient-pink 100%);
   }
@@ -668,6 +669,7 @@ h6 {
 
       .age-format {
         @include age-format;
+
       }
 
       .content-box {
@@ -713,16 +715,18 @@ h6 {
   width: 100%;
 
   .journey-link {
-    color: $text-color;
+    color: $gray;
     text-align: center;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
   }
 
   .line {
-    border-top: 1px dashed $text-color;
+    border-top: 1px dashed $gray;
     width: 100%;
     flex: 1;
+    margin-top: auto;
+    margin-bottom: 32px;
     &.disabled {
       opacity: 0.4;
     }
@@ -827,7 +831,22 @@ h6 {
 
   .switch {
     @include switch;
-    margin:13px 0 13px;
+    margin:18px 0 18px;
+    max-width: 155px;
+    width:155px;
+    flex:0 0 155px;
+    .switch-light{
+      &> span{
+          span{
+            &:first-child {
+    width: 68px;
+}
+      &:last-child {
+    width: 79px;
+}
+          }
+      } 
+    } 
   }
 
   .patient-journey {
@@ -845,13 +864,14 @@ h6 {
     position: relative;
 
     .journey-link {
-      min-width: 132px;
-      padding: 13px 9px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      
+      .user-category{
+      min-width: 132px;
+      padding: 13px 9px 17px;
+      }
       span,
       div {
         font-size: 14px;
@@ -863,23 +883,23 @@ h6 {
         color: rgba(93, 118, 130, 0.4);
       }
       &.active {
-        color: #4cc6cf;
-        position: relative;
-        background: $white;
-        box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
-        border-radius: 10px 10px 0 0;
-
-        div {
+        
+        .user-category {
+          color: #4cc6cf;
+          position: relative;
+          background: $white;
+          box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
+          border-radius: 27px 27px 0 0;
           &:before {
             content: "";
             position: absolute;
             bottom: 0px;
-            left: -27px;
-            width: 27px;
-            height: 27px;
+            left: -47px;
+            width: 47px;
+            height: 47px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 11px 11px 0 $white;
+            box-shadow: 21px 21px 0 $white;
           }
 
           &:after {
@@ -887,26 +907,27 @@ h6 {
             position: absolute;
             bottom: 0px;
             left: auto;
-            right: -27px;
-            width: 27px;
-            height: 27px;
+            right: -47px;
+            width: 47px;
+            height: 47px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: -11px 11px 0 $white;
+            box-shadow: -21px 21px 0 $white;
           }
         }
       }
 
       &:last-child {
         &.active {
-          div {
+          .user-category {
             &:after {
               content: "";
-              bottom: -16px;
+              bottom: -22px;
               right: 0px;
-              width: 27px;
-              height: 27px;
+              width: 17px;
+              height: 30px;
               background: $white;
+              border-radius: 0;
             }
           }
         }
@@ -919,13 +940,16 @@ h6 {
   height: 56px;
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin:0 0 4px;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(100%);
+    filter: grayscale(0.86);
+    opacity: 0.4;
+    mix-blend-mode: luminosity;
+    box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
   }
 }
 
@@ -941,8 +965,9 @@ h6 {
 
   .touchpoint-box {
     @include outer-box;
-    border-radius: 10px 10px;
+    border-radius: 20px 20px;
     filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
+    padding:0 16px;
     &.resource-container {
       .content-count-box {
         margin: 4px 0 0;
@@ -956,7 +981,7 @@ h6 {
     }
 
     .search-bar {
-      margin: 40px 0 12px;
+      margin: 30px 0 12px;
 
       form {
         position: relative;
@@ -964,10 +989,10 @@ h6 {
         input {
           background: $secondary-color;
           border: 0;
-          border-radius: 0;
-          padding: 12px 54px 12px 24px;
+          border-radius: 40px;
+          padding: 10px 54px 10px 16px;
           font-size: 14px;
-          font-weight: 500;
+          font-weight: 400;
           color: $text-color;
 
           &:focus {
@@ -976,12 +1001,16 @@ h6 {
         }
 
         button {
-          position: absolute;
-          top: 50%;
-          right: 14px;
-          transform: translateY(-50%);
+          // position: absolute;
+          // top: 50%;
+          // right: 14px;
+          // transform: translateY(-50%);
           border: 0;
-          background: transparent;
+          border-radius: 40px;
+          background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+          width: 40px;
+          height: 40px;
+          margin-left: 12px;
 
           img {
             width: 16px;
@@ -1196,6 +1225,8 @@ h6 {
   .tag-title {
     padding: 2px 6px;
     color: $gray;
+    font-size: 14px;
+    font-weight: 400;
   }
 
   .tag-list {
@@ -1205,12 +1236,13 @@ h6 {
     flex: 1;
 
     .tag-item {
-      padding: 2px 6px;
-      border-radius: 2px;
-      background: rgba(0, 173, 186, 0.1);
-      color: $dark-green;
+      padding: 2px 8px;
+      border-radius: 24px;
+      background: rgba(76, 198, 207, 0.20);
+      color: $green;
       font-weight: 400;
       flex-wrap: wrap;
+      font-size: 12px;
     }
   }
 }
@@ -1241,25 +1273,35 @@ h6 {
   }
 
   .touchpoint-data-boxes {
-    gap: 3.4rem 4.5rem;
+    gap: 3.4rem 4rem;
     @include flex-wrap;
 
     .touchpoint-data-box,
     .detail-data-box {
       min-width: 300px;
-      width: calc(33.33% - 3rem);
+      width: calc(33.33% - 2.7rem);
       animation: slideFade 0.6s normal forwards;
       opacity: 0;
 
       .age-format {
         @include age-format;
-        margin: 0 0 -1px;
+        margin: 0 0 -6px;
+                div{
+          margin-left: -6px;
+          &:first-child{
+            margin-left: 0;
+          }
+        }
       }
 
       .content-box {
         @include content-box;
         @include flex-column;
         height: calc(100% - 18px);
+        position: relative;
+        z-index: 9;
+        background: #FDFEFF;
+        box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       }
     }
   }
