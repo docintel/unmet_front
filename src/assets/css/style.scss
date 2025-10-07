@@ -2,7 +2,7 @@
 @use "./mixin" as *;
 
 body {
-  background: $secondary-color;
+  background: $primary-color;
   font-family: $raleway-font;
 }
 
@@ -276,12 +276,13 @@ h6 {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: $secondary-color;
+    min-height: 62px;
+    background: $primary-color;
   }
 
   .header-inner {
     @include flex-center;
-    padding: 12px 12px 7px;
+    // padding: 7px 12px 7px;
 
     nav {
       width: 100%;
@@ -291,7 +292,7 @@ h6 {
 
   .navbar-brand {
     img {
-      width: 95px;
+      width:65px;
       height: auto;
     }
   }
@@ -307,10 +308,12 @@ h6 {
         font-size: 14px;
         font-weight: 600;
         text-decoration: none;
+        padding: 16px 0;
 
         &.active,
         &:hover {
           color: $dark-green;
+          border-top: 3px solid $dark-green;
         }
       }
     }
@@ -339,13 +342,13 @@ h6 {
         line-height: 16px;
 
         a {
-          color: $text-color;
+          color: $pink;
           font-size: 14px;
-          font-weight: 600;
+          font-weight: 400;
           text-decoration: none;
 
           &:hover {
-            color: $dark-green;
+            color: $pink;
           }
         }
       }

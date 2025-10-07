@@ -44,7 +44,7 @@ const Header = () => {
               className="nav"
             >
               <Navbar.Brand href="/">
-                <img src={path_image + "logo-img.svg"} alt="logo" />
+                <img src={path_image + "vwd-journey-logo.svg"} alt="logo" />
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="header-navbar-nav" />
               <Navbar.Collapse
@@ -113,9 +113,6 @@ const Header = () => {
                 </label>
               </div>
               <div className="logout">
-                <div className="user-avatar">
-                  <img src={path_image + "avtar-icon.png"} alt="user" />
-                </div>
                 <span>
                   <Link
                     to="/"
@@ -127,6 +124,9 @@ const Header = () => {
                     Log Out
                   </Link>
                 </span>
+                <div className="user-avatar">
+                  <img src={path_image + "logout.svg"} alt="user" />
+                </div>
               </div>
             </div>
           </div>
