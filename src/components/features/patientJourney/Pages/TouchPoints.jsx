@@ -36,6 +36,7 @@ const TouchPoints = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [activeAgeClass, setActiveAgeClass] = useState("");
   const [contentCategory, setContentCategory] = useState("All");
+  const [isInfoVisible, setIsInfoVisible] = useState(true);
 
   useEffect(() => {
     filterContents();
@@ -75,28 +76,24 @@ const TouchPoints = () => {
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
-    } else if (activeKey) {
-      const activeNarrative = narrative.filter(
-        (narration) =>
-          narration.category_id == activeKey &&
-          !["Not applicable"].includes(narration.status)
-      );
+    } else if (activeKey || activeJourney) {
+      const activeNarrative = activeKey
+        ? narrative.filter(
+            (narration) =>
+              narration.category_id == activeKey &&
+              !["Not applicable"].includes(narration.status) &&
+              narration.contibution_title
+          )
+        : narrative.filter(
+            (narration) =>
+              narration.age_group_id == activeJourney &&
+              !["Not applicable"].includes(narration.status) &&
+              narration.contibution_title
+          );
       if (activeNarrative.length > 0)
         setActiveNarration([...activeNarrative].sort((a, b) => a.id - b.id)[0]);
       else setActiveNarration(null);
     } else if (activeJourney) {
-      const activeNarratives = narrative.filter(
-        (narration) =>
-          narration.age_group_id == activeJourney &&
-          !["Not applicable"].includes(narration.status)
-      );
-
-      if (activeNarratives.length > 0) {
-        const leastIdNarration = activeNarratives.sort(
-          (a, b) => a.id - b.id
-        )[0];
-        setActiveNarration(leastIdNarration);
-      } else setActiveNarration(null);
     } else setActiveNarration(null);
     setSearchText("");
   }, [activeKey, activeJourney]);
@@ -358,17 +355,29 @@ const TouchPoints = () => {
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    <div className="text-center no_data">
+                  ) : isInfoVisible ? (
+                    <div
+                      className="text-center no_data"
+                      style={{
+                        transformOrigin: "top",
+                        transform: `scaleY(${isInfoVisible ? 1 : 0})`,
+                        transition: "transform 0.3s ease",
+                      }}
+                    >
                       <div className="close-icon">
                         <img
                           src={path_image + "close-arrow.svg"}
                           alt="No Data"
+                          onClick={() => setIsInfoVisible(false)}
                         />
                       </div>
-                      <img src={path_image + "info-banner.png"} alt="No Data" />
+                      <img
+                        src={path_image + "info-banner.png"}
+                        alt="No Data"
+                        style={{ userSelect: "none" }}
+                      />
                     </div>
-                  )}
+                  ) : null}
                 </div>
                 <div className="search-bar">
                   <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
