@@ -122,11 +122,11 @@ const Header = () => {
                     }}
                   >
                     Log out
+                  <div className="user-avatar">
+                    <img src={path_image + "logout.svg"} alt="user" />
+                  </div>
                   </Link>
                 </span>
-                <div className="user-avatar">
-                  <img src={path_image + "logout.svg"} alt="user" />
-                </div>
               </div>
             </div>
           </div>
