@@ -405,6 +405,7 @@ const TouchPoints = () => {
                             }`}
                           >
                             {cat.name}
+                            <img src={path_image + "country-icon.svg"} alt="icon" />
                           </Button>
                         );
                       })}
@@ -433,11 +434,11 @@ const TouchPoints = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="text-center no_data">
-                      Choose the patient&apos;s age and touchpoint from the
-                      options above
-                      <br />
-                      to access content tailored to their unmet needs.
+                      <div className="text-center no_data">
+                        <div className="close-icon">
+                          <img src={path_image + "close-arrow.svg"} alt="No Data" />
+                        </div>
+                     <img src={path_image + "info-banner.png"} alt="No Data" />
                     </div>
                   )}
                 </div>

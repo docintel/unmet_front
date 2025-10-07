@@ -121,7 +121,7 @@ const Header = () => {
                       logout();
                     }}
                   >
-                    Log Out
+                    Log out
                   </Link>
                 </span>
                 <div className="user-avatar">
