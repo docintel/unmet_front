@@ -339,12 +339,12 @@ const Resources = () => {
                     Object.keys(categoryTags).map((cat, idx) => {
                       return (
                         <div
-                          className={cat.toLowerCase() == "all" ? "all" : ""}
+                          className={cat.toLowerCase() == "all" ? "filter all" : "filter"}
                           key={idx}
                         >
                           {cat}
-                          <br />
-                          {categoryTags[cat]}
+                          <div><span>{categoryTags[cat]}</span></div>
+                          
                         </div>
                       );
                     })}
