@@ -236,6 +236,7 @@ const Resources = () => {
                   <Form.Control
                     type="search"
                     aria-label="Search"
+                    placeholder="Search by tag or content title"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     onKeyUp={handleSearchTextKeyUp}

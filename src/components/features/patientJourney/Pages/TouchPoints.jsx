@@ -312,7 +312,7 @@ const TouchPoints = () => {
         <div className="custom-container">
           <Row>
             <div className="touchpoints-section">
-              <div className="patient-journey d-flex align-items-center w-100">
+              <div className="patient-journey d-flex align-items-end w-100">
                 <div className="switch">
                   <label className="switch-light">
                     <input
@@ -360,11 +360,12 @@ const TouchPoints = () => {
                         >
                           <div className="userImg">
                             <img
-                              src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80"
+                              src={path_image + "early-childhood.png"}
                               alt=""
                             />
                           </div>
                           <div
+                            className="user-category"
                             dangerouslySetInnerHTML={{
                               __html: lbl.label,
                             }}
@@ -403,6 +404,10 @@ const TouchPoints = () => {
                             }`}
                           >
                             {cat.name}
+                            <img
+                              src={path_image + "country-icon.svg"}
+                              alt="icon"
+                            />
                           </Button>
                         );
                       })}
@@ -432,10 +437,13 @@ const TouchPoints = () => {
                     </div>
                   ) : (
                     <div className="text-center no_data">
-                      Choose the patient&apos;s age and touchpoint from the
-                      options above
-                      <br />
-                      to access content tailored to their unmet needs.
+                      <div className="close-icon">
+                        <img
+                          src={path_image + "close-arrow.svg"}
+                          alt="No Data"
+                        />
+                      </div>
+                      <img src={path_image + "info-banner.png"} alt="No Data" />
                     </div>
                   )}
                 </div>
@@ -444,6 +452,7 @@ const TouchPoints = () => {
                     <Form.Control
                       type="search"
                       aria-label="Search"
+                      placeholder="Search by tag or content title"
                       value={searchText}
                       onChange={(e) => setSearchText(e.target.value)}
                       onKeyUp={handleSearchTextKeyUp}
