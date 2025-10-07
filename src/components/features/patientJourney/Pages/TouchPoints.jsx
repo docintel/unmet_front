@@ -64,14 +64,6 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
-    setSearchText("");
-  }, [activeJourney]);
-
-  useEffect(() => {
-    setSearchText("");
-  }, [activeKey]);
-
-  useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrative.find(
@@ -104,6 +96,7 @@ const TouchPoints = () => {
         setActiveNarration(leastIdNarration);
       } else setActiveNarration(null);
     } else setActiveNarration(null);
+    setSearchText("");
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
@@ -183,11 +176,13 @@ const TouchPoints = () => {
         .label.replace("&lt;", "<")
         .replace("&gt;", ">")
         .split("<br />")[1];
-
       const filteredArray = [];
       content.map((item) => {
         if (
-          item.age_groups.indexOf(ageGroupName) != -1 &&
+          item.age_groups
+            .replace("<", "")
+            .replace(">", "")
+            .indexOf(ageGroupName.replace("<", "").replace(">", "")) != -1 &&
           item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
         )
           filteredArray.push(item);
@@ -363,8 +358,11 @@ const TouchPoints = () => {
                             }
                           }}
                         >
-                        <div className="userImg">
-                            <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80" alt="" />
+                          <div className="userImg">
+                            <img
+                              src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740&q=80"
+                              alt=""
+                            />
                           </div>
                           <div
                             dangerouslySetInnerHTML={{
