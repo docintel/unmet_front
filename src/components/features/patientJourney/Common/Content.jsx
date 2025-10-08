@@ -380,11 +380,15 @@ const Content = ({
         </div>
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
-        <div className="">
+        <div className="category">
           {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
+            <>
             <span key={idx}>
-              {dgns + (arr.length - 1 !== idx ? " | " : "")}
-            </span>
+                {dgns + (arr.length - 1 !== idx)}
+              </span>
+                <img src={path_image + "/icons/hmb.svg"} alt="" />
+              <span className="pipe">|</span>
+              </>
           ))}
         </div>
         <div className="tags tag-list">
