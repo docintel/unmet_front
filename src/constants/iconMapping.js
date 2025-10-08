@@ -11,13 +11,13 @@ export const iconMapping = {
   },
   category: {
     All: "narrative_all.svg",
-    "E-learning": "narrative_e_learning.svg",
-    Video: "narrative_video.svg",
-    Publication: "narrative_publication.svg",
+    "E-Learning": "narrative_e_learning.svg",
+    Videos: "narrative_video.svg",
+    Publications: "narrative_publication.svg",
     Posters: "narrative_posters.svg",
     Flyer: "narrative_flyer.svg",
     Form: "narrative_form.svg",
-    "Slide deck": "narrative_slide_deck.svg",
+    "Slide Deck": "narrative_slide_deck.svg",
     Collection: "narrative_collection.svg",
   },
 };
