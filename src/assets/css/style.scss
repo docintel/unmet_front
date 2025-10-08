@@ -1594,7 +1594,7 @@ h6 {
   .content-count {
       padding: 12px 16px;
     border-bottom:  0.5px solid #5E7683;
-    @include flex-align-start;
+    @include flex-align-end;
     margin: 0 -24px 56px;
     gap: 40px;
 
