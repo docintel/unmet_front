@@ -1,4 +1,4 @@
-import React, { useState  } from "react";
+import React, { useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { handleSso } from "../../../../services/authService";
@@ -16,6 +16,7 @@ const LoginWithSSO = () => {
   const [userVerified, setUserVerified] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [loader, setLoader] = useState(false);
+  const [isHcp, setIsHcp] = useState(false);
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
@@ -32,10 +33,16 @@ const LoginWithSSO = () => {
     setLoader(false);
   };
 
+  const toggleUserType = () => {
+    setIsHcp((prev) => {
+      const newValue = !prev;
+      return newValue;
+    });
+  };
+
   return (
     <>
       {!userVerified && (
-
         <div className="login-page sso">
           <Container fluid>
             <Row>
@@ -98,24 +105,32 @@ const LoginWithSSO = () => {
                   </div>
 
                   <div className="login-form">
-                      <Form>
-                        <Form.Group>
-                          <div className="login-switch">
+                    <Form>
+                      <Form.Group>
+                        <div className="login-switch">
                           <Form.Label>View mode:</Form.Label>
                           <div className="login-switch">
                             <div className="switch">
                               <label className="switch-light">
                                 <input
                                   type="checkbox"
-                                  // checked={isHcp}
-                                  // onChange={toggleUserType}
+                                  checked={isHcp}
+                                  onChange={toggleUserType}
                                   style={{ margin: 0 }}
                                 />
                                 <span>
-                                  <span className="switch-btn active">
+                                  <span
+                                    className={`switch-btn ${
+                                      !isHcp ? "active" : ""
+                                    }`}
+                                  >
                                     Octapharma
                                   </span>
-                                  <span className="switch-btn">
+                                  <span
+                                    className={`switch-btn ${
+                                      isHcp ? "active" : ""
+                                    }`}
+                                  >
                                     HCP
                                   </span>
                                 </span>
@@ -123,20 +138,23 @@ const LoginWithSSO = () => {
                               </label>
                             </div>
                           </div>
-                          </div>
-                        </Form.Group>
+                        </div>
+                      </Form.Group>
                       <div className="message">
                         <div className="info-icon">
                           <img src={path_image + "info-icon.svg"} alt="" />
                         </div>
                         <Form.Text className="text-muted">
-                          Use Octapharma for full access, switch to HCP for sharing content safely.
+                          Use Octapharma for full access, switch to HCP for
+                          sharing content safely.
                         </Form.Text>
                       </div>
 
                       <Button
                         variant="primary"
-                        onClick={() => handleSso(login, isUserVerified, setLoader)}
+                        onClick={() =>
+                          handleSso(login, isUserVerified, setLoader)
+                        }
                         className="rounded-lg transition"
                       >
                         Login <img src={path_image + "login-icon.svg"} alt="" />
@@ -148,18 +166,6 @@ const LoginWithSSO = () => {
             </Row>
           </Container>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
         //  <div className="login-page sso">
         //     <div className="login sso-login">
