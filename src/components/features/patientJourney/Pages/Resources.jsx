@@ -26,6 +26,7 @@ const Resources = () => {
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
+   const [tags, setTags] = useState([]);
   const [currentReadClick, setCurrentReadClick] = useState({
     previewArticle: null,
     id: null,
@@ -33,7 +34,7 @@ const Resources = () => {
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
-
+const [selectedTag, setSelectedTag] = useState([]);
   useEffect(() => {
     if (filterAges)
       setAgeGroup(
@@ -230,7 +231,10 @@ const Resources = () => {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
-
+  const removeFilter = (tag) => {
+    setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
+    setTags([...tags, tag].sort());
+  };
   return (
     <div className="main-page">
       <div className="custom-container">
@@ -241,6 +245,23 @@ const Resources = () => {
               <div className="search-bar">
                 {" "}
                 <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+                  <div className="inner-search d-flex align-items-center">
+                      {selectedTag.length > 0 && (
+                        <div className="tag-list d-flex">
+                          {selectedTag &&
+                            selectedTag.map((tag, idx) => (
+                              <span key={idx} className="tag-item">
+                                {tag}{" "}
+                                <button
+                                  className="cross-btn"
+                                  onClick={() => removeFilter(tag)}
+                                >
+                                  ✖
+                                </button>
+                              </span>
+                            ))}
+                        </div>
+                      )}
                   <Form.Control
                     type="search"
                     aria-label="Search"
@@ -249,6 +270,7 @@ const Resources = () => {
                     onChange={(e) => setSearchText(e.target.value)}
                     onKeyUp={handleSearchTextKeyUp}
                   />
+                  </div>
                   <Button variant="outline-success" onClick={handleSearchClick}>
                     <img src={path_image + "search-icon.svg"} alt="Search" />
                   </Button>
