@@ -117,10 +117,11 @@ const TouchPoints = () => {
             (narration) => narration.age_group_id == activeJourney
           );
 
-      console.log([...activeNarrative].sort((a, b) => a.status - b.status));
       if (activeNarrative.length > 0)
         setActiveNarration(
-          [...activeNarrative].sort((a, b) => a.status - b.status)[0]
+          [...activeNarrative].sort((a, b) =>
+            a.status.localeCompare(b.status, undefined, { sensitivity: "base" })
+          )[0]
         );
       else setActiveNarration(null);
     } else if (activeJourney) {
