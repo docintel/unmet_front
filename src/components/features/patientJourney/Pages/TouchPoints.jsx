@@ -372,18 +372,22 @@ const TouchPoints = () => {
 
                   {activeNarration ? (
                     activeNarration.status === "Missing" ? (
+                    <div className="message-info">
                       <div className="message">
                         <div className="info-icon">
                           <img src={path_image + "info-icon.svg"} alt="" />
                         </div>
                         <p className="info-text">Narrative in preparation...</p>
                       </div>
+                    </div>
                     ) : activeNarration.status === "Not applicable" ? (
-                      <div className="message">
+                      <div className="message-info">
+                       <div className="message">
                         <div className="info-icon">
                           <img src={path_image + "info-icon.svg"} alt="" />
                         </div>
                         <p className="info-text">Narrative in preparation...</p>
+                       </div>
                       </div>
                     ) : (
                       <div className="touchpoint-data">
