@@ -30,6 +30,7 @@ const Content = ({
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloading, setDownloading] = useState(false);
+  const [error, setError] = useState({});
   const circumference = 2 * Math.PI * 45;
 
   const handleStarClick = async () => {
@@ -49,7 +50,10 @@ const Content = ({
         toast.warn("Rating removed successfully");
         setIsLoading(false);
       }
-    } catch (ex) {}
+    } catch (ex) {
+      toast.error("Oops!! somthing went wrong.");
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -224,7 +228,7 @@ const Content = ({
 
       await TrackDownloads(section.id);
     } catch (ex) {
-      toast("Failed to download the content.");
+      toast.error("Failed to download the content.");
       setDownloading(false);
     }
   };
@@ -238,13 +242,26 @@ const Content = ({
 
   const handleSubmitClick = async (e) => {
     e.preventDefault();
-    if (!email) {
-      toast.error("Email is required!!");
-      return;
+    try {
+      if (!email) {
+        setError({ type: "email", message: "Email is required!!" });
+        return;
+      }
+      setIsLoading(true);
+
+      await SubmitShareContent(
+        section.id,
+        email,
+        message || null,
+        name || null
+      );
+      toast.success("Content shared via email successfully");
+      handleCloseModal();
+      setIsLoading(false);
+    } catch (ex) {
+      setError({ type: "global", message: "Oops!! somthing went wrong." });
+      setIsLoading(false);
     }
-    await SubmitShareContent(section.id, email, message || null, name || null);
-    toast.success("Content shared via email successfully");
-    handleCloseModal();
   };
 
   return (
@@ -301,6 +318,9 @@ const Content = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value.trim())}
                 />
+                <p style={{ color: "red" }}>
+                  {error && error.type === "email" && error.message}
+                </p>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formMessage">
@@ -314,6 +334,9 @@ const Content = ({
                   onChange={(e) => setMessage(e.target.value)}
                 />
               </Form.Group>
+              <p style={{ color: "red" }}>
+                {error && error.type === "global" && error.message}
+              </p>
               <Button variant="primary" onClick={handleSubmitClick}>
                 Submit
               </Button>
