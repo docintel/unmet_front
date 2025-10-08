@@ -1025,7 +1025,7 @@ h6 {
     // padding: 0;
     gap: 8px;
     @include flex-align-center;
-    animation: scale-up-to-left 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) 0.5s 1 normal both;
+    animation: scale-up-to-left 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s 1 normal both;
     z-index: 2;
     position: relative;
     overflow: hidden;
