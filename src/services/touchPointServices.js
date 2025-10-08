@@ -18,7 +18,12 @@ export const fetchAgeGroupCategories = async () => {
               ? item.max_age
               : item.min_age + "-" + item.max_age
             : item.min_age));
-      return { id, label };
+      return {
+        id,
+        label,
+        allImage: item.all_tab_thumb,
+        femaleImage: item.female_tab_thumb,
+      };
     });
 
     return {

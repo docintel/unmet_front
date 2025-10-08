@@ -301,7 +301,13 @@ const TouchPoints = () => {
                         >
                           <div className="userImg">
                             <img
-                              src={path_image + "early-childhood.png"}
+                              src={
+                                path_image +
+                                "ages/" +
+                                (!isAllSelected
+                                  ? lbl.allImage
+                                  : lbl.femaleImage)
+                              }
                               alt=""
                             />
                           </div>
@@ -346,7 +352,11 @@ const TouchPoints = () => {
                           >
                             {cat.name}
                             <img
-                              src={path_image + iconMapping.diagnosis[cat.name]}
+                              src={
+                                path_image +
+                                "icons/" +
+                                iconMapping.diagnosis[cat.name]
+                              }
                               alt="icon"
                             />
                           </Button>
@@ -424,44 +434,41 @@ const TouchPoints = () => {
                     style={{ userSelect: "none" }}
                   />
                 </div>
-                <div className="search-bar" >
+                <div className="search-bar">
                   <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                     <div className="inner-search d-flex align-items-center">
-                    {selectedTag.length > 0 && (
-                    <div className="tag-list d-flex">
-                      {selectedTag &&
-                        selectedTag.map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="tag-item"
-                          >
-                            {tag}{" "}
-                            <button
-                              className="cross-btn"
-                              onClick={() => removeFilter(tag)}
-                            >
-                              ✖
-                            </button>
-                          </span>
-                        ))}
-                    </div>
-                )}
-                    <Form.Control
-                      type="search"
-                      aria-label="Search"
-                      placeholder="Search by tag or content title"
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyUp={handleSearchTextKeyUp}
+                      {selectedTag.length > 0 && (
+                        <div className="tag-list d-flex">
+                          {selectedTag &&
+                            selectedTag.map((tag, idx) => (
+                              <span key={idx} className="tag-item">
+                                {tag}{" "}
+                                <button
+                                  className="cross-btn"
+                                  onClick={() => removeFilter(tag)}
+                                >
+                                  ✖
+                                </button>
+                              </span>
+                            ))}
+                        </div>
+                      )}
+                      <Form.Control
+                        type="search"
+                        aria-label="Search"
+                        placeholder="Search by tag or content title"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyUp={handleSearchTextKeyUp}
                       />
-                      </div>
-                   <Button
+                    </div>
+                    <Button
                       variant="outline-success"
                       onClick={handleSearchClick}
                     >
                       <img src={path_image + "search-icon.svg"} alt="Search" />
                     </Button>
-                  </Form> 
+                  </Form>
                 </div>
                 <div className="tags d-flex">
                   <div className="tag-title">Topics:</div>
@@ -493,7 +500,11 @@ const TouchPoints = () => {
                             key={idx}
                           >
                             <img
-                              src={path_image + iconMapping.category[cat]}
+                              src={
+                                path_image +
+                                "icons/" +
+                                iconMapping.category[cat]
+                              }
                               alt=""
                             />
                             {cat}
