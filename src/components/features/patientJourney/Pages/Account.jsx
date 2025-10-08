@@ -28,30 +28,28 @@ const Account = () => {
     );
   };
 
-
   useEffect(() => {
-  const fetchAllData = async () => {
-    setIsLoading(true);
-    try {
-      const [favoriteRes, recentRes, userRes] = await Promise.all([
-        getData(endPoint.FAVORITE),
-        getData(endPoint.GET_RECENT_CONTENT),
-        getData(endPoint.USER_DETAILS),
-      ]);
+    const fetchAllData = async () => {
+      setIsLoading(true);
+      try {
+        const [favoriteRes, recentRes, userRes] = await Promise.all([
+          getData(endPoint.FAVORITE),
+          getData(endPoint.GET_RECENT_CONTENT),
+          getData(endPoint.USER_DETAILS),
+        ]);
 
-      setFavorite(favoriteRes?.data?.data || []);
-      setRecentContent(recentRes?.data?.data || []);
-      setUserData(userRes?.data?.data?.[0] || {});
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false); 
-    }
-  };
+        setFavorite(favoriteRes?.data?.data || []);
+        setRecentContent(recentRes?.data?.data || []);
+        setUserData(userRes?.data?.data?.[0] || {});
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  fetchAllData();
-}, []);
-
+    fetchAllData();
+  }, []);
 
   return (
     <div className="main-page">
@@ -71,7 +69,9 @@ const Account = () => {
             <div className="content-download">
               <div className="download">
                 <h4>Content Download</h4>
-                <p>{userData?.total_download ? userData?.total_download : "00"}</p>
+                <p>
+                  {userData?.total_download ? userData?.total_download : "00"}
+                </p>
               </div>
               <div className="shared">
                 <h4>Content Shared</h4>
@@ -102,7 +102,7 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="favorite" title="Favorite">
+                <Tab eventKey="favorite" title="Favourite">
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
                       favorite &&
@@ -134,4 +134,3 @@ const Account = () => {
 };
 
 export default Account;
-

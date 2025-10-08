@@ -141,7 +141,7 @@ const Content = ({
         const link = document.createElement("a");
         link.href = downloadUrl;
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        link.download = section.title + "." + extenstion;
+        link.download = `${section.title}.${extenstion}`;
         document.body.appendChild(link);
         link.click();
         link.remove();
