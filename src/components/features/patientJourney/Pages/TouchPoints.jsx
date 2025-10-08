@@ -376,15 +376,23 @@ const TouchPoints = () => {
                           ></div>
                         </div>
                       </div>
+                       {/* <div className="message">
+                       <div className="info-icon">
+                          <img src={path_image + "info-icon.svg"} alt="" />
+                       </div>
+                        <p className="info-text">Narrative in preparation...</p>
+                    </div> */}
                     </div>
                   ) : (
                     <div
                       className="text-center no_data"
                       style={{
-                        transformOrigin: "top",
-                        transform: `scaleY(${isInfoVisible ? 1 : 0})`,
-                        transition: "transform 0.5s ease",
-                        height: isInfoVisible ? "parent" : "0px",
+                        maxHeight: isInfoVisible ? "500px" : "0px", 
+                        opacity: isInfoVisible ? 1 : 0,
+                        overflow: "hidden",
+                        transform: isInfoVisible ? "translateY(0)" : "translateY(-20px)", 
+                        transition: "all 0.5s ease",
+                        padding: isInfoVisible ? "40px 12px" : "0",
                       }}
                     >
                       <div className="close-icon">
