@@ -10,6 +10,7 @@ import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
 import { toast } from "react-toastify";
 import Pagination from "react-bootstrap/Pagination";
+import { iconMapping } from "../../../../constants/iconMapping";
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -103,18 +104,17 @@ const TouchPoints = () => {
       const activeNarrative = activeKey
         ? narrative.filter(
             (narration) =>
-              narration.category_id == activeKey &&
-              !["Not applicable"].includes(narration.status) &&
-              narration.contibution_title
+              narration.category_id == activeKey && narration.contibution_title
           )
         : narrative.filter(
             (narration) =>
               narration.age_group_id == activeJourney &&
-              !["Not applicable"].includes(narration.status) &&
               narration.contibution_title
           );
       if (activeNarrative.length > 0)
-        setActiveNarration([...activeNarrative].sort((a, b) => a.id - b.id)[0]);
+        setActiveNarration(
+          [...activeNarrative].sort((a, b) => a.status - b.status)[0]
+        );
       else setActiveNarration(null);
     } else if (activeJourney) {
     } else setActiveNarration(null);
@@ -346,7 +346,7 @@ const TouchPoints = () => {
                           >
                             {cat.name}
                             <img
-                              src={path_image + "country-icon.svg"}
+                              src={path_image + iconMapping.diagnosis[cat.name]}
                               alt="icon"
                             />
                           </Button>
@@ -356,6 +356,13 @@ const TouchPoints = () => {
 
                   {activeNarration ? (
                     activeNarration.status === "Missing" ? (
+                      <div className="message">
+                        <div className="info-icon">
+                          <img src={path_image + "info-icon.svg"} alt="" />
+                        </div>
+                        <p className="info-text">Narrative in preparation...</p>
+                      </div>
+                    ) : activeNarration.status === "Not applicable" ? (
                       <div className="message">
                         <div className="info-icon">
                           <img src={path_image + "info-icon.svg"} alt="" />
@@ -389,14 +396,7 @@ const TouchPoints = () => {
                         </div>
                       </div>
                     )
-                  ) : (
-                    <div className="message">
-                      <div className="info-icon">
-                        <img src={path_image + "info-icon.svg"} alt="" />
-                      </div>
-                      <p className="info-text">Narrative in preparation...</p>
-                    </div>
-                  )}
+                  ) : null}
                 </div>
                 <div
                   className="text-center no_data"
@@ -494,7 +494,10 @@ const TouchPoints = () => {
                             }
                             key={idx}
                           >
-                            <img src={path_image + "all-filter.svg"} alt="" />
+                            <img
+                              src={path_image + iconMapping.category[cat]}
+                              alt=""
+                            />
                             {cat}
                             <br />
                             <div>
