@@ -410,38 +410,20 @@ const TouchPoints = () => {
                     </div>
                   )}
                 </div>
-                <div className="search-bar">
+                <div className="search-bar" >
                   <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-                    <Form.Control
-                      type="search"
-                      aria-label="Search"
-                      placeholder="Search by tag or content title"
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyUp={handleSearchTextKeyUp}
-                    />
-                    <Button
-                      variant="outline-success"
-                      onClick={handleSearchClick}
-                    >
-                      <img src={path_image + "search-icon.svg"} alt="Search" />
-                    </Button>
-                  </Form>
-                </div>
-                {selectedTag.length > 0 && (
-                  <div className="tags d-flex">
-                    <div className="tag-title">Selected Tags:</div>
+                    <div className="inner-search d-flex align-items-center">
+                    {selectedTag.length > 0 && (
                     <div className="tag-list d-flex">
                       {selectedTag &&
                         selectedTag.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="badge bg-info me-2"
-                            style={{ fontSize: "10px", letterSpacing: 1 }}
+                            className="tag-item"
                           >
                             {tag}{" "}
                             <button
-                              className="btn btn-sm btn-light ms-1"
+                              className="cross-btn"
                               onClick={() => removeFilter(tag)}
                             >
                               ✖
@@ -449,10 +431,26 @@ const TouchPoints = () => {
                           </span>
                         ))}
                     </div>
-                  </div>
                 )}
+                    <Form.Control
+                      type="search"
+                      aria-label="Search"
+                      placeholder="Search by tag or content title"
+                      value={searchText}
+                      onChange={(e) => setSearchText(e.target.value)}
+                      onKeyUp={handleSearchTextKeyUp}
+                      />
+                      </div>
+                   <Button
+                      variant="outline-success"
+                      onClick={handleSearchClick}
+                    >
+                      <img src={path_image + "search-icon.svg"} alt="Search" />
+                    </Button>
+                  </Form> 
+                </div>
                 <div className="tags d-flex">
-                  <div className="tag-title">Tags:</div>
+                  <div className="tag-title">Topics:</div>
                   <div className="tag-list d-flex">
                     {tags &&
                       tags.map((tag, idx) => (

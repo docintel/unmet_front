@@ -1153,43 +1153,91 @@ h6 {
       width: 100%;
     }
 
-    .search-bar {
-      margin: 30px 0 12px;
-      // transition: 0.5s ease;
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 12px;
 
-      form {
-        position: relative;
+  .inner-search{
+  width: 100%;
+  background: $secondary-color;
+  border-radius: 40px;
+  padding: 8px 16px;
 
-        input {
-          background: $secondary-color;
-          border: 0;
-          border-radius: 40px;
-          padding: 10px 16px 10px 16px;
-          font-size: 14px;
-          font-weight: 400;
-          color: $text-color;
+  }
+  .tag-list {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
 
-          &:focus {
-            box-shadow: none;
-          }
-        }
+    .tag-item {
+      display: flex;
+      align-items: center;
+      background: rgba(76, 198, 207, 0.2);
+      color: #4CC6CF;
+      font-size: 12px;
+      padding: 4px 4px 4px 8px;
+      border-radius: 40px;
 
-        button {
-          border: 0;
-          border-radius: 40px;
-          background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
-          width: 40px;
-          height: 40px;
-          margin-left: 12px;
-          padding: 5px 13px 9px;
-
-          img {
-            width: 16px;
-            height: auto;
-          }
-        }
+      .cross-btn {
+        background: $green;
+        border: none;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 7px;
+        color: $white;
+        margin-left: 6px;
+        cursor: pointer;
       }
     }
+  }
+  form {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+
+    input {
+      flex-grow: 1;
+      background: transparent;
+      border: 0;
+      outline: none;
+      font-size: 14px;
+      color: $text-color;
+      padding: 0;
+
+      &::placeholder {
+        color: rgba(0, 0, 0, 0.4);
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    button {
+      border: 0;
+      border-radius: 40px;
+      background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+      width: 40px;
+      height: 40px;
+      margin-left: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 16px;
+        height: auto;
+      }
+    }
+  }
+}
+
 
     .touchpoints-header {
       .touchpoint-links {
