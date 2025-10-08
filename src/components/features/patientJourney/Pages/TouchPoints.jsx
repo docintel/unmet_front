@@ -28,6 +28,7 @@ const TouchPoints = () => {
     filterTag,
     filterCategory,
     narrative,
+    categoryList,
     fetchAgeGroups,
     getNarratives,
   } = useContext(ContentContext);
@@ -189,12 +190,18 @@ const TouchPoints = () => {
   );
 
   const getCategoryTags = (content) => {
-    const CategoryCount = { All: content.length };
-    content.map((cntnt) => {
-      CategoryCount[cntnt.category] = (CategoryCount[cntnt.category] || 0) + 1;
-    });
+    if (categoryList) {
+      const CategoryCount = { All: content.length };
+      categoryList.map((cat) => {
+        let count = 0;
+        content.map((cntnt) => {
+          if (cntnt.category === cat) count++;
+        });
+        CategoryCount[cat] = count;
+      });
 
-    setCategoryTags(CategoryCount);
+      setCategoryTags(CategoryCount);
+    }
   };
 
   const handleSearchClick = (e) => {

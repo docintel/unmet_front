@@ -16,11 +16,19 @@ export const ContentProvider = ({ children }) => {
   const [filterCategory, setFilterCategory] = useState([]);
   const [narrative, setNarrative] = useState([]);
   const [isHcp, setIsHcp] = useState(false);
+  const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       const cntnts = (await fetchContentList()).contents;
+      if (cntnts) {
+        const contentSet = new Set();
+        cntnts.forEach((element) => {
+          contentSet.add(element.category);
+        });
+        setCategoryList(Array.from(contentSet));
+      }
       setContents(cntnts);
       setIsLoading(false);
     })();
@@ -83,6 +91,7 @@ export const ContentProvider = ({ children }) => {
         filterCategory,
         narrative,
         isHcp,
+        categoryList,
         updateRating,
         setIsLoading,
         fetchAgeGroups,
