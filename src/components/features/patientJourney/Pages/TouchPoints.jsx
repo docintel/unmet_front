@@ -73,6 +73,20 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
+    if (isAllSelected) {
+      const contentList = [];
+      content.forEach((element) => {
+        const ageArr = JSON.parse(element.age_groups);
+        if (
+          ageArr.includes("Age <6") ||
+          ageArr.includes("Age 6-11") ||
+          JSON.parse(element.diagnosis).includes("On-demand")
+        )
+          return;
+        contentList.push(element);
+      });
+      setContents(contentList);
+    } else setContents(content);
   }, [isAllSelected]);
 
   useEffect(() => {
@@ -164,29 +178,18 @@ const TouchPoints = () => {
   };
 
   const isTabDisabled = useCallback(
-    (cat_id, isTab) => {
-      if (isTab) {
-        if (activeJourney) {
-          const nrtv = narrative.find(
-            (narration) =>
-              narration.category_id == cat_id &&
-              narration.age_group_id == activeJourney &&
-              !["Not applicable"].includes(narration.status)
-          );
-          return nrtv ? false : true;
-        } else return false;
-      } else {
-        if (activeKey) {
-          if (
-            (activeKey == 5 && [2, 3, 7].includes(cat_id)) ||
-            (activeKey == 6 && [2, 3].includes(cat_id))
-          )
-            return true;
-          else return false;
-        } else return false;
+    (cat_id, isCat) => {
+      if (!isAllSelected)
+        return (
+          [5, 6].includes(isCat ? cat_id : activeKey) &&
+          [2, 3].includes(isCat ? activeJourney : cat_id)
+        );
+      else {
+        if (isCat) return cat_id == 3;
+        else return [2, 3].includes(cat_id);
       }
     },
-    [activeJourney, activeKey, narrative]
+    [activeJourney, activeKey, narrative, isAllSelected]
   );
 
   const getCategoryTags = (content) => {
@@ -352,63 +355,74 @@ const TouchPoints = () => {
                   </div>
 
                   {activeNarration ? (
-                    <div className="touchpoint-data">
-                      {/* <h6>Short Narrative</h6> */}
-                      <div className="d-flex justify-content-between narrative-block">
-                        <div className="content">
-                          <p className="content-title">
-                            {activeNarration.narrative_title}
-                          </p>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: activeNarration.narrative_description,
-                            }}
-                          ></div>
-                        </div>
-                        <div className="content">
-                          <p className="content-title">
-                            {activeNarration.contibution_title}
-                          </p>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html: activeNarration.contibution_description,
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                       {/* <div className="message">
-                       <div className="info-icon">
+                    activeNarration.status === "Missing" ? (
+                      <div className="message">
+                        <div className="info-icon">
                           <img src={path_image + "info-icon.svg"} alt="" />
-                       </div>
+                        </div>
                         <p className="info-text">Narrative in preparation...</p>
-                    </div> */}
-                    </div>
-                  ) : (
-                    <div
-                      className="text-center no_data"
-                      style={{
-                        maxHeight: isInfoVisible ? "500px" : "0px", 
-                        opacity: isInfoVisible ? 1 : 0,
-                        overflow: "hidden",
-                        transform: isInfoVisible ? "translateY(0)" : "translateY(-20px)", 
-                        transition: "all 0.5s ease",
-                        padding: isInfoVisible ? "40px 12px" : "0",
-                      }}
-                    >
-                      <div className="close-icon">
-                        <img
-                          src={path_image + "close-arrow.svg"}
-                          alt="No Data"
-                          onClick={() => setIsInfoVisible(false)}
-                        />
                       </div>
-                      <img
-                        src={path_image + "info-banner.png"}
-                        alt="No Data"
-                        style={{ userSelect: "none" }}
-                      />
+                    ) : (
+                      <div className="touchpoint-data">
+                        {/* <h6>Short Narrative</h6> */}
+                        <div className="d-flex justify-content-between narrative-block">
+                          <div className="content">
+                            <p className="content-title">
+                              {activeNarration.narrative_title}
+                            </p>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: activeNarration.narrative_description,
+                              }}
+                            ></div>
+                          </div>
+                          <div className="content">
+                            <p className="content-title">
+                              {activeNarration.contibution_title}
+                            </p>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: activeNarration.contibution_description,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  ) : (
+                    <div className="message">
+                      <div className="info-icon">
+                        <img src={path_image + "info-icon.svg"} alt="" />
+                      </div>
+                      <p className="info-text">Narrative in preparation...</p>
                     </div>
                   )}
+                </div>
+                <div
+                  className="text-center no_data"
+                  style={{
+                    maxHeight: isInfoVisible ? "500px" : "0px",
+                    opacity: isInfoVisible ? 1 : 0,
+                    overflow: "hidden",
+                    transform: isInfoVisible
+                      ? "translateY(0)"
+                      : "translateY(-20px)",
+                    transition: "all 0.5s ease",
+                    padding: isInfoVisible ? "40px 12px" : "0",
+                  }}
+                >
+                  <div className="close-icon">
+                    <img
+                      src={path_image + "close-arrow.svg"}
+                      alt="No Data"
+                      onClick={() => setIsInfoVisible(false)}
+                    />
+                  </div>
+                  <img
+                    src={path_image + "info-banner.png"}
+                    alt="No Data"
+                    style={{ userSelect: "none" }}
+                  />
                 </div>
                 <div className="search-bar">
                   <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
