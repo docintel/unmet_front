@@ -92,7 +92,18 @@ h6 {
 
   &.sso {
     @include flex-middle;
-
+    .login-right{
+      .login-form {
+    margin: 35px 0 0px;
+    form{
+      gap: 24px;
+      .message{
+        padding: 11px 30px 11px 8px;
+        margin-bottom: 56px;
+      }
+    }
+}
+    } 
     .sso-login {
       @include vertical-list;
       justify-content: center;
@@ -237,8 +248,31 @@ h6 {
       margin: 0 auto;
       gap: 48px;
       text-align: left;
+      .login-switch {
+    margin: 0 auto;
+    max-width: 195px;
+    .form-label{
+      font-size: 16px;
+      font-weight: 600;
+      color:#5E7683;
+      margin:0 0 12px;
+    }
+}
       @include flex-column;
-
+ .login-switch{
+          .switch{
+            @include switch;
+            box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
+            .switch-light{
+              height: 32px;
+              &>span{
+                span{
+                  padding:5px 1px;
+                }
+              }
+            }
+          }
+        }
       .form-group {
         position: relative;
 
@@ -254,7 +288,7 @@ h6 {
             font-size: 13px;
           }
         }
-
+       
         .split-button {
           &.active {
             +span {

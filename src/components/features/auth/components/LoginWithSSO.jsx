@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState  } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { handleSso } from "../../../../services/authService";
 import Login from "./Login";
-import { Button } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { clearLocalStorage } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
 const LoginWithSSO = () => {
@@ -35,28 +35,154 @@ const LoginWithSSO = () => {
   return (
     <>
       {!userVerified && (
+
         <div className="login-page sso">
-          <div className="login sso-login">
-            <div className="login-logo">
-              <img src={path_image + "logo-img.svg"} alt="logo" />
-            </div>
-            <div className="user-name">
-              <h1>
-                Welcome to
-                <br />
-                VWD JOURNEY
-              </h1>
-            </div>
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={() => handleSso(login, isUserVerified, setLoader)}
-              className="rounded-lg transition"
-            >
-              Login with SSO
-            </Button>
-          </div>
+          <Container fluid>
+            <Row>
+              <Col>
+                <div className="login-left">
+                  <div className="terms">
+                    <div>
+                      <a
+                        href="https://onesource.octapharma.com/octapharma-privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Octapharma Privacy Statement
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        href="https://albert.docintel.app/octapharma-privacy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Docintel Privacy Policy
+                      </a>
+                    </div>
+                    <div>
+                      <a
+                        href="https://albert.docintel.app/docintel-terms"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Terms of Use
+                      </a>
+                    </div>
+                  </div>
+                  <div className="vwd-journey">
+                    <div className="vwd-logo">
+                      <img src={path_image + "vwd-logo.svg"} alt="" />
+                    </div>
+                    <h6>
+                      Lorem ipsum dolor sit amet consectetur. Eu ac consectetur
+                      purus volutpat. Odio ac enim a justo feugiat varius morbi
+                      nulla justo. Sed quam risus tempor dui quam bibendum.{" "}
+                    </h6>
+                  </div>
+                  <div></div>
+                </div>
+              </Col>
+              <Col>
+                <div className="login-right">
+                  <div className="login-box">
+                    {/* <div className="login-logo">
+                <img src={`${path_image}logo-img.svg`} alt="logo" />
+              </div> */}
+                    <div className="user-name">
+                      <h3>
+                        Welcome to VWD Journey
+                        {/* {userDetails?.name || ""} */}
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="login-form">
+                      <Form>
+                        <Form.Group>
+                          <div className="login-switch">
+                          <Form.Label>View mode:</Form.Label>
+                          <div className="login-switch">
+                            <div className="switch">
+                              <label className="switch-light">
+                                <input
+                                  type="checkbox"
+                                  // checked={isHcp}
+                                  // onChange={toggleUserType}
+                                  style={{ margin: 0 }}
+                                />
+                                <span>
+                                  <span className="switch-btn active">
+                                    Octapharma
+                                  </span>
+                                  <span className="switch-btn">
+                                    HCP
+                                  </span>
+                                </span>
+                                <a className="btn"></a>
+                              </label>
+                            </div>
+                          </div>
+                          </div>
+                        </Form.Group>
+                      <div className="message">
+                        <div className="info-icon">
+                          <img src={path_image + "info-icon.svg"} alt="" />
+                        </div>
+                        <Form.Text className="text-muted">
+                          Use Octapharma for full access, switch to HCP for sharing content safely.
+                        </Form.Text>
+                      </div>
+
+                      <Button
+                        variant="primary"
+                        onClick={() => handleSso(login, isUserVerified, setLoader)}
+                        className="rounded-lg transition"
+                      >
+                        Login <img src={path_image + "login-icon.svg"} alt="" />
+                      </Button>
+                    </Form>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Container>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //  <div className="login-page sso">
+        //     <div className="login sso-login">
+        //       <div className="login-logo">
+        //         <img src={path_image + "logo-img.svg"} alt="logo" />
+        //       </div>
+        //       <div className="user-name">
+        //         <h1>
+        //           Welcome to
+        //           <br />
+        //           VWD JOURNEY
+        //         </h1>
+        //       </div>
+        //       <Button
+        //         variant="primary"
+        //         type="submit"
+        //         onClick={() => handleSso(login, isUserVerified, setLoader)}
+        //         className="rounded-lg transition"
+        //       >
+        //         Login with SSO
+        //       </Button>
+        //     </div>
+        //   </div>
       )}
       {userVerified && (
         <Login userDetails={userDetails} setLoader={setLoader} />
