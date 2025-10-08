@@ -13,6 +13,7 @@ const Account = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [likedIndexes, setLikedIndexes] = React.useState([]);
   const [favorite, setFavorite] = useState([]);
+  const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
   // const [loading, setLoading] = useState(true);
   const [currentReadClick, setCurrentReadClick] = useState({
@@ -27,26 +28,30 @@ const Account = () => {
     );
   };
 
-  const fetchData = useCallback(
-    async (endpoint, setter) => {
-      setIsLoading(true);
-      try {
-        const response = await getData(endpoint);
-        setter(response?.data?.data || []);
-      } catch (error) {
-        console.error(`Error fetching ${endpoint}:`, error);
-        setter([]);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [setIsLoading]
-  );
 
   useEffect(() => {
-    fetchData(endPoint.FAVORITE, setFavorite);
-    fetchData(endPoint.USER_DETAILS, (data) => setUserData(data?.[0] || {}));
-  }, [fetchData]);
+  const fetchAllData = async () => {
+    setIsLoading(true);
+    try {
+      const [favoriteRes, recentRes, userRes] = await Promise.all([
+        getData(endPoint.FAVORITE),
+        getData(endPoint.GET_RECENT_CONTENT),
+        getData(endPoint.USER_DETAILS),
+      ]);
+
+      setFavorite(favoriteRes?.data?.data || []);
+      setRecentContent(recentRes?.data?.data || []);
+      setUserData(userRes?.data?.data?.[0] || {});
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
+
+  fetchAllData();
+}, []);
+
 
   return (
     <div className="main-page">
@@ -66,11 +71,11 @@ const Account = () => {
             <div className="content-download">
               <div className="download">
                 <h4>Content Download</h4>
-                <p>00</p>
+                <p>{userData?.total_download ? userData?.total_download : "00"}</p>
               </div>
               <div className="shared">
                 <h4>Content Shared</h4>
-                <p>00</p>
+                <p>{userData?.total_shared ? userData?.total_shared : "00"}</p>
               </div>
             </div>
             <div className="account-tabs w-100">
@@ -80,9 +85,9 @@ const Account = () => {
                     <h6>Recently viewed</h6>
                   </div>
                   <div>
-                    {favorite.length > 0 ? (
-                      favorite &&
-                      favorite.map((section) => (
+                    {recentContent.length > 0 ? (
+                      recentContent &&
+                      recentContent.map((section) => (
                         <React.Fragment key={section.id}>
                           <Content
                             section={section}
@@ -129,3 +134,4 @@ const Account = () => {
 };
 
 export default Account;
+
