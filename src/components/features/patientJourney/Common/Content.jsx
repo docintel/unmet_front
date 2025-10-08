@@ -12,6 +12,7 @@ import IframeComponent from "./IframeComponent";
 import { toast } from "react-toastify";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { iconMapping } from "../../../../constants/iconMapping";
 
 const Content = ({
   section: initialSection,
@@ -347,7 +348,12 @@ const Content = ({
       <div className="content-box">
         <div className="format">
           <div className="d-flex align-items-center">
-            <img src={section.category_icon} alt="" />
+            <img
+              src={
+                path_image + "icons/" + iconMapping.category[section.category]
+              }
+              alt=""
+            />
             <p>{section.category}</p>
           </div>
 

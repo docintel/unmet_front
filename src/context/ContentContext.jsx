@@ -23,13 +23,8 @@ export const ContentProvider = ({ children }) => {
       setIsLoading(true);
       const cntnts = (await fetchContentList()).contents;
       if (cntnts) {
-        const contentSet = new Set();
-        cntnts.forEach((element) => {
-          contentSet.add(element.category);
-        });
-        setCategoryList(Array.from(contentSet));
+        setContents(cntnts);
       }
-      setContents(cntnts);
       setIsLoading(false);
     })();
   }, []);
@@ -52,10 +47,12 @@ export const ContentProvider = ({ children }) => {
       filterCategory.length == 0
     ) {
       setIsLoading(true);
-      const { ageGroups, category, tags } = await fetchAgeGroupCategories();
+      const { ageGroups, category, tags, contentCategory } =
+        await fetchAgeGroupCategories();
       setFilterCategory(category);
       setFilterTag(tags);
       setFilterAges(ageGroups);
+      setCategoryList(contentCategory);
       setIsLoading(false);
     }
   };

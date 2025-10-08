@@ -34,6 +34,7 @@ const TouchPoints = () => {
     getNarratives,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
+  const [filteredContents, setFilteredContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
   const [searchText, setSearchText] = useState("");
@@ -51,6 +52,11 @@ const TouchPoints = () => {
 
   useEffect(() => {
     if (contents) {
+      const newArr =
+        contentCategory === "All"
+          ? contents
+          : contents.filter((item) => contentCategory.includes(item.category));
+      setFilteredContents(newArr);
       setTotalPages(Math.ceil(contents.length / contentPerPage));
       getCategoryTags(contents);
     }
@@ -61,6 +67,10 @@ const TouchPoints = () => {
       await fetchAgeGroups();
     })();
   }, []);
+
+  useEffect(() => {
+    filterContents();
+  }, [contentCategory]);
 
   useEffect(() => {
     if (filterTag.length > 0) setTags([...filterTag].sort());
@@ -169,10 +179,6 @@ const TouchPoints = () => {
               }
               return count === selectedTag.length ? true : false;
             });
-      newArr =
-        contentCategory === "All"
-          ? newArr
-          : newArr.filter((item) => contentCategory.includes(item.category));
       setContents(newArr);
     }
   };
@@ -492,12 +498,12 @@ const TouchPoints = () => {
                       Object.keys(categoryTags).map((cat, idx) => {
                         return (
                           <div
-                            className={
-                              cat.toLowerCase() == "all"
-                                ? "filter all"
-                                : "filter"
-                            }
+                            className={`filter ${
+                              contentCategory === cat ? "all" : ""
+                            }`}
+                            style={{ cursor: "pointer", userSelect: "none" }}
                             key={idx}
+                            onClick={() => setContentCategory(cat)}
                           >
                             <img
                               src={
@@ -518,9 +524,9 @@ const TouchPoints = () => {
                   </div>
                   <div className="touchpoint-data-boxes">
                     {" "}
-                    {contents && contents.length > 0 ? (
-                      contents &&
-                      contents.map(
+                    {filteredContents && filteredContents.length > 0 ? (
+                      filteredContents &&
+                      filteredContents.map(
                         (section, idx) =>
                           idx >= (activePage - 1) * contentPerPage &&
                           idx < activePage * contentPerPage && (

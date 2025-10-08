@@ -30,6 +30,7 @@ export const fetchAgeGroupCategories = async () => {
       ageGroups: itemList,
       category: data?.data?.data?.categories,
       tags: data?.data?.data?.tags,
+      contentCategory: data?.data?.data?.contentCategory,
     };
   } catch (error) {
     console.error("Error fetching age groups and categories:", error);
