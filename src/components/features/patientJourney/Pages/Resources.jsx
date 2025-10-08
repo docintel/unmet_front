@@ -4,13 +4,22 @@ import { ContentContext } from "../../../../context/ContentContext";
 import Content from "../Common/Content";
 import { toast } from "react-toastify";
 import Pagination from "react-bootstrap/Pagination";
+import { iconMapping } from "../../../../constants/iconMapping";
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const contentPerPage = 9;
-  const { content, fetchAgeGroups, filterAges, filterTag, filterCategory } =
-    useContext(ContentContext);
+  const {
+    content,
+    fetchAgeGroups,
+    filterAges,
+    filterTag,
+    categoryList,
+    filterCategory,
+  } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
+  const [filteredContents, setFilteredContents] = useState([]);
+
   const [searchText, setSearchText] = useState("");
   const [categoryTags, setCategoryTags] = useState();
   const [tag, setTag] = useState([]);
@@ -23,6 +32,7 @@ const Resources = () => {
   });
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [contentCategory, setContentCategory] = useState("All");
 
   useEffect(() => {
     if (filterAges)
@@ -47,10 +57,19 @@ const Resources = () => {
 
   useEffect(() => {
     if (contents) {
+      const newArr =
+        contentCategory === "All"
+          ? contents
+          : contents.filter((item) => contentCategory.includes(item.category));
+      setFilteredContents(newArr);
       setTotalPages(Math.ceil(contents.length / contentPerPage));
       getCategoryTags(contents);
     }
   }, [contents]);
+
+  useEffect(() => {
+    filterContents();
+  }, [contentCategory]);
 
   useEffect(() => {
     filterContents();
@@ -68,50 +87,60 @@ const Resources = () => {
   }, [searchText]);
 
   const getCategoryTags = (content) => {
-    const CategoryCount = { all: content.length };
-    content.map((cntnt) => {
-      CategoryCount[cntnt.category] = (CategoryCount[cntnt.category] || 0) + 1;
-    });
+    if (categoryList) {
+      const CategoryCount = { All: content.length };
+      categoryList.map((cat) => {
+        let count = 0;
+        content.map((cntnt) => {
+          if (cntnt.category === cat) count++;
+        });
+        CategoryCount[cat] = count;
+      });
 
-    setCategoryTags(CategoryCount);
+      setCategoryTags(CategoryCount);
+    }
   };
 
   const filterContents = () => {
-    if (searchText || (filters && filters.length > 0)) {
+    if (content) {
       const filteredArray = [];
       content.map((item) => {
-        if (item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1)
+        if (
+          item.title.toLowerCase().indexOf(searchText.toLowerCase() || "") != -1
+        )
           filteredArray.push(item);
       });
-
-      const temp = [];
-      filteredArray.forEach((element) => {
-        let count = 0;
-        for (let i = 0; i < filters.length; i++) {
-          if (
-            filters[i].typ === "age" &&
-            element.age_groups.indexOf(filters[i].txt.split("<br />")[1]) !== -1
-          )
-            count++;
-          else if (
-            filters[i].typ === "cat" &&
-            element.diagnosis.indexOf(filters[i].txt) !== -1
-          )
-            count++;
-          else if (
-            filters[i].typ === "tag" &&
-            JSON.parse(element.tags.toLowerCase()).includes(
-              filters[i].txt.toLowerCase()
+      if (filteredArray) {
+        const temp = [];
+        filteredArray.forEach((element) => {
+          let count = 0;
+          for (let i = 0; i < filters.length; i++) {
+            if (
+              filters[i].typ === "age" &&
+              element.age_groups.indexOf(filters[i].txt.split("<br />")[1]) !==
+                -1
             )
-          )
-            count++;
-        }
+              count++;
+            else if (
+              filters[i].typ === "cat" &&
+              element.diagnosis.indexOf(filters[i].txt) !== -1
+            )
+              count++;
+            else if (
+              filters[i].typ === "tag" &&
+              JSON.parse(element.tags.toLowerCase()).includes(
+                filters[i].txt.toLowerCase()
+              )
+            )
+              count++;
+          }
 
-        if (count === filters.length) temp.push(element);
-      });
-      setContents(temp);
-    } else {
-      setContents(content);
+          if (count === filters.length) temp.push(element);
+        });
+        setContents(temp);
+      } else {
+        setContents(filteredArray);
+      }
     }
   };
 
@@ -318,12 +347,19 @@ const Resources = () => {
                     Object.keys(categoryTags).map((cat, idx) => {
                       return (
                         <div
-                          className={
-                            cat.toLowerCase() == "all" ? "filter all" : "filter"
-                          }
+                          className={`filter ${
+                            contentCategory === cat ? "all" : ""
+                          }`}
+                          style={{ cursor: "pointer", userSelect: "none" }}
                           key={idx}
+                          onClick={() => setContentCategory(cat)}
                         >
-                        <img src={path_image + "all-filter.svg"} alt="" />
+                          <img
+                            src={
+                              path_image + "icons/" + iconMapping.category[cat]
+                            }
+                            alt=""
+                          />
                           {cat}
                           <div>
                             <span>{categoryTags[cat]}</span>
@@ -334,8 +370,8 @@ const Resources = () => {
                 </div>
                 <div className="touchpoint-data-boxes">
                   {" "}
-                  {contents && contents.length > 0 ? (
-                    contents.map(
+                  {filteredContents && filteredContents.length > 0 ? (
+                    filteredContents.map(
                       (section, idx) =>
                         idx >= (activePage - 1) * contentPerPage &&
                         idx < activePage * contentPerPage && (
@@ -352,10 +388,26 @@ const Resources = () => {
                     )
                   ) : (
                     <div className="no-data-found">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.9992 0.083374C5.86551 0.083374 0.0825195 5.86636 0.0825195 13C0.0825195 20.1337 5.86551 25.9167 12.9992 25.9167C16.1171 25.9166 18.9771 24.8119 21.2088 22.9724L23.7788 25.544C23.1258 26.9228 23.3658 28.6187 24.5063 29.7595L29.5747 34.8278C31.0256 36.2787 33.3777 36.2787 34.8286 34.8278C36.2796 33.3769 36.2796 31.0249 34.8286 29.5739L29.7603 24.5056C28.62 23.3655 26.9249 23.1245 25.5464 23.7764L22.9748 21.2048C24.8118 18.9737 25.9159 16.1158 25.9159 13C25.9159 5.86657 20.1326 0.0837142 12.9992 0.083374ZM26.2739 26.2732C26.7485 25.7986 27.518 25.7988 27.9927 26.2732L33.061 31.3415C33.5357 31.8161 33.5357 32.5856 33.061 33.0603C32.5864 33.5348 31.8169 33.5349 31.3423 33.0603L26.2739 27.9919C25.7996 27.5173 25.7995 26.7477 26.2739 26.2732ZM12.9992 2.58337C18.7519 2.58371 23.4159 7.24728 23.4159 13C23.4159 18.7528 18.7519 23.4164 12.9992 23.4167C7.24622 23.4167 2.58252 18.753 2.58252 13C2.58252 7.24707 7.24622 2.58337 12.9992 2.58337Z" fill="#94A7BF" fill-opacity="0.2"/>
-</svg>
-                      <h5>Hmm… nothing here yet.<br/>Try searching with different topics or title.</h5>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="36"
+                        height="36"
+                        viewBox="0 0 36 36"
+                        fill="none"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M12.9992 0.083374C5.86551 0.083374 0.0825195 5.86636 0.0825195 13C0.0825195 20.1337 5.86551 25.9167 12.9992 25.9167C16.1171 25.9166 18.9771 24.8119 21.2088 22.9724L23.7788 25.544C23.1258 26.9228 23.3658 28.6187 24.5063 29.7595L29.5747 34.8278C31.0256 36.2787 33.3777 36.2787 34.8286 34.8278C36.2796 33.3769 36.2796 31.0249 34.8286 29.5739L29.7603 24.5056C28.62 23.3655 26.9249 23.1245 25.5464 23.7764L22.9748 21.2048C24.8118 18.9737 25.9159 16.1158 25.9159 13C25.9159 5.86657 20.1326 0.0837142 12.9992 0.083374ZM26.2739 26.2732C26.7485 25.7986 27.518 25.7988 27.9927 26.2732L33.061 31.3415C33.5357 31.8161 33.5357 32.5856 33.061 33.0603C32.5864 33.5348 31.8169 33.5349 31.3423 33.0603L26.2739 27.9919C25.7996 27.5173 25.7995 26.7477 26.2739 26.2732ZM12.9992 2.58337C18.7519 2.58371 23.4159 7.24728 23.4159 13C23.4159 18.7528 18.7519 23.4164 12.9992 23.4167C7.24622 23.4167 2.58252 18.753 2.58252 13C2.58252 7.24707 7.24622 2.58337 12.9992 2.58337Z"
+                          fill="#94A7BF"
+                          fill-opacity="0.2"
+                        />
+                      </svg>
+                      <h5>
+                        Hmm… nothing here yet.
+                        <br />
+                        Try searching with different topics or title.
+                      </h5>
                     </div>
                   )}
                 </div>{" "}
