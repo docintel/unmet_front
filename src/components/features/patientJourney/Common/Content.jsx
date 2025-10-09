@@ -23,7 +23,8 @@ const Content = ({
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { updateRating, setIsLoading } = useContext(ContentContext);
+  const { filterCategory, updateRating, setIsLoading } =
+    useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -381,15 +382,28 @@ const Content = ({
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
-          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
-            <>
-              <div>
-                <span key={idx}>{dgns}</span>
-                <img src={path_image + "/icons/hmb.svg"} alt="" />
-              </div>
-              {arr.length - 1 !== idx ? <span className="pipe">|</span> : null}
-            </>
-          ))}
+          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+            const imageName = filterCategory.filter(
+              (item) => item.name === dgns
+            )[0];
+            if (dgns === "Pregnancy & childbirth") console.log(imageName);
+            return (
+              <>
+                <div>
+                  <span key={idx}>{dgns}</span>
+                  <img
+                    src={
+                      path_image + "icons/" + (imageName ? imageName.image : "")
+                    }
+                    alt=""
+                  />
+                </div>
+                {arr.length - 1 !== idx ? (
+                  <span className="pipe">|</span>
+                ) : null}
+              </>
+            );
+          })}
         </div>
         <div className="tags tag-list">
           {JSON.parse(section.tags).map((tag, idx) => (

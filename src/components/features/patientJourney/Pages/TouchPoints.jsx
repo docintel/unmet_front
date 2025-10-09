@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
@@ -26,7 +20,6 @@ const TouchPoints = () => {
   const {
     content,
     filterAges,
-    filterTag,
     filterCategory,
     narrative,
     categoryList,
@@ -377,11 +370,7 @@ const TouchPoints = () => {
                           >
                             {cat.name}
                             <img
-                              src={
-                                path_image +
-                                "icons/" +
-                                iconMapping.diagnosis[cat.name]
-                              }
+                              src={path_image + "icons/" + cat.image}
                               alt="icon"
                             />
                           </Button>

@@ -1,46 +1,100 @@
-// src/api/axiosInstance.js
 import axios from "axios";
-import { clearLocalStorage } from "../../helper/helper";
 
-// Create axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASE_URL || "http://192.168.0.78:3009/api",
+  baseURL: import.meta.env.VITE_APP_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
-// Request Interceptor
+const clearLocalStorage = () => {
+  localStorage.removeItem("decrypted_token");
+  // remove other stored items if needed
+};
+
+// ===== Request Interceptor =====
 axiosInstance.interceptors.request.use(
   (config) => {
-  
-    const auth = localStorage.getItem("decrypted_token");
-     if (auth) {
-      config.headers.auth = `Bearer `+ auth;
+    const token = localStorage.getItem("decrypted_token");
+    if (token) {
+      config.headers.auth = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response Interceptor
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    if (error.response) {
-      const { status } = error.response;
-      if (status === 401) {
-        clearLocalStorage() 
-        window.location.href = "/";
-      }
-      // if (status === 403) {
-      //   console.error("You don’t have permission to perform this action.");
-      // }
+// ===== Response Interceptor with Refresh Queue =====
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
     }
+  });
+  failedQueue = [];
+};
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      if (isRefreshing) {
+        // Queue the request if token is already refreshing
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.auth = `Bearer ${token}`;
+            return axiosInstance(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refreshRes = await fetch(
+          import.meta.env.VITE_APP_API_BASE_URL + "/auth/refresh-token",
+          { method: "POST", credentials: "include" }
+        );
+
+        if (!refreshRes.ok) {
+          clearLocalStorage();
+          window.location.href = "/";
+          return Promise.reject(error);
+        }
+
+        const data = await refreshRes.json();
+        const newToken = data.data.accessToken;
+
+        localStorage.setItem("decrypted_token", newToken);
+        processQueue(null, newToken);
+
+        originalRequest.headers.auth = `Bearer ${newToken}`;
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        clearLocalStorage();
+        window.location.href = "/";
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
     return Promise.reject(error);
   }
 );
