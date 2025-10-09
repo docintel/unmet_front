@@ -1,6 +1,6 @@
 import React from "react";
 
-const IframeComponent = ({ previewArticle, setCurrentReadClick }) => {
+const IframeComponent = ({ previewArticle /* setCurrentReadClick */ }) => {
   if (!previewArticle) return null; // Don't render if no URL
 
   return (

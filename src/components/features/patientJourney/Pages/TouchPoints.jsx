@@ -13,10 +13,10 @@ const TouchPoints = () => {
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
   const contentPerPage = 9;
-  const [currentReadClick, setCurrentReadClick] = useState({
-    previewArticle: null,
-    id: null,
-  });
+  // const [currentReadClick, setCurrentReadClick] = useState({
+  //   previewArticle: null,
+  //   id: null,
+  // });
   const {
     content,
     filterAges,
@@ -603,8 +603,8 @@ const TouchPoints = () => {
                                   section={section}
                                   idx={section.id}
                                   key={idx}
-                                  currentReadClick={currentReadClick}
-                                  setCurrentReadClick={setCurrentReadClick}
+                                  // currentReadClick={currentReadClick}
+                                  // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
                             )
