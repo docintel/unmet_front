@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
@@ -26,7 +20,6 @@ const TouchPoints = () => {
   const {
     content,
     filterAges,
-    filterTag,
     filterCategory,
     narrative,
     categoryList,
@@ -73,10 +66,6 @@ const TouchPoints = () => {
   }, [contentCategory]);
 
   useEffect(() => {
-    if (filterTag.length > 0) setTags([...filterTag].sort());
-  }, [filterTag]);
-
-  useEffect(() => {
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
       setActiveKey(null);
@@ -101,6 +90,31 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
+    if (
+      (contents && (activeKey || activeJourney)) ||
+      (contents && searchText.trim() === "" && selectedTag.length === 0)
+    ) {
+      let tagArray = [];
+      contents.map((item) => {
+        tagArray = [...tagArray, ...JSON.parse(item.tags)];
+      });
+
+      const freqMap = {};
+      for (const word of tagArray) {
+        freqMap[word] = (freqMap[word] || 0) + 1;
+      }
+
+      const uniqueWords = Object.keys(freqMap);
+      uniqueWords.sort((a, b) => {
+        const freqDiff = freqMap[b] - freqMap[a];
+        if (freqDiff !== 0) return freqDiff;
+        return a.localeCompare(b);
+      });
+      setTags(uniqueWords);
+    }
+  }, [activeKey, activeJourney, contents]);
+
+  useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrative.find(
@@ -111,6 +125,7 @@ const TouchPoints = () => {
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey || activeJourney) {
+      setIsInfoVisible(false);
       const activeNarrative = activeKey
         ? narrative.filter((narration) => narration.category_id == activeKey)
         : narrative.filter(
@@ -124,7 +139,6 @@ const TouchPoints = () => {
           )[0]
         );
       else setActiveNarration(null);
-    } else if (activeJourney) {
     } else setActiveNarration(null);
     setSearchText("");
   }, [activeKey, activeJourney]);
@@ -356,11 +370,7 @@ const TouchPoints = () => {
                           >
                             {cat.name}
                             <img
-                              src={
-                                path_image +
-                                "icons/" +
-                                iconMapping.diagnosis[cat.name]
-                              }
+                              src={path_image + "icons/" + cat.image}
                               alt="icon"
                             />
                           </Button>
@@ -436,7 +446,7 @@ const TouchPoints = () => {
                 >
                   <div className="close-icon">
                     <img
-                      src={path_image + "close-arrow.svg"}
+                      src={path_image + "cross-btn.svg"}
                       alt="No Data"
                       onClick={() => setIsInfoVisible(false)}
                     />
@@ -497,6 +507,18 @@ const TouchPoints = () => {
                           {tag}
                         </div>
                       ))}
+                    <Button
+                      className="show-more-btn"
+                      // Add class "show-less-btn" show less tags
+                      onClick={""} 
+                    >
+                      <span>Show more</span>
+                      <img
+                        src={`${path_image}right-arrow.svg`}
+                        alt="Show more"
+                        className="arrow-icon"
+                      />
+                    </Button>
                   </div>
                 </div>
                 <div className="content-count-box">

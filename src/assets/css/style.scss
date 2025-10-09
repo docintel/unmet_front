@@ -1581,7 +1581,6 @@ h6 {
     flex-wrap: wrap;
     gap: 8px 12px;
     flex: 1;
-
     .tag-item {
       padding: 2px 8px;
       border-radius: 24px;
@@ -1590,6 +1589,16 @@ h6 {
       font-weight: 400;
       flex-wrap: wrap;
       font-size: 12px;
+    }
+    Button{
+      @include show-more-btn;
+    }
+    .show-less-btn{
+      @include show-more-btn;
+      flex-direction: row-reverse;
+      img{
+        transform: rotate(180deg);
+      }
     }
   }
 }
@@ -1625,11 +1634,23 @@ h6 {
         position: absolute;
         border-radius: 25px;
         opacity: 0;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
       }
+      &:hover::before,
+      &.active::before{
+       transform: translateX(-50%) scaleX(1);
+       opacity: 1;
+      }
+       &:hover img{
+          filter: grayscale(0);
+        }
       img{
         margin:0 4px 0 0;
         max-width: 15px;
-        filter: grayscale(1);
+        filter: grayscale(1); 
       }
       &.all {
         color: $white;
