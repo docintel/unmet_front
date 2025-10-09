@@ -353,10 +353,13 @@ const TouchPoints = () => {
                     {filterCategory &&
                       filterCategory.map((cat) => {
                         let image = cat.image;
-                        const handleOnMauseLeave = () =>
-                          (image = "hover-" + image);
-                        const handleOnMauseEnter = () =>
+                        const handleOnMauseLeave = () => {
+                          if (image.indexOf("hover-") === -1)
+                            image = "hover-" + image;
+                        };
+                        const handleOnMauseEnter = () => {
                           image.replace("hover-", "");
+                        };
                         return (
                           <Button
                             key={cat.id}

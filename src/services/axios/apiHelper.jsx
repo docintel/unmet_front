@@ -1,4 +1,3 @@
-
 import axiosInstance from "./axiosInstance";
 
 export const getData = (end_point, config = {}) => {
