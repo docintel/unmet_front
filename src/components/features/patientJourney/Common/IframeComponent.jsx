@@ -9,8 +9,11 @@ const IframeComponent = ({ previewArticle /* setCurrentReadClick */ }) => {
         src={previewArticle}
         title="Embedded Content"
         width="100%"
-        height="700px"
-        style={{ border: "none" }}
+        height="100%"
+        style={{
+          border: "none",
+          minHeight: "85vh",
+        }}
       ></iframe>
     </div>
   );
