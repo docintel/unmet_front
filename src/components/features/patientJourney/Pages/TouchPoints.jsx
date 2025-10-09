@@ -38,6 +38,7 @@ const TouchPoints = () => {
   const [activeAgeClass, setActiveAgeClass] = useState("");
   const [contentCategory, setContentCategory] = useState("All");
   const [isInfoVisible, setIsInfoVisible] = useState(true);
+  const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
 
   useEffect(() => {
     filterContents();
@@ -129,8 +130,8 @@ const TouchPoints = () => {
       const activeNarrative = activeKey
         ? narrative.filter((narration) => narration.category_id == activeKey)
         : narrative.filter(
-          (narration) => narration.age_group_id == activeJourney
-        );
+            (narration) => narration.age_group_id == activeJourney
+          );
 
       if (activeNarrative.length > 0)
         setActiveNarration(
@@ -163,9 +164,9 @@ const TouchPoints = () => {
       const ageGroupFilter = filterAges.find((val) => val.id == activeJourney);
       const ageGroupName = ageGroupFilter
         ? ageGroupFilter.label
-          .replace("&lt;", "<")
-          .replace("&gt;", ">")
-          .split("<br />")[1]
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .split("<br />")[1]
         : "";
 
       const filteredArray = [];
@@ -182,15 +183,15 @@ const TouchPoints = () => {
         selectedTag.length === 0
           ? filteredArray
           : filteredArray.filter((item) => {
-            const tagArray = JSON.parse(item.tags.toLowerCase());
-            let count = 0;
-            for (let i = 0; i < selectedTag.length; i++) {
-              count = tagArray.includes(selectedTag[i].toLowerCase())
-                ? count + 1
-                : count;
-            }
-            return count === selectedTag.length ? true : false;
-          });
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length ? true : false;
+            });
       setContents(newArr);
     }
   };
@@ -270,14 +271,16 @@ const TouchPoints = () => {
                     />
                     <span>
                       <span
-                        className={`switch-btn ${!isAllSelected ? "active" : ""
-                          }`}
+                        className={`switch-btn ${
+                          !isAllSelected ? "active" : ""
+                        }`}
                       >
                         All
                       </span>
                       <span
-                        className={`switch-btn ${isAllSelected ? "active" : ""
-                          }`}
+                        className={`switch-btn ${
+                          isAllSelected ? "active" : ""
+                        }`}
                       >
                         Female
                       </span>
@@ -291,8 +294,9 @@ const TouchPoints = () => {
                       <React.Fragment key={lbl.id}>
                         <div
                           key={lbl.id}
-                          className={`journey-link ${activeJourney === lbl.id ? "active" : ""
-                            } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
+                          className={`journey-link ${
+                            activeJourney === lbl.id ? "active" : ""
+                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
                           // dangerouslySetInnerHTML={{ __html: label }}
                           onClick={() => {
                             if (!isTabDisabled(lbl.id, false)) {
@@ -335,8 +339,9 @@ const TouchPoints = () => {
                         </div>
                         {lbl.id !== filterAges.length + 1 && (
                           <div
-                            className={`line ${isTabDisabled(lbl.id, false) ? "disabled" : ""
-                              }`}
+                            className={`line ${
+                              isTabDisabled(lbl.id, false) ? "disabled" : ""
+                            }`}
                           ></div>
                         )}
                       </React.Fragment>
@@ -350,10 +355,14 @@ const TouchPoints = () => {
                       filterCategory.map((cat) => {
                         let image = cat.image;
                         const handleOnMauseLeave = () => {
-                          image =  image.replace("hover-", "");                        
+                          image = image.replace("hover-", "");
+                          setHoverImage({ id: cat.id, image: image });
                         };
                         const handleOnMauseEnter = () => {
-                          if (image.indexOf("hover-") === -1) image = "hover-" + image;
+                          if (image.indexOf("hover-") === -1) {
+                            image = "hover-" + image;
+                            setHoverImage({ id: cat.id, image: image });
+                          }
                         };
                         return (
                           <Button
@@ -363,26 +372,31 @@ const TouchPoints = () => {
                               else setActiveKey(null);
                             }}
                             disabled={isTabDisabled(cat.id, true)}
-                            className={` ${isTabDisabled(cat.id, true)
+                            className={` ${
+                              isTabDisabled(cat.id, true)
                                 ? "disabled"
                                 : activeKey === cat.id
-                                  ? "active"
-                                  : ""
-                              }`}
+                                ? "active"
+                                : ""
+                            }`}
                             onMouseLeave={handleOnMauseLeave}
                             onMouseEnter={handleOnMauseEnter}
                           >
                             {cat.name}
                             <img
-                              src={path_image + "icons/" + image}
+                              src={
+                                path_image +
+                                "icons/" +
+                                (hoverImage && hoverImage.id === cat.id
+                                  ? hoverImage.image
+                                  : cat.image)
+                              }
                               alt="icon"
                             />
                           </Button>
                         );
                       })}
                   </div>
-
-
                 </div>
                 <div className="touchpoint-box-inner">
                   {activeNarration ? (
@@ -464,7 +478,10 @@ const TouchPoints = () => {
                     />
                   </div>
                   <div className="search-bar">
-                    <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+                    <Form
+                      className="d-flex"
+                      onSubmit={(e) => e.preventDefault()}
+                    >
                       <div className="inner-search d-flex align-items-center">
                         {selectedTag.length > 0 && (
                           <div className="tag-list d-flex">
@@ -495,7 +512,10 @@ const TouchPoints = () => {
                         variant="outline-success"
                         onClick={handleSearchClick}
                       >
-                        <img src={path_image + "search-icon.svg"} alt="Search" />
+                        <img
+                          src={path_image + "search-icon.svg"}
+                          alt="Search"
+                        />
                       </Button>
                     </Form>
                   </div>
@@ -533,8 +553,9 @@ const TouchPoints = () => {
                         Object.keys(categoryTags).map((cat, idx) => {
                           return (
                             <div
-                              className={`filter ${contentCategory === cat ? "active" : ""
-                                }`}
+                              className={`filter ${
+                                contentCategory === cat ? "active" : ""
+                              }`}
                               style={{ cursor: "pointer", userSelect: "none" }}
                               key={idx}
                               onClick={() => setContentCategory(cat)}
