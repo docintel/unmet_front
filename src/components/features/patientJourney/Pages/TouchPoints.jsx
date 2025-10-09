@@ -520,46 +520,48 @@ const TouchPoints = () => {
                       </Button>
                     </Form>
                   </div>
-                  <div className="tags d-flex">
-                    <div className="tag-title">Topics:</div>
-                    <div className="tag-list d-flex">
-                      {tags &&
-                        (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
-                          (tag, idx) => (
-                            <div
-                              className="tag-item"
-                              key={idx}
-                              style={{ cursor: "pointer" }}
-                              onClick={() => handleTagClick(tag)}
-                            >
-                              {tag}
-                            </div>
-                          )
+                  {tags && tags.length > 0 && (
+                    <div className="tags d-flex">
+                      <div className="tag-title">Topics:</div>
+                      <div className="tag-list d-flex">
+                        {tags &&
+                          (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
+                            (tag, idx) => (
+                              <div
+                                className="tag-item"
+                                key={idx}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => handleTagClick(tag)}
+                              >
+                                {tag}
+                              </div>
+                            )
+                          )}
+                        {tags && tags.length > 10 && (
+                          <Button
+                            className={
+                              tagShowAllClicked
+                                ? "show-less-btn"
+                                : "show-more-btn"
+                            }
+                            // Add class "show-less-btn" show less tags
+                            onClick={() =>
+                              setTagShowAllClicked(!tagShowAllClicked)
+                            }
+                          >
+                            <span>
+                              {tagShowAllClicked ? "Show less" : "Show more"}
+                            </span>
+                            <img
+                              src={`${path_image}right-arrow.svg`}
+                              alt="Show more"
+                              className="arrow-icon"
+                            />
+                          </Button>
                         )}
-                      {tags && tags.length > 9 && (
-                        <Button
-                          className={
-                            tagShowAllClicked
-                              ? "show-less-btn"
-                              : "show-more-btn"
-                          }
-                          // Add class "show-less-btn" show less tags
-                          onClick={() =>
-                            setTagShowAllClicked(!tagShowAllClicked)
-                          }
-                        >
-                          <span>
-                            {tagShowAllClicked ? "Show less" : "Show more"}
-                          </span>
-                          <img
-                            src={`${path_image}right-arrow.svg`}
-                            alt="Show more"
-                            className="arrow-icon"
-                          />
-                        </Button>
-                      )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="content-count-box">
                     <div className="content-count">
                       {categoryTags &&
