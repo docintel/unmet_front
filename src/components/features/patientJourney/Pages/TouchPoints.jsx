@@ -352,6 +352,11 @@ const TouchPoints = () => {
                   <div className="touchpoint-links">
                     {filterCategory &&
                       filterCategory.map((cat) => {
+                        let image = cat.image;
+                        const handleOnMauseLeave = () =>
+                          (image = "hover-" + image);
+                        const handleOnMauseEnter = () =>
+                          image.replace("hover-", "");
                         return (
                           <Button
                             key={cat.id}
@@ -367,10 +372,12 @@ const TouchPoints = () => {
                                 ? "active"
                                 : ""
                             }`}
+                            onMouseLeave={handleOnMauseLeave}
+                            onMouseEnter={handleOnMauseEnter}
                           >
                             {cat.name}
                             <img
-                              src={path_image + "icons/" + cat.image}
+                              src={path_image + "icons/" + image}
                               alt="icon"
                             />
                           </Button>
@@ -510,7 +517,7 @@ const TouchPoints = () => {
                     <Button
                       className="show-more-btn"
                       // Add class "show-less-btn" show less tags
-                      onClick={""} 
+                      onClick={""}
                     >
                       <span>Show more</span>
                       <img
@@ -528,7 +535,7 @@ const TouchPoints = () => {
                         return (
                           <div
                             className={`filter ${
-                              contentCategory === cat ? "all" : ""
+                              contentCategory === cat ? "active" : ""
                             }`}
                             style={{ cursor: "pointer", userSelect: "none" }}
                             key={idx}
