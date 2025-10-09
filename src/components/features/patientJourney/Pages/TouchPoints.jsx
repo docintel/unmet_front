@@ -605,6 +605,7 @@ const TouchPoints = () => {
                                   section={section}
                                   idx={section.id}
                                   key={idx}
+                                  favTab={false}
                                   // currentReadClick={currentReadClick}
                                   // setCurrentReadClick={setCurrentReadClick}
                                 />

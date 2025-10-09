@@ -18,6 +18,7 @@ const FaqAndLatestContent = ({ content, isFaq }) => {
               section={section}
               key={idx}
               idx={section.id}
+              favTab={false}
               // currentReadClick={currentReadClick}
               // setCurrentReadClick={setCurrentReadClick}
             />

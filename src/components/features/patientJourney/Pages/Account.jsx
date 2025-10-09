@@ -92,6 +92,7 @@ const Account = () => {
                           <Content
                             section={section}
                             idx={section.id}
+                            favTab={false}
                             // currentReadClick={currentReadClick}
                             // setCurrentReadClick={setCurrentReadClick}
                           />
@@ -111,6 +112,7 @@ const Account = () => {
                           <Content
                             section={section}
                             idx={section.id}
+                            favTab={true}
                             // currentReadClick={currentReadClick}
                             // setCurrentReadClick={setCurrentReadClick}
                           />

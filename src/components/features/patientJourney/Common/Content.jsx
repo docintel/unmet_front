@@ -17,6 +17,7 @@ import { iconMapping } from "../../../../constants/iconMapping";
 const Content = ({
   section: initialSection,
   idx,
+  favTab,
   // currentReadClick,
   // setCurrentReadClick,
 }) => {
@@ -447,20 +448,22 @@ const Content = ({
         <div className="date">{section.creation_date}</div>
         <div className="favorite d-flex justify-content-between align-sections-center">
           <div className="d-flex align-sections-center">
-            <img
-              src={
-                isStarHovered
-                  ? path_image + "star-hover.svg"
-                  : path_image +
-                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
-              }
-              alt=""
-              style={{ cursor: "pointer" }}
-              onClick={handleStarClick}
-              onMouseEnter={() => setIsStarHovered(true)}
-              onMouseLeave={() => setIsStarHovered(false)}
-            />
-            {section.rating}
+            {favTab ? null : (
+              <img
+                src={
+                  isStarHovered
+                    ? path_image + "star-hover.svg"
+                    : path_image +
+                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                }
+                alt=""
+                style={{ cursor: "pointer" }}
+                onClick={handleStarClick}
+                onMouseEnter={() => setIsStarHovered(true)}
+                onMouseLeave={() => setIsStarHovered(false)}
+              />
+            )}
+            {favTab ? null : section.rating}
           </div>
           <Button
             variant="primary"
@@ -471,34 +474,31 @@ const Content = ({
         </div>
       </div>
       <div className="pop_up">
-     <Modal
-     show={readContent}
-     onHide={() => setReadContent(!readContent)}
-     backdrop="static"
-     keyboard={false}
-     centered
-    fullscreen
-    dialogClassName="iframe-custom-modal"
-    >
-  <Modal.Header className="custom-modal-header">
-        <button
-      className="back-btn"
-      onClick={() => setReadContent(false)}
-    >
-      <img src={path_image + "left-white-arrow.svg"} alt="" />
-      <span>Back</span>
-    </button>
-    <div className="modal-logo">
-      <img src={path_image + "vwd-journey-logo.svg"} alt="" />
-    </div>
-  </Modal.Header>
+        <Modal
+          show={readContent}
+          onHide={() => setReadContent(!readContent)}
+          backdrop="static"
+          keyboard={false}
+          centered
+          fullscreen
+          dialogClassName="iframe-custom-modal"
+        >
+          <Modal.Header className="custom-modal-header">
+            <button className="back-btn" onClick={() => setReadContent(false)}>
+              <img src={path_image + "left-white-arrow.svg"} alt="" />
+              <span>Back</span>
+            </button>
+            <div className="modal-logo">
+              <img src={path_image + "vwd-journey-logo.svg"} alt="" />
+            </div>
+          </Modal.Header>
 
-    <Modal.Body className="custom-modal-body">
-      <div className="content-data" ref={iframeRef}>
-      <IframeComponent previewArticle={section.previewArticle} />
-      </div>
-    </Modal.Body>
-   </Modal>
+          <Modal.Body className="custom-modal-body">
+            <div className="content-data" ref={iframeRef}>
+              <IframeComponent previewArticle={section.previewArticle} />
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
       {/* Transparent overlay with circular progress */}
       {downloading && (
