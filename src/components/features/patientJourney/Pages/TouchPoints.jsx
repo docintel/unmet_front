@@ -39,6 +39,7 @@ const TouchPoints = () => {
   const [contentCategory, setContentCategory] = useState("All");
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
+  const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
 
   useEffect(() => {
     filterContents();
@@ -523,28 +524,40 @@ const TouchPoints = () => {
                     <div className="tag-title">Topics:</div>
                     <div className="tag-list d-flex">
                       {tags &&
-                        tags.map((tag, idx) => (
-                          <div
-                            className="tag-item"
-                            key={idx}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleTagClick(tag)}
-                          >
-                            {tag}
-                          </div>
-                        ))}
-                      <Button
-                        className="show-more-btn"
-                        // Add class "show-less-btn" show less tags
-                        onClick={""}
-                      >
-                        <span>Show more</span>
-                        <img
-                          src={`${path_image}right-arrow.svg`}
-                          alt="Show more"
-                          className="arrow-icon"
-                        />
-                      </Button>
+                        (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
+                          (tag, idx) => (
+                            <div
+                              className="tag-item"
+                              key={idx}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleTagClick(tag)}
+                            >
+                              {tag}
+                            </div>
+                          )
+                        )}
+                      {tags && tags.length > 9 && (
+                        <Button
+                          className={
+                            tagShowAllClicked
+                              ? "show-less-btn"
+                              : "show-more-btn"
+                          }
+                          // Add class "show-less-btn" show less tags
+                          onClick={() =>
+                            setTagShowAllClicked(!tagShowAllClicked)
+                          }
+                        >
+                          <span>
+                            {tagShowAllClicked ? "Show less" : "Show more"}
+                          </span>
+                          <img
+                            src={`${path_image}right-arrow.svg`}
+                            alt="Show more"
+                            className="arrow-icon"
+                          />
+                        </Button>
+                      )}
                     </div>
                   </div>
                   <div className="content-count-box">
