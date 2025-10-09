@@ -471,28 +471,34 @@ const Content = ({
         </div>
       </div>
       <div className="pop_up">
-        <Modal
-          show={readContent}
-          onHide={() => setReadContent(!readContent)}
-          backdrop="static"
-          keyboard={false}
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Contact Form</Modal.Title>
-          </Modal.Header>
+     <Modal
+     show={readContent}
+     onHide={() => setReadContent(!readContent)}
+     backdrop="static"
+     keyboard={false}
+     centered
+    fullscreen
+    dialogClassName="iframe-custom-modal"
+    >
+  <Modal.Header className="custom-modal-header">
+        <button
+      className="back-btn"
+      onClick={() => setReadContent(false)}
+    >
+      <img src={path_image + "left-white-arrow.svg"} alt="" />
+      <span>Back</span>
+    </button>
+    <div className="modal-logo">
+      <img src={path_image + "vwd-journey-logo.svg"} alt="" />
+    </div>
+  </Modal.Header>
 
-          <Modal.Body>
-            <div className="content-data" ref={iframeRef}>
-              <IframeComponent
-                previewArticle={
-                  section.previewArticle /*currentReadClick.previewArticle*/
-                }
-                // setCurrentReadClick={setCurrentReadClick}
-              />
-            </div>
-          </Modal.Body>
-        </Modal>
+    <Modal.Body className="custom-modal-body">
+      <div className="content-data" ref={iframeRef}>
+      <IframeComponent previewArticle={section.previewArticle} />
+      </div>
+    </Modal.Body>
+   </Modal>
       </div>
       {/* Transparent overlay with circular progress */}
       {downloading && (
