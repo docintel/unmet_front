@@ -132,39 +132,39 @@ const Content = ({
     };
 
     try {
-      // setDownloading(true);
+      setDownloading(true);
       if (
         section.file_type.toLowerCase() === "pdf" ||
         section.file_type.toLowerCase() === "video"
       ) {
         const downloadUrl = `${staticUrl}/${section.file_type}/${section.folder_name}/${section.pdf_files}`;
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        link.download = `${section.title}.${extenstion}`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        // await getContentSize(downloadUrl);
-        // const blob = await downloadFileChuck(downloadUrl);
+        // const link = document.createElement("a");
+        // link.href = downloadUrl;
         // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // saveAs(blob, section.title + "." + extenstion);
-        // setDownloading(false);
+        // link.download = `${section.title}.${extenstion}`;
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+        await getContentSize(downloadUrl);
+        const blob = await downloadFileChuck(downloadUrl);
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+        setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        link.download = section.title + "." + extenstion;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        // await getContentSize(downloadUrl);
-        // const blob = await downloadFileChuck(downloadUrl);
-
+        // const link = document.createElement("a");
+        // link.href = downloadUrl;
         // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // saveAs(blob, section.title + "." + extenstion);
-        // setDownloading(false);
+        // link.download = section.title + "." + extenstion;
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+        await getContentSize(downloadUrl);
+        const blob = await downloadFileChuck(downloadUrl);
+
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+        setDownloading(false);
       } else {
         setDownloading(true);
         const zip = new JSZip();
