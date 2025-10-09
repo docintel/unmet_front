@@ -383,10 +383,12 @@ const Content = ({
         <div className="category">
           {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
             <>
+            <div>
             <span key={idx}>
                 {dgns + (arr.length - 1 !== idx)}
               </span>
                 <img src={path_image + "/icons/hmb.svg"} alt="" />
+                </div>
               <span className="pipe">|</span>
               </>
           ))}

@@ -421,16 +421,17 @@ const TouchPoints = () => {
                   ) : null}
                 </div>
                 <div
-                  className="text-center no_data"
+                  className="text-center dummy_data"
                   style={{
-                    maxHeight: isInfoVisible ? "500px" : "0px",
+                    maxHeight: isInfoVisible ? "300px" : "0px",
                     opacity: isInfoVisible ? 1 : 0,
                     overflow: "hidden",
                     transform: isInfoVisible
                       ? "translateY(0)"
                       : "translateY(-20px)",
                     transition: "all 0.5s ease",
-                    padding: isInfoVisible ? "40px 12px" : "0",
+                    padding: isInfoVisible ? "32px 12px" : "0",
+                    margin: isInfoVisible ? "32px 0px 50px" : "0",
                   }}
                 >
                   <div className="close-icon">
