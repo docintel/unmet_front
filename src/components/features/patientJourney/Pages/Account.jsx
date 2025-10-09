@@ -16,10 +16,10 @@ const Account = () => {
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
   // const [loading, setLoading] = useState(true);
-  const [currentReadClick, setCurrentReadClick] = useState({
-    previewArticle: null,
-    id: null,
-  });
+  // const [currentReadClick, setCurrentReadClick] = useState({
+  //   previewArticle: null,
+  //   id: null,
+  // });
   const { setIsLoading } = useContext(ContentContext);
 
   const handleStarClick = (index) => {
@@ -92,13 +92,13 @@ const Account = () => {
                           <Content
                             section={section}
                             idx={section.id}
-                            currentReadClick={currentReadClick}
-                            setCurrentReadClick={setCurrentReadClick}
+                            // currentReadClick={currentReadClick}
+                            // setCurrentReadClick={setCurrentReadClick}
                           />
                         </React.Fragment>
                       ))
                     ) : (
-                        <div className="no_data_found">No data Found</div>
+                      <div className="no_data_found">No data Found</div>
                     )}
                   </div>
                 </Tab>
