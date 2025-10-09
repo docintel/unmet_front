@@ -73,10 +73,6 @@ const TouchPoints = () => {
   }, [contentCategory]);
 
   useEffect(() => {
-    if (filterTag.length > 0) setTags([...filterTag].sort());
-  }, [filterTag]);
-
-  useEffect(() => {
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
       setActiveKey(null);
@@ -101,6 +97,31 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
+    if (
+      (contents && (activeKey || activeJourney)) ||
+      (contents && searchText.trim() === "" && selectedTag.length === 0)
+    ) {
+      let tagArray = [];
+      contents.map((item) => {
+        tagArray = [...tagArray, ...JSON.parse(item.tags)];
+      });
+
+      const freqMap = {};
+      for (const word of tagArray) {
+        freqMap[word] = (freqMap[word] || 0) + 1;
+      }
+
+      const uniqueWords = Object.keys(freqMap);
+      uniqueWords.sort((a, b) => {
+        const freqDiff = freqMap[b] - freqMap[a];
+        if (freqDiff !== 0) return freqDiff;
+        return a.localeCompare(b);
+      });
+      setTags(uniqueWords);
+    }
+  }, [activeKey, activeJourney, contents]);
+
+  useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrative.find(
@@ -111,6 +132,7 @@ const TouchPoints = () => {
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey || activeJourney) {
+      setIsInfoVisible(false);
       const activeNarrative = activeKey
         ? narrative.filter((narration) => narration.category_id == activeKey)
         : narrative.filter(
@@ -124,7 +146,6 @@ const TouchPoints = () => {
           )[0]
         );
       else setActiveNarration(null);
-    } else if (activeJourney) {
     } else setActiveNarration(null);
     setSearchText("");
   }, [activeKey, activeJourney]);
@@ -421,16 +442,17 @@ const TouchPoints = () => {
                   ) : null}
                 </div>
                 <div
-                  className="text-center no_data"
+                  className="text-center dummy_data"
                   style={{
-                    maxHeight: isInfoVisible ? "500px" : "0px",
+                    maxHeight: isInfoVisible ? "300px" : "0px",
                     opacity: isInfoVisible ? 1 : 0,
                     overflow: "hidden",
                     transform: isInfoVisible
                       ? "translateY(0)"
                       : "translateY(-20px)",
                     transition: "all 0.5s ease",
-                    padding: isInfoVisible ? "40px 12px" : "0",
+                    padding: isInfoVisible ? "32px 12px" : "0",
+                    margin: isInfoVisible ? "32px 0px 50px" : "0",
                   }}
                 >
                   <div className="close-icon">

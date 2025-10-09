@@ -67,7 +67,7 @@ const Content = ({
     const tags = JSON.parse(section.age_groups);
     return tags
       .map((tag) => {
-        if (tag === "<Age 6")
+        if (tag === "Age <6")
           return {
             tagLabel: tag,
             tagClass: "age0",
@@ -132,39 +132,39 @@ const Content = ({
     };
 
     try {
-      // setDownloading(true);
+      setDownloading(true);
       if (
         section.file_type.toLowerCase() === "pdf" ||
         section.file_type.toLowerCase() === "video"
       ) {
         const downloadUrl = `${staticUrl}/${section.file_type}/${section.folder_name}/${section.pdf_files}`;
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        link.download = `${section.title}.${extenstion}`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        // await getContentSize(downloadUrl);
-        // const blob = await downloadFileChuck(downloadUrl);
+        // const link = document.createElement("a");
+        // link.href = downloadUrl;
         // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // saveAs(blob, section.title + "." + extenstion);
-        // setDownloading(false);
+        // link.download = `${section.title}.${extenstion}`;
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+        await getContentSize(downloadUrl);
+        const blob = await downloadFileChuck(downloadUrl);
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+        setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        link.download = section.title + "." + extenstion;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        // await getContentSize(downloadUrl);
-        // const blob = await downloadFileChuck(downloadUrl);
-
+        // const link = document.createElement("a");
+        // link.href = downloadUrl;
         // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // saveAs(blob, section.title + "." + extenstion);
-        // setDownloading(false);
+        // link.download = section.title + "." + extenstion;
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+        await getContentSize(downloadUrl);
+        const blob = await downloadFileChuck(downloadUrl);
+
+        const extenstion = downloadUrl.split("/").pop().split(".").pop();
+        saveAs(blob, section.title + "." + extenstion);
+        setDownloading(false);
       } else {
         setDownloading(true);
         const zip = new JSZip();
@@ -383,12 +383,12 @@ const Content = ({
         <div className="category">
           {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
             <>
-            <span key={idx}>
-                {dgns + (arr.length - 1 !== idx)}
-              </span>
+              <div>
+                <span key={idx}>{dgns}</span>
                 <img src={path_image + "/icons/hmb.svg"} alt="" />
-              <span className="pipe">|</span>
-              </>
+              </div>
+              {arr.length - 1 !== idx ? <span className="pipe">|</span> : null}
+            </>
           ))}
         </div>
         <div className="tags tag-list">
@@ -442,6 +442,7 @@ const Content = ({
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "8px",
+            zIndex: 1000,
           }}
         >
           <div style={{ position: "relative", width: 120, height: 120 }}>

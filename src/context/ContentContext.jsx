@@ -32,10 +32,26 @@ export const ContentProvider = ({ children }) => {
   useEffect(() => {
     if (contents) {
       const filteredList = [];
+      let tagArray = [];
       contents.map((item) => {
         if (isHcp && item.hide_in_hcp == "1") return;
+        tagArray = [...tagArray, ...JSON.parse(item.tags)];
         filteredList.push(item);
       });
+
+      const freqMap = {};
+      for (const word of tagArray) {
+        freqMap[word] = (freqMap[word] || 0) + 1;
+      }
+
+      const uniqueWords = Object.keys(freqMap);
+      uniqueWords.sort((a, b) => {
+        const freqDiff = freqMap[b] - freqMap[a]; 
+        if (freqDiff !== 0) return freqDiff;
+        return a.localeCompare(b); 
+      });
+
+      setFilterTag(uniqueWords);
       setContent(filteredList);
     }
   }, [contents, isHcp]);
@@ -47,10 +63,9 @@ export const ContentProvider = ({ children }) => {
       filterCategory.length == 0
     ) {
       setIsLoading(true);
-      const { ageGroups, category, tags, contentCategory } =
+      const { ageGroups, category, contentCategory } =
         await fetchAgeGroupCategories();
       setFilterCategory(category);
-      setFilterTag(tags);
       setFilterAges(ageGroups);
       setCategoryList(contentCategory);
       setIsLoading(false);

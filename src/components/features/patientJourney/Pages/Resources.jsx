@@ -26,7 +26,6 @@ const Resources = () => {
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [tags, setTags] = useState([]);
   const [currentReadClick, setCurrentReadClick] = useState({
     previewArticle: null,
     id: null,
@@ -34,7 +33,6 @@ const Resources = () => {
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
-  const [selectedTag, setSelectedTag] = useState([]);
   useEffect(() => {
     if (filterAges)
       setAgeGroup(
@@ -43,7 +41,7 @@ const Resources = () => {
           // b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
         )
       );
-    if (filterTag) setTag([...filterTag].sort());
+    if (filterTag) setTag([...filterTag]);
     if (filterCategory)
       setCategory(
         [...filterCategory].sort((a, b) =>
@@ -190,7 +188,7 @@ const Resources = () => {
             b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
           )
       );
-    else if (typ === "tag") setTag([...tag].filter((tg) => tg !== txt).sort());
+    else if (typ === "tag") setTag([...tag].filter((tg) => tg !== txt));
   };
 
   const removeFilters = (txt, id, typ) => {
@@ -224,17 +222,19 @@ const Resources = () => {
       );
     } else if (typ === "tag") {
       setFilters([...filters].filter((tg) => tg.txt !== txt && typ === "tag"));
-      setTag([...tag, txt].sort());
+      const tempArr = [...tag, txt];
+      const filterArray = [];
+      filterTag.forEach((item) => {
+        if (tempArr.includes(item)) filterArray.push(item);
+      });
+      setTag(filterArray);
     }
   };
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
-  const removeFilter = (tag) => {
-    setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
-    setTags([...tags, tag].sort());
-  };
+
   return (
     <div className="main-page">
       <div className="custom-container">
@@ -246,20 +246,23 @@ const Resources = () => {
                 {" "}
                 <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                   <div className="inner-search d-flex align-items-center">
-                    {selectedTag.length > 0 && (
+                    {filters && filters.length > 0 && (
                       <div className="tag-list d-flex">
-                        {selectedTag &&
-                          selectedTag.map((tag, idx) => (
-                            <span key={idx} className="tag-item">
-                              {tag}{" "}
-                              <button
-                                className="cross-btn"
-                                onClick={() => removeFilter(tag)}
-                              >
-                                ✖
-                              </button>
-                            </span>
-                          ))}
+                        {filters.map((fltr, idx) => (
+                          <span key={idx} className="tag-item">
+                            {fltr.typ === "age"
+                              ? fltr.txt.split("<br />")[1]
+                              : fltr.txt}{" "}
+                            <button
+                              className="cross-btn"
+                              onClick={() =>
+                                removeFilters(fltr.txt, fltr.id, fltr.typ)
+                              }
+                            >
+                              ✖
+                            </button>
+                          </span>
+                        ))}
                       </div>
                     )}
                     <Form.Control
@@ -276,32 +279,7 @@ const Resources = () => {
                   </Button>
                 </Form>
               </div>
-              {filters && filters.length > 0 && (
-                <div className="tags d-flex">
-                  <div className="tag-title">Filters:</div>
-                  <div className="tag-list d-flex">
-                    {filters.map((fltr, idx) => (
-                      <span
-                        key={idx}
-                        className="badge bg-info me-2"
-                        style={{ fontSize: "10px", letterSpacing: 1 }}
-                      >
-                        {fltr.typ === "age"
-                          ? fltr.txt.split("<br />")[1]
-                          : fltr.txt}{" "}
-                        <button
-                          className="btn btn-sm btn-light ms-1"
-                          onClick={() =>
-                            removeFilters(fltr.txt, fltr.id, fltr.typ)
-                          }
-                        >
-                          ✖
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+
               <div className="tags d-flex">
                 <div className="tag-title">Touchpoints:</div>
                 <div className="tag-list d-flex">
