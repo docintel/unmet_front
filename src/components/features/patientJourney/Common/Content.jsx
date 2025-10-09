@@ -67,7 +67,7 @@ const Content = ({
     const tags = JSON.parse(section.age_groups);
     return tags
       .map((tag) => {
-        if (tag === "<Age 6")
+        if (tag === "Age <6")
           return {
             tagLabel: tag,
             tagClass: "age0",
@@ -383,12 +383,10 @@ const Content = ({
         <div className="category">
           {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
             <>
-            <span key={idx}>
-                {dgns + (arr.length - 1 !== idx)}
-              </span>
-                <img src={path_image + "/icons/hmb.svg"} alt="" />
+              <span key={idx}>{dgns + (arr.length - 1 !== idx)}</span>
+              <img src={path_image + "/icons/hmb.svg"} alt="" />
               <span className="pipe">|</span>
-              </>
+            </>
           ))}
         </div>
         <div className="tags tag-list">
@@ -442,6 +440,7 @@ const Content = ({
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "8px",
+            zIndex: 1000,
           }}
         >
           <div style={{ position: "relative", width: 120, height: 120 }}>
