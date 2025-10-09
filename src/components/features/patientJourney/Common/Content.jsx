@@ -383,9 +383,11 @@ const Content = ({
         <div className="category">
           {JSON.parse(section.diagnosis).map((dgns, idx, arr) => (
             <>
-              <span key={idx}>{dgns + (arr.length - 1 !== idx)}</span>
-              <img src={path_image + "/icons/hmb.svg"} alt="" />
-              <span className="pipe">|</span>
+              <div>
+                <span key={idx}>{dgns}</span>
+                <img src={path_image + "/icons/hmb.svg"} alt="" />
+              </div>
+              {arr.length - 1 !== idx ? <span className="pipe">|</span> : null}
             </>
           ))}
         </div>
