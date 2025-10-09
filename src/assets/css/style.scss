@@ -448,24 +448,26 @@ h6 {
         }
 
         &:before {
-          content: "";
-          width: 100%;
-          height: 4px;
-          border-radius: 10px;
-          position: absolute;
-          top: 0;
-          left: 0;
-          background-color: $green;
-          opacity: 0;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 100%;
+        height: 4px;
+        border-radius: 10px;
+        background-color: $green;
+        opacity: 0;
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
         }
 
-        &.active,
-        &:hover {
-          &:before {
-            opacity: 1;
-          }
+        &:hover::before,
+        &.active::before {
+        transform: translateX(-50%) scaleX(1);
+        opacity: 1;
         }
-      }
+       }
     }
   }
 
@@ -1923,7 +1925,7 @@ margin-top: 32px;
   border-radius: 12px;
   margin:-16px auto 0;
   gap:20px;
-  min-height: 600px;
+  min-height: 400px;
   h5{
     font-weight: 300;
 line-height: 36px;
