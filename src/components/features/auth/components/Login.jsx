@@ -253,7 +253,16 @@ const Login = ({ userDetails, setLoader }) => {
                       )}
                     </div>
                   </Form.Group>
-
+                  <div className="message">
+                    <div className="info-icon">
+                      <img src={path_image + "info-icon.svg"} alt="" />
+                    </div>
+                    <Form.Text className="text-muted">
+                      Please enter your country and/or region. At least one is
+                      required — entering both is recommended for the best
+                      experience.
+                    </Form.Text>
+                  </div>
                   {/* Region */}
                   <Form.Group className="form-group">
                     <Form.Label>
@@ -387,19 +396,10 @@ const Login = ({ userDetails, setLoader }) => {
                       )}
                     </div>
                   </Form.Group>
-                  <div className="message">
-                    <div className="info-icon">
-                      <img src={path_image + "info-icon.svg"} alt="" />
-                    </div>
-                    <Form.Text className="text-muted">
-                      Please enter your country and/or region. At least one is
-                      required — entering both is recommended for the best
-                      experience.
-                    </Form.Text>
-                  </div>
+
 
                   <Button variant="primary" type="submit">
-                    Login <img src={path_image + "login-icon.svg"} alt="" />
+                    Continue <img src={path_image + "continue-arrow.svg"} alt="" />
                   </Button>
                 </form>
               </div>
