@@ -446,7 +446,7 @@ const TouchPoints = () => {
                 >
                   <div className="close-icon">
                     <img
-                      src={path_image + "close-arrow.svg"}
+                      src={path_image + "cross-btn.svg"}
                       alt="No Data"
                       onClick={() => setIsInfoVisible(false)}
                     />
@@ -507,6 +507,18 @@ const TouchPoints = () => {
                           {tag}
                         </div>
                       ))}
+                    <Button
+                      className="show-more-btn"
+                      // Add class "show-less-btn" show less tags
+                      onClick={""} 
+                    >
+                      <span>Show more</span>
+                      <img
+                        src={`${path_image}right-arrow.svg`}
+                        alt="Show more"
+                        className="arrow-icon"
+                      />
+                    </Button>
                   </div>
                 </div>
                 <div className="content-count-box">
