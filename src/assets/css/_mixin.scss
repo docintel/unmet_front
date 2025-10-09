@@ -106,7 +106,7 @@
 
 @mixin age-format {
   gap: 0px;
-  margin-top: 5px;
+  margin: 0 0 -6px;
 
   &:nth-of-type(2) {
     margin-top: 0;
@@ -122,6 +122,10 @@
     max-width: 87px;
     flex: 1;
     text-align: center;
+    margin-left: -6px;
+    &:first-child {
+      margin-left: 0;
+    }
 
     &.age60 {
       background: #3597B2;

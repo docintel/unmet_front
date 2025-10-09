@@ -1868,6 +1868,8 @@ margin-top: 32px;
         .content-box {
           @include content-box;
           background: $white;
+          position: relative;
+          z-index: 9;
         }
 
         &:last-child {
