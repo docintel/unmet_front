@@ -219,7 +219,7 @@ const AskIBU = () => {
               <div className="date">{item.created}</div>
             </div>
           </div>
-        ))): <div className="no-data-found">No data Found</div> }
+        ))): <div className="no_data_found">No data Found</div> }
       </div>
 
       {/* Ask question form */}
