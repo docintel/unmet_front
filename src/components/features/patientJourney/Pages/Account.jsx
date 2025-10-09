@@ -84,7 +84,7 @@ const Account = () => {
                   <div className="account-tabs-content">
                     <h6>Recently viewed</h6>
                   </div>
-                  <div>
+                  <div className="touchpoint-data-boxes">
                     {recentContent.length > 0 ? (
                       recentContent &&
                       recentContent.map((section) => (
