@@ -385,6 +385,9 @@ const TouchPoints = () => {
                       })}
                   </div>
 
+                  
+                </div>
+                <div className="touchpoint-box-inner">
                   {activeNarration ? (
                     activeNarration.status === "Missing" ? (
                       <div className="message-info">
@@ -436,7 +439,6 @@ const TouchPoints = () => {
                       </div>
                     )
                   ) : null}
-                </div>
                 <div
                   className="text-center dummy_data"
                   style={{
@@ -636,6 +638,7 @@ const TouchPoints = () => {
                       </Pagination>
                     ) : null}
                   </div>
+                </div>
                 </div>
               </div>
             </div>
