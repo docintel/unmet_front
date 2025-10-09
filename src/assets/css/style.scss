@@ -101,6 +101,12 @@ h6 {
         padding: 11px 30px 11px 8px;
         margin-bottom: 56px;
       }
+      button{
+        min-width: 116px;
+        img{
+          width:18px;
+        }
+      }
     }
 }
     } 
@@ -383,13 +389,19 @@ h6 {
 
       .text-muted {
         font-size: 13px;
-        color: $text-color;
+        color: $border-color!important;
         font-weight: 400;
         margin: 0;
       }
 
       button {
         @include action-button;
+        min-width: 142px;
+        img{
+          width:7px;
+          height:auto;
+          margin-left:5px;
+        }
       }
     }
   }
@@ -1183,6 +1195,7 @@ h6 {
         .content-count{
           margin-left: 0;
           margin-right: 0;
+          padding:12px 16px;
         }
       }
     }
@@ -1322,10 +1335,6 @@ margin-top: 32px;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 1;
-
-            img {
-              filter: brightness(0) invert(1);
-            }
           }
 
           &.active {
@@ -1551,6 +1560,7 @@ margin-top: 32px;
 
   img {
     width: 100%;
+    max-width: 1306px;
   }
 }
 
@@ -1571,7 +1581,7 @@ margin-top: 32px;
   flex-wrap: wrap;
 
   .tag-title {
-    padding: 2px 6px;
+    padding: 0px 6px;
     color: $gray;
     font-size: 14px;
     font-weight: 400;
@@ -1610,7 +1620,7 @@ margin-top: 32px;
   margin: 28px 0 0;
   
   .content-count {
-      padding: 12px 16px;
+      padding: 12px 24px;
     border-bottom:  0.5px solid #5E7683;
     @include flex-align-end;
     margin: 0 -24px 56px;

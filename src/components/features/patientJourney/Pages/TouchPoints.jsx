@@ -461,7 +461,7 @@ const TouchPoints = () => {
                         : "translateY(-20px)",
                       transition: "all 0.5s ease",
                       padding: isInfoVisible ? "32px 12px" : "0",
-                      margin: isInfoVisible ? "32px 0px 50px" : "0",
+                      margin: isInfoVisible ? "0px 0px 50px" : "0",
                     }}
                   >
                     <div className="close-icon">

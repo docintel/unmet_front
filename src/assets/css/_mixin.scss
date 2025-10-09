@@ -478,11 +478,13 @@
   >div {
     height: 100%;
     overflow-y: auto;
-    max-height: 158px;
+    max-height: 152px;
     transition: all 0.3s ease-in-out;
     // scrollbar-width: thin;
     // scrollbar-color: $dark-green transparent;
     padding-right: 2px;
+
+
 
     div {
       color: $primary-color;
@@ -588,3 +590,9 @@
          }
        }
      }
+
+
+
+        .form-group ::-webkit-scrollbar-track {
+    background: rgba(148, 167, 191, 0.2);
+}
