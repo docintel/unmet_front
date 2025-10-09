@@ -1170,7 +1170,7 @@ h6 {
     filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
     background: $primary-color;
     // padding:0 16px;
-    padding: 12px 24px 24px;
+    padding: 12px 0px 24px;
     // filter: drop-shadow(0 0 8px rgba(76, 198, 207, 0.80));
     fill: rgba(255, 255, 255, 0.02);
     filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.50));
@@ -1186,7 +1186,15 @@ h6 {
         }
       }
     }
-
+.touchpoints-header, .touchpoint-box-inner{
+  padding:0px 24px;
+}
+.touchpoint-box-inner{
+overflow-y: auto;
+max-height: 66vh;
+width: 100%;
+margin-top: 32px;
+}
     .touchpoints-header,
     .search-bar,
     .tags {
@@ -1308,9 +1316,11 @@ h6 {
           gap: 8px;
 
           &:hover {
-            color: $white;
-            background: linear-gradient(97deg, #E94262 0%, #F79548 100%);
-            border-color: transparent;
+            background: var(--gradients-wilate-pink-orange, linear-gradient(97deg, #F79548 0%, #E94262 100%));
+            background-clip: text;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             opacity: 1;
 
             img {
@@ -1322,6 +1332,11 @@ h6 {
             background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
             color: $white;
             border-color: transparent;
+            &:hover{
+              -webkit-background-clip: unset;
+              background-clip: unset;
+            -webkit-text-fill-color: unset;
+            }
 
             img {
               filter: brightness(0) invert(1);
@@ -1480,7 +1495,7 @@ h6 {
     background: rgba(253, 254, 255, 0.08);
     box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
     padding:12px;
-    margin:0 0 50px;
+    margin:0px 0 50px;
 
     h6 {
       color: $primary-color;
@@ -1638,7 +1653,7 @@ h6 {
         max-width: 15px;
         filter: grayscale(1); 
       }
-      &.all {
+      &.active {
         color: $white;
         &:before{
           opacity: 1;
@@ -1867,20 +1882,18 @@ h6 {
 /***Account page css end ***/
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 173, 186, 0.1);
+  background: rgba(0, 39, 59, 0.50);
   border-radius: 20px;
-  padding: 0 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  width: 14px;
-  background: $dark-green;
-  border: 2px solid #dce6ef;
-  border-radius: 15px;
+  width: 10px;
+  background: $green;
+  border-radius: 10px;
 }
 
 .validation {
