@@ -246,51 +246,18 @@ const Resources = () => {
                 {" "}
                 <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                   <div className="inner-search d-flex align-items-center">
-                    {selectedTag.length > 0 && (
-                      <div className="tag-list d-flex">
-                        {selectedTag &&
-                          selectedTag.map((tag, idx) => (
-                            <span key={idx} className="tag-item">
-                              {tag}{" "}
-                              <button
-                                className="cross-btn"
-                                onClick={() => removeFilter(tag)}
-                              >
-                                ✖
-                              </button>
-                            </span>
-                          ))}
-                      </div>
-                    )}
-                    <Form.Control
-                      type="search"
-                      aria-label="Search"
-                      placeholder="Search by tag or content title"
-                      value={searchText}
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyUp={handleSearchTextKeyUp}
-                    />
-                  </div>
-                  <Button variant="outline-success" onClick={handleSearchClick}>
-                    <img src={path_image + "search-icon.svg"} alt="Search" />
-                  </Button>
-                </Form>
-              </div>
-              {filters && filters.length > 0 && (
-                <div className="tags d-flex">
-                  <div className="tag-title">Filters:</div>
+                      {filters && filters.length > 0 && (
                   <div className="tag-list d-flex">
                     {filters.map((fltr, idx) => (
                       <span
                         key={idx}
-                        className="badge bg-info me-2"
-                        style={{ fontSize: "10px", letterSpacing: 1 }}
+                        className="tag-item"
                       >
                         {fltr.typ === "age"
                           ? fltr.txt.split("<br />")[1]
                           : fltr.txt}{" "}
                         <button
-                          className="btn btn-sm btn-light ms-1"
+                          className="cross-btn"
                           onClick={() =>
                             removeFilters(fltr.txt, fltr.id, fltr.typ)
                           }
@@ -300,8 +267,22 @@ const Resources = () => {
                       </span>
                     ))}
                   </div>
-                </div>
               )}
+                  <Form.Control
+                    type="search"
+                    aria-label="Search"
+                    placeholder="Search by tag or content title"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    onKeyUp={handleSearchTextKeyUp}
+                  />
+                  </div>
+                  <Button variant="outline-success" onClick={handleSearchClick}>
+                    <img src={path_image + "search-icon.svg"} alt="Search" />
+                  </Button>
+                </Form>
+              </div>
+              
               <div className="tags d-flex">
                 <div className="tag-title">Touchpoints:</div>
                 <div className="tag-list d-flex">

@@ -235,7 +235,21 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
-    margin: 0 0 16px;
+  }
+  .category{
+    color: $border-color;
+    display: flex;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 16px 0;
+    gap: 3px 8px;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    align-items: center;
+    &>img{
+      width: 12px;
+      height: 12px;
+    }
   }
 
   .tag-list {
@@ -287,9 +301,8 @@
     margin: 0 0 13px;
         word-break: break-word;
   }
-
   .tags {
-    gap: 12px;
+    gap: 6px 12px;
     display: flex;
     margin: 0 0 13px;
     padding: 0 0 13px;
