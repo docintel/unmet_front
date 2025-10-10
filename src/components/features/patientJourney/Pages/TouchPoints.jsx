@@ -12,7 +12,7 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const contentPerPage = 9;
+  const contentPerPage = 5;
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -22,6 +22,7 @@ const TouchPoints = () => {
     filterAges,
     filterCategory,
     narrative,
+    isHcp,
     categoryList,
     fetchAgeGroups,
     getNarratives,
@@ -76,21 +77,10 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
-    if (isAllSelected) {
-      const contentList = [];
-      content.forEach((element) => {
-        const ageArr = JSON.parse(element.age_groups);
-        if (
-          ageArr.includes("Age <6") ||
-          ageArr.includes("Age 6-11") ||
-          JSON.parse(element.diagnosis).includes("On-demand")
-        )
-          return;
-        contentList.push(element);
-      });
-      setContents(contentList);
-    } else setContents(content);
+    filterFemaleContent();
   }, [isAllSelected]);
+
+  useEffect(() => {}, [isHcp]);
 
   useEffect(() => {
     if (
@@ -153,8 +143,28 @@ const TouchPoints = () => {
   useEffect(() => {
     setContents(content);
     filterContents();
-    if (content) getCategoryTags(content);
+    if (content) {
+      getCategoryTags(content);
+      filterFemaleContent();
+    }
   }, [content]);
+
+  const filterFemaleContent = () => {
+    if (isAllSelected) {
+      const contentList = [];
+      content.forEach((element) => {
+        const ageArr = JSON.parse(element.age_groups);
+        if (
+          ageArr.includes("Age <6") ||
+          ageArr.includes("Age 6-11") ||
+          JSON.parse(element.diagnosis).includes("On-demand")
+        )
+          return;
+        contentList.push(element);
+      });
+      setContents(contentList);
+    } else setContents(content);
+  };
 
   const filterContents = () => {
     if (content) {
@@ -642,7 +652,7 @@ const TouchPoints = () => {
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
-                        <Pagination>
+                        <Pagination style={{ margin: "10px" }}>
                           <Pagination.First
                             onClick={() => handlePageChange(1)}
                             disabled={activePage === 1}

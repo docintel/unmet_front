@@ -8,7 +8,7 @@ import { iconMapping } from "../../../../constants/iconMapping";
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const contentPerPage = 9;
+  const contentPerPage = 5;
   const {
     content,
     fetchAgeGroups,
@@ -414,7 +414,7 @@ const Resources = () => {
                 </div>{" "}
                 <div>
                   {totalPages && totalPages > 1 ? (
-                    <Pagination>
+                    <Pagination style={{ margin: "10px" }}>
                       <Pagination.First
                         onClick={() => handlePageChange(1)}
                         disabled={activePage === 1}
