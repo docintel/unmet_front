@@ -40,6 +40,7 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+  const [expandNarrative, setExapandNarrative] = useState(false);
 
   useEffect(() => {
     filterContents();
@@ -425,8 +426,7 @@ const TouchPoints = () => {
                       </div>
                     ) : (
                       <div className="touchpoint-data">
-                        {/* <h6>Short Narrative</h6> */}
-                        <div className="d-flex justify-content-between narrative-block">
+                        <div className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"}`}>
                           <div className="content">
                             <p className="content-title">
                               {activeNarration.narrative_title}
@@ -447,8 +447,11 @@ const TouchPoints = () => {
                               }}
                             ></div>
                           </div>
-                        </div>
-                      </div>
+                            </div>
+                            <div className={ expandNarrative ? "read-less-btn" :"read-more-btn"}>
+                              <button className="btn btn-link" onClick={() => setExapandNarrative(!expandNarrative)}>Read { expandNarrative ? "Less" : "More"} <img src={path_image + "read-more-icon.svg"} alt="" /></button>
+                             </div>
+                          </div>
                     )
                   ) : null}
                   <div

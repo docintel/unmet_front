@@ -275,12 +275,6 @@
       height: 12px;
       margin-left: 4px;
     }
-
-    .pipe {
-      &:last-child {
-        display: none;
-      }
-    }
   }
 
   .tag-list {
@@ -598,3 +592,4 @@
 .form-group ::-webkit-scrollbar-track {
   background: rgba(148, 167, 191, 0.2);
 }
+  
