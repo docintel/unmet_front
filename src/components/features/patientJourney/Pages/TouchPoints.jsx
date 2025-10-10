@@ -12,7 +12,7 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const contentPerPage = 5;
+  const contentPerPage = 6;
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -80,8 +80,6 @@ const TouchPoints = () => {
     })();
     filterFemaleContent();
   }, [isAllSelected]);
-
-  useEffect(() => {}, [isHcp]);
 
   useEffect(() => {
     if (
@@ -476,8 +474,8 @@ const TouchPoints = () => {
                           >
                             Read {expandNarrative ? "Less" : "More"}{" "}
                             <img
-                                  src={path_image + "read-more-icon.svg"}
-                                  alt={`read${expandNarrative ? "Less" : "More"}`}
+                              src={path_image + "read-more-icon.svg"}
+                              alt={`read${expandNarrative ? "Less" : "More"}`}
                             />
                           </button>
                         </div>
