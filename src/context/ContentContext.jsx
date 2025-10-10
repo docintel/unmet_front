@@ -8,8 +8,8 @@ import Loader from "../components/features/patientJourney/Common/Loader";
 export const ContentContext = createContext();
 
 export const ContentProvider = ({ children }) => {
-  const [contents, setContents] = useState(null);
-  const [content, setContent] = useState(null);
+  const [contents, setContents] = useState([]);
+  const [content, setContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filterAges, setFilterAges] = useState([]);
   const [filterTag, setFilterTag] = useState([]);
@@ -30,7 +30,7 @@ export const ContentProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (contents) {
+    if (contents && contents.length > 0) {
       const filteredList = [];
       let tagArray = [];
       contents.map((item) => {

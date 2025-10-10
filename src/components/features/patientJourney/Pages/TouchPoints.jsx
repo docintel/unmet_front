@@ -12,7 +12,7 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const contentPerPage = 9;
+  const contentPerPage = 5;
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -22,6 +22,7 @@ const TouchPoints = () => {
     filterAges,
     filterCategory,
     narrative,
+    isHcp,
     categoryList,
     fetchAgeGroups,
     getNarratives,
@@ -40,6 +41,7 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+  const [expandNarrative, setExapandNarrative] = useState(false);
 
   useEffect(() => {
     filterContents();
@@ -75,21 +77,10 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
-    if (isAllSelected) {
-      const contentList = [];
-      content.forEach((element) => {
-        const ageArr = JSON.parse(element.age_groups);
-        if (
-          ageArr.includes("Age <6") ||
-          ageArr.includes("Age 6-11") ||
-          JSON.parse(element.diagnosis).includes("On-demand")
-        )
-          return;
-        contentList.push(element);
-      });
-      setContents(contentList);
-    } else setContents(content);
+    filterFemaleContent();
   }, [isAllSelected]);
+
+  useEffect(() => {}, [isHcp]);
 
   useEffect(() => {
     if (
@@ -152,8 +143,28 @@ const TouchPoints = () => {
   useEffect(() => {
     setContents(content);
     filterContents();
-    if (content) getCategoryTags(content);
+    if (content) {
+      getCategoryTags(content);
+      filterFemaleContent();
+    }
   }, [content]);
+
+  const filterFemaleContent = () => {
+    if (isAllSelected) {
+      const contentList = [];
+      content.forEach((element) => {
+        const ageArr = JSON.parse(element.age_groups);
+        if (
+          ageArr.includes("Age <6") ||
+          ageArr.includes("Age 6-11") ||
+          JSON.parse(element.diagnosis).includes("On-demand")
+        )
+          return;
+        contentList.push(element);
+      });
+      setContents(contentList);
+    } else setContents(content);
+  };
 
   const filterContents = () => {
     if (content) {
@@ -425,8 +436,7 @@ const TouchPoints = () => {
                       </div>
                     ) : (
                       <div className="touchpoint-data">
-                        {/* <h6>Short Narrative</h6> */}
-                        <div className="d-flex justify-content-between narrative-block">
+                        <div className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"}`}>
                           <div className="content">
                             <p className="content-title">
                               {activeNarration.narrative_title}
@@ -447,8 +457,11 @@ const TouchPoints = () => {
                               }}
                             ></div>
                           </div>
-                        </div>
-                      </div>
+                            </div>
+                            <div className={ expandNarrative ? "read-less-btn" :"read-more-btn"}>
+                              <button className="btn btn-link" onClick={() => setExapandNarrative(!expandNarrative)}>Read { expandNarrative ? "Less" : "More"} <img src={path_image + "read-more-icon.svg"} alt="" /></button>
+                             </div>
+                          </div>
                     )
                   ) : null}
                   <div
@@ -639,7 +652,7 @@ const TouchPoints = () => {
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
-                        <Pagination>
+                        <Pagination style={{ margin: "10px" }}>
                           <Pagination.First
                             onClick={() => handlePageChange(1)}
                             disabled={activePage === 1}

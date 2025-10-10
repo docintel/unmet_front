@@ -423,20 +423,16 @@ const Content = ({
             )[0];
             if (dgns === "Pregnancy & childbirth") console.log(imageName);
             return (
-              <>
-                <div>
-                  <span key={idx}>{dgns}</span>
-                  <img
-                    src={
-                      path_image + "icons/" + (imageName ? imageName.image : "")
-                    }
-                    alt=""
-                  />
-                </div>
-                {arr.length - 1 !== idx ? (
-                  <span className="pipe">|</span>
-                ) : null}
-              </>
+              <div key={idx}>
+                <span key={idx}>{dgns}</span>
+                <img
+                  src={
+                    path_image + "icons/" + (imageName ? imageName.image : "")
+                  }
+                  alt=""
+                />{" "}
+                {idx < arr.length - 1 ? <span className="pipe">|</span> : null}
+              </div>
             );
           })}
         </div>
