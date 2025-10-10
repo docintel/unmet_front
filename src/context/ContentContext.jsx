@@ -4,12 +4,14 @@ import {
   fetchContentList,
   fetchNarrativeList,
 } from "../services/touchPointServices";
+
 import Loader from "../components/features/patientJourney/Common/Loader";
+
 export const ContentContext = createContext();
 
 export const ContentProvider = ({ children }) => {
-  const [contents, setContents] = useState([]);
-  const [content, setContent] = useState([]);
+  const [contents, setContents] = useState(null);
+  const [content, setContent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [filterAges, setFilterAges] = useState([]);
   const [filterTag, setFilterTag] = useState([]);
@@ -19,6 +21,13 @@ export const ContentProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {
+    document.cookie.split(";").forEach((item) => {
+      let hcpArr = item.split("=");
+      if (hcpArr[0].trim() == "isHcp") {
+        setIsHcp(JSON.parse(hcpArr[1]));
+      }
+    });
+
     (async () => {
       setIsLoading(true);
       const cntnts = (await fetchContentList()).contents;
@@ -30,7 +39,7 @@ export const ContentProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (contents && contents.length > 0) {
+    if (contents) {
       const filteredList = [];
       let tagArray = [];
       contents.map((item) => {
