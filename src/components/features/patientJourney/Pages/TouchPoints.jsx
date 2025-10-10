@@ -476,8 +476,8 @@ const TouchPoints = () => {
                           >
                             Read {expandNarrative ? "Less" : "More"}{" "}
                             <img
-                              src={path_image + "read-more-icon.svg"}
-                              alt=""
+                                  src={path_image + "read-more-icon.svg"}
+                                  alt={`read${expandNarrative ? "Less" : "More"}`}
                             />
                           </button>
                         </div>
