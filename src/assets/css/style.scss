@@ -765,7 +765,7 @@ h6 {
 
     .detail-data-box {
       margin: 0 0 28px;
-
+    
       &:last-child {
         margin: 0;
       }
@@ -1584,7 +1584,8 @@ h6 {
         flex: 1 1;
         line-height: 1;
         position: relative;
-        overflow: hidden;  
+        overflow: hidden;
+        min-height: 200px;  
 
          &::after {
          content: "";
@@ -2192,6 +2193,45 @@ input[type="search"]::-webkit-search-results-decoration {
       iframe {
         min-height: 92.5vh !important;
       }
+    }
+  }
+}
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0 0 0;
+
+  .page-item {
+    margin: 0 4px;
+
+    .page-link {
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      color: #afafaf;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: #e9ecef; 
+        color: #000;
+      }
+    }
+
+    &.active .page-link {
+      background-color: #d6d6d6;
+      border: none;
+      color: #000;
+    }
+
+    &.disabled .page-link {
+      color: #aaa;
+      pointer-events: none;
+      background-color: transparent;
     }
   }
 }
