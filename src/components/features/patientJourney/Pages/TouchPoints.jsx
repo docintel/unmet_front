@@ -54,7 +54,8 @@ const TouchPoints = () => {
           ? contents
           : contents.filter((item) => contentCategory.includes(item.category));
       setFilteredContents(newArr);
-      setTotalPages(Math.ceil(contents.length / contentPerPage));
+      setTotalPages(Math.ceil(newArr.length / contentPerPage));
+      setActivePage(1);
       getCategoryTags(contents);
     }
   }, [contents]);
@@ -202,7 +203,7 @@ const TouchPoints = () => {
                   ? count + 1
                   : count;
               }
-              return count === selectedTag.length ? true : false;
+              return count === selectedTag.length;
             });
       setContents(newArr);
     }
@@ -436,7 +437,11 @@ const TouchPoints = () => {
                       </div>
                     ) : (
                       <div className="touchpoint-data">
-                        <div className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"}`}>
+                        <div
+                          className={`d-flex justify-content-between narrative-block ${
+                            expandNarrative ? "expanded" : "collapsed"
+                          }`}
+                        >
                           <div className="content">
                             <p className="content-title">
                               {activeNarration.narrative_title}
@@ -457,11 +462,26 @@ const TouchPoints = () => {
                               }}
                             ></div>
                           </div>
-                            </div>
-                            <div className={ expandNarrative ? "read-less-btn" :"read-more-btn"}>
-                              <button className="btn btn-link" onClick={() => setExapandNarrative(!expandNarrative)}>Read { expandNarrative ? "Less" : "More"} <img src={path_image + "read-more-icon.svg"} alt="" /></button>
-                             </div>
-                          </div>
+                        </div>
+                        <div
+                          className={
+                            expandNarrative ? "read-less-btn" : "read-more-btn"
+                          }
+                        >
+                          <button
+                            className="btn btn-link"
+                            onClick={() =>
+                              setExapandNarrative(!expandNarrative)
+                            }
+                          >
+                            Read {expandNarrative ? "Less" : "More"}{" "}
+                            <img
+                              src={path_image + "read-more-icon.svg"}
+                              alt=""
+                            />
+                          </button>
+                        </div>
+                      </div>
                     )
                   ) : null}
                   <div

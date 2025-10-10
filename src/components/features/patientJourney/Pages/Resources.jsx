@@ -33,6 +33,8 @@ const Resources = () => {
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
+  const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+
   useEffect(() => {
     if (filterAges)
       setAgeGroup(
@@ -61,7 +63,8 @@ const Resources = () => {
           ? contents
           : contents.filter((item) => contentCategory.includes(item.category));
       setFilteredContents(newArr);
-      setTotalPages(Math.ceil(contents.length / contentPerPage));
+      setActivePage(1);
+      setTotalPages(Math.ceil(newArr.length / contentPerPage));
       getCategoryTags(contents);
     }
   }, [contents]);
@@ -302,16 +305,36 @@ const Resources = () => {
                 <div className="tag-title">Tags:</div>
                 <div className="tag-list d-flex">
                   {tag &&
-                    tag.map((tags, idx) => (
-                      <div
-                        className="tag-item"
-                        key={idx}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => selectFilters(tags, 0, "tag")}
-                      >
-                        {tags}
-                      </div>
-                    ))}
+                    (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                      (tags, idx) => (
+                        <div
+                          className="tag-item"
+                          key={idx}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => selectFilters(tags, 0, "tag")}
+                        >
+                          {tags}
+                        </div>
+                      )
+                    )}{" "}
+                  {tag && tag.length > 10 && (
+                    <Button
+                      className={
+                        tagShowAllClicked ? "show-less-btn" : "show-more-btn"
+                      }
+                      // Add class "show-less-btn" show less tags
+                      onClick={() => setTagShowAllClicked(!tagShowAllClicked)}
+                    >
+                      <span>
+                        {tagShowAllClicked ? "Show less" : "Show more"}
+                      </span>
+                      <img
+                        src={`${path_image}right-arrow.svg`}
+                        alt="Show more"
+                        className="arrow-icon"
+                      />
+                    </Button>
+                  )}
                 </div>
               </div>
               <div className="tags d-flex">
@@ -350,7 +373,7 @@ const Resources = () => {
                       return (
                         <div
                           className={`filter ${
-                            contentCategory === cat ? "all" : ""
+                            contentCategory === cat ? "active" : ""
                           }`}
                           style={{ cursor: "pointer", userSelect: "none" }}
                           key={idx}
