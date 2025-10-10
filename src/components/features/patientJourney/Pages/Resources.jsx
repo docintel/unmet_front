@@ -26,10 +26,10 @@ const Resources = () => {
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [currentReadClick, setCurrentReadClick] = useState({
-    previewArticle: null,
-    id: null,
-  });
+  // const [currentReadClick, setCurrentReadClick] = useState({
+  //   previewArticle: null,
+  //   id: null,
+  // });
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
@@ -380,8 +380,9 @@ const Resources = () => {
                               section={section}
                               idx={section.id}
                               key={idx}
-                              currentReadClick={currentReadClick}
-                              setCurrentReadClick={setCurrentReadClick}
+                              favTab={false}
+                              // currentReadClick={currentReadClick}
+                              // setCurrentReadClick={setCurrentReadClick}
                             />
                           </React.Fragment>
                         )

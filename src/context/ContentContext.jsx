@@ -46,9 +46,9 @@ export const ContentProvider = ({ children }) => {
 
       const uniqueWords = Object.keys(freqMap);
       uniqueWords.sort((a, b) => {
-        const freqDiff = freqMap[b] - freqMap[a]; 
+        const freqDiff = freqMap[b] - freqMap[a];
         if (freqDiff !== 0) return freqDiff;
-        return a.localeCompare(b); 
+        return a.localeCompare(b);
       });
 
       setFilterTag(uniqueWords);

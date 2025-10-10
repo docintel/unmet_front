@@ -2008,3 +2008,55 @@ margin:0;
     width: 100%;
     text-align: center;
   }
+.iframe-custom-modal {
+  // max-width: 80vw !important; 
+  // width: 100%;
+  // margin: auto;
+  .custom-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: $primary-color;
+    padding: 12px 20px;
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: $green;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 30px;
+      padding: 7px 14px;
+      cursor: pointer;
+
+      img {
+        width: 14px;
+        height: 14px;
+      }
+
+      &:hover {
+        background-color: $dark-green;
+      }
+    }
+
+    .modal-logo {
+      img {
+        height: 32px;
+        object-fit: contain;
+      }
+    }
+  }
+
+  .custom-modal-body {
+    background: $primary-color;
+    padding: 20px;
+  }
+}

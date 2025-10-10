@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Content from "../Common/Content";
 
 const FaqAndLatestContent = ({ content, isFaq }) => {
-  const [currentReadClick, setCurrentReadClick] = useState({
-    previewArticle: null,
-    id: null,
-  });
+  // const [currentReadClick, setCurrentReadClick] = useState({
+  //   previewArticle: null,
+  //   id: null,
+  // });
 
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   return (
@@ -18,8 +18,9 @@ const FaqAndLatestContent = ({ content, isFaq }) => {
               section={section}
               key={idx}
               idx={section.id}
-              currentReadClick={currentReadClick}
-              setCurrentReadClick={setCurrentReadClick}
+              favTab={false}
+              // currentReadClick={currentReadClick}
+              // setCurrentReadClick={setCurrentReadClick}
             />
           </React.Fragment>
         ))
