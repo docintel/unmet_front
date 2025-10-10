@@ -453,7 +453,7 @@
   min-width: 60px;
   padding: 15px 50px 15px 56px;
   font-size: 14px;
-  font-family: $sofia-font;
+  font-family: $fontfamily;
   line-height: 20px;
   background: $white url(../images/dropdown-arrow-orange.svg) no-repeat 94% center;
   box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
@@ -575,7 +575,7 @@
        background: transparent;
        border: none;
        border-radius: 40px;
-       padding: 7px 16px;
+       padding: 0px 16px;
        font-size: 14px;
        color: $gray;
        cursor: pointer;
@@ -587,7 +587,7 @@
        }
 
        &:hover {
-         background: rgba(254, 244, 237, 0.05);;
+        //  background: rgba(254, 244, 237, 0.05);
          color: #ffffff;
          img {
            filter: brightness(0) invert(1); 
@@ -597,6 +597,8 @@
 
 
 
-        .form-group ::-webkit-scrollbar-track {
+  .form-group{
+    ::-webkit-scrollbar-track {
     background: rgba(148, 167, 191, 0.2);
 }
+  }

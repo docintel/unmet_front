@@ -270,6 +270,8 @@ const Resources = () => {
                       aria-label="Search"
                       placeholder="Search by tag or content title"
                       value={searchText}
+                      name="search"
+                      id="search"
                       onChange={(e) => setSearchText(e.target.value)}
                       onKeyUp={handleSearchTextKeyUp}
                     />
