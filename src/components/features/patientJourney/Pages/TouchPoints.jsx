@@ -25,7 +25,7 @@ const TouchPoints = () => {
     isHcp,
     categoryList,
     fetchAgeGroups,
-    getNarratives,
+    getNarratives, setToast
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -81,15 +81,17 @@ const TouchPoints = () => {
     filterFemaleContent();
   }, [isAllSelected]);
 
-  useEffect(() => {}, [isHcp]);
+  useEffect(() => { }, [isHcp]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (
       (contents && (activeKey || activeJourney)) ||
       (contents && searchText.trim() === "" && selectedTag.length === 0)
     ) {
       let tagArray = [];
-      contents.map((item) => {
+      contents.map((item) =>
+      {
         tagArray = [...tagArray, ...JSON.parse(item.tags)];
       });
 
@@ -99,7 +101,8 @@ const TouchPoints = () => {
       }
 
       const uniqueWords = Object.keys(freqMap);
-      uniqueWords.sort((a, b) => {
+      uniqueWords.sort((a, b) =>
+      {
         const freqDiff = freqMap[b] - freqMap[a];
         if (freqDiff !== 0) return freqDiff;
         return a.localeCompare(b);
@@ -108,7 +111,8 @@ const TouchPoints = () => {
     }
   }, [activeKey, activeJourney, contents]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrative.find(
@@ -123,8 +127,8 @@ const TouchPoints = () => {
       const activeNarrative = activeKey
         ? narrative.filter((narration) => narration.category_id == activeKey)
         : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney
-          );
+          (narration) => narration.age_group_id == activeJourney
+        );
 
       if (activeNarrative.length > 0)
         setActiveNarration(
@@ -137,11 +141,13 @@ const TouchPoints = () => {
     setSearchText("");
   }, [activeKey, activeJourney]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (searchText.length == 0) handleSearchClick();
   }, [searchText]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setContents(content);
     filterContents();
     if (content) {
@@ -150,10 +156,12 @@ const TouchPoints = () => {
     }
   }, [content]);
 
-  const filterFemaleContent = () => {
+  const filterFemaleContent = () =>
+  {
     if (isAllSelected) {
       const contentList = [];
-      content.forEach((element) => {
+      content.forEach((element) =>
+      {
         const ageArr = JSON.parse(element.age_groups);
         if (
           ageArr.includes("Age <6") ||
@@ -167,7 +175,8 @@ const TouchPoints = () => {
     } else setContents(content);
   };
 
-  const filterContents = () => {
+  const filterContents = () =>
+  {
     if (content) {
       const categoryNameFilter = filterCategory.find(
         (val) => val.id == activeKey
@@ -177,13 +186,14 @@ const TouchPoints = () => {
       const ageGroupFilter = filterAges.find((val) => val.id == activeJourney);
       const ageGroupName = ageGroupFilter
         ? ageGroupFilter.label
-            .replace("&lt;", "<")
-            .replace("&gt;", ">")
-            .split("<br />")[1]
+          .replace("&lt;", "<")
+          .replace("&gt;", ">")
+          .split("<br />")[1]
         : "";
 
       const filteredArray = [];
-      content.map((item) => {
+      content.map((item) =>
+      {
         if (
           item.age_groups.indexOf(ageGroupName) != -1 &&
           item.diagnosis.indexOf(categoryName) != -1 &&
@@ -195,22 +205,24 @@ const TouchPoints = () => {
       let newArr =
         selectedTag.length === 0
           ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length;
-            });
+          : filteredArray.filter((item) =>
+          {
+            const tagArray = JSON.parse(item.tags.toLowerCase());
+            let count = 0;
+            for (let i = 0; i < selectedTag.length; i++) {
+              count = tagArray.includes(selectedTag[i].toLowerCase())
+                ? count + 1
+                : count;
+            }
+            return count === selectedTag.length;
+          });
       setContents(newArr);
     }
   };
 
   const isTabDisabled = useCallback(
-    (cat_id, isCat) => {
+    (cat_id, isCat) =>
+    {
       if (!isAllSelected)
         return (
           [5, 6].includes(isCat ? cat_id : activeKey) &&
@@ -224,12 +236,15 @@ const TouchPoints = () => {
     [activeJourney, activeKey, narrative, isAllSelected]
   );
 
-  const getCategoryTags = (content) => {
+  const getCategoryTags = (content) =>
+  {
     if (categoryList) {
       const CategoryCount = { All: content.length };
-      categoryList.map((cat) => {
+      categoryList.map((cat) =>
+      {
         let count = 0;
-        content.map((cntnt) => {
+        content.map((cntnt) =>
+        {
           if (cntnt.category === cat) count++;
         });
         CategoryCount[cat] = count;
@@ -239,30 +254,41 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = (e) =>
+  {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else toast("Please enter at least three characters to search");
+    else setToast({
+      type: "info",
+      title: "Warning",
+      message: "Please enter at least three characters to search",
+      show: true
+    });
+
   };
 
-  const handleSearchTextKeyUp = (e) => {
+  const handleSearchTextKeyUp = (e) =>
+  {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
     }
   };
 
-  const handleTagClick = (tag) => {
+  const handleTagClick = (tag) =>
+  {
     setSelectedTag([...selectedTag, tag].sort());
     setTags([...tags].filter((tg) => tg !== tag).sort());
   };
 
-  const removeFilter = (tag) => {
+  const removeFilter = (tag) =>
+  {
     setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
     setTags([...tags, tag].sort());
   };
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber) =>
+  {
     setActivePage(pageNumber);
   };
 
@@ -284,16 +310,14 @@ const TouchPoints = () => {
                     />
                     <span>
                       <span
-                        className={`switch-btn ${
-                          !isAllSelected ? "active" : ""
-                        }`}
+                        className={`switch-btn ${!isAllSelected ? "active" : ""
+                          }`}
                       >
                         All
                       </span>
                       <span
-                        className={`switch-btn ${
-                          isAllSelected ? "active" : ""
-                        }`}
+                        className={`switch-btn ${isAllSelected ? "active" : ""
+                          }`}
                       >
                         Female
                       </span>
@@ -307,11 +331,11 @@ const TouchPoints = () => {
                       <React.Fragment key={lbl.id}>
                         <div
                           key={lbl.id}
-                          className={`journey-link ${
-                            activeJourney === lbl.id ? "active" : ""
-                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
+                          className={`journey-link ${activeJourney === lbl.id ? "active" : ""
+                            } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
                           // dangerouslySetInnerHTML={{ __html: label }}
-                          onClick={() => {
+                          onClick={() =>
+                          {
                             if (!isTabDisabled(lbl.id, false)) {
                               const agesList = lbl.label
                                 .replace("&lt;", "")
@@ -352,9 +376,8 @@ const TouchPoints = () => {
                         </div>
                         {lbl.id !== filterAges.length + 1 && (
                           <div
-                            className={`line ${
-                              isTabDisabled(lbl.id, false) ? "disabled" : ""
-                            }`}
+                            className={`line ${isTabDisabled(lbl.id, false) ? "disabled" : ""
+                              }`}
                           ></div>
                         )}
                       </React.Fragment>
@@ -365,13 +388,16 @@ const TouchPoints = () => {
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
                     {filterCategory &&
-                      filterCategory.map((cat) => {
+                      filterCategory.map((cat) =>
+                      {
                         let image = cat.image;
-                        const handleOnMauseLeave = () => {
+                        const handleOnMauseLeave = () =>
+                        {
                           image = image.replace("hover-", "");
                           setHoverImage({ id: cat.id, image: image });
                         };
-                        const handleOnMauseEnter = () => {
+                        const handleOnMauseEnter = () =>
+                        {
                           if (image.indexOf("hover-") === -1) {
                             image = "hover-" + image;
                             setHoverImage({ id: cat.id, image: image });
@@ -380,18 +406,18 @@ const TouchPoints = () => {
                         return (
                           <Button
                             key={cat.id}
-                            onClick={() => {
+                            onClick={() =>
+                            {
                               if (activeKey !== cat.id) setActiveKey(cat.id);
                               else setActiveKey(null);
                             }}
                             disabled={isTabDisabled(cat.id, true)}
-                            className={` ${
-                              isTabDisabled(cat.id, true)
-                                ? "disabled"
-                                : activeKey === cat.id
+                            className={` ${isTabDisabled(cat.id, true)
+                              ? "disabled"
+                              : activeKey === cat.id
                                 ? "active"
                                 : ""
-                            }`}
+                              }`}
                             onMouseLeave={handleOnMauseLeave}
                             onMouseEnter={handleOnMauseEnter}
                           >
@@ -438,9 +464,8 @@ const TouchPoints = () => {
                     ) : (
                       <div className="touchpoint-data">
                         <div
-                          className={`d-flex justify-content-between narrative-block ${
-                            expandNarrative ? "expanded" : "collapsed"
-                          }`}
+                          className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"
+                            }`}
                         >
                           <div className="content">
                             <p className="content-title">
@@ -476,8 +501,8 @@ const TouchPoints = () => {
                           >
                             Read {expandNarrative ? "Less" : "More"}{" "}
                             <img
-                                  src={path_image + "read-more-icon.svg"}
-                                  alt={`read${expandNarrative ? "Less" : "More"}`}
+                              src={path_image + "read-more-icon.svg"}
+                              alt={`read${expandNarrative ? "Less" : "More"}`}
                             />
                           </button>
                         </div>
@@ -598,12 +623,12 @@ const TouchPoints = () => {
                   <div className="content-count-box">
                     <div className="content-count">
                       {categoryTags &&
-                        Object.keys(categoryTags).map((cat, idx) => {
+                        Object.keys(categoryTags).map((cat, idx) =>
+                        {
                           return (
                             <div
-                              className={`filter ${
-                                contentCategory === cat ? "active" : ""
-                              }`}
+                              className={`filter ${contentCategory === cat ? "active" : ""
+                                }`}
                               style={{ cursor: "pointer", userSelect: "none" }}
                               key={idx}
                               onClick={() => setContentCategory(cat)}
@@ -639,8 +664,8 @@ const TouchPoints = () => {
                                   idx={section.id}
                                   key={idx}
                                   favTab={false}
-                                  // currentReadClick={currentReadClick}
-                                  // setCurrentReadClick={setCurrentReadClick}
+                                // currentReadClick={currentReadClick}
+                                // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
                             )
@@ -672,7 +697,7 @@ const TouchPoints = () => {
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
-                        <Pagination style={{ margin: "10px" }}>
+                        <Pagination className="custom-pagination">
                           <Pagination.First
                             onClick={() => handlePageChange(1)}
                             disabled={activePage === 1}

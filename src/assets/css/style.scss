@@ -548,8 +548,7 @@ h6 {
   .explore-journey {
     width: 100%;
     border-radius: 10px;
-    background: $white;
-    box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+    @include box-shadow;
     padding: 24px;
     min-height: 584px;
     @include flex-middle;
@@ -575,8 +574,7 @@ h6 {
 
   .explore-box {
     border-radius: 10px;
-    background: $white;
-    box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
+    @include box-shadow;  
     padding: 24px;
     min-height: 200px;
     @include vertical-list;
@@ -584,7 +582,7 @@ h6 {
     cursor: pointer;
 
     h6 {
-      color: $text-color;
+      color: $gray;
       text-align: center;
       font-size: 20px;
       font-weight: 700;
@@ -593,7 +591,7 @@ h6 {
     }
 
     p {
-      color: $primary-color;
+      color: $text-color;
       text-align: center;
       font-size: 14px;
       font-weight: 500;
@@ -1883,6 +1881,7 @@ h6 {
     background: $secondary-color;
     width: 100%;
     padding: 16px;
+    @include box-shadow;
   }
 
   .profile {
@@ -1904,6 +1903,7 @@ h6 {
         font-size: 20px;
         font-weight: 700;
         margin: 0 0 7px;
+        color: $white;
       }
 
       p {
@@ -1981,9 +1981,7 @@ h6 {
       background: $primary-color;
       width: 100%;
       padding: 16px;
-      background: #183B4D;
-      fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.5));
+      @include box-shadow;
 
       .detail-data-box {
         margin: 0 0 30px;
@@ -2200,7 +2198,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .custom-pagination {
   display: flex;
   justify-content: center;
-  margin: 40px 0 0 0;
+  margin: 10px 0 0 0;
 
   .page-item {
     margin: 0 4px;
@@ -2232,6 +2230,122 @@ input[type="search"]::-webkit-search-results-decoration {
       color: #aaa;
       pointer-events: none;
       background-color: transparent;
+    }
+  }
+}
+
+// --------toast style css-------
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.alert-toast {
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 8px 8px 12px;
+  border-radius: 8px 12px 12px 8px;
+  border-left: 4px solid;
+  background: #183B4D;
+  fill: rgba(253, 254, 255, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+  width: 428px;
+  opacity: 0;
+  transform: translateX(120%);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+
+  &.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &.hide {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  .toastIcon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .toastContent {
+    flex: 1;
+    gap:10px;
+  }
+
+  .toastTitle {
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .toastMessage {
+    font-size: 14px;
+    margin: 0;
+    color: $gray;
+    font-weight: 400;
+  }
+
+  // Variants
+  &.info {
+    border-left-color: #4CC6CF;
+
+    .toastIcon {
+      color: #4CC6CF;
+    }
+
+    .toastTitle {
+      color: #4CC6CF;
+      font-weight: 500;
+    }
+  }
+
+  &.warning {
+    border-left-color: #F79548;;
+
+    .toastIcon {
+      color: #F79548;;
+    }
+
+    .toastTitle {
+      color: #F79548;
+    }
+  }
+
+  &.danger {
+    border-left-color: #E94262;
+
+    .toastIcon {
+      color: #E94262;
+    }
+
+    .toastTitle {
+      color: #E94262;
+    }
+  }
+
+  &.success {
+    border-left-color: #155724;
+
+    .toastIcon {
+      color: #155724;
+    }
+
+    .toastTitle {
+      color: #155724;
     }
   }
 }

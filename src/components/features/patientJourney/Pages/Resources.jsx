@@ -439,7 +439,7 @@ const Resources = () => {
                 </div>{" "}
                 <div>
                   {totalPages && totalPages > 1 ? (
-                    <Pagination style={{ margin: "10px" }}>
+                    <Pagination className="custom-pagination">
                       <Pagination.First
                         onClick={() => handlePageChange(1)}
                         disabled={activePage === 1}

@@ -2,14 +2,16 @@ import { Outlet } from "react-router-dom";
 import Header from "../Common/Header";
 import { ContentProvider } from "../../../../context/ContentContext";
 import { ToastContainer } from "react-toastify";
-const Layout = () => {
+import Toast from "../Common/Toast";
+const Layout = () =>
+{
   return (
     <>
       {" "}
       <ContentProvider>
         <Header />
         <main>
-          {" "}
+          {" "}<Toast />
           <ToastContainer closeOnClick pauseOnHover />
           <Outlet />
         </main>{" "}
