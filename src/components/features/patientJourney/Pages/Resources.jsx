@@ -337,7 +337,7 @@ const Resources = () => {
                   )}
                 </div>
               </div>
-              <div className="tags d-flex">
+              {/* <div className="tags d-flex">
                 <div className="tag-title">Ages:</div>
                 <div className="tag-list d-flex">
                   {ageGroup &&
@@ -365,7 +365,7 @@ const Resources = () => {
                       </div>
                     ))}
                 </div>
-              </div>
+              </div> */}
               <div className="content-count-box">
                 <div className="content-count">
                   {categoryTags &&
