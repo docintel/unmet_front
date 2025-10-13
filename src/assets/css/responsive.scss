@@ -17,6 +17,20 @@
             }
         }
     }
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links{
+        gap:5px;
+     
+    }
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button{
+        font-size: 12px;
+    }
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img{
+        width: 16px;
+        height: 16px;
+    }
+    .content-count-box .content-count{
+        gap:25px;
+    }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -54,6 +68,24 @@
             }
         }
     }
+     .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links{
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+      .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button{
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img{
+        width: 14px;
+        height: 14px;
+    }
+    .content-count-box .content-count{
+        gap:20px;
+    }
+    .content-count-box .content-count .filter{
+        font-size: 12px;
+    }
 }
 
 @media (max-width: $layout-breakpoint-medium) {
@@ -70,6 +102,13 @@
     h6 {
         font-size: 18px;
     }
+    .touchpoints-section .journey-link-list .journey-link div {
+        font-size: 12px;
+    }
+    .touchpoints-section .journey-link-list .journey-link .user-category {
+    min-width: 110px;
+    padding: 10px 6px 12px;
+}
 }
 
 @media (max-width: $layout-breakpoint-small) {

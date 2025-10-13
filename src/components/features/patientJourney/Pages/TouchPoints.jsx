@@ -346,13 +346,13 @@ const TouchPoints = () => {
   const handleSearchClick = (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else
-      setToast({
-        type: "info",
-        title: "Warning",
-        message: "Please enter at least three characters to search",
-        show: true,
-      });
+    else setToast({
+      type: "danger",
+      title: "Error",
+      message: "Please enter at least three characters to search",
+      show: true
+    });
+
   };
 
   const handleSearchTextKeyUp = (e) => {
