@@ -3,11 +3,12 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import {
-  SubmitShareContent,
-  TrackDownloads,
-  updateContentRating,
-} from "../../../../services/touchPointServices";
+import
+  {
+    SubmitShareContent,
+    TrackDownloads,
+    updateContentRating,
+  } from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
 import { toast } from "react-toastify";
 import JSZip from "jszip";
@@ -50,7 +51,7 @@ const Content = ({
       if (section.self_rate !== 1) {
         setToast({
           show: true,
-          type: "success",
+          type: "info",
           title: "Success",
           message: "Rating saved successfully",
         });
@@ -76,10 +77,12 @@ const Content = ({
   //   }
   // }, [currentReadClick, section.id]);
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags = JSON.parse(section.age_groups);
     return tags
-      .map((tag) => {
+      .map((tag) =>
+      {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -103,7 +106,8 @@ const Content = ({
       );
   };
 
-  const handleReadClick = (e, link, id) => {
+  const handleReadClick = (e, link, id) =>
+  {
     e.preventDefault();
     // If clicking same article, toggle off
     if (currentReadClick.id === id) {
@@ -113,21 +117,25 @@ const Content = ({
     }
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = () =>
+  {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async () =>
+  {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) => {
+    const getContentSize = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) => {
+    const downloadFileChuck = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -212,9 +220,8 @@ const Content = ({
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -223,9 +230,8 @@ const Content = ({
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -247,14 +253,16 @@ const Content = ({
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () =>
+  {
     setShowModal(false);
     setEmail("");
     setName("");
     setMessage("");
   };
 
-  const handleSubmitClick = async (e) => {
+  const handleSubmitClick = async (e) =>
+  {
     e.preventDefault();
     try {
       if (!email) {
@@ -427,7 +435,8 @@ const Content = ({
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
-          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+          {JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
+          {
             const imageName = filterCategory.filter(
               (item) => item.name === dgns
             )[0];
@@ -459,7 +468,7 @@ const Content = ({
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
