@@ -12,6 +12,8 @@ $gradient-orange:#F79548;
 $gradient-pink:#E94262;
 $border-color:#5E7683;
 $white100: rgba(253, 254, 255, 0.08);
+$dark-blue: #183B4D;
+$black: #000000;
 
 
 :root{
@@ -29,6 +31,9 @@ $white100: rgba(253, 254, 255, 0.08);
 --gray300:#{$border-color};
 --font-family:#{$fontfamily};
 --white100:#{$white100};
+--dark-blue: #{$dark-blue};
+--black: #{$black};
+
 }
 
 
