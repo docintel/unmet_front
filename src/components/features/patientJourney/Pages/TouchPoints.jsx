@@ -12,7 +12,7 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const contentPerPage = 5;
+  const contentPerPage = 6;
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -81,10 +81,7 @@ const TouchPoints = () => {
     filterFemaleContent();
   }, [isAllSelected]);
 
-  useEffect(() => { }, [isHcp]);
-
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (
       (contents && (activeKey || activeJourney)) ||
       (contents && searchText.trim() === "" && selectedTag.length === 0)

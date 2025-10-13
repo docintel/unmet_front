@@ -8,7 +8,7 @@ import { iconMapping } from "../../../../constants/iconMapping";
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const contentPerPage = 5;
+  const contentPerPage = 6;
   const {
     content,
     fetchAgeGroups,

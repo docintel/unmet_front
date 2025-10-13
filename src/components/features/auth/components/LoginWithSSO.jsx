@@ -6,6 +6,7 @@ import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { clearLocalStorage } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
+
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { login, logout, isAuthenticated } = useAuth();
@@ -171,14 +172,15 @@ const LoginWithSSO = () => {
 
                       <Button
                         variant="primary"
-                        onClick={() =>
+                        onClick={() => {
+                          document.cookie = `isHcp=${isHcp}; 1; path=/`;
                           handleSso(
                             login,
                             isUserVerified,
                             setLoader,
                             cookiesEnabled
-                          )
-                        }
+                          );
+                        }}
                         className="rounded-lg transition"
                       >
                         Login <img src={path_image + "login-icon.svg"} alt="" />
