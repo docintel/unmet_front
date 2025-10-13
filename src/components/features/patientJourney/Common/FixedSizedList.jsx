@@ -5,25 +5,29 @@ const FixedSizeList = ({
   itemSize,
   renderItem,
   overscanCount = 5,
-}) => {
+}) =>
+{
   const containerRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(0);
   const [scrollOffset, setScrollOffset] = useState(0);
 
   const totalHeight = itemCount * itemSize;
 
-  const handleScroll = () => {
+  const handleScroll = () =>
+  {
     if (containerRef.current) {
       setScrollOffset(containerRef.current.scrollTop);
     }
   };
 
   // ResizeObserver to get dynamic height
-  useEffect(() => {
+  useEffect(() =>
+  {
     const container = containerRef.current;
     if (!container) return;
 
-    const resizeObserver = new ResizeObserver(([entry]) => {
+    const resizeObserver = new ResizeObserver(([entry]) =>
+    {
       setContainerHeight(entry.contentRect.height);
     });
 
@@ -32,7 +36,8 @@ const FixedSizeList = ({
     return () => resizeObserver.disconnect();
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     const container = containerRef.current;
     if (!container) return;
 
@@ -53,7 +58,7 @@ const FixedSizeList = ({
   }
 
   return (
-    <div
+    <div className="touchpoint-data-boxes"
       ref={containerRef}
       style={{
         height: "100%",

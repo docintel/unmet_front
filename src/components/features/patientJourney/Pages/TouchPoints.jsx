@@ -14,7 +14,8 @@ import FixedSizeList from "../Common/FixedSizedList";
 
 const Content = lazy(() => import("../Common/Content"));
 
-const TouchPoints = () => {
+const TouchPoints = () =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [isAllSelected, setIsAllSelected] = useState(false);
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
@@ -52,20 +53,22 @@ const TouchPoints = () => {
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterContents();
   }, [selectedTag]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (contents) {
       const newArr =
         contentCategory === "All"
           ? contents.filter((item) => item.category.toLowerCase() !== "faq")
           : contents.filter(
-              (item) =>
-                contentCategory.includes(item.category) &&
-                item.category.toLowerCase() !== "faq"
-            );
+            (item) =>
+              contentCategory.includes(item.category) &&
+              item.category.toLowerCase() !== "faq"
+          );
       setFilteredContents(newArr);
       setTotalPages(Math.ceil(newArr.length / contentPerPage));
       setActivePage(1);
@@ -73,18 +76,23 @@ const TouchPoints = () => {
     }
   }, [contents]);
 
-  useEffect(() => {
-    (async () => {
+  useEffect(() =>
+  {
+    (async () =>
+    {
       await fetchAgeGroups();
     })();
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterContents();
   }, [contentCategory]);
 
-  useEffect(() => {
-    (async () => {
+  useEffect(() =>
+  {
+    (async () =>
+    {
       await getNarratives(isAllSelected ? 2 : 1);
       setActiveKey(null);
       setActiveJourney(null);
@@ -94,13 +102,15 @@ const TouchPoints = () => {
     filterContents();
   }, [isAllSelected]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (
       (contents && (activeKey || activeJourney)) ||
       (contents && searchText.trim() === "" && selectedTag.length === 0)
     ) {
       let tagArray = [];
-      contents.map((item) => {
+      contents.map((item) =>
+      {
         tagArray = [...tagArray, ...JSON.parse(item.tags)];
       });
 
@@ -110,7 +120,8 @@ const TouchPoints = () => {
       }
 
       const uniqueWords = Object.keys(freqMap);
-      uniqueWords.sort((a, b) => {
+      uniqueWords.sort((a, b) =>
+      {
         const freqDiff = freqMap[b] - freqMap[a];
         if (freqDiff !== 0) return freqDiff;
         return a.localeCompare(b);
@@ -119,7 +130,8 @@ const TouchPoints = () => {
     }
   }, [activeKey, activeJourney, contents]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterContents();
     if (activeKey && activeJourney) {
       const activeNarrative = narrative.find(
@@ -134,8 +146,8 @@ const TouchPoints = () => {
       const activeNarrative = activeKey
         ? narrative.filter((narration) => narration.category_id == activeKey)
         : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney
-          );
+          (narration) => narration.age_group_id == activeJourney
+        );
 
       if (activeNarrative.length > 0)
         setActiveNarration(
@@ -148,11 +160,13 @@ const TouchPoints = () => {
     setSearchText("");
   }, [activeKey, activeJourney]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (searchText.length == 0) handleSearchClick();
   }, [searchText]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     setContents(content);
     filterContents();
     if (content) {
@@ -161,11 +175,13 @@ const TouchPoints = () => {
     }
   }, [content]);
 
-  const filterContents = () => {
+  const filterContents = () =>
+  {
     if (content) {
       if (isAllSelected) {
         const contentList = [];
-        content.forEach((element) => {
+        content.forEach((element) =>
+        {
           const ageArr = JSON.parse(element.age_groups);
           if (
             ageArr.includes("Age <6") ||
@@ -222,13 +238,14 @@ const TouchPoints = () => {
         );
         const ageGroupName = ageGroupFilter
           ? ageGroupFilter.label
-              .replace("&lt;", "<")
-              .replace("&gt;", ">")
-              .split("<br />")[1]
+            .replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .split("<br />")[1]
           : "";
 
         const filteredArray = [];
-        content.map((item) => {
+        content.map((item) =>
+        {
           if (
             item.age_groups.indexOf(ageGroupName) != -1 &&
             item.diagnosis.indexOf(categoryName) != -1 &&
@@ -240,23 +257,25 @@ const TouchPoints = () => {
         let newArr =
           selectedTag.length === 0
             ? filteredArray
-            : filteredArray.filter((item) => {
-                const tagArray = JSON.parse(item.tags.toLowerCase());
-                let count = 0;
-                for (let i = 0; i < selectedTag.length; i++) {
-                  count = tagArray.includes(selectedTag[i].toLowerCase())
-                    ? count + 1
-                    : count;
-                }
-                return count === selectedTag.length;
-              });
+            : filteredArray.filter((item) =>
+            {
+              const tagArray = JSON.parse(item.tags.toLowerCase());
+              let count = 0;
+              for (let i = 0; i < selectedTag.length; i++) {
+                count = tagArray.includes(selectedTag[i].toLowerCase())
+                  ? count + 1
+                  : count;
+              }
+              return count === selectedTag.length;
+            });
         setContents(newArr);
       }
     }
   };
 
   const isTabDisabled = useCallback(
-    (cat_id, isCat) => {
+    (cat_id, isCat) =>
+    {
       if (!isAllSelected)
         return (
           [5, 6].includes(isCat ? cat_id : activeKey) &&
@@ -270,12 +289,15 @@ const TouchPoints = () => {
     [activeJourney, activeKey, narrative, isAllSelected]
   );
 
-  const getCategoryTags = (content) => {
+  const getCategoryTags = (content) =>
+  {
     if (categoryList) {
       const CategoryCount = { All: content.length };
-      categoryList.map((cat) => {
+      categoryList.map((cat) =>
+      {
         let count = 0;
-        content.map((cntnt) => {
+        content.map((cntnt) =>
+        {
           if (cntnt.category === cat) count++;
         });
         CategoryCount[cat] = count;
@@ -285,7 +307,8 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = (e) =>
+  {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
@@ -297,24 +320,28 @@ const TouchPoints = () => {
       });
   };
 
-  const handleSearchTextKeyUp = (e) => {
+  const handleSearchTextKeyUp = (e) =>
+  {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
     }
   };
 
-  const handleTagClick = (tag) => {
+  const handleTagClick = (tag) =>
+  {
     setSelectedTag([...selectedTag, tag].sort());
     setTags([...tags].filter((tg) => tg !== tag).sort());
   };
 
-  const removeFilter = (tag) => {
+  const removeFilter = (tag) =>
+  {
     setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
     setTags([...tags, tag].sort());
   };
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber) =>
+  {
     setActivePage(pageNumber);
   };
 
@@ -341,16 +368,14 @@ const TouchPoints = () => {
                     />
                     <span>
                       <span
-                        className={`switch-btn ${
-                          !isAllSelected ? "active" : ""
-                        }`}
+                        className={`switch-btn ${!isAllSelected ? "active" : ""
+                          }`}
                       >
                         All
                       </span>
                       <span
-                        className={`switch-btn ${
-                          isAllSelected ? "active" : ""
-                        }`}
+                        className={`switch-btn ${isAllSelected ? "active" : ""
+                          }`}
                       >
                         Female
                       </span>
@@ -364,10 +389,10 @@ const TouchPoints = () => {
                       <React.Fragment key={lbl.id}>
                         <div
                           key={lbl.id}
-                          className={`journey-link ${
-                            activeJourney === lbl.id ? "active" : ""
-                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
-                          onClick={() => {
+                          className={`journey-link ${activeJourney === lbl.id ? "active" : ""
+                            } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
+                          onClick={() =>
+                          {
                             if (!isTabDisabled(lbl.id, false)) {
                               const agesList = lbl.label
                                 .replace("&lt;", "")
@@ -408,9 +433,8 @@ const TouchPoints = () => {
                         </div>
                         {lbl.id !== filterAges.length + 1 && (
                           <div
-                            className={`line ${
-                              isTabDisabled(lbl.id, false) ? "disabled" : ""
-                            }`}
+                            className={`line ${isTabDisabled(lbl.id, false) ? "disabled" : ""
+                              }`}
                           ></div>
                         )}
                       </React.Fragment>
@@ -421,13 +445,16 @@ const TouchPoints = () => {
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
                     {filterCategory &&
-                      filterCategory.map((cat) => {
+                      filterCategory.map((cat) =>
+                      {
                         let image = cat.image;
-                        const handleOnMauseLeave = () => {
+                        const handleOnMauseLeave = () =>
+                        {
                           image = image.replace("hover-", "");
                           setHoverImage({ id: cat.id, image: image });
                         };
-                        const handleOnMauseEnter = () => {
+                        const handleOnMauseEnter = () =>
+                        {
                           if (image.indexOf("hover-") === -1) {
                             image = "hover-" + image;
                             setHoverImage({ id: cat.id, image: image });
@@ -436,18 +463,18 @@ const TouchPoints = () => {
                         return (
                           <Button
                             key={cat.id}
-                            onClick={() => {
+                            onClick={() =>
+                            {
                               if (activeKey !== cat.id) setActiveKey(cat.id);
                               else setActiveKey(null);
                             }}
                             disabled={isTabDisabled(cat.id, true)}
-                            className={` ${
-                              isTabDisabled(cat.id, true)
+                            className={` ${isTabDisabled(cat.id, true)
                                 ? "disabled"
                                 : activeKey === cat.id
-                                ? "active"
-                                : ""
-                            }`}
+                                  ? "active"
+                                  : ""
+                              }`}
                             onMouseLeave={handleOnMauseLeave}
                             onMouseEnter={handleOnMauseEnter}
                           >
@@ -494,9 +521,8 @@ const TouchPoints = () => {
                     ) : (
                       <div className="touchpoint-data">
                         <div
-                          className={`d-flex justify-content-between narrative-block ${
-                            expandNarrative ? "expanded" : "collapsed"
-                          }`}
+                          className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"
+                            }`}
                         >
                           <div className="content">
                             <p className="content-title">
@@ -663,12 +689,12 @@ const TouchPoints = () => {
                       {categoryTags &&
                         Object.keys(categoryTags)
                           .filter((cat) => cat.toLowerCase() !== "faq")
-                          .map((cat, idx) => {
+                          .map((cat, idx) =>
+                          {
                             return (
                               <div
-                                className={`filter ${
-                                  contentCategory === cat ? "active" : ""
-                                }`}
+                                className={`filter ${contentCategory === cat ? "active" : ""
+                                  }`}
                                 style={{
                                   cursor: "pointer",
                                   userSelect: "none",
@@ -693,12 +719,13 @@ const TouchPoints = () => {
                             );
                           })}
                     </div>
-                    <div className="touchpoint-data-boxes">
+                    <div>
                       {filteredContents && filteredContents.length > 0 ? (
                         <FixedSizeList
                           itemCount={filteredContents.length}
                           itemSize={3}
-                          renderItem={(index) => {
+                          renderItem={(index) =>
+                          {
                             const section = filteredContents[index];
 
                             if (!section) return null;
@@ -709,8 +736,8 @@ const TouchPoints = () => {
                                   idx={section.id}
                                   key={index}
                                   favTab={false}
-                                  // currentReadClick={currentReadClick}
-                                  // setCurrentReadClick={setCurrentReadClick}
+                                // currentReadClick={currentReadClick}
+                                // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
                             );
@@ -741,7 +768,7 @@ const TouchPoints = () => {
                         </div>
                       )}
 
-                      {}
+                      { }
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
