@@ -13,6 +13,7 @@ const Resources = () => {
   const contentPerPage = 6;
   const {
     content,
+    isHcp,
     fetchAgeGroups,
     filterAges,
     filterTag,
@@ -260,6 +261,7 @@ const Resources = () => {
                               : fltr.txt}{" "}
                             <button
                               className="cross-btn"
+                              type="button"
                               onClick={() =>
                                 removeFilters(fltr.txt, fltr.id, fltr.typ)
                               }
@@ -419,7 +421,7 @@ const Resources = () => {
                               section={section}
                               idx={section.id}
                               key={index}
-                              favTab={false}
+                              favTab={isHcp}
                               // currentReadClick={currentReadClick}
                               // setCurrentReadClick={setCurrentReadClick}
                             />
