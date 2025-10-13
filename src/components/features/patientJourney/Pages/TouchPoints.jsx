@@ -265,6 +265,10 @@ const TouchPoints = () => {
     setActivePage(pageNumber);
   };
 
+  // Assume you have a way to detect dark mode, e.g. via a context or a prop.
+  // For demonstration, let's use a simple hook:
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
   return (
     <>
       <div className="main-page">
@@ -309,7 +313,6 @@ const TouchPoints = () => {
                           className={`journey-link ${
                             activeJourney === lbl.id ? "active" : ""
                           } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
-                          // dangerouslySetInnerHTML={{ __html: label }}
                           onClick={() => {
                             if (!isTabDisabled(lbl.id, false)) {
                               const agesList = lbl.label
@@ -457,11 +460,11 @@ const TouchPoints = () => {
                               }}
                             ></div>
                           </div>
-                            </div>
-                            <div className={ expandNarrative ? "read-less-btn" :"read-more-btn"}>
-                              <button className="btn btn-link" onClick={() => setExapandNarrative(!expandNarrative)}>Read { expandNarrative ? "Less" : "More"} <img src={path_image + "read-more-icon.svg"} alt="" /></button>
-                             </div>
-                          </div>
+                        </div>
+                        <div className={ expandNarrative ? "read-less-btn" :"read-more-btn"}>
+                          <button className="btn btn-link" onClick={() => setExapandNarrative(!expandNarrative)}>Read { expandNarrative ? "Less" : "More"} <img src={path_image + "read-more-icon.svg"} alt="" /></button>
+                        </div>
+                      </div>
                     )
                   ) : null}
                   <div
@@ -486,7 +489,12 @@ const TouchPoints = () => {
                       />
                     </div>
                     <img
-                      src={path_image + "info-banner.png"}
+                      src={
+                        path_image +
+                        (isDarkMode
+                          ? "info-banner-dark.png"
+                          : "info-banner.png")
+                      }
                       alt="No Data"
                       style={{ userSelect: "none" }}
                     />

@@ -350,7 +350,7 @@ const Resources = () => {
                       return (
                         <div
                           className={`filter ${
-                            contentCategory === cat ? "all" : ""
+                            contentCategory === cat ? "active" : ""
                           }`}
                           style={{ cursor: "pointer", userSelect: "none" }}
                           key={idx}
