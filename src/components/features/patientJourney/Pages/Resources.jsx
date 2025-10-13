@@ -8,7 +8,7 @@ import { iconMapping } from "../../../../constants/iconMapping";
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const contentPerPage = 5;
+  const contentPerPage = 6;
   const {
     content,
     fetchAgeGroups,
@@ -33,6 +33,8 @@ const Resources = () => {
   const [activePage, setActivePage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
+  const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+
   useEffect(() => {
     if (filterAges)
       setAgeGroup(
@@ -61,7 +63,8 @@ const Resources = () => {
           ? contents
           : contents.filter((item) => contentCategory.includes(item.category));
       setFilteredContents(newArr);
-      setTotalPages(Math.ceil(contents.length / contentPerPage));
+      setActivePage(1);
+      setTotalPages(Math.ceil(newArr.length / contentPerPage));
       getCategoryTags(contents);
     }
   }, [contents]);
@@ -302,19 +305,39 @@ const Resources = () => {
                 <div className="tag-title">Tags:</div>
                 <div className="tag-list d-flex">
                   {tag &&
-                    tag.map((tags, idx) => (
-                      <div
-                        className="tag-item"
-                        key={idx}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => selectFilters(tags, 0, "tag")}
-                      >
-                        {tags}
-                      </div>
-                    ))}
+                    (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                      (tags, idx) => (
+                        <div
+                          className="tag-item"
+                          key={idx}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => selectFilters(tags, 0, "tag")}
+                        >
+                          {tags}
+                        </div>
+                      )
+                    )}{" "}
+                  {tag && tag.length > 10 && (
+                    <Button
+                      className={
+                        tagShowAllClicked ? "show-less-btn" : "show-more-btn"
+                      }
+                      // Add class "show-less-btn" show less tags
+                      onClick={() => setTagShowAllClicked(!tagShowAllClicked)}
+                    >
+                      <span>
+                        {tagShowAllClicked ? "Show less" : "Show more"}
+                      </span>
+                      <img
+                        src={`${path_image}right-arrow.svg`}
+                        alt="Show more"
+                        className="arrow-icon"
+                      />
+                    </Button>
+                  )}
                 </div>
               </div>
-              <div className="tags d-flex">
+              {/* <div className="tags d-flex">
                 <div className="tag-title">Ages:</div>
                 <div className="tag-list d-flex">
                   {ageGroup &&
@@ -342,7 +365,7 @@ const Resources = () => {
                       </div>
                     ))}
                 </div>
-              </div>
+              </div> */}
               <div className="content-count-box">
                 <div className="content-count">
                   {categoryTags &&
@@ -416,7 +439,7 @@ const Resources = () => {
                 </div>{" "}
                 <div>
                   {totalPages && totalPages > 1 ? (
-                    <Pagination style={{ margin: "10px" }}>
+                    <Pagination className="custom-pagination">
                       <Pagination.First
                         onClick={() => handlePageChange(1)}
                         disabled={activePage === 1}

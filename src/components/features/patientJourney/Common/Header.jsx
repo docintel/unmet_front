@@ -1,17 +1,20 @@
-import { useContext, useState  } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { clearLocalStorage } from "../../../../helper/helper";
 import { ContentContext } from "../../../../context/ContentContext";
+
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { isHcp, setIsHcp } = useContext(ContentContext);
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
+
   const toggleUserType = () => {
     setIsHcp((prev) => {
       const newValue = !prev;
+      document.cookie = `isHcp=${newValue}; 1; path=/`;
 
       // If switching to HCP and not already on touchpoints/resources → redirect to /touchpoints
       if (
@@ -139,9 +142,9 @@ const Header = () => {
                     }}
                   >
                     Log out
-                  <div className="user-avatar">
-                    <img src={path_image + "logout.svg"} alt="user" />
-                  </div>
+                    <div className="user-avatar">
+                      <img src={path_image + "logout.svg"} alt="user" />
+                    </div>
                   </Link>
                 </span>
               </div>

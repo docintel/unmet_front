@@ -14,7 +14,7 @@ const Faq = () => {
       return categoryLower === "faq";
     });
     setFaqContent(filteredData);
-  }, []);
+  }, [content]);
   return (
     <>
       {faqContent.length > 0 ? (
