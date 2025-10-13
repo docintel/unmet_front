@@ -378,7 +378,9 @@ const TouchPoints = () => {
 
   // Assume you have a way to detect dark mode, e.g. via a context or a prop.
   // For demonstration, let's use a simple hook:
-  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDarkMode =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   return (
     <>
@@ -621,9 +623,7 @@ const TouchPoints = () => {
                     <img
                       src={
                         path_image +
-                        (isDarkMode
-                          ? "info-banner-dark.png"
-                          : "info-banner.png")
+                        (isHcp ? "info-banner-dark.png" : "info-banner.png")
                       }
                       alt="No Data"
                       style={{ userSelect: "none" }}
