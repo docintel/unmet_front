@@ -131,12 +131,14 @@ const TouchPoints = () => {
         ? narrative.filter((narration) =>
             isAllSelected
               ? narration.category_id == activeKey &&
-                narration.category_id !== 3
+                narration.category_id !== 3 &&
+                ![2, 3].includes(narration.age_group_id)
               : narration.category_id == activeKey
           )
         : narrative.filter((narration) =>
             isAllSelected
               ? narration.age_group_id == activeJourney &&
+                narration.category_id !== 3 &&
                 ![2, 3].includes(narration.age_group_id)
               : narration.age_group_id == activeJourney
           );
@@ -714,32 +716,37 @@ const TouchPoints = () => {
                   <div className="content-count-box">
                     <div className="content-count">
                       {categoryTags &&
-                        Object.keys(categoryTags).map((cat, idx) => {
-                          return (
-                            <div
-                              className={`filter ${
-                                contentCategory === cat ? "active" : ""
-                              }`}
-                              style={{ cursor: "pointer", userSelect: "none" }}
-                              key={idx}
-                              onClick={() => setContentCategory(cat)}
-                            >
-                              <img
-                                src={
-                                  path_image +
-                                  "icons/" +
-                                  iconMapping.category[cat]
-                                }
-                                alt=""
-                              />
-                              {cat}
-                              <br />
-                              <div>
-                                <span>{categoryTags[cat]}</span>
+                        Object.keys(categoryTags)
+                          .filter((cat) => cat.toLowerCase() !== "faq")
+                          .map((cat, idx) => {
+                            return (
+                              <div
+                                className={`filter ${
+                                  contentCategory === cat ? "active" : ""
+                                }`}
+                                style={{
+                                  cursor: "pointer",
+                                  userSelect: "none",
+                                }}
+                                key={idx}
+                                onClick={() => setContentCategory(cat)}
+                              >
+                                <img
+                                  src={
+                                    path_image +
+                                    "icons/" +
+                                    iconMapping.category[cat]
+                                  }
+                                  alt=""
+                                />
+                                {cat}
+                                <br />
+                                <div>
+                                  <span>{categoryTags[cat]}</span>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                     </div>
                     <div className="touchpoint-data-boxes">
                       {" "}
