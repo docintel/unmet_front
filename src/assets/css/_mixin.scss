@@ -385,7 +385,7 @@
   margin: 0;
   position: relative;
   border-radius: 40px;
-  background: rgba(253, 254, 255, 0.08);
+  background: var(--white100);
   box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.5);
   max-width: 192px;
 
@@ -416,7 +416,7 @@
         &.active {
           color: $white;
           border-radius: 40px;
-          background: #4cc6cf;
+          background: $green;
         }
 
         font-size: 14px;

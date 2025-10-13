@@ -34,7 +34,23 @@ const Header = () => {
     clearLocalStorage();
     navigate("/");
   };
+  const [theme, setTheme] = useState(() => {
+    // Check if a theme is already set in localStorage, otherwise default to 'light'
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'light';
+  });
 
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+  };
+
+  // Ensure theme is set on initial render
+  useState(() => {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  });
   return (
     <header className="header sticky">
       <div className="custom-container">
@@ -103,6 +119,7 @@ const Header = () => {
                     checked={isHcp}
                     onChange={toggleUserType}
                     style={{ margin: 0 }}
+                    onClick={toggleTheme}
                   />
                   <span>
                     <span className={`switch-btn ${!isHcp ? "active" : ""}`}>

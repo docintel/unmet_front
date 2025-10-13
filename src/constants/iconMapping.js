@@ -19,5 +19,6 @@ export const iconMapping = {
     Form: "narrative_form.svg",
     "Slide Deck": "narrative_slide_deck.svg",
     Collection: "narrative_collection.svg",
+    Website: "narrative_website.svg",
   },
 };

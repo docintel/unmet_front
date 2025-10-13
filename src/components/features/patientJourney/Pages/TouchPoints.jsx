@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
-import { toast } from "react-toastify";
 import Pagination from "react-bootstrap/Pagination";
 import { iconMapping } from "../../../../constants/iconMapping";
 
@@ -25,7 +24,8 @@ const TouchPoints = () => {
     isHcp,
     categoryList,
     fetchAgeGroups,
-    getNarratives, setToast
+    getNarratives,
+    setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -51,8 +51,12 @@ const TouchPoints = () => {
     if (contents) {
       const newArr =
         contentCategory === "All"
-          ? contents
-          : contents.filter((item) => contentCategory.includes(item.category));
+          ? contents.filter((item) => item.category.toLowerCase() !== "faq")
+          : contents.filter(
+              (item) =>
+                contentCategory.includes(item.category) &&
+                item.category.toLowerCase() !== "faq"
+            );
       setFilteredContents(newArr);
       setTotalPages(Math.ceil(newArr.length / contentPerPage));
       setActivePage(1);
@@ -78,7 +82,8 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
-    filterFemaleContent();
+    // filterFemaleContent();
+    filterContents();
   }, [isAllSelected]);
 
   useEffect(() => {
@@ -87,8 +92,7 @@ const TouchPoints = () => {
       (contents && searchText.trim() === "" && selectedTag.length === 0)
     ) {
       let tagArray = [];
-      contents.map((item) =>
-      {
+      contents.map((item) => {
         tagArray = [...tagArray, ...JSON.parse(item.tags)];
       });
 
@@ -98,8 +102,7 @@ const TouchPoints = () => {
       }
 
       const uniqueWords = Object.keys(freqMap);
-      uniqueWords.sort((a, b) =>
-      {
+      uniqueWords.sort((a, b) => {
         const freqDiff = freqMap[b] - freqMap[a];
         if (freqDiff !== 0) return freqDiff;
         return a.localeCompare(b);
@@ -108,24 +111,37 @@ const TouchPoints = () => {
     }
   }, [activeKey, activeJourney, contents]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
-      const activeNarrative = narrative.find(
-        (narration) =>
-          narration.category_id == activeKey &&
-          narration.age_group_id == activeJourney
+      const activeNarrative = narrative.find((narration) =>
+        isAllSelected
+          ? narration.category_id == activeKey &&
+            narration.age_group_id == activeJourney &&
+            narration.category_id !== 3 &&
+            ![2, 3].includes(narration.age_group_id)
+          : narration.category_id == activeKey &&
+            narration.age_group_id == activeJourney
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey || activeJourney) {
       setIsInfoVisible(false);
       const activeNarrative = activeKey
-        ? narrative.filter((narration) => narration.category_id == activeKey)
-        : narrative.filter(
-          (narration) => narration.age_group_id == activeJourney
-        );
+        ? narrative.filter((narration) =>
+            isAllSelected
+              ? narration.category_id == activeKey &&
+                narration.category_id !== 3 &&
+                ![2, 3].includes(narration.age_group_id)
+              : narration.category_id == activeKey
+          )
+        : narrative.filter((narration) =>
+            isAllSelected
+              ? narration.age_group_id == activeJourney &&
+                narration.category_id !== 3 &&
+                ![2, 3].includes(narration.age_group_id)
+              : narration.age_group_id == activeJourney
+          );
 
       if (activeNarrative.length > 0)
         setActiveNarration(
@@ -138,88 +154,167 @@ const TouchPoints = () => {
     setSearchText("");
   }, [activeKey, activeJourney]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (searchText.length == 0) handleSearchClick();
   }, [searchText]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setContents(content);
     filterContents();
     if (content) {
       getCategoryTags(content);
-      filterFemaleContent();
+      // filterFemaleContent();
+      filterContents();
     }
   }, [content]);
 
-  const filterFemaleContent = () =>
-  {
-    if (isAllSelected) {
-      const contentList = [];
-      content.forEach((element) =>
-      {
-        const ageArr = JSON.parse(element.age_groups);
-        if (
-          ageArr.includes("Age <6") ||
-          ageArr.includes("Age 6-11") ||
-          JSON.parse(element.diagnosis).includes("On-demand")
-        )
-          return;
-        contentList.push(element);
-      });
-      setContents(contentList);
-    } else setContents(content);
-  };
+  // const filterFemaleContent = () => {
+  //   if (isAllSelected) {
+  //     const contentList = [];
+  //     content.forEach((element) => {
+  //       const ageArr = JSON.parse(element.age_groups);
+  //       if (
+  //         ageArr.includes("Age <6") ||
+  //         ageArr.includes("Age 6-11") ||
+  //         JSON.parse(element.diagnosis).includes("On-demand")
+  //       )
+  //         return;
+  //       for (let i = 0; i < selectedTag.length; i++) {
+  //         if (
+  //           !JSON.parse(element.tags.toLowerCase()).includes(
+  //             selectedTag[i].toLowerCase()
+  //           )
+  //         )
+  //           return;
+  //       }
 
-  const filterContents = () =>
-  {
+  //       if (
+  //         element.title
+  //           .toLowerCase()
+  //           .indexOf((searchText || "").toLowerCase()) == -1
+  //       )
+  //         return;
+
+  //       if (
+  //         categoryTags &&
+  //         contentCategory !== "All" &&
+  //         element.category !== contentCategory
+  //       )
+  //         return;
+
+  //       if (isHcp && element.hide_in_hcp === 1) return;
+
+  //       contentList.push(element);
+  //     });
+
+  //     setContents(contentList);
+  //   } else setContents(content);
+  // };
+
+  const filterContents = () => {
     if (content) {
-      const categoryNameFilter = filterCategory.find(
-        (val) => val.id == activeKey
-      );
-      const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+      if (isAllSelected) {
+        const contentList = [];
+        content.forEach((element) => {
+          const ageArr = JSON.parse(element.age_groups);
+          if (
+            ageArr.includes("Age <6") ||
+            ageArr.includes("Age 6-11") ||
+            JSON.parse(element.diagnosis).includes("On-demand")
+          )
+            return;
+          for (let i = 0; i < selectedTag.length; i++) {
+            if (
+              !JSON.parse(element.tags.toLowerCase()).includes(
+                selectedTag[i].toLowerCase()
+              )
+            )
+              return;
+          }
 
-      const ageGroupFilter = filterAges.find((val) => val.id == activeJourney);
-      const ageGroupName = ageGroupFilter
-        ? ageGroupFilter.label
-          .replace("&lt;", "<")
-          .replace("&gt;", ">")
-          .split("<br />")[1]
-        : "";
+          if (
+            element.title
+              .toLowerCase()
+              .indexOf((searchText || "").toLowerCase()) == -1
+          )
+            return;
 
-      const filteredArray = [];
-      content.map((item) =>
-      {
-        if (
-          item.age_groups.indexOf(ageGroupName) != -1 &&
-          item.diagnosis.indexOf(categoryName) != -1 &&
-          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-        )
-          filteredArray.push(item);
-      });
-
-      let newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) =>
-          {
-            const tagArray = JSON.parse(item.tags.toLowerCase());
-            let count = 0;
-            for (let i = 0; i < selectedTag.length; i++) {
-              count = tagArray.includes(selectedTag[i].toLowerCase())
-                ? count + 1
-                : count;
+          for (let i = 0; i < filterAges.length; i++) {
+            if (activeJourney && filterAges[i].id === activeJourney) {
+              const ageGroup = filterAges[i].label.split("<br />")[1];
+              if (!JSON.parse(element.age_groups).includes(ageGroup)) return;
             }
-            return count === selectedTag.length;
-          });
-      setContents(newArr);
+          }
+
+          for (let i = 0; i < filterCategory.length; i++) {
+            if (activeKey && filterCategory[i].id === activeKey) {
+              if (
+                !JSON.parse(element.diagnosis).includes(filterCategory[i].name)
+              )
+                return;
+            }
+          }
+
+          if (isHcp && element.hide_in_hcp === 1)
+            // if (
+            //   categoryTags &&
+            //   contentCategory !== "All" &&
+            //   element.category !== contentCategory
+            // )
+            //   return;
+
+            return;
+
+          contentList.push(element);
+        });
+
+        setContents(contentList);
+      } else {
+        const categoryNameFilter = filterCategory.find(
+          (val) => val.id == activeKey
+        );
+        const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+
+        const ageGroupFilter = filterAges.find(
+          (val) => val.id == activeJourney
+        );
+        const ageGroupName = ageGroupFilter
+          ? ageGroupFilter.label
+              .replace("&lt;", "<")
+              .replace("&gt;", ">")
+              .split("<br />")[1]
+          : "";
+
+        const filteredArray = [];
+        content.map((item) => {
+          if (
+            item.age_groups.indexOf(ageGroupName) != -1 &&
+            item.diagnosis.indexOf(categoryName) != -1 &&
+            item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+          )
+            filteredArray.push(item);
+        });
+
+        let newArr =
+          selectedTag.length === 0
+            ? filteredArray
+            : filteredArray.filter((item) => {
+                const tagArray = JSON.parse(item.tags.toLowerCase());
+                let count = 0;
+                for (let i = 0; i < selectedTag.length; i++) {
+                  count = tagArray.includes(selectedTag[i].toLowerCase())
+                    ? count + 1
+                    : count;
+                }
+                return count === selectedTag.length;
+              });
+        setContents(newArr);
+      }
     }
   };
 
   const isTabDisabled = useCallback(
-    (cat_id, isCat) =>
-    {
+    (cat_id, isCat) => {
       if (!isAllSelected)
         return (
           [5, 6].includes(isCat ? cat_id : activeKey) &&
@@ -233,15 +328,12 @@ const TouchPoints = () => {
     [activeJourney, activeKey, narrative, isAllSelected]
   );
 
-  const getCategoryTags = (content) =>
-  {
+  const getCategoryTags = (content) => {
     if (categoryList) {
       const CategoryCount = { All: content.length };
-      categoryList.map((cat) =>
-      {
+      categoryList.map((cat) => {
         let count = 0;
-        content.map((cntnt) =>
-        {
+        content.map((cntnt) => {
           if (cntnt.category === cat) count++;
         });
         CategoryCount[cat] = count;
@@ -251,8 +343,7 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) =>
-  {
+  const handleSearchClick = (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else setToast({
@@ -264,30 +355,30 @@ const TouchPoints = () => {
 
   };
 
-  const handleSearchTextKeyUp = (e) =>
-  {
+  const handleSearchTextKeyUp = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
     }
   };
 
-  const handleTagClick = (tag) =>
-  {
+  const handleTagClick = (tag) => {
     setSelectedTag([...selectedTag, tag].sort());
     setTags([...tags].filter((tg) => tg !== tag).sort());
   };
 
-  const removeFilter = (tag) =>
-  {
+  const removeFilter = (tag) => {
     setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
     setTags([...tags, tag].sort());
   };
 
-  const handlePageChange = (pageNumber) =>
-  {
+  const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
+
+  // Assume you have a way to detect dark mode, e.g. via a context or a prop.
+  // For demonstration, let's use a simple hook:
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   return (
     <>
@@ -307,14 +398,16 @@ const TouchPoints = () => {
                     />
                     <span>
                       <span
-                        className={`switch-btn ${!isAllSelected ? "active" : ""
-                          }`}
+                        className={`switch-btn ${
+                          !isAllSelected ? "active" : ""
+                        }`}
                       >
                         All
                       </span>
                       <span
-                        className={`switch-btn ${isAllSelected ? "active" : ""
-                          }`}
+                        className={`switch-btn ${
+                          isAllSelected ? "active" : ""
+                        }`}
                       >
                         Female
                       </span>
@@ -328,11 +421,10 @@ const TouchPoints = () => {
                       <React.Fragment key={lbl.id}>
                         <div
                           key={lbl.id}
-                          className={`journey-link ${activeJourney === lbl.id ? "active" : ""
-                            } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
-                          // dangerouslySetInnerHTML={{ __html: label }}
-                          onClick={() =>
-                          {
+                          className={`journey-link ${
+                            activeJourney === lbl.id ? "active" : ""
+                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
+                          onClick={() => {
                             if (!isTabDisabled(lbl.id, false)) {
                               const agesList = lbl.label
                                 .replace("&lt;", "")
@@ -373,8 +465,9 @@ const TouchPoints = () => {
                         </div>
                         {lbl.id !== filterAges.length + 1 && (
                           <div
-                            className={`line ${isTabDisabled(lbl.id, false) ? "disabled" : ""
-                              }`}
+                            className={`line ${
+                              isTabDisabled(lbl.id, false) ? "disabled" : ""
+                            }`}
                           ></div>
                         )}
                       </React.Fragment>
@@ -385,16 +478,13 @@ const TouchPoints = () => {
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
                     {filterCategory &&
-                      filterCategory.map((cat) =>
-                      {
+                      filterCategory.map((cat) => {
                         let image = cat.image;
-                        const handleOnMauseLeave = () =>
-                        {
+                        const handleOnMauseLeave = () => {
                           image = image.replace("hover-", "");
                           setHoverImage({ id: cat.id, image: image });
                         };
-                        const handleOnMauseEnter = () =>
-                        {
+                        const handleOnMauseEnter = () => {
                           if (image.indexOf("hover-") === -1) {
                             image = "hover-" + image;
                             setHoverImage({ id: cat.id, image: image });
@@ -403,18 +493,18 @@ const TouchPoints = () => {
                         return (
                           <Button
                             key={cat.id}
-                            onClick={() =>
-                            {
+                            onClick={() => {
                               if (activeKey !== cat.id) setActiveKey(cat.id);
                               else setActiveKey(null);
                             }}
                             disabled={isTabDisabled(cat.id, true)}
-                            className={` ${isTabDisabled(cat.id, true)
-                              ? "disabled"
-                              : activeKey === cat.id
+                            className={` ${
+                              isTabDisabled(cat.id, true)
+                                ? "disabled"
+                                : activeKey === cat.id
                                 ? "active"
                                 : ""
-                              }`}
+                            }`}
                             onMouseLeave={handleOnMauseLeave}
                             onMouseEnter={handleOnMauseEnter}
                           >
@@ -461,8 +551,9 @@ const TouchPoints = () => {
                     ) : (
                       <div className="touchpoint-data">
                         <div
-                          className={`d-flex justify-content-between narrative-block ${expandNarrative ? "expanded" : "collapsed"
-                            }`}
+                          className={`d-flex justify-content-between narrative-block ${
+                            expandNarrative ? "expanded" : "collapsed"
+                          }`}
                         >
                           <div className="content">
                             <p className="content-title">
@@ -528,7 +619,12 @@ const TouchPoints = () => {
                       />
                     </div>
                     <img
-                      src={path_image + "info-banner.png"}
+                      src={
+                        path_image +
+                        (isDarkMode
+                          ? "info-banner-dark.png"
+                          : "info-banner.png")
+                      }
                       alt="No Data"
                       style={{ userSelect: "none" }}
                     />
@@ -620,32 +716,37 @@ const TouchPoints = () => {
                   <div className="content-count-box">
                     <div className="content-count">
                       {categoryTags &&
-                        Object.keys(categoryTags).map((cat, idx) =>
-                        {
-                          return (
-                            <div
-                              className={`filter ${contentCategory === cat ? "active" : ""
+                        Object.keys(categoryTags)
+                          .filter((cat) => cat.toLowerCase() !== "faq")
+                          .map((cat, idx) => {
+                            return (
+                              <div
+                                className={`filter ${
+                                  contentCategory === cat ? "active" : ""
                                 }`}
-                              style={{ cursor: "pointer", userSelect: "none" }}
-                              key={idx}
-                              onClick={() => setContentCategory(cat)}
-                            >
-                              <img
-                                src={
-                                  path_image +
-                                  "icons/" +
-                                  iconMapping.category[cat]
-                                }
-                                alt=""
-                              />
-                              {cat}
-                              <br />
-                              <div>
-                                <span>{categoryTags[cat]}</span>
+                                style={{
+                                  cursor: "pointer",
+                                  userSelect: "none",
+                                }}
+                                key={idx}
+                                onClick={() => setContentCategory(cat)}
+                              >
+                                <img
+                                  src={
+                                    path_image +
+                                    "icons/" +
+                                    iconMapping.category[cat]
+                                  }
+                                  alt=""
+                                />
+                                {cat}
+                                <br />
+                                <div>
+                                  <span>{categoryTags[cat]}</span>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                     </div>
                     <div className="touchpoint-data-boxes">
                       {" "}
@@ -661,8 +762,8 @@ const TouchPoints = () => {
                                   idx={section.id}
                                   key={idx}
                                   favTab={false}
-                                // currentReadClick={currentReadClick}
-                                // setCurrentReadClick={setCurrentReadClick}
+                                  // currentReadClick={currentReadClick}
+                                  // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
                             )

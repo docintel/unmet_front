@@ -337,7 +337,7 @@ const Resources = () => {
                   )}
                 </div>
               </div>
-              <div className="tags d-flex">
+              {/* <div className="tags d-flex">
                 <div className="tag-title">Ages:</div>
                 <div className="tag-list d-flex">
                   {ageGroup &&
@@ -365,33 +365,37 @@ const Resources = () => {
                       </div>
                     ))}
                 </div>
-              </div>
+              </div> */}
               <div className="content-count-box">
                 <div className="content-count">
                   {categoryTags &&
-                    Object.keys(categoryTags).map((cat, idx) => {
-                      return (
-                        <div
-                          className={`filter ${
-                            contentCategory === cat ? "active" : ""
-                          }`}
-                          style={{ cursor: "pointer", userSelect: "none" }}
-                          key={idx}
-                          onClick={() => setContentCategory(cat)}
-                        >
-                          <img
-                            src={
-                              path_image + "icons/" + iconMapping.category[cat]
-                            }
-                            alt=""
-                          />
-                          {cat}
-                          <div>
-                            <span>{categoryTags[cat]}</span>
+                    Object.keys(categoryTags)
+                      .filter((cat) => cat.toLowerCase() !== "faq")
+                      .map((cat, idx) => {
+                        return (
+                          <div
+                            className={`filter ${
+                              contentCategory === cat ? "active" : ""
+                            }`}
+                            style={{ cursor: "pointer", userSelect: "none" }}
+                            key={idx}
+                            onClick={() => setContentCategory(cat)}
+                          >
+                            <img
+                              src={
+                                path_image +
+                                "icons/" +
+                                iconMapping.category[cat]
+                              }
+                              alt=""
+                            />
+                            {cat}
+                            <div>
+                              <span>{categoryTags[cat]}</span>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
                 </div>
                 <div className="touchpoint-data-boxes">
                   {" "}
