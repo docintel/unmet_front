@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
-import { toast } from "react-toastify";
 import Pagination from "react-bootstrap/Pagination";
 import { iconMapping } from "../../../../constants/iconMapping";
 
@@ -26,6 +25,7 @@ const TouchPoints = () => {
     categoryList,
     fetchAgeGroups,
     getNarratives,
+    setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -344,7 +344,13 @@ const TouchPoints = () => {
   const handleSearchClick = (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else toast("Please enter at least three characters to search");
+    else
+      setToast({
+        type: "info",
+        title: "Warning",
+        message: "Please enter at least three characters to search",
+        show: true,
+      });
   };
 
   const handleSearchTextKeyUp = (e) => {
@@ -774,7 +780,7 @@ const TouchPoints = () => {
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
-                        <Pagination style={{ margin: "10px" }}>
+                        <Pagination className="custom-pagination">
                           <Pagination.First
                             onClick={() => handlePageChange(1)}
                             disabled={activePage === 1}

@@ -598,3 +598,9 @@
     background: rgba(148, 167, 191, 0.2);
 }
   }
+  @mixin box-shadow{
+    background: #183B4D;
+    fill: rgba(255, 255, 255, 0.02);
+    filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.5)); 
+  }
+ 
