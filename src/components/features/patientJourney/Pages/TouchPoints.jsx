@@ -51,8 +51,12 @@ const TouchPoints = () => {
     if (contents) {
       const newArr =
         contentCategory === "All"
-          ? contents
-          : contents.filter((item) => contentCategory.includes(item.category));
+          ? contents.filter((item) => item.category.toLowerCase() !== "faq")
+          : contents.filter(
+              (item) =>
+                contentCategory.includes(item.category) &&
+                item.category.toLowerCase() !== "faq"
+            );
       setFilteredContents(newArr);
       setTotalPages(Math.ceil(newArr.length / contentPerPage));
       setActivePage(1);
@@ -78,7 +82,8 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
-    filterFemaleContent();
+    // filterFemaleContent();
+    filterContents();
   }, [isAllSelected]);
 
   useEffect(() => {
@@ -109,19 +114,31 @@ const TouchPoints = () => {
   useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
-      const activeNarrative = narrative.find(
-        (narration) =>
-          narration.category_id == activeKey &&
-          narration.age_group_id == activeJourney
+      const activeNarrative = narrative.find((narration) =>
+        isAllSelected
+          ? narration.category_id == activeKey &&
+            narration.age_group_id == activeJourney &&
+            narration.category_id !== 3 &&
+            ![2, 3].includes(narration.age_group_id)
+          : narration.category_id == activeKey &&
+            narration.age_group_id == activeJourney
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey || activeJourney) {
       setIsInfoVisible(false);
       const activeNarrative = activeKey
-        ? narrative.filter((narration) => narration.category_id == activeKey)
-        : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney
+        ? narrative.filter((narration) =>
+            isAllSelected
+              ? narration.category_id == activeKey &&
+                narration.category_id !== 3
+              : narration.category_id == activeKey
+          )
+        : narrative.filter((narration) =>
+            isAllSelected
+              ? narration.age_group_id == activeJourney &&
+                ![2, 3].includes(narration.age_group_id)
+              : narration.age_group_id == activeJourney
           );
 
       if (activeNarrative.length > 0)
@@ -144,66 +161,153 @@ const TouchPoints = () => {
     filterContents();
     if (content) {
       getCategoryTags(content);
-      filterFemaleContent();
+      // filterFemaleContent();
+      filterContents();
     }
   }, [content]);
 
-  const filterFemaleContent = () => {
-    if (isAllSelected) {
-      const contentList = [];
-      content.forEach((element) => {
-        const ageArr = JSON.parse(element.age_groups);
-        if (
-          ageArr.includes("Age <6") ||
-          ageArr.includes("Age 6-11") ||
-          JSON.parse(element.diagnosis).includes("On-demand")
-        )
-          return;
-        contentList.push(element);
-      });
-      setContents(contentList);
-    } else setContents(content);
-  };
+  // const filterFemaleContent = () => {
+  //   if (isAllSelected) {
+  //     const contentList = [];
+  //     content.forEach((element) => {
+  //       const ageArr = JSON.parse(element.age_groups);
+  //       if (
+  //         ageArr.includes("Age <6") ||
+  //         ageArr.includes("Age 6-11") ||
+  //         JSON.parse(element.diagnosis).includes("On-demand")
+  //       )
+  //         return;
+  //       for (let i = 0; i < selectedTag.length; i++) {
+  //         if (
+  //           !JSON.parse(element.tags.toLowerCase()).includes(
+  //             selectedTag[i].toLowerCase()
+  //           )
+  //         )
+  //           return;
+  //       }
+
+  //       if (
+  //         element.title
+  //           .toLowerCase()
+  //           .indexOf((searchText || "").toLowerCase()) == -1
+  //       )
+  //         return;
+
+  //       if (
+  //         categoryTags &&
+  //         contentCategory !== "All" &&
+  //         element.category !== contentCategory
+  //       )
+  //         return;
+
+  //       if (isHcp && element.hide_in_hcp === 1) return;
+
+  //       contentList.push(element);
+  //     });
+
+  //     setContents(contentList);
+  //   } else setContents(content);
+  // };
 
   const filterContents = () => {
     if (content) {
-      const categoryNameFilter = filterCategory.find(
-        (val) => val.id == activeKey
-      );
-      const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+      if (isAllSelected) {
+        const contentList = [];
+        content.forEach((element) => {
+          const ageArr = JSON.parse(element.age_groups);
+          if (
+            ageArr.includes("Age <6") ||
+            ageArr.includes("Age 6-11") ||
+            JSON.parse(element.diagnosis).includes("On-demand")
+          )
+            return;
+          for (let i = 0; i < selectedTag.length; i++) {
+            if (
+              !JSON.parse(element.tags.toLowerCase()).includes(
+                selectedTag[i].toLowerCase()
+              )
+            )
+              return;
+          }
 
-      const ageGroupFilter = filterAges.find((val) => val.id == activeJourney);
-      const ageGroupName = ageGroupFilter
-        ? ageGroupFilter.label
-            .replace("&lt;", "<")
-            .replace("&gt;", ">")
-            .split("<br />")[1]
-        : "";
+          if (
+            element.title
+              .toLowerCase()
+              .indexOf((searchText || "").toLowerCase()) == -1
+          )
+            return;
 
-      const filteredArray = [];
-      content.map((item) => {
-        if (
-          item.age_groups.indexOf(ageGroupName) != -1 &&
-          item.diagnosis.indexOf(categoryName) != -1 &&
-          item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
-        )
-          filteredArray.push(item);
-      });
+          for (let i = 0; i < filterAges.length; i++) {
+            if (activeJourney && filterAges[i].id === activeJourney) {
+              const ageGroup = filterAges[i].label.split("<br />")[1];
+              if (!JSON.parse(element.age_groups).includes(ageGroup)) return;
+            }
+          }
 
-      let newArr =
-        selectedTag.length === 0
-          ? filteredArray
-          : filteredArray.filter((item) => {
-              const tagArray = JSON.parse(item.tags.toLowerCase());
-              let count = 0;
-              for (let i = 0; i < selectedTag.length; i++) {
-                count = tagArray.includes(selectedTag[i].toLowerCase())
-                  ? count + 1
-                  : count;
-              }
-              return count === selectedTag.length;
-            });
-      setContents(newArr);
+          for (let i = 0; i < filterCategory.length; i++) {
+            if (activeKey && filterCategory[i].id === activeKey) {
+              if (
+                !JSON.parse(element.diagnosis).includes(filterCategory[i].name)
+              )
+                return;
+            }
+          }
+
+          if (isHcp && element.hide_in_hcp === 1)
+            // if (
+            //   categoryTags &&
+            //   contentCategory !== "All" &&
+            //   element.category !== contentCategory
+            // )
+            //   return;
+
+            return;
+
+          contentList.push(element);
+        });
+
+        setContents(contentList);
+      } else {
+        const categoryNameFilter = filterCategory.find(
+          (val) => val.id == activeKey
+        );
+        const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+
+        const ageGroupFilter = filterAges.find(
+          (val) => val.id == activeJourney
+        );
+        const ageGroupName = ageGroupFilter
+          ? ageGroupFilter.label
+              .replace("&lt;", "<")
+              .replace("&gt;", ">")
+              .split("<br />")[1]
+          : "";
+
+        const filteredArray = [];
+        content.map((item) => {
+          if (
+            item.age_groups.indexOf(ageGroupName) != -1 &&
+            item.diagnosis.indexOf(categoryName) != -1 &&
+            item.title.toLowerCase().indexOf(searchText.toLowerCase()) != -1
+          )
+            filteredArray.push(item);
+        });
+
+        let newArr =
+          selectedTag.length === 0
+            ? filteredArray
+            : filteredArray.filter((item) => {
+                const tagArray = JSON.parse(item.tags.toLowerCase());
+                let count = 0;
+                for (let i = 0; i < selectedTag.length; i++) {
+                  count = tagArray.includes(selectedTag[i].toLowerCase())
+                    ? count + 1
+                    : count;
+                }
+                return count === selectedTag.length;
+              });
+        setContents(newArr);
+      }
     }
   };
 
