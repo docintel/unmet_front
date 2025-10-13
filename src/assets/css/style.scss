@@ -427,6 +427,26 @@ h6 {
   margin: 0 auto;
   padding: 0 12px;
 }
+.custom-offcanvas {
+  width: 250px;
+  background: #fff;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+
+  .nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 12px 0;
+    display: block;
+
+    &.active {
+      color: $green;
+    }
+  }
+
+  .offcanvas-header {
+    border-bottom: 1px solid #eee;
+  }
+}
 
 .header {
   &.sticky {
@@ -534,7 +554,7 @@ h6 {
           @include flex-justify-center;
           gap: 8px;
 
-          .user-avatar {
+          .logout-icon {
             img {
               width: 16px;
             }
@@ -547,6 +567,31 @@ h6 {
       }
     }
   }
+  .custom-toggler {
+  background: none !important;
+  border: none !important;
+  padding: 0;
+
+  .navbar-toggler-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    position: relative;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+  }
+
+  &:active,
+  &:focus {
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
 }
 
 .journey-box {
@@ -837,9 +882,6 @@ h6 {
     border-top: 1px dashed var(--gray);
     width: 100%;
     flex: 1;
-    margin-top: auto;
-    margin-bottom: 32px;
-
     &.disabled {
       opacity: 0.3;
     }
@@ -1770,6 +1812,7 @@ h6 {
       display: flex;
       align-items: center;
       position: relative;
+      white-space: nowrap;
 
       &:before {
         content: "";

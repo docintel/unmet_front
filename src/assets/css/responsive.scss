@@ -102,13 +102,36 @@
     h6 {
         font-size: 18px;
     }
+    .header .header-account .switch{
+    width: 140px;
+    }
+    .header .header-account .switch .switch-light > span span{
+        font-size: 12px;
+    }
     .touchpoints-section .journey-link-list .journey-link div {
         font-size: 12px;
+    }
+    .touchpoints-section .patient-journey {
+        gap:10px;
+    }
+    .touchpoints-section .journey-link-list {
+        gap:0;
+        margin-left: 0;
+    }
+    .touchpoints-section .switch{
+        flex: 0 0 110px;
+    }
+    .touchpoints-section .switch .switch-light > span span{
+     font-size: 12px;
     }
     .touchpoints-section .journey-link-list .journey-link .user-category {
     min-width: 110px;
     padding: 10px 6px 12px;
 }
+ .content-count-box .content-count{
+    gap: 20px 10px;
+    flex-wrap: wrap;
+    }
 }
 
 @media (max-width: $layout-breakpoint-small) {
