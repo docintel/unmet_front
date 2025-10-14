@@ -25,7 +25,7 @@ const FaqAndLatestContent = ({ content, isFaq }) => {
           </React.Fragment>
         ))
       ) : (
-        <div className="no-data-found">No data Found</div>
+        <div className="no_data_found">No data Found</div>
       )}
     </div>
   );

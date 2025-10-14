@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Form, FormGroup, Dropdown } from "react-bootstrap";
 import {
   fetchQuestions,
@@ -12,6 +12,7 @@ import { ContentContext } from "../../../../context/ContentContext";
 
 const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
+  const { setToast } = useContext(ContentContext);
   const [askIbu, setAskIbu] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const { setIsLoading } = useContext(ContentContext);
@@ -107,7 +108,6 @@ const AskIBU = () => {
   const dataToMap =
     location.pathname === "/account" ? yourQuestion : filteredQuestions;
 
-
   return (
     <>
       {/* Filter button */}
@@ -118,13 +118,17 @@ const AskIBU = () => {
               className="btn btn-link filter-btn"
               onClick={() => setShowFilterBox(!showFilterBox)}
             >
-              {showFilterBox ? <img src={path_image + "close-arrow.svg"} alt="Filter Icon" /> : <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />}
+              {showFilterBox ? (
+                <img src={path_image + "close-arrow.svg"} alt="Filter Icon" />
+              ) : (
+                <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />
+              )}
             </button>
           </div>
 
           {/* Filter dropdown */}
           {showFilterBox && (
-            <div className="filter-box">
+            <div className="filter-box" style={{ zIndex: 1000 }}>
               <h6>Filter:</h6>
               {/* Tags Dropdown Toggle */}
               <button
@@ -139,27 +143,25 @@ const AskIBU = () => {
 
               {/* Tags options */}
               {showTagsDropdown && (
-                <div
-                  className="tags-options"
-                >
+                <div className="tags-options">
                   <div className="tags-list">
-                  {tags.map((tag, index) => (
-                    <div key={index} className="form-check">
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id={`tag-${index}`}
-                        checked={selectedTags.includes(tag)}
-                        onChange={() => toggleTag(tag)}
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor={`tag-${index}`}
-                      >
-                        {tag}
-                      </label>
-                    </div>
-                  ))}
+                    {tags.map((tag, index) => (
+                      <div key={index} className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={`tag-${index}`}
+                          checked={selectedTags.includes(tag)}
+                          onChange={() => toggleTag(tag)}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor={`tag-${index}`}
+                        >
+                          {tag}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -168,7 +170,10 @@ const AskIBU = () => {
                 <button className="btn btn-primary" onClick={applyFilter}>
                   Apply
                 </button>
-                <button className="btn btn-primary btn-bordered" onClick={cancelFilter}>
+                <button
+                  className="btn btn-primary btn-bordered"
+                  onClick={cancelFilter}
+                >
                   Cancel
                 </button>
               </div>
@@ -202,31 +207,44 @@ const AskIBU = () => {
 
       {/* Questions list */}
       <div className="scroll-list">
-        {dataToMap.length > 0 ? (dataToMap.map((item) => (
-          <div className="detail-data-box" key={item.id}>
-            <div className="content-box">
-              <div className="heading">{item.question}</div>
-              <div className="region">{item.country}</div>
-              <div className="tags">
-                {item.topics.map((tag, idx) => (
-                  <div key={idx}>{tag}</div>
-                ))}
+        {dataToMap.length > 0 ? (
+          dataToMap.map((item) => (
+            <div className="detail-data-box" key={item.id}>
+              <div className="content-box">
+                <div className="heading">{item.question}</div>
+                <div className="region">{item.country}</div>
+                <div className="tags">
+                  {item.topics.map((tag, idx) => (
+                    <div key={idx}>{tag}</div>
+                  ))}
+                </div>
+                <div className="answer">
+                  <span>Answer:</span>
+                  {item.answer}
+                </div>
+                <div className="date">{item.created}</div>
               </div>
-              <div className="answer">
-                <span>Answer:</span>
-                {item.answer}
-              </div>
-              <div className="date">{item.created}</div>
             </div>
-          </div>
-        ))): <div className="no_data_found">No data Found</div> }
+          ))
+        ) : (
+          <div className="no_data_found">No data Found</div>
+        )}
       </div>
 
       {/* Ask question form */}
       {location.pathname !== "/account" && (
         <Form
           className="ask-ibu-form"
-          onSubmit={(e) => handleSubmit(e, setError, question, setQuestion,setIsLoading)}
+          onSubmit={(e) =>
+            handleSubmit(
+              e,
+              setError,
+              question,
+              setQuestion,
+              setIsLoading,
+              setToast
+            )
+          }
         >
           <FormGroup className="form-group">
             <Form.Control
@@ -239,7 +257,11 @@ const AskIBU = () => {
             />
             {error && <div className="validation text-danger">{error}</div>}
           </FormGroup>
-          <button type="submit" className="btn btn-primary mt-2">
+          <button
+            type="submit"
+            className="btn btn-primary mt-2"
+            style={{ placeContent: "center" }}
+          >
             Send
           </button>
         </Form>
