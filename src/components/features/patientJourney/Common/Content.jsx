@@ -305,9 +305,10 @@ const Content = ({
           backdrop="static"
           keyboard={false}
           centered
+          className="share-modal"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Contact Form</Modal.Title>
+            <Modal.Title>Share</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -328,8 +329,7 @@ const Content = ({
                   Email
                   <span
                     style={{
-                      color: "red",
-                      fontWeight: "bold",
+                      color: "var(--pink)",
                       marginLeft: "1px",
                     }}
                   >
@@ -343,7 +343,7 @@ const Content = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value.trim())}
                 />
-                <p style={{ color: "red" }}>
+                <p style={{ color: "var(--pink)" }}>
                   {error && error.type === "email" && error.message}
                 </p>
               </Form.Group>
@@ -359,7 +359,7 @@ const Content = ({
                   onChange={(e) => setMessage(e.target.value)}
                 />
               </Form.Group>
-              <p style={{ color: "red" }}>
+              <p style={{ color: "var(--pink)" }}>
                 {error && error.type === "global" && error.message}
               </p>
               <Button variant="primary" onClick={handleSubmitClick}>
@@ -483,7 +483,7 @@ const Content = ({
             variant="primary"
             onClick={(e) => setReadContent(!readContent)}
           >
-            {readContent ? "Close" : "Read"}
+            {readContent ? "Close" : "View"}
           </Button>
         </div>
       </div>

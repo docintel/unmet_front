@@ -63,7 +63,7 @@ h6 {
   font-weight: 400;
   border: 0;
   padding: 4px 16px;
-  min-width: 87px;
+  min-width: 83px;
 
   &:hover,
   &:active {
@@ -237,6 +237,7 @@ h6 {
         font-weight: 300;
         margin: 0 0 40px;
         font-family: var(--font-family);
+        color: var(--primary-color);
 
         strong {
           font-weight: 600;
@@ -722,6 +723,7 @@ h6 {
     padding: 24px;
     text-align: left;
     gap: 0px;
+    min-height: 735px;
     @include flex-column;
     // animation: customAni 2s ease-in-out 0s 1 normal forwards;
     animation: scale-up-hor-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
@@ -850,7 +852,7 @@ h6 {
 
       button {
         margin-left: auto;
-        display: flex;
+        @include flex-justify-center;
       }
     }
 
@@ -2452,6 +2454,7 @@ input[type="search"]::-webkit-search-results-decoration {
     .nav {
       .navbar-nav {
         a {
+           color: var(--white);
           &.active {
             color: var(--white);
           }
@@ -2599,11 +2602,15 @@ input[type="search"]::-webkit-search-results-decoration {
 
     .journey-link-list {
       .journey-link {
+        color:var(--white);
         &.disabled {
           .user-category {
             color: rgba(255, 255, 255, 0.4);
           }
         }
+      }
+      .line{
+        border-color:var(--white);
       }
     }
 
@@ -2866,4 +2873,74 @@ input[type="search"]::-webkit-search-results-decoration {
   width: 5px;
   background: var(--green);
   border-radius: 10px;
+}
+
+/**Share modal**/
+.share-modal{
+  .modal-content{
+    background: var(--primary-color);
+    .modal-header{
+      border:0;
+      .modal-title{
+        font-weight: 600;
+        color: var(--gray);
+        font-family: var(--font-family);
+      }
+      button{
+        background: url(../images/cross-btn.svg) no-repeat;
+        background-position: center;
+      }
+    }
+    .modal-body{
+      padding-top: 0;
+      form{
+        label{
+          color: var(--gray);
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .form-control{
+          border-radius: 40px;
+          background: var(--white);
+          box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
+          padding:9px 24px;
+          font-size: 14px;
+          font-weight: 400;
+          font-family: var(--font-family);
+          color: var(--gray300);
+          &#formMessage{
+            border-radius: 20px;
+            resize: none;
+          }
+        }
+      }
+    }
+  }
+}
+.form-control::-webkit-input-placeholder { 
+  color: #B5C2D3;
+  opacity: 1;
+}
+.form-control::-moz-placeholder { 
+  color: #B5C2D3;
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder { 
+  color: #B5C2D3;
+    opacity: 1;
+}
+.form-control:-moz-placeholder {
+  color: #B5C2D3;
+    opacity: 1;
+}
+
+/**Share modal End**/
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--gray300);
+  -webkit-box-shadow: 0 0 0px 40rem #F4F6F9 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }

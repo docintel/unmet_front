@@ -20,7 +20,7 @@ const Faq = () => {
       {faqContent.length > 0 ? (
         <FaqAndLatestContent content={faqContent} isFaq={true} />
       ) : (
-        <div className="no-data-found">No data Found</div>
+        <div className="no_data_found">No data Found</div>
       )}
     </>
   );

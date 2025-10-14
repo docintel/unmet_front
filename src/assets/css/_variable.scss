@@ -40,7 +40,7 @@ $black: #000000;
 [data-bs-theme='dark']{
     --primary-color:  linear-gradient(97deg, #F79548 0%, #E94262 100%);
     --green: #{$green};
-    --gray:#{$white};
+    // --gray:#{$white};
     --white100:#{$white};
 }
 
