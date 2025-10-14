@@ -154,7 +154,7 @@ h6 {
   height: 100%;
   @include flex-center;
   flex-direction: column;
-  background: url(../images/vwd-background.svg) no-repeat;
+  background: url(../assets/images/vwd-background.svg) no-repeat;
   background-position: left 95%;
 
   .terms {
@@ -818,7 +818,15 @@ h6 {
           .btn {
             font-size: 12px;
           }
-        }
+          .btn-bordered{
+           border: 1px solid #F79548;
+           color:#F79548;
+           &:hover{
+             background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+             color: $white;
+           }
+          }
+         }
       }
     }
 
@@ -1394,6 +1402,10 @@ h6 {
           margin-left: 12px;
           @include flex-middle;
 
+          &:hover{
+             background: linear-gradient(267deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+          }
+
           img {
             width: 16px;
             height: auto;
@@ -1776,7 +1788,12 @@ h6 {
     .show-less-btn {
       @include show-more-btn;
       flex-direction: row-reverse;
-
+      
+      button{
+        &:active{
+          background-color: transparent;
+        }
+      }
       img {
         transform: rotate(180deg);
       }
@@ -2121,7 +2138,7 @@ input[type="search"]::-webkit-search-results-decoration {
   cursor: pointer;
   height: 20px;
   width: 20px;
-  background: url("../images/search-close.svg") no-repeat;
+  background: url("../assets/images/search-close.svg") no-repeat;
   background-position-y: center;
 }
 
@@ -2499,7 +2516,7 @@ input[type="search"]::-webkit-search-results-decoration {
               &:before {
                 box-shadow: none;
                 border-radius: 0;
-                background: url(../images/light-left.png) no-repeat;
+                background: url(../assets/images/light-left.png) no-repeat;
                 width: 22px;
                 height: 30px;
                 left: -22px;
@@ -2509,7 +2526,7 @@ input[type="search"]::-webkit-search-results-decoration {
               &:after {
                 box-shadow: none;
                 border-radius: 0;
-                background: url(../images/light-right.png) no-repeat;
+                background: url(../assets/images/light-right.png) no-repeat;
                 width: 21px;
                 height: 30px;
                 right: -21px;
@@ -2907,9 +2924,8 @@ input[type="search"]::-webkit-search-results-decoration {
         color: var(--gray);
         font-family: var(--font-family);
       }
-
-      button {
-        background: url(../images/cross-btn.svg) no-repeat;
+      button{
+        background: url(../assets/images/cross-btn.svg) no-repeat;
         background-position: center;
         box-shadow: none;
       }
