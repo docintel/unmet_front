@@ -263,13 +263,12 @@
 
   .category {
     color: $border-color;
-    display: flex;
     font-size: 12px;
     font-weight: 400;
     margin: 16px 0;
     gap: 3px 8px;
     white-space: nowrap;
-    flex-wrap: wrap;
+    @include flex-wrap;
     align-items: center;
 
     img {

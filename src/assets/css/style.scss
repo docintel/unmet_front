@@ -2889,6 +2889,7 @@ input[type="search"]::-webkit-search-results-decoration {
       button{
         background: url(../images/cross-btn.svg) no-repeat;
         background-position: center;
+        box-shadow: none;
       }
     }
     .modal-body{
@@ -2908,10 +2909,17 @@ input[type="search"]::-webkit-search-results-decoration {
           font-weight: 400;
           font-family: var(--font-family);
           color: var(--gray300);
+          &.error{
+            box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
+          }
           &#formMessage{
             border-radius: 20px;
             resize: none;
           }
+        }
+        p{
+          font-size: 12px;
+          margin:6px 0 0;
         }
       }
     }
