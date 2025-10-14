@@ -132,6 +132,17 @@
     gap: 20px 10px;
     flex-wrap: wrap;
     }
+    .login-left{
+        padding: 40px;
+    }
+    .login-left .terms{
+        gap: 10px 20px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .login-left .terms div a {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -209,3 +220,26 @@
     font-size: 13px;
 }
 }
+@media (max-width: $layout-breakpoint-extraSmall) {
+    .login-page .row{
+            display: flex;
+            flex-direction: column;
+            // flex-direction: column-reverse;
+    }
+        .login-left {
+        padding: 20px;
+        // display: none;
+    }
+    .login-left .terms{
+        gap: 10px 10px;
+        margin-bottom: 30px;
+    }
+    .login-right {
+      border-radius: 0;;
+    }
+    .login-right:before{
+        display: none;
+    }
+  
+}
+   
