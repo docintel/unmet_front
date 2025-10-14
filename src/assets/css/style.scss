@@ -2630,7 +2630,9 @@ input[type="search"]::-webkit-search-results-decoration {
         }
       }
     }
-
+    .switch{
+      box-shadow: 0 0 8px 0 rgba(93, 26, 39, 0.32)
+    }
     .journey-link-list {
       .journey-link {
         color: var(--white);
