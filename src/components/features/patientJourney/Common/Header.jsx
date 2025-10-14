@@ -81,9 +81,6 @@ const Header = () =>
                 <img src={path_image + "vwd-journey-logo.svg"} alt="logo" />
               </Navbar.Brand>
 
-              {/* ✅ Show burger button only on mobile */}
-
-
               {/* ✅ Normal inline nav for desktop */}
               {!isMobile && (
                 <Nav className="justify-content-center flex-grow-1">

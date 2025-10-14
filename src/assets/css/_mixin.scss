@@ -576,11 +576,14 @@
        color: $gray;
        cursor: pointer;
        white-space: nowrap;
-
-  img {
-    width: 16px;
-    height: 16px;
-  }
+       
+        &:active{
+          background-color: transparent;
+        }
+     img {
+      width: 16px;
+      height: 16px;
+      }
 
        &:hover {
         //  background: rgba(254, 244, 237, 0.05);

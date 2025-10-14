@@ -818,7 +818,15 @@ h6 {
           .btn {
             font-size: 12px;
           }
-        }
+          .btn-bordered{
+           border: 1px solid #F79548;
+           color:#F79548;
+           &:hover{
+             background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+             color: $white;
+           }
+          }
+         }
       }
     }
 
@@ -1390,6 +1398,10 @@ h6 {
           margin-left: 12px;
           @include flex-middle;
 
+          &:hover{
+             background: linear-gradient(267deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+          }
+
           img {
             width: 16px;
             height: auto;
@@ -1772,7 +1784,12 @@ h6 {
     .show-less-btn {
       @include show-more-btn;
       flex-direction: row-reverse;
-
+      
+      button{
+        &:active{
+          background-color: transparent;
+        }
+      }
       img {
         transform: rotate(180deg);
       }
