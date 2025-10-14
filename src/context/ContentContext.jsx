@@ -72,7 +72,6 @@ export const ContentProvider = ({ children }) => {
   }, [contents, isHcp]);
 
   useEffect(() => {
-    console.log(isHcp);
     document.documentElement.setAttribute(
       "data-bs-theme",
       isHcp ? "dark" : "light"
