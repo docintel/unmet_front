@@ -116,7 +116,7 @@
     padding: 2px 15px 10px;
     font-size: 10px;
     font-weight: 500;
-    color: $white;
+    color: var(--white);
     border-radius: 8px 8px 0 0;
     box-shadow: -5px 0 6px 0 rgba(0, 0, 0, 0.2);
     max-width: 87px;
@@ -167,7 +167,7 @@
 
 @mixin content-box {
   border-radius: 8px 8px 16px 16px;
-  background: $secondary-color;
+  background: var(--secondary-color);
   padding: 12px;
   position: relative;
   z-index: 9;
@@ -211,13 +211,13 @@
         padding: 0px 0px;
         border: 0;
         border-radius: 12px 8px 12px 12px;
-        background: $white;
+        background: var(--white);
         box-shadow: 0 4px 12px 0 rgba(181, 194, 211, 0.5);
         overflow: hidden;
         margin-top: -20px;
 
         a {
-          color: $border-color;
+          color: var(--gray300);
           font-size: 14px;
           font-weight: 400;
           padding: 8px 16px;
@@ -233,11 +233,11 @@
 
           &:active {
             background: #e6f7f8;
-            color: $green;
+            color: var(--green);
 
             svg {
               path {
-                fill: $green;
+                fill: var(--green);
               }
             }
           }
@@ -249,27 +249,26 @@
   .heading {
     font-size: 14px;
     font-weight: 600;
-    color: $primary-color;
+    color: var(--primary-color);
     margin: 0 0 5px;
     line-height: 18px;
   }
 
   .subheading {
-    color: $primary-color;
+    color: var(--primary-color);
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
   }
 
   .category {
-    color: $border-color;
-    display: flex;
+    color: var(--gray300);
     font-size: 12px;
     font-weight: 400;
     margin: 16px 0;
     gap: 3px 8px;
     white-space: nowrap;
-    flex-wrap: wrap;
+    @include flex-wrap;
     align-items: center;
 
     img {
@@ -289,7 +288,7 @@
         background: rgba(76, 198, 207, 0.2);
         font-size: 12px;
         font-weight: 400;
-        color: $green;
+        color: var(--green);
         padding: 1px 8px;
       }
     }
@@ -305,7 +304,7 @@
       @include flex-align-center;
       gap: 8px;
       font-size: 14px;
-      color: $border-color;
+      color: var(--gray300);
     }
 
     img {
@@ -314,7 +313,7 @@
   }
 
   .question {
-    color: $primary-color;
+    color: var(--primary-color);
     font-size: 14px;
     font-weight: 600;
     text-transform: capitalize;
@@ -323,7 +322,7 @@
   }
 
   .region {
-    color: $text-color;
+    color: var(--text-color);
     font-size: 12px;
     font-weight: 500;
     margin: 0 0 13px;
@@ -341,14 +340,14 @@
       border-radius: 2px;
       background: rgba(0, 173, 186, 0.1);
       padding: 2px 6px;
-      color: $dark-green;
+      color: var(--dark-green);
       font-size: 10px;
       text-transform: capitalize;
     }
   }
 
   .answer {
-    color: $primary-color;
+    color: var(--primary-color);
     font-size: 12px;
     font-weight: 500;
     margin: 0 0 8px;
@@ -357,14 +356,14 @@
     span {
       font-size: 10px;
       font-weight: 500;
-      color: $text-color;
+      color: var(--text-color);
       margin: 0 0 1px;
       display: block;
     }
   }
 
   .date {
-    color: $gray;
+    color: var(--gray);
     font-size: 12px;
     font-weight: 400;
     margin: 0 0 16px;
@@ -375,7 +374,7 @@
   padding: 16px;
   @include flex-align-start;
   flex-direction: column;
-  // background: $white;
+  // background: var(--white);
   width: 100%;
 }
 
@@ -414,14 +413,14 @@
 
       span {
         &.active {
-          color: $white;
+          color: var(--white);
           border-radius: 40px;
-          background: $green;
+          background: var(--green);
         }
 
         font-size: 14px;
         font-weight: 400;
-        color: $dark-green;
+        color: var(--dark-green);
         display: block;
         text-align: center;
         padding: 1px;
@@ -449,14 +448,14 @@
   min-width: 60px;
   padding: 15px 50px 15px 56px;
   font-size: 14px;
-  font-family: $fontfamily;
+  font-family: var(--font-family);
   line-height: 20px;
-  background: $white url(../images/dropdown-arrow-orange.svg) no-repeat 94%
+  background: var(--white) url(../images/dropdown-arrow-orange.svg) no-repeat 94%
     center;
   box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.4);
   border-radius: 40px;
   border: 0;
-  color: $gray;
+  color: var(--gray);
   font-weight: 400;
   text-align: left;
   height: auto;
@@ -481,19 +480,19 @@
     max-height: 152px;
     transition: all 0.3s ease-in-out;
     // scrollbar-width: thin;
-    // scrollbar-color: $dark-green transparent;
+    // scrollbar-color: var(--dark-green) transparent;
     padding-right: 2px;
 
     div {
-      color: $primary-color;
+      color: var(--primary-color);
       font-size: 14px;
       padding: 8px 10px;
       border-radius: 20px;
       cursor: pointer;
 
       &:hover {
-        background-color: $secondary-color;
-        color: $primary-color;
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
       }
     }
   }
@@ -573,7 +572,7 @@
        border-radius: 40px;
        padding: 0px 16px;
        font-size: 14px;
-       color: $gray;
+       color: var(--gray);
        cursor: pointer;
        white-space: nowrap;
        
@@ -587,7 +586,7 @@
 
        &:hover {
         //  background: rgba(254, 244, 237, 0.05);
-         color: $white;
+         color: var(--white);
          img {
            filter: brightness(0) invert(1); 
          }
@@ -606,4 +605,4 @@
     fill: rgba(255, 255, 255, 0.02);
     filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.5)); 
   }
- 
+

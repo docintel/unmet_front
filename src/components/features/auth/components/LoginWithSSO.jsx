@@ -41,7 +41,8 @@ const LoginWithSSO = () => {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
-      navigate("/home");
+      if (!isHcp) navigate("/home");
+      else navigate("/touchpoints");
     }
     setLoader(false);
   };

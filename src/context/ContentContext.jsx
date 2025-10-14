@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import
-{
+import {
   fetchAgeGroupCategories,
   fetchContentList,
   fetchNarrativeList,
@@ -20,7 +19,12 @@ export const ContentProvider = ({ children }) => {
   const [narrative, setNarrative] = useState([]);
   const [isHcp, setIsHcp] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
-  const [toast, setToast] = useState({ type: null, title: null, message: null, show: false });
+  const [toast, setToast] = useState({
+    type: null,
+    title: null,
+    message: null,
+    show: false,
+  });
 
   useEffect(() => {
     document.cookie.split(";").forEach((item) => {
@@ -44,8 +48,7 @@ export const ContentProvider = ({ children }) => {
     if (contents) {
       const filteredList = [];
       let tagArray = [];
-      contents.map((item) =>
-      {
+      contents.map((item) => {
         if (isHcp && item.hide_in_hcp == "1") return;
         tagArray = [...tagArray, ...JSON.parse(item.tags)];
         filteredList.push(item);
@@ -57,8 +60,7 @@ export const ContentProvider = ({ children }) => {
       }
 
       const uniqueWords = Object.keys(freqMap);
-      uniqueWords.sort((a, b) =>
-      {
+      uniqueWords.sort((a, b) => {
         const freqDiff = freqMap[b] - freqMap[a];
         if (freqDiff !== 0) return freqDiff;
         return a.localeCompare(b);
@@ -69,8 +71,14 @@ export const ContentProvider = ({ children }) => {
     }
   }, [contents, isHcp]);
 
-  const fetchAgeGroups = async () =>
-  {
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-bs-theme",
+      isHcp ? "dark" : "light"
+    );
+  }, [isHcp]);
+
+  const fetchAgeGroups = async () => {
     if (
       filterAges.length == 0 &&
       filterTag.length == 0 &&
@@ -86,8 +94,7 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
-  const getNarratives = async (isAllSelected) =>
-  {
+  const getNarratives = async (isAllSelected) => {
     if (narrative.length == 0) {
       setIsLoading(true);
       const { narratives } = await fetchNarrativeList(isAllSelected);
@@ -96,11 +103,9 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
-  const updateRating = (id, rating) =>
-  {
+  const updateRating = (id, rating) => {
     setContent((prevContent) =>
-      prevContent.map((cntnt) =>
-      {
+      prevContent.map((cntnt) => {
         if (cntnt.id === id) {
           return {
             ...cntnt,
@@ -120,12 +125,14 @@ export const ContentProvider = ({ children }) => {
         filterCategory,
         narrative,
         isHcp,
-        categoryList, toast,
+        categoryList,
+        toast,
         updateRating,
         setIsLoading,
         fetchAgeGroups,
         getNarratives,
-        setIsHcp, setToast
+        setIsHcp,
+        setToast,
       }}
     >
       {" "}

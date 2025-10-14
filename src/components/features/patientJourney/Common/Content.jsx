@@ -3,12 +3,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import
-  {
-    SubmitShareContent,
-    TrackDownloads,
-    updateContentRating,
-  } from "../../../../services/touchPointServices";
+import {
+  SubmitShareContent,
+  TrackDownloads,
+  updateContentRating,
+} from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
 import { toast } from "react-toastify";
 import JSZip from "jszip";
@@ -77,12 +76,10 @@ const Content = ({
   //   }
   // }, [currentReadClick, section.id]);
 
-  const getAgeGroup = () =>
-  {
+  const getAgeGroup = () => {
     const tags = JSON.parse(section.age_groups);
     return tags
-      .map((tag) =>
-      {
+      .map((tag) => {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -106,8 +103,7 @@ const Content = ({
       );
   };
 
-  const handleReadClick = (e, link, id) =>
-  {
+  const handleReadClick = (e, link, id) => {
     e.preventDefault();
     // If clicking same article, toggle off
     if (currentReadClick.id === id) {
@@ -117,25 +113,21 @@ const Content = ({
     }
   };
 
-  const handleShareClick = () =>
-  {
+  const handleShareClick = () => {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () =>
-  {
+  const handleDownloadClick = async () => {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) =>
-    {
+    const getContentSize = async (fileUrl) => {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) =>
-    {
+    const downloadFileChuck = async (fileUrl) => {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -169,7 +161,7 @@ const Content = ({
         await getContentSize(downloadUrl);
         const blob = await downloadFileChuck(downloadUrl);
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        saveAs(blob, section.title.replaceAll(" ", "_") + "." + extenstion);
         setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
@@ -184,7 +176,7 @@ const Content = ({
         const blob = await downloadFileChuck(downloadUrl);
 
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        saveAs(blob, section.title.replaceAll(" ", "_") + "." + extenstion);
         setDownloading(false);
       } else {
         setDownloading(true);
@@ -220,8 +212,9 @@ const Content = ({
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -230,8 +223,9 @@ const Content = ({
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -242,7 +236,7 @@ const Content = ({
           }
         }
         const content = await zip.generateAsync({ type: "blob" });
-        saveAs(content, section.title + ".zip");
+        saveAs(content, section.title.replaceAll(" ", "_") + ".zip");
       }
       setDownloading(false);
 
@@ -253,16 +247,14 @@ const Content = ({
     }
   };
 
-  const handleCloseModal = () =>
-  {
+  const handleCloseModal = () => {
     setShowModal(false);
     setEmail("");
     setName("");
     setMessage("");
   };
 
-  const handleSubmitClick = async (e) =>
-  {
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
     try {
       if (!email) {
@@ -329,7 +321,7 @@ const Content = ({
                   Email
                   <span
                     style={{
-                      color: "var(--pink)",
+                      color: "var(--gradient-pink)",
                       marginLeft: "1px",
                     }}
                   >
@@ -341,9 +333,10 @@ const Content = ({
                   placeholder="Enter your email"
                   name="email"
                   value={email}
+                  className={error && error.type === "email" ? "error" : ""}
                   onChange={(e) => setEmail(e.target.value.trim())}
                 />
-                <p style={{ color: "var(--pink)" }}>
+                <p style={{ color: "var(--gradient-pink)" }}>
                   {error && error.type === "email" && error.message}
                 </p>
               </Form.Group>
@@ -359,11 +352,11 @@ const Content = ({
                   onChange={(e) => setMessage(e.target.value)}
                 />
               </Form.Group>
-              <p style={{ color: "var(--pink)" }}>
+              <p style={{ color: "var(--gradient-pink)" }}>
                 {error && error.type === "global" && error.message}
               </p>
               <Button variant="primary" onClick={handleSubmitClick}>
-                Submit
+                Share
               </Button>
             </Form>
           </Modal.Body>
@@ -435,8 +428,7 @@ const Content = ({
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
-          {JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
-          {
+          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
             const imageName = filterCategory.filter(
               (item) => item.name === dgns
             )[0];
@@ -468,7 +460,7 @@ const Content = ({
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}

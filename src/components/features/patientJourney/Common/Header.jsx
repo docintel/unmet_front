@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { clearLocalStorage } from "../../../../helper/helper";
 import { ContentContext } from "../../../../context/ContentContext";
 
-const Header = () =>
-{
+const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { isHcp, setIsHcp } = useContext(ContentContext);
   const [show, setShow] = useState(false);
@@ -17,18 +16,15 @@ const Header = () =>
   const handleShow = () => setShow(true);
 
   // 🔹 Listen for screen resize and update
-  useEffect(() =>
-  {
+  useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 991);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
 
-  const toggleUserType = () =>
-  {
-    setIsHcp((prev) =>
-    {
+  const toggleUserType = () => {
+    setIsHcp((prev) => {
       const newValue = !prev;
       document.cookie = `isHcp=${newValue}; 1; path=/`;
 
@@ -46,41 +42,41 @@ const Header = () =>
   };
   const navigate = useNavigate();
 
-  const logout = () =>
-  {
+  const logout = () => {
     clearLocalStorage();
+    document.documentElement.setAttribute("data-bs-theme", "light");
     navigate("/");
   };
-  const [theme, setTheme] = useState(() =>
-  {
+  const [theme, setTheme] = useState(() => {
     // Check if a theme is already set in localStorage, otherwise default to 'light'
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme || 'light';
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme || "light";
   });
 
-  const toggleTheme = () =>
-  {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-bs-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-bs-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
   };
 
   // Ensure theme is set on initial render
-  useState(() =>
-  {
-    document.documentElement.setAttribute('data-bs-theme', theme);
+  useState(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
   });
   return (
     <header className="header sticky">
       <div className="custom-container">
         <Row>
           <div className="header-inner d-flex align-items-center justify-content-between w-100">
-            <Navbar expand="lg" variant="light" className="nav w-100 justify-content-between">
+            <Navbar
+              expand="lg"
+              variant="light"
+              className="nav w-100 justify-content-between"
+            >
               <Navbar.Brand href="/">
                 <img src={path_image + "vwd-journey-logo.svg"} alt="logo" />
               </Navbar.Brand>
-
               {/* ✅ Normal inline nav for desktop */}
               {!isMobile && (
                 <Nav className="justify-content-center flex-grow-1">
@@ -150,8 +146,7 @@ const Header = () =>
                   <span>
                     <Link
                       to="/"
-                      onClick={(e) =>
-                      {
+                      onClick={(e) => {
                         e.preventDefault(); // stop default link navigation
                         logout();
                       }}
@@ -164,7 +159,11 @@ const Header = () =>
                   </span>
                 </div>
                 {isMobile && (
-                  <Navbar.Toggle aria-controls="offcanvasNavbar" className="custom-toggler" onClick={handleShow} />
+                  <Navbar.Toggle
+                    aria-controls="offcanvasNavbar"
+                    className="custom-toggler"
+                    onClick={handleShow}
+                  />
                 )}
               </div>
             </Navbar>
