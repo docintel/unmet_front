@@ -1,8 +1,18 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
-  server :{port :3000},
+  server: { port: 3000 },
   plugins: [react()],
-})
+  define: {
+    global: {}, // prevent Firebase/MSAL from expecting Node's global
+  },
+  resolve: {
+    alias: {
+      crypto: false, // ensure Node crypto isn’t bundled
+    },
+  },
+  optimizeDeps: {
+    exclude: ['crypto'],
+  },
+});
