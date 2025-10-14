@@ -31,6 +31,12 @@
     .content-count-box .content-count{
         gap:25px;
     }
+    .touchpoints-section{
+         padding: 0 24px;
+    }
+    .header{
+        padding: 0 12px;
+    }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -143,6 +149,12 @@
     .login-left .terms div a {
         font-size: 12px;
     }
+       .touchpoints-section{
+         padding: 5px;
+    }
+      .header{
+        padding: 0;
+     }
 }
 
 @media (max-width: $layout-breakpoint-small) {
