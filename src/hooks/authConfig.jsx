@@ -1,17 +1,12 @@
-// src/authConfig.js
 export const msalConfig = {
   auth: {
-    clientId: import.meta.env.VITE_APP_MS_CLIENT_ID, // from Azure portal
+    clientId: import.meta.env.VITE_APP_MS_CLIENT_ID,
     authority: import.meta.env.VITE_APP_MS_AUTHORITY,
-    redirectUri: "/",
-    postLogoutRedirectUri: "/"
+    redirectUri: window.location.origin + "/",
+    postLogoutRedirectUri: window.location.origin + "/"
   },
   cache: {
-    cacheLocation: "localStorage", // or "sessionStorage"
-    storeAuthStateInCookie: false, // for IE11/Edge
+    cacheLocation: "localStorage",
+    storeAuthStateInCookie: false,
   },
 };
- 
-
-
- 
