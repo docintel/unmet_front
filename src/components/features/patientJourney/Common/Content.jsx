@@ -321,7 +321,7 @@ const Content = ({
                   Email
                   <span
                     style={{
-                      color: "var(--pink)",
+                      color: "var(--gradient-pink)",
                       marginLeft: "1px",
                     }}
                   >
@@ -336,7 +336,7 @@ const Content = ({
                   className={error && error.type === "email" ? "error" : ""}
                   onChange={(e) => setEmail(e.target.value.trim())}
                 />
-                <p style={{ color: "var(--pink)" }}>
+                <p style={{ color: "var(--gradient-pink)" }}>
                   {error && error.type === "email" && error.message}
                 </p>
               </Form.Group>
@@ -352,7 +352,7 @@ const Content = ({
                   onChange={(e) => setMessage(e.target.value)}
                 />
               </Form.Group>
-              <p style={{ color: "var(--pink)" }}>
+              <p style={{ color: "var(--gradient-pink)" }}>
                 {error && error.type === "global" && error.message}
               </p>
               <Button variant="primary" onClick={handleSubmitClick}>
