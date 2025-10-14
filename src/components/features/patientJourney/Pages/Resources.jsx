@@ -1,16 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { lazy, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
-import Content from "../Common/Content";
+// import Content from "../Common/Content";
 import { toast } from "react-toastify";
 import Pagination from "react-bootstrap/Pagination";
 import { iconMapping } from "../../../../constants/iconMapping";
+import FixedSizeList from "../Common/FixedSizedList";
+const Content = lazy(() => import("../Common/Content"));
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const contentPerPage = 6;
   const {
     content,
+    isHcp,
     fetchAgeGroups,
     filterAges,
     filterTag,
@@ -258,6 +261,7 @@ const Resources = () => {
                               : fltr.txt}{" "}
                             <button
                               className="cross-btn"
+                              type="button"
                               onClick={() =>
                                 removeFilters(fltr.txt, fltr.id, fltr.typ)
                               }
@@ -271,7 +275,11 @@ const Resources = () => {
                     <Form.Control
                       type="search"
                       aria-label="Search"
-                      placeholder="Search by tag or content title"
+                      placeholder={
+                        filters.length === 0
+                          ? "Search by tag or content title"
+                          : "Entered text will be here"
+                      }
                       value={searchText}
                       name="search"
                       id="search"
@@ -302,7 +310,7 @@ const Resources = () => {
                 </div>
               </div>
               <div className="tags d-flex">
-                <div className="tag-title">Tags:</div>
+                <div className="tag-title">Topics:</div>
                 <div className="tag-list d-flex">
                   {tag &&
                     (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
@@ -400,22 +408,27 @@ const Resources = () => {
                 <div className="touchpoint-data-boxes">
                   {" "}
                   {filteredContents && filteredContents.length > 0 ? (
-                    filteredContents.map(
-                      (section, idx) =>
-                        idx >= (activePage - 1) * contentPerPage &&
-                        idx < activePage * contentPerPage && (
+                    <FixedSizeList
+                      itemCount={filteredContents.length}
+                      itemSize={3}
+                      renderItem={(index) => {
+                        const section = filteredContents[index];
+
+                        if (!section) return null;
+                        return (
                           <React.Fragment key={section.id}>
                             <Content
                               section={section}
                               idx={section.id}
-                              key={idx}
-                              favTab={false}
+                              key={index}
+                              favTab={isHcp}
                               // currentReadClick={currentReadClick}
                               // setCurrentReadClick={setCurrentReadClick}
                             />
                           </React.Fragment>
-                        )
-                    )
+                        );
+                      }}
+                    />
                   ) : (
                     <div className="no-data">
                       <svg

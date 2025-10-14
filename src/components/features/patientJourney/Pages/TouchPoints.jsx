@@ -1,9 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  lazy,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Button, Form, Row } from "react-bootstrap";
-import Content from "../Common/Content";
+// import Content from "../Common/Content";
 import { ContentContext } from "../../../../context/ContentContext";
 import Pagination from "react-bootstrap/Pagination";
 import { iconMapping } from "../../../../constants/iconMapping";
+import FixedSizeList from "../Common/FixedSizedList";
+
+const Content = lazy(() => import("../Common/Content"));
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -82,7 +91,6 @@ const TouchPoints = () => {
       setActiveNarration(null);
       setSearchText("");
     })();
-    // filterFemaleContent();
     filterContents();
   }, [isAllSelected]);
 
@@ -114,44 +122,26 @@ const TouchPoints = () => {
   useEffect(() => {
     filterContents();
     if (activeKey && activeJourney) {
-      const activeNarrative = narrative.find((narration) =>
-        isAllSelected
-          ? narration.category_id == activeKey &&
-            narration.age_group_id == activeJourney &&
-            narration.category_id !== 3 &&
-            ![2, 3].includes(narration.age_group_id)
-          : narration.category_id == activeKey &&
-            narration.age_group_id == activeJourney
+      const activeNarrative = narrative.find(
+        (narration) =>
+          narration.category_id == activeKey &&
+          narration.age_group_id == activeJourney
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
     } else if (activeKey || activeJourney) {
       setIsInfoVisible(false);
       const activeNarrative = activeKey
-        ? narrative.filter((narration) =>
-            isAllSelected
-              ? narration.category_id == activeKey &&
-                narration.category_id !== 3 &&
-                ![2, 3].includes(narration.age_group_id)
-              : narration.category_id == activeKey
-          )
-        : narrative.filter((narration) =>
-            isAllSelected
-              ? narration.age_group_id == activeJourney &&
-                narration.category_id !== 3 &&
-                ![2, 3].includes(narration.age_group_id)
-              : narration.age_group_id == activeJourney
+        ? narrative.filter((narration) => narration.category_id == activeKey)
+        : narrative.filter(
+            (narration) => narration.age_group_id == activeJourney
           );
 
-      if (activeNarrative.length > 0)
-        setActiveNarration(
-          [...activeNarrative].sort((a, b) =>
-            a.status.localeCompare(b.status, undefined, { sensitivity: "base" })
-          )[0]
-        );
+      if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
       else setActiveNarration(null);
     } else setActiveNarration(null);
     setSearchText("");
+    setExapandNarrative(false);
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
@@ -163,53 +153,9 @@ const TouchPoints = () => {
     filterContents();
     if (content) {
       getCategoryTags(content);
-      // filterFemaleContent();
       filterContents();
     }
   }, [content]);
-
-  // const filterFemaleContent = () => {
-  //   if (isAllSelected) {
-  //     const contentList = [];
-  //     content.forEach((element) => {
-  //       const ageArr = JSON.parse(element.age_groups);
-  //       if (
-  //         ageArr.includes("Age <6") ||
-  //         ageArr.includes("Age 6-11") ||
-  //         JSON.parse(element.diagnosis).includes("On-demand")
-  //       )
-  //         return;
-  //       for (let i = 0; i < selectedTag.length; i++) {
-  //         if (
-  //           !JSON.parse(element.tags.toLowerCase()).includes(
-  //             selectedTag[i].toLowerCase()
-  //           )
-  //         )
-  //           return;
-  //       }
-
-  //       if (
-  //         element.title
-  //           .toLowerCase()
-  //           .indexOf((searchText || "").toLowerCase()) == -1
-  //       )
-  //         return;
-
-  //       if (
-  //         categoryTags &&
-  //         contentCategory !== "All" &&
-  //         element.category !== contentCategory
-  //       )
-  //         return;
-
-  //       if (isHcp && element.hide_in_hcp === 1) return;
-
-  //       contentList.push(element);
-  //     });
-
-  //     setContents(contentList);
-  //   } else setContents(content);
-  // };
 
   const filterContents = () => {
     if (content) {
@@ -255,15 +201,7 @@ const TouchPoints = () => {
             }
           }
 
-          if (isHcp && element.hide_in_hcp === 1)
-            // if (
-            //   categoryTags &&
-            //   contentCategory !== "All" &&
-            //   element.category !== contentCategory
-            // )
-            //   return;
-
-            return;
+          if (isHcp && element.hide_in_hcp === 1) return;
 
           contentList.push(element);
         });
@@ -346,13 +284,13 @@ const TouchPoints = () => {
   const handleSearchClick = (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else setToast({
-      type: "danger",
-      title: "Error",
-      message: "Please enter at least three characters to search",
-      show: true
-    });
-
+    else
+      setToast({
+        type: "danger",
+        title: "Error",
+        message: "Please enter at least three characters to search",
+        show: true,
+      });
   };
 
   const handleSearchTextKeyUp = (e) => {
@@ -385,7 +323,6 @@ const TouchPoints = () => {
   return (
     <>
       <div className="main-page">
-        {" "}
         <div className="custom-container">
           <Row>
             <div className={`touchpoints-section ${activeAgeClass}`}>
@@ -550,6 +487,17 @@ const TouchPoints = () => {
                           </p>
                         </div>
                       </div>
+                    ) : activeNarration.status === "Draft" ? (
+                      <div className="message-info">
+                        <div className="message">
+                          <div className="info-icon">
+                            <img src={path_image + "info-icon.svg"} alt="" />
+                          </div>
+                          <p className="info-text">
+                            Narrative in preparation...
+                          </p>
+                        </div>
+                      </div>
                     ) : (
                       <div className="touchpoint-data">
                         <div
@@ -642,6 +590,7 @@ const TouchPoints = () => {
                                 <span key={idx} className="tag-item">
                                   {tag}{" "}
                                   <button
+                                    type="button"
                                     className="cross-btn"
                                     onClick={() => removeFilter(tag)}
                                   >
@@ -654,7 +603,11 @@ const TouchPoints = () => {
                         <Form.Control
                           type="search"
                           aria-label="Search"
-                          placeholder="Search by tag or content title"
+                          placeholder={
+                            selectedTag.length === 0
+                              ? "Search by tag or content title"
+                              : "Entered text will be here"
+                          }
                           value={searchText}
                           onChange={(e) => setSearchText(e.target.value)}
                           onKeyUp={handleSearchTextKeyUp}
@@ -748,26 +701,29 @@ const TouchPoints = () => {
                             );
                           })}
                     </div>
-                    <div className="touchpoint-data-boxes">
-                      {" "}
+                    <div>
                       {filteredContents && filteredContents.length > 0 ? (
-                        filteredContents &&
-                        filteredContents.map(
-                          (section, idx) =>
-                            idx >= (activePage - 1) * contentPerPage &&
-                            idx < activePage * contentPerPage && (
+                        <FixedSizeList
+                          itemCount={filteredContents.length}
+                          itemSize={3}
+                          renderItem={(index) => {
+                            const section = filteredContents[index];
+
+                            if (!section) return null;
+                            return (
                               <React.Fragment key={section.id}>
                                 <Content
                                   section={section}
                                   idx={section.id}
-                                  key={idx}
-                                  favTab={false}
+                                  key={index}
+                                  favTab={isHcp}
                                   // currentReadClick={currentReadClick}
                                   // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
-                            )
-                        )
+                            );
+                          }}
+                        />
                       ) : (
                         <div className="no-data">
                           <svg
@@ -792,6 +748,8 @@ const TouchPoints = () => {
                           </h5>
                         </div>
                       )}
+
+                      {}
                     </div>
                     <div>
                       {totalPages && totalPages > 1 ? (
