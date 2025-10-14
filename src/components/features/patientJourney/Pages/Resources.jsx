@@ -405,7 +405,7 @@ const Resources = () => {
                         );
                       })}
                 </div>
-                <div className="touchpoint-data-boxes">
+                <div>
                   {" "}
                   {filteredContents && filteredContents.length > 0 ? (
                     <FixedSizeList

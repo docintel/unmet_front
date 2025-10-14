@@ -265,7 +265,7 @@ h6 {
       .login-switch {
         margin: 0 auto;
         max-width: 195px;
-        text-align:center;
+        text-align: center;
 
         .form-label {
           font-size: 16px;
@@ -1281,11 +1281,15 @@ h6 {
 
       .content-count-box {
         margin: 40px 0 0;
-
+        overflow-y: auto;
+        max-height: 70vh;
         .content-count {
           margin-left: 0;
           margin-right: 0;
           padding: 12px 16px;
+        }
+        .touchpoint-data-boxes{
+          padding:0 16px;
         }
       }
     }
@@ -2423,13 +2427,15 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /***Dark-mode***/
 [data-bs-theme=dark] {
-  body{
+  body {
     background: var(--primary-gradient);
   }
+
   .header {
-    &.sticky{
+    &.sticky {
       background: var(--primary-gradient);
     }
+
     .navbar-brand {
       img {
         filter: brightness(0) invert(1);
@@ -2438,6 +2444,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
     .header-account {
       .switch {
+        box-shadow: 0 0 8px 0 rgba(93, 26, 39, 0.32);
         &:after {
           border-color: var(--white);
         }
@@ -2461,7 +2468,8 @@ input[type="search"]::-webkit-search-results-decoration {
     .nav {
       .navbar-nav {
         a {
-           color: var(--white);
+          color: var(--white);
+
           &.active {
             color: var(--white);
           }
@@ -2475,9 +2483,6 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 
   .touchpoints-section {
-
-
-
     &.age0,
     &.age6,
     &.age12,
@@ -2611,15 +2616,17 @@ input[type="search"]::-webkit-search-results-decoration {
 
     .journey-link-list {
       .journey-link {
-        color:var(--white);
+        color: var(--white);
+
         &.disabled {
           .user-category {
             color: rgba(255, 255, 255, 0.4);
           }
         }
       }
-      .line{
-        border-color:var(--white);
+
+      .line {
+        border-color: var(--white);
       }
     }
 
@@ -2629,7 +2636,6 @@ input[type="search"]::-webkit-search-results-decoration {
       margin-top: 8px;
 
       .message {
-        border-radius: 8px 12px 12px 8px;
         border-left: 5px solid var(--green);
         background: rgba(253, 254, 255, 0.32);
 
@@ -2678,17 +2684,21 @@ input[type="search"]::-webkit-search-results-decoration {
       filter: drop-shadow(0 0 8px rgba(93, 26, 39, 0.32));
 
       &.resource-container {
-        padding: 0 24px 12px;
+        padding: 0 0px 12px;
         margin-top: 14px;
 
         .search-bar {
           margin-top: 18px;
+          padding:0 24px;
+        }
+        .tags{
+          padding:0 24px;
         }
 
         .content-count-box {
+
           .content-count {
-            margin-left: -24px;
-            margin-right: -24px;
+
           }
         }
       }
@@ -2885,77 +2895,90 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 /**Share modal**/
-.share-modal{
-  .modal-content{
+.share-modal {
+  .modal-content {
     background: var(--primary-color);
-    .modal-header{
-      border:0;
-      .modal-title{
+
+    .modal-header {
+      border: 0;
+
+      .modal-title {
         font-weight: 600;
         color: var(--gray);
         font-family: var(--font-family);
       }
-      button{
+
+      button {
         background: url(../images/cross-btn.svg) no-repeat;
         background-position: center;
         box-shadow: none;
       }
     }
-    .modal-body{
+
+    .modal-body {
       padding-top: 0;
-      form{
-        label{
+
+      form {
+        label {
           color: var(--gray);
           font-size: 16px;
           font-weight: 500;
         }
-        .form-control{
+
+        .form-control {
           border-radius: 40px;
           background: var(--white);
           box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
-          padding:9px 24px;
+          padding: 9px 24px;
           font-size: 14px;
           font-weight: 400;
           font-family: var(--font-family);
           color: var(--gray300);
-          &.error{
+
+          &.error {
             box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
           }
-          &#formMessage{
+
+          &#formMessage {
             border-radius: 20px;
             resize: none;
           }
         }
-        p{
+
+        p {
           font-size: 12px;
-          margin:6px 0 0;
+          margin: 6px 0 0;
         }
       }
     }
   }
 }
-.form-control::-webkit-input-placeholder { 
+
+.form-control::-webkit-input-placeholder {
   color: #B5C2D3;
   opacity: 1;
 }
-.form-control::-moz-placeholder { 
+
+.form-control::-moz-placeholder {
   color: #B5C2D3;
-    opacity: 1;
+  opacity: 1;
 }
-.form-control:-ms-input-placeholder { 
+
+.form-control:-ms-input-placeholder {
   color: #B5C2D3;
-    opacity: 1;
+  opacity: 1;
 }
+
 .form-control:-moz-placeholder {
   color: #B5C2D3;
-    opacity: 1;
+  opacity: 1;
 }
 
 /**Share modal End**/
 
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--gray300);
   -webkit-box-shadow: 0 0 0px 40rem #F4F6F9 inset;
