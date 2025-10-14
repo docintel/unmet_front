@@ -1370,10 +1370,11 @@ h6 {
 
       form {
         @include flex-align-center;
-        flex-grow: 1;
-
+        width: 100%;
+        .inner-search{
+          width:calc(100% - 52px);
+        }
         input {
-          flex-grow: 1;
           background: transparent;
           border: 0;
           outline: none;
@@ -2714,12 +2715,6 @@ input[type="search"]::-webkit-search-results-decoration {
           padding:0 24px;
         }
 
-        .content-count-box {
-
-          .content-count {
-
-          }
-        }
       }
 
       .touchpoints-header {
