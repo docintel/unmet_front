@@ -161,7 +161,7 @@ const Content = ({
         await getContentSize(downloadUrl);
         const blob = await downloadFileChuck(downloadUrl);
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        saveAs(blob, section.title.replaceAll(" ", "_") + "." + extenstion);
         setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
@@ -176,7 +176,7 @@ const Content = ({
         const blob = await downloadFileChuck(downloadUrl);
 
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        saveAs(blob, section.title + "." + extenstion);
+        saveAs(blob, section.title.replaceAll(" ", "_") + "." + extenstion);
         setDownloading(false);
       } else {
         setDownloading(true);
@@ -236,7 +236,7 @@ const Content = ({
           }
         }
         const content = await zip.generateAsync({ type: "blob" });
-        saveAs(content, section.title + ".zip");
+        saveAs(content, section.title.replaceAll(" ", "_") + ".zip");
       }
       setDownloading(false);
 
@@ -333,6 +333,7 @@ const Content = ({
                   placeholder="Enter your email"
                   name="email"
                   value={email}
+                  className={error && error.type === "email" ? "error" : ""}
                   onChange={(e) => setEmail(e.target.value.trim())}
                 />
                 <p style={{ color: "var(--pink)" }}>
