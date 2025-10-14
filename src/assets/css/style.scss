@@ -2423,7 +2423,13 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /***Dark-mode***/
 [data-bs-theme=dark] {
+  body{
+    background: var(--primary-gradient);
+  }
   .header {
+    &.sticky{
+      background: var(--primary-gradient);
+    }
     .navbar-brand {
       img {
         filter: brightness(0) invert(1);
@@ -2469,6 +2475,8 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 
   .touchpoints-section {
+
+
 
     &.age0,
     &.age6,
@@ -2823,7 +2831,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
   .iframe-custom-modal {
     .modal-content {
-      background: var(--primary-color);
+      background: var(--primary-gradient);
     }
 
     .custom-modal-header {
