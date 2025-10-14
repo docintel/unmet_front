@@ -367,7 +367,11 @@ const Content = ({
           <div className="d-flex align-items-center">
             <img
               src={
-                path_image + "icons/" + iconMapping.category[section.category]
+                path_image +
+                "icons/" +
+                (iconMapping.category[section.category]
+                  ? iconMapping.category[section.category]
+                  : "narrative_e_learning.svg")
               }
               alt=""
             />
