@@ -77,7 +77,8 @@ const Content = ({
   // }, [currentReadClick, section.id]);
 
   const getAgeGroup = () => {
-    const tags = JSON.parse(section.age_groups);
+    const tags =
+      section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
       .map((tag) => {
         if (tag === "Age <6")
@@ -432,28 +433,32 @@ const Content = ({
         <div className="heading">{section.title}</div>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
-          {JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
-            const imageName = filterCategory.filter(
-              (item) => item.name === dgns
-            )[0];
-            return (
-              <div key={idx}>
-                <span key={idx}>{dgns}</span>
-                <img
-                  src={
-                    path_image + "icons/" + (imageName ? imageName.image : "")
-                  }
-                  alt=""
-                />{" "}
-                {idx < arr.length - 1 ? <span className="pipe">|</span> : null}
-              </div>
-            );
-          })}
+          {section.diagnosis !== "" &&
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+              const imageName = filterCategory.filter(
+                (item) => item.name === dgns
+              )[0];
+              return (
+                <div key={idx}>
+                  <span key={idx}>{dgns}</span>
+                  <img
+                    src={
+                      path_image + "icons/" + (imageName ? imageName.image : "")
+                    }
+                    alt=""
+                  />{" "}
+                  {idx < arr.length - 1 ? (
+                    <span className="pipe">|</span>
+                  ) : null}
+                </div>
+              );
+            })}
         </div>
         <div className="tags tag-list">
-          {JSON.parse(section.tags).map((tag, idx) => (
-            <div key={idx}>{tag}</div>
-          ))}
+          {section.tags !== "" &&
+            JSON.parse(section.tags).map((tag, idx) => (
+              <div key={idx}>{tag}</div>
+            ))}
         </div>
         <div className="date">{section.creation_date}</div>
         <div className="favorite d-flex justify-content-between align-sections-center">

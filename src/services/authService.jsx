@@ -2,12 +2,7 @@ import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
 import { clearLocalStorage } from "../helper/helper";
 
-export const handleSso = async (
-  login,
-  handleLoginSuccess,
-  setLoader,
-  cookiesEnabled
-) => {
+export const handleSso = async (login, handleLoginSuccess, setLoader) => {
   try {
     const data = await login();
     if (!data) {
@@ -15,18 +10,12 @@ export const handleSso = async (
     }
     setLoader(true);
     const { id, token, id_token, email } = data;
-    const res = await postData(
-      endPoint.Login,
-      {
-        id,
-        token,
-        idToken: id_token,
-        type: "sso",
-      },
-      {
-        headers: { "x-no-cookie": cookiesEnabled },
-      }
-    );
+    const res = await postData(endPoint.Login, {
+      id,
+      token,
+      idToken: id_token,
+      type: "sso",
+    });
 
     await handleLoginSuccess(res, email);
   } catch (error) {

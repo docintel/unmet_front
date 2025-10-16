@@ -101,7 +101,10 @@ const TouchPoints = () => {
     ) {
       let tagArray = [];
       contents.map((item) => {
-        tagArray = [...tagArray, ...JSON.parse(item.tags)];
+        try {
+          if (item.tags !== "")
+            tagArray = [...tagArray, ...JSON.parse(item.tags)];
+        } catch (ex) {}
       });
 
       const freqMap = {};

@@ -50,7 +50,11 @@ export const ContentProvider = ({ children }) => {
       let tagArray = [];
       contents.map((item) => {
         if (isHcp && item.hide_in_hcp == "1") return;
-        tagArray = [...tagArray, ...JSON.parse(item.tags)];
+        try {
+          if (item.tags !== "")
+            tagArray = [...tagArray, ...JSON.parse(item.tags)];
+        } catch (ex) {}
+
         filteredList.push(item);
       });
 
