@@ -9,8 +9,8 @@ const Layout = () =>
     <>
       {" "}
       <ContentProvider>
-        <main>
         <Header />
+        <main>
           {" "}<Toast />
           <ToastContainer closeOnClick pauseOnHover />
           <Outlet />
