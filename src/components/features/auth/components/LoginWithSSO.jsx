@@ -18,18 +18,6 @@ const LoginWithSSO = () => {
   const [userDetails, setUserDetails] = useState({});
   const [loader, setLoader] = useState(false);
   const [isHcp, setIsHcp] = useState(false);
-  const [cookiesEnabled, setCookiesEnabled] = useState(null);
-
-  useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.data && typeof event.data.cookieSet !== "undefined") {
-        setCookiesEnabled(event.data.cookieSet);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
@@ -56,13 +44,6 @@ const LoginWithSSO = () => {
 
   return (
     <>
-      <div>
-        <iframe
-          src="https://radhe-2001.github.io/cookie/"
-          style={{ display: "none" }}
-          title="Third-party cookie checker"
-        />
-      </div>
       {!userVerified && (
         <div className="login-page sso">
           <Container fluid>
@@ -175,12 +156,7 @@ const LoginWithSSO = () => {
                         variant="primary"
                         onClick={() => {
                           document.cookie = `isHcp=${isHcp}; 1; path=/`;
-                          handleSso(
-                            login,
-                            isUserVerified,
-                            setLoader,
-                            cookiesEnabled
-                          );
+                          handleSso(login, isUserVerified, setLoader);
                         }}
                         className="rounded-lg transition"
                       >
