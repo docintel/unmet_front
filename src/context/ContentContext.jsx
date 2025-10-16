@@ -35,12 +35,10 @@ export const ContentProvider = ({ children }) => {
     });
 
     (async () => {
-      setIsLoading(true);
-      const cntnts = (await fetchContentList()).contents;
+      const cntnts = (await fetchContentList(setIsLoading, setToast)).contents;
       if (cntnts) {
         setContents(cntnts);
       }
-      setIsLoading(false);
     })();
   }, []);
 
@@ -88,22 +86,22 @@ export const ContentProvider = ({ children }) => {
       filterTag.length == 0 &&
       filterCategory.length == 0
     ) {
-      setIsLoading(true);
       const { ageGroups, category, contentCategory } =
-        await fetchAgeGroupCategories();
+        await fetchAgeGroupCategories(setIsLoading, setToast);
       setFilterCategory(category);
       setFilterAges(ageGroups);
       setCategoryList(contentCategory);
-      setIsLoading(false);
     }
   };
 
   const getNarratives = async (isAllSelected) => {
     if (narrative.length == 0) {
-      setIsLoading(true);
-      const { narratives } = await fetchNarrativeList(isAllSelected);
+      const { narratives } = await fetchNarrativeList(
+        isAllSelected,
+        setIsLoading,
+        setToast
+      );
       setNarrative(narratives);
-      setIsLoading(false);
     }
   };
 
