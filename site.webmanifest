@@ -1,0 +1,13 @@
+{
+  "name": "VWD Journey",
+  "short_name": "VWD",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/assets/images/logo-img.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
