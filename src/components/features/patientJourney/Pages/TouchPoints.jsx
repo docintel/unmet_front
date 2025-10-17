@@ -71,7 +71,6 @@ const TouchPoints = () => {
   useEffect(() => {
     (async () => {
       await fetchAgeGroups();
-      filterTag();
     })();
   }, []);
 
@@ -128,6 +127,7 @@ const TouchPoints = () => {
     if (content) {
       getCategoryTags(content);
       filterContents();
+      filterTag();
     }
   }, [content]);
 
@@ -173,6 +173,7 @@ const TouchPoints = () => {
         tempContent = content.filter(
           (item) => item.female_oriented === (isAllSelected ? 1 : 0)
         );
+
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
