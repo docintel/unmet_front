@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
 import {
@@ -300,6 +300,48 @@ const Content = ({
           centered
           className="share-modal"
         >
+          <Modal.Header>
+            <Modal.Title>Share content with HCP</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+             <Tabs
+                defaultActiveKey="new-member"
+                id="share_modal"
+                className="mb-3"
+              >
+                <Tab eventKey="new-member" title="New Member">
+                  <Form onSubmit={handleSubmitClick}>
+                    <Form.Group className="mb-3" controlId="formName">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your name"
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Form>
+                </Tab>
+                <Tab eventKey="existing-member" title="Existing Member">
+                  Tab content for Profile
+                </Tab>
+              </Tabs>
+            
+          </Modal.Body>
+
+        </Modal>
+
+
+        {/* <Modal
+          show={showModal}
+          onHide={handleCloseModal}
+          backdrop="static"
+          keyboard={false}
+          centered
+          className="share-modal"
+        >
           <Modal.Header closeButton>
             <Modal.Title>Share</Modal.Title>
           </Modal.Header>
@@ -361,7 +403,7 @@ const Content = ({
               </Button>
             </Form>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </div>
       <div className="content-box">
         <div className="format">

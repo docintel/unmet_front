@@ -245,7 +245,7 @@ h6 {
       }
     }
 
-    h6 {
+    h5 {
       font-weight: 600;
       font-family: var(--font-family);
       margin: 0;
@@ -298,16 +298,7 @@ h6 {
         position: relative;
 
         label {
-          display: block;
-          margin-bottom: 12px;
-          font-size: 16px;
-          color: var(--text-color);
-          font-weight: 600;
-
-          span {
-            font-weight: 300;
-            font-size: 13px;
-          }
+          @include form-label
         }
 
         .split-button {
@@ -394,19 +385,7 @@ h6 {
       }
 
       .message {
-        border-radius: 8px 12px 12px 8px;
-        border-left: 5px solid var(--green);
-        background: rgba(148, 167, 191, 0.06);
-        padding: 8px 30px 8px 8px;
-        @include flex-align-start;
-        gap: 10px;
-      }
-
-      .text-muted {
-        font-size: 13px;
-        color: var(--gray300) !important;
-        font-weight: 400;
-        margin: 0;
+        @include message;
       }
 
       button {
