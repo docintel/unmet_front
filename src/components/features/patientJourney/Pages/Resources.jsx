@@ -128,9 +128,9 @@ const Resources = () => {
               count++;
             else if (
               filters[i].typ === "tag" &&
-              JSON.parse(element.tags.toLowerCase()).includes(
-                filters[i].txt.toLowerCase()
-              )
+              JSON.parse(
+                element.tags ? element.tags.toLowerCase() : "[]"
+              ).includes(filters[i].txt.toLowerCase())
             )
               count++;
           }
@@ -158,12 +158,52 @@ const Resources = () => {
   };
 
   const selectFilters = (txt, id, typ) => {
-    setFilters([...filters, { txt, id, typ }]);
-    if (typ === "age")
-      setAgeGroup(
-        [...ageGroup]
-          .filter((ag) => ag.id !== id)
-          .sort(
+    try {
+      setFilters([...filters, { txt, id, typ }]);
+      if (typ === "age")
+        setAgeGroup(
+          [...ageGroup]
+            .filter((ag) => ag.id !== id)
+            .sort(
+              (a, b) => a.id - b.id
+              // b.label
+              //   .replace("&lt;", "<")
+              //   .replace("&gt;", ">")
+              //   .split(" ")[1]
+              //   .slice(0, 2)
+              //   .localeCompare(
+              //     a.label
+              //       .replace("&lt;", "<")
+              //       .replace("&gt;", ">")
+              //       .split(" ")[1]
+              //       .slice(0, 2),
+              //     undefined,
+              //     { sensitivity: "base" }
+              //   )
+            )
+        );
+      else if (typ === "cat")
+        setCategory(
+          [...category]
+            .filter((ct) => ct.id !== id)
+            .sort((a, b) =>
+              b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
+            )
+        );
+      else if (typ === "tag") {
+        setTag([...tag].filter((tg) => tg !== txt));
+      }
+    } catch (error) {
+      console.log("Error removing tag filter:", error);
+    }
+  };
+
+  const removeFilters = (txt, id, typ) => {
+    try {
+      if (typ === "age") {
+        setFilters([...filters].filter((ag) => ag.id !== id && typ === "age"));
+        setAgeGroup(
+          [...ageGroup, { label: txt, id }].sort(
             (a, b) => a.id - b.id
             // b.label
             //   .replace("&lt;", "<")
@@ -180,55 +220,27 @@ const Resources = () => {
             //     { sensitivity: "base" }
             //   )
           )
-      );
-    else if (typ === "cat")
-      setCategory(
-        [...category]
-          .filter((ct) => ct.id !== id)
-          .sort((a, b) =>
+        );
+      } else if (typ === "cat") {
+        setFilters([...filters].filter((ct) => ct.id !== id && typ === "cat"));
+        setCategory(
+          [...category, { name: txt, id }].sort((a, b) =>
             b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
           )
-      );
-    else if (typ === "tag") setTag([...tag].filter((tg) => tg !== txt));
-  };
-
-  const removeFilters = (txt, id, typ) => {
-    if (typ === "age") {
-      setFilters([...filters].filter((ag) => ag.id !== id && typ === "age"));
-      setAgeGroup(
-        [...ageGroup, { label: txt, id }].sort(
-          (a, b) => a.id - b.id
-          // b.label
-          //   .replace("&lt;", "<")
-          //   .replace("&gt;", ">")
-          //   .split(" ")[1]
-          //   .slice(0, 2)
-          //   .localeCompare(
-          //     a.label
-          //       .replace("&lt;", "<")
-          //       .replace("&gt;", ">")
-          //       .split(" ")[1]
-          //       .slice(0, 2),
-          //     undefined,
-          //     { sensitivity: "base" }
-          //   )
-        )
-      );
-    } else if (typ === "cat") {
-      setFilters([...filters].filter((ct) => ct.id !== id && typ === "cat"));
-      setCategory(
-        [...category, { name: txt, id }].sort((a, b) =>
-          b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
-        )
-      );
-    } else if (typ === "tag") {
-      setFilters([...filters].filter((tg) => tg.txt !== txt && typ === "tag"));
-      const tempArr = [...tag, txt];
-      const filterArray = [];
-      filterTag.forEach((item) => {
-        if (tempArr.includes(item)) filterArray.push(item);
-      });
-      setTag(filterArray);
+        );
+      } else if (typ === "tag") {
+        setFilters(
+          [...filters].filter((tg) => tg.txt !== txt && typ === "tag")
+        );
+        const tempArr = [...tag, txt];
+        const filterArray = [];
+        filterTag.forEach((item) => {
+          if (tempArr.includes(item)) filterArray.push(item);
+        });
+        setTag(filterArray);
+      }
+    } catch (error) {
+      console.log("Error removing tag filter:", error);
     }
   };
 
@@ -314,7 +326,16 @@ const Resources = () => {
                             className="tag-item"
                             key={idx}
                             style={{ cursor: "pointer" }}
-                            onClick={() => selectFilters(tags, 0, "tag")}
+                            onClick={() => {
+                              try {
+                                selectFilters(tags, 0, "tag");
+                              } catch (error) {
+                                console.log(
+                                  "Error selecting tag filter:",
+                                  error
+                                );
+                              }
+                            }}
                           >
                             {tags}
                           </div>

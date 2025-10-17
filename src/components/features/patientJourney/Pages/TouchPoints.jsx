@@ -90,18 +90,48 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
-    if (
-      (contents && (activeKey || activeJourney)) ||
-      (contents && searchText.trim() === "" && selectedTag.length === 0)
-    ) {
+    if (content) {
       let tagArray = [];
-      contents.map((item) => {
-        try {
-          if (item.tags !== "")
-            tagArray = [...tagArray, ...JSON.parse(item.tags)];
-        } catch (ex) {}
-      });
+      if (activeKey || activeJourney) {
+        let tempContent = [];
+        const age = filterAges
+          .find((val) => val.id == activeJourney)
+          ?.label.replace("&lt;", "<")
+          .replace("&gt;", ">")
+          .split("<br />")[1];
+        const catg = filterCategory.find((val) => val.id == activeKey)?.name;
+        if (!activeKey)
+          tempContent = content.filter((item) =>
+            JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
+          );
+        else if (!activeJourney)
+          tempContent = content.filter((item) =>
+            JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(catg)
+          );
+        else {
+          tempContent = content.filter(
+            (item) =>
+              JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(
+                catg
+              ) &&
+              JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
+          );
+        }
 
+        tempContent.map((item) => {
+          try {
+            if (item.tags !== "")
+              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+          } catch (ex) {}
+        });
+      } else {
+        content.map((item) => {
+          try {
+            if (item.tags !== "")
+              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+          } catch (ex) {}
+        });
+      }
       const freqMap = {};
       for (const word of tagArray) {
         freqMap[word] = (freqMap[word] || 0) + 1;
@@ -115,7 +145,7 @@ const TouchPoints = () => {
       });
       setTags(uniqueWords);
     }
-  }, [activeKey, activeJourney, contents]);
+  }, [activeKey, activeJourney]);
 
   useEffect(() => {
     filterContents();
@@ -134,7 +164,6 @@ const TouchPoints = () => {
         : narrative.filter(
             (narration) => narration.age_group_id == activeJourney
           );
-
       if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
       else setActiveNarration(null);
     } else setActiveNarration(null);
@@ -160,18 +189,22 @@ const TouchPoints = () => {
       if (isAllSelected) {
         const contentList = [];
         content.forEach((element) => {
-          const ageArr = JSON.parse(element.age_groups);
+          const ageArr = JSON.parse(
+            element.age_groups ? element.age_groups : "[]"
+          );
           if (
             ageArr.includes("Age <6") ||
             ageArr.includes("Age 6-11") ||
-            JSON.parse(element.diagnosis).includes("On-demand")
+            JSON.parse(element.diagnosis ? element.diagnosis : "[]").includes(
+              "On-demand"
+            )
           )
             return;
           for (let i = 0; i < selectedTag.length; i++) {
             if (
-              !JSON.parse(element.tags.toLowerCase()).includes(
-                selectedTag[i].toLowerCase()
-              )
+              !JSON.parse(
+                element.tags ? element.tags.toLowerCase() : "[]"
+              ).includes(selectedTag[i].toLowerCase())
             )
               return;
           }
@@ -186,14 +219,21 @@ const TouchPoints = () => {
           for (let i = 0; i < filterAges.length; i++) {
             if (activeJourney && filterAges[i].id === activeJourney) {
               const ageGroup = filterAges[i].label.split("<br />")[1];
-              if (!JSON.parse(element.age_groups).includes(ageGroup)) return;
+              if (
+                !JSON.parse(
+                  element.age_groups ? element.age_groups : "[]"
+                ).includes(ageGroup)
+              )
+                return;
             }
           }
 
           for (let i = 0; i < filterCategory.length; i++) {
             if (activeKey && filterCategory[i].id === activeKey) {
               if (
-                !JSON.parse(element.diagnosis).includes(filterCategory[i].name)
+                !JSON.parse(
+                  element.diagnosis ? element.diagnosis : "[]"
+                ).includes(filterCategory[i].name)
               )
                 return;
             }
@@ -235,7 +275,9 @@ const TouchPoints = () => {
           selectedTag.length === 0
             ? filteredArray
             : filteredArray.filter((item) => {
-                const tagArray = JSON.parse(item.tags.toLowerCase());
+                const tagArray = JSON.parse(
+                  item.tags ? item.tags.toLowerCase() : "[]"
+                );
                 let count = 0;
                 for (let i = 0; i < selectedTag.length; i++) {
                   count = tagArray.includes(selectedTag[i].toLowerCase())
@@ -300,12 +342,12 @@ const TouchPoints = () => {
 
   const handleTagClick = (tag) => {
     setSelectedTag([...selectedTag, tag].sort());
-    setTags([...tags].filter((tg) => tg !== tag).sort());
+    setTags([...tags].filter((tg) => tg !== tag));
   };
 
   const removeFilter = (tag) => {
     setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
-    setTags([...tags, tag].sort());
+    setTags([...tags, tag]);
   };
 
   // Assume you have a way to detect dark mode, e.g. via a context or a prop.
