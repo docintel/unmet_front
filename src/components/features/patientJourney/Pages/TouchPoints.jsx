@@ -420,7 +420,10 @@ const TouchPoints = () => {
 
                               if (activeJourney !== lbl.id)
                                 setActiveJourney(lbl.id);
-                              else setActiveJourney(null);
+                              else {
+                                setActiveJourney(null);
+                                setActiveAgeClass("");
+                              }
                             }
                           }}
                         >
