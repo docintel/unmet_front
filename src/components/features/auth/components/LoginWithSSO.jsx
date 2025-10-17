@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { handleSso } from "../../../../services/authService";
+import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { clearLocalStorage } from "../../../../helper/helper";
@@ -41,6 +42,21 @@ const LoginWithSSO = () => {
       return newValue;
     });
   };
+
+  async function loginAsGuest(){
+    const mail = "Meznah.a.k@docintel.app";
+    setLoader(true);
+    const res= await postData("/auth/login", { mail });
+    const userDetails = res?.data?.data
+    console.log("loginAsGuest",userDetails);
+      clearLocalStorage();
+      localStorage.setItem("user_id", userDetails?.userToken);
+      localStorage.setItem("name", userDetails?.name);
+      localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+      setLoader(false);
+      if (!isHcp) navigate("/home");
+      else navigate("/touchpoints");
+  }
 
   return (
     <>
@@ -161,6 +177,16 @@ const LoginWithSSO = () => {
                         className="rounded-lg transition"
                       >
                         Login <img src={path_image + "login-icon.svg"} alt="" />
+                      </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          document.cookie = `isHcp=${isHcp}; 1; path=/`;
+                          loginAsGuest(login, isUserVerified, setLoader);
+                        }}
+                        className="rounded-lg transition"
+                      >
+                        Login As Guest <img src={path_image + "login-icon.svg"} alt="" />
                       </Button>
                     </Form>
                   </div>

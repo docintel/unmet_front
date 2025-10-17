@@ -20,7 +20,6 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState(null); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
-  const contentPerPage = 6;
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -43,8 +42,6 @@ const TouchPoints = () => {
   const [searchText, setSearchText] = useState("");
   const [selectedTag, setSelectedTag] = useState([]);
   const [tags, setTags] = useState([]);
-  const [activePage, setActivePage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const [activeAgeClass, setActiveAgeClass] = useState("");
   const [contentCategory, setContentCategory] = useState("All");
   const [isInfoVisible, setIsInfoVisible] = useState(true);
@@ -67,8 +64,6 @@ const TouchPoints = () => {
                 item.category.toLowerCase() !== "faq"
             );
       setFilteredContents(newArr);
-      setTotalPages(Math.ceil(newArr.length / contentPerPage));
-      setActivePage(1);
       getCategoryTags(contents);
     }
   }, [contents]);
@@ -313,10 +308,6 @@ const TouchPoints = () => {
     setTags([...tags, tag].sort());
   };
 
-  const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber);
-  };
-
   // Assume you have a way to detect dark mode, e.g. via a context or a prop.
   // For demonstration, let's use a simple hook:
   const isDarkMode =
@@ -358,7 +349,7 @@ const TouchPoints = () => {
                   </label>
                 </div>
                 <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
-                  {filterAges &&
+                  {filterAges && filterAges.length > 0 ? (
                     filterAges.map((lbl) => (
                       <React.Fragment key={lbl.id}>
                         <div
@@ -413,13 +404,16 @@ const TouchPoints = () => {
                           ></div>
                         )}
                       </React.Fragment>
-                    ))}
+                    ))
+                  ) : (
+                    <>No Data Found</>
+                  )}
                 </div>
               </div>
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
-                    {filterCategory &&
+                    {filterCategory && filterCategory.length > 0 ? (
                       filterCategory.map((cat) => {
                         let image = cat.image;
                         const handleOnMauseLeave = () => {
@@ -463,7 +457,10 @@ const TouchPoints = () => {
                             />
                           </Button>
                         );
-                      })}
+                      })
+                    ) : (
+                      <>No Data Found</>
+                    )}
                   </div>
                 </div>
                 <div className="touchpoint-box-inner">
@@ -627,7 +624,7 @@ const TouchPoints = () => {
                       </Button>
                     </Form>
                   </div>
-                  {tags && tags.length > 0 && (
+                  {tags && tags.length > 0 ? (
                     <div className="tags d-flex">
                       <div className="tag-title">Topics:</div>
                       <div className="tag-list d-flex">
@@ -668,10 +665,12 @@ const TouchPoints = () => {
                         )}
                       </div>
                     </div>
+                  ) : (
+                    <>No Data Found</>
                   )}
                   <div className="content-count-box">
                     <div className="content-count">
-                      {categoryTags &&
+                      {categoryTags && Object.keys(categoryTags).length > 1 ? (
                         Object.keys(categoryTags)
                           .filter((cat) => cat.toLowerCase() !== "faq")
                           .map((cat, idx) => {
@@ -702,7 +701,10 @@ const TouchPoints = () => {
                                 </div>
                               </div>
                             );
-                          })}
+                          })
+                      ) : (
+                        <>No Data Found</>
+                      )}
                     </div>
                     <div>
                       {filteredContents && filteredContents.length > 0 ? (
@@ -753,40 +755,6 @@ const TouchPoints = () => {
                       )}
 
                       {}
-                    </div>
-                    <div>
-                      {totalPages && totalPages > 1 ? (
-                        <Pagination className="custom-pagination">
-                          <Pagination.First
-                            onClick={() => handlePageChange(1)}
-                            disabled={activePage === 1}
-                            style={{ marginLeft: "auto" }}
-                          />
-                          <Pagination.Prev
-                            onClick={() => handlePageChange(activePage - 1)}
-                            disabled={activePage === 1}
-                          />
-
-                          {[...Array(totalPages)].map((_, index) => (
-                            <Pagination.Item
-                              key={index + 1}
-                              active={index + 1 === activePage}
-                              onClick={() => handlePageChange(index + 1)}
-                            >
-                              {index + 1}
-                            </Pagination.Item>
-                          ))}
-
-                          <Pagination.Next
-                            onClick={() => handlePageChange(activePage + 1)}
-                            disabled={activePage === totalPages}
-                          />
-                          <Pagination.Last
-                            onClick={() => handlePageChange(totalPages)}
-                            disabled={activePage === totalPages}
-                          />
-                        </Pagination>
-                      ) : null}
                     </div>
                   </div>
                 </div>

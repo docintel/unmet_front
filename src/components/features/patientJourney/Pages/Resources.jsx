@@ -10,7 +10,6 @@ const Content = lazy(() => import("../Common/Content"));
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const contentPerPage = 6;
   const {
     content,
     isHcp,
@@ -33,8 +32,6 @@ const Resources = () => {
   //   previewArticle: null,
   //   id: null,
   // });
-  const [activePage, setActivePage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
 
@@ -66,8 +63,6 @@ const Resources = () => {
           ? contents
           : contents.filter((item) => contentCategory.includes(item.category));
       setFilteredContents(newArr);
-      setActivePage(1);
-      setTotalPages(Math.ceil(newArr.length / contentPerPage));
       getCategoryTags(contents);
     }
   }, [contents]);
@@ -237,10 +232,6 @@ const Resources = () => {
     }
   };
 
-  const handlePageChange = (pageNumber) => {
-    setActivePage(pageNumber);
-  };
-
   return (
     <div className="main-page">
       <div className="custom-container">
@@ -296,7 +287,7 @@ const Resources = () => {
               <div className="tags d-flex">
                 <div className="tag-title">Touchpoints:</div>
                 <div className="tag-list d-flex">
-                  {category &&
+                  {category && category.length > 0 ? (
                     category.map((cat) => (
                       <div
                         className="tag-item"
@@ -306,44 +297,51 @@ const Resources = () => {
                       >
                         {cat.name}
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <>No Data Found</>
+                  )}
                 </div>
               </div>
               <div className="tags d-flex">
                 <div className="tag-title">Topics:</div>
-                <div className="tag-list d-flex">
-                  {tag &&
-                    (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
-                      (tags, idx) => (
-                        <div
-                          className="tag-item"
-                          key={idx}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => selectFilters(tags, 0, "tag")}
-                        >
-                          {tags}
-                        </div>
-                      )
-                    )}{" "}
-                  {tag && tag.length > 10 && (
-                    <Button
-                      className={
-                        tagShowAllClicked ? "show-less-btn" : "show-more-btn"
-                      }
-                      // Add class "show-less-btn" show less tags
-                      onClick={() => setTagShowAllClicked(!tagShowAllClicked)}
-                    >
-                      <span>
-                        {tagShowAllClicked ? "Show less" : "Show more"}
-                      </span>
-                      <img
-                        src={`${path_image}right-arrow.svg`}
-                        alt="Show more"
-                        className="arrow-icon"
-                      />
-                    </Button>
-                  )}
-                </div>
+                {tag && tag.length > 0 ? (
+                  <div className="tag-list d-flex">
+                    {tag &&
+                      (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                        (tags, idx) => (
+                          <div
+                            className="tag-item"
+                            key={idx}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => selectFilters(tags, 0, "tag")}
+                          >
+                            {tags}
+                          </div>
+                        )
+                      )}{" "}
+                    {tag && tag.length > 10 && (
+                      <Button
+                        className={
+                          tagShowAllClicked ? "show-less-btn" : "show-more-btn"
+                        }
+                        // Add class "show-less-btn" show less tags
+                        onClick={() => setTagShowAllClicked(!tagShowAllClicked)}
+                      >
+                        <span>
+                          {tagShowAllClicked ? "Show less" : "Show more"}
+                        </span>
+                        <img
+                          src={`${path_image}right-arrow.svg`}
+                          alt="Show more"
+                          className="arrow-icon"
+                        />
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <>No Data Found</>
+                )}
               </div>
               {/* <div className="tags d-flex">
                 <div className="tag-title">Ages:</div>
@@ -376,7 +374,7 @@ const Resources = () => {
               </div> */}
               <div className="content-count-box">
                 <div className="content-count">
-                  {categoryTags &&
+                  {categoryTags && Object.keys(categoryTags).length > 1 ? (
                     Object.keys(categoryTags)
                       .filter((cat) => cat.toLowerCase() !== "faq")
                       .map((cat, idx) => {
@@ -403,7 +401,10 @@ const Resources = () => {
                             </div>
                           </div>
                         );
-                      })}
+                      })
+                  ) : (
+                    <>No Data Found</>
+                  )}
                 </div>
                 <div>
                   {" "}
@@ -454,40 +455,6 @@ const Resources = () => {
                     </div>
                   )}
                 </div>{" "}
-                <div>
-                  {totalPages && totalPages > 1 ? (
-                    <Pagination className="custom-pagination">
-                      <Pagination.First
-                        onClick={() => handlePageChange(1)}
-                        disabled={activePage === 1}
-                        style={{ marginLeft: "auto" }}
-                      />
-                      <Pagination.Prev
-                        onClick={() => handlePageChange(activePage - 1)}
-                        disabled={activePage === 1}
-                      />
-
-                      {[...Array(totalPages)].map((_, index) => (
-                        <Pagination.Item
-                          key={index + 1}
-                          active={index + 1 === activePage}
-                          onClick={() => handlePageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </Pagination.Item>
-                      ))}
-
-                      <Pagination.Next
-                        onClick={() => handlePageChange(activePage + 1)}
-                        disabled={activePage === totalPages}
-                      />
-                      <Pagination.Last
-                        onClick={() => handlePageChange(totalPages)}
-                        disabled={activePage === totalPages}
-                      />
-                    </Pagination>
-                  ) : null}
-                </div>
               </div>
             </div>
           </div>

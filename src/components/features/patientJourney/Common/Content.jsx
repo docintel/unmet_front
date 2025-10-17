@@ -38,9 +38,12 @@ const Content = ({
   const circumference = 2 * Math.PI * 45;
 
   const handleStarClick = async () => {
-    setIsLoading(true);
     try {
-      const response = await updateContentRating(section.id);
+      const response = await updateContentRating(
+        section.id,
+        setIsLoading,
+        setToast
+      );
       updateRating(section.id, response.response);
       setSection({
         ...section,
@@ -54,7 +57,6 @@ const Content = ({
           title: "Success",
           message: "Rating saved successfully",
         });
-        setIsLoading(false);
       } else {
         setToast({
           show: true,
@@ -62,12 +64,8 @@ const Content = ({
           title: "Removed",
           message: "Rating removed successfully",
         });
-        setIsLoading(false);
       }
-    } catch (ex) {
-      toast.error("Oops!! somthing went wrong.");
-      setIsLoading(false);
-    }
+    } catch (ex) {}
   };
 
   // useEffect(() => {
@@ -241,10 +239,9 @@ const Content = ({
       }
       setDownloading(false);
 
-      await TrackDownloads(section.id);
+      await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
       toast.error("Failed to download the content.");
-      setDownloading(false);
     }
   };
 
@@ -262,20 +259,19 @@ const Content = ({
         setError({ type: "email", message: "Email is required!!" });
         return;
       }
-      setIsLoading(true);
 
       await SubmitShareContent(
         section.id,
         email,
         message || null,
-        name || null
+        name || null,
+        setIsLoading,
+        setToast
       );
       toast.success("Content shared via email successfully");
       handleCloseModal();
-      setIsLoading(false);
     } catch (ex) {
       setError({ type: "global", message: "Oops!! somthing went wrong." });
-      setIsLoading(false);
     }
   };
 
