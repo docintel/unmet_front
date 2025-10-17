@@ -71,6 +71,7 @@ const TouchPoints = () => {
   useEffect(() => {
     (async () => {
       await fetchAgeGroups();
+      filterTag();
     })();
   }, []);
 
@@ -90,62 +91,8 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
-    if (content) {
-      let tagArray = [];
-      if (activeKey || activeJourney) {
-        let tempContent = [];
-        const age = filterAges
-          .find((val) => val.id == activeJourney)
-          ?.label.replace("&lt;", "<")
-          .replace("&gt;", ">")
-          .split("<br />")[1];
-        const catg = filterCategory.find((val) => val.id == activeKey)?.name;
-        if (!activeKey)
-          tempContent = content.filter((item) =>
-            JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
-          );
-        else if (!activeJourney)
-          tempContent = content.filter((item) =>
-            JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(catg)
-          );
-        else {
-          tempContent = content.filter(
-            (item) =>
-              JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(
-                catg
-              ) &&
-              JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
-          );
-        }
-
-        tempContent.map((item) => {
-          try {
-            if (item.tags !== "")
-              tagArray = [...tagArray, ...JSON.parse(item.tags)];
-          } catch (ex) {}
-        });
-      } else {
-        content.map((item) => {
-          try {
-            if (item.tags !== "")
-              tagArray = [...tagArray, ...JSON.parse(item.tags)];
-          } catch (ex) {}
-        });
-      }
-      const freqMap = {};
-      for (const word of tagArray) {
-        freqMap[word] = (freqMap[word] || 0) + 1;
-      }
-
-      const uniqueWords = Object.keys(freqMap);
-      uniqueWords.sort((a, b) => {
-        const freqDiff = freqMap[b] - freqMap[a];
-        if (freqDiff !== 0) return freqDiff;
-        return a.localeCompare(b);
-      });
-      setTags(uniqueWords);
-    }
-  }, [activeKey, activeJourney]);
+    filterTag();
+  }, [activeKey, activeJourney, isAllSelected]);
 
   useEffect(() => {
     filterContents();
@@ -184,6 +131,70 @@ const TouchPoints = () => {
     }
   }, [content]);
 
+  const filterTag = () => {
+    if (content) {
+      let tagArray = [];
+      if (activeKey || activeJourney) {
+        let tempContent = [];
+        const age = filterAges
+          .find((val) => val.id == activeJourney)
+          ?.label.replace("&lt;", "<")
+          .replace("&gt;", ">")
+          .split("<br />")[1];
+        const catg = filterCategory.find((val) => val.id == activeKey)?.name;
+        if (!activeKey)
+          tempContent = content.filter((item) =>
+            JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
+          );
+        else if (!activeJourney)
+          tempContent = content.filter((item) =>
+            JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(catg)
+          );
+        else {
+          tempContent = content.filter(
+            (item) =>
+              JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(
+                catg
+              ) &&
+              JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
+          );
+        }
+        tempContent = tempContent.filter(
+          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+        );
+        tempContent.map((item) => {
+          try {
+            if (item.tags !== "")
+              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+          } catch (ex) {}
+        });
+      } else {
+        let tempContent = [];
+        tempContent = content.filter(
+          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+        );
+        tempContent.map((item) => {
+          try {
+            if (item.tags !== "")
+              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+          } catch (ex) {}
+        });
+      }
+      const freqMap = {};
+      for (const word of tagArray) {
+        freqMap[word] = (freqMap[word] || 0) + 1;
+      }
+
+      const uniqueWords = Object.keys(freqMap);
+      uniqueWords.sort((a, b) => {
+        const freqDiff = freqMap[b] - freqMap[a];
+        if (freqDiff !== 0) return freqDiff;
+        return a.localeCompare(b);
+      });
+      setTags(uniqueWords);
+    }
+  };
+
   const filterContents = () => {
     if (content) {
       if (isAllSelected) {
@@ -192,14 +203,7 @@ const TouchPoints = () => {
           const ageArr = JSON.parse(
             element.age_groups ? element.age_groups : "[]"
           );
-          if (
-            ageArr.includes("Age <6") ||
-            ageArr.includes("Age 6-11") ||
-            JSON.parse(element.diagnosis ? element.diagnosis : "[]").includes(
-              "On-demand"
-            )
-          )
-            return;
+          if (element.female_oriented === 0) return;
           for (let i = 0; i < selectedTag.length; i++) {
             if (
               !JSON.parse(
