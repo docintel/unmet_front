@@ -83,7 +83,7 @@ export const ContentProvider = ({ children }) => {
   const fetchAgeGroups = async () => {
     if (
       filterAges.length == 0 &&
-      filterTag.length == 0 &&
+      categoryList.length == 0 &&
       filterCategory.length == 0
     ) {
       const { ageGroups, category, contentCategory } =

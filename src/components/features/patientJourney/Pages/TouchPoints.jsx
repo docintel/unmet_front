@@ -66,7 +66,7 @@ const TouchPoints = () => {
       setFilteredContents(newArr);
       getCategoryTags(contents);
     }
-  }, [contents]);
+  }, [contents, categoryList]);
 
   useEffect(() => {
     (async () => {
@@ -396,121 +396,132 @@ const TouchPoints = () => {
                   </label>
                 </div>
                 <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
-                  {filterAges && filterAges.length > 0 ? (
-                    filterAges.map((lbl) => (
-                      <React.Fragment key={lbl.id}>
-                        <div
-                          key={lbl.id}
-                          className={`journey-link ${
-                            activeJourney === lbl.id ? "active" : ""
-                          } ${isTabDisabled(lbl.id, false) ? "disabled" : ""}`}
-                          onClick={() => {
-                            if (!isTabDisabled(lbl.id, false)) {
-                              const agesList = lbl.label
-                                .replace("&lt;", "")
-                                .replace("&gt;", "")
-                                .split("<br />")[1]
-                                .split(" ")[1]
-                                .split("-");
-                              let ageName = "";
-                              if (agesList.length === 1 && agesList[0] === "6")
-                                ageName = "age" + "0";
-                              else ageName = "age" + agesList[0];
-                              setActiveAgeClass(ageName);
-
-                              if (activeJourney !== lbl.id)
-                                setActiveJourney(lbl.id);
-                              else {
-                                setActiveJourney(null);
-                                setActiveAgeClass("");
-                              }
-                            }
-                          }}
-                        >
-                          <div className="userImg">
-                            <img
-                              src={
-                                path_image +
-                                "ages/" +
-                                (!isAllSelected
-                                  ? lbl.allImage
-                                  : lbl.femaleImage)
-                              }
-                              alt=""
-                            />
-                          </div>
+                  {
+                    filterAges &&
+                      filterAges.length > 0 &&
+                      filterAges.map((lbl) => (
+                        <React.Fragment key={lbl.id}>
                           <div
-                            className="user-category"
-                            dangerouslySetInnerHTML={{
-                              __html: lbl.label,
-                            }}
-                          ></div>
-                        </div>
-                        {lbl.id !== filterAges.length + 1 && (
-                          <div
-                            className={`line ${
+                            key={lbl.id}
+                            className={`journey-link ${
+                              activeJourney === lbl.id ? "active" : ""
+                            } ${
                               isTabDisabled(lbl.id, false) ? "disabled" : ""
                             }`}
-                          ></div>
-                        )}
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    <>No Data Found</>
-                  )}
+                            onClick={() => {
+                              if (!isTabDisabled(lbl.id, false)) {
+                                const agesList = lbl.label
+                                  .replace("&lt;", "")
+                                  .replace("&gt;", "")
+                                  .split("<br />")[1]
+                                  .split(" ")[1]
+                                  .split("-");
+                                let ageName = "";
+                                if (
+                                  agesList.length === 1 &&
+                                  agesList[0] === "6"
+                                )
+                                  ageName = "age" + "0";
+                                else ageName = "age" + agesList[0];
+                                setActiveAgeClass(ageName);
+
+                                if (activeJourney !== lbl.id)
+                                  setActiveJourney(lbl.id);
+                                else {
+                                  setActiveJourney(null);
+                                  setActiveAgeClass("");
+                                }
+                              }
+                            }}
+                          >
+                            <div className="userImg">
+                              <img
+                                src={
+                                  path_image +
+                                  "ages/" +
+                                  (!isAllSelected
+                                    ? lbl.allImage
+                                    : lbl.femaleImage)
+                                }
+                                alt=""
+                              />
+                            </div>
+                            <div
+                              className="user-category"
+                              dangerouslySetInnerHTML={{
+                                __html: lbl.label,
+                              }}
+                            ></div>
+                          </div>
+                          {lbl.id !== filterAges.length + 1 && (
+                            <div
+                              className={`line ${
+                                isTabDisabled(lbl.id, false) ? "disabled" : ""
+                              }`}
+                            ></div>
+                          )}
+                        </React.Fragment>
+                      ))
+                    // : (
+                    // <>No Data Found</>
+                    // )
+                  }
                 </div>
               </div>
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
                   <div className="touchpoint-links">
-                    {filterCategory && filterCategory.length > 0 ? (
-                      filterCategory.map((cat) => {
-                        let image = cat.image;
-                        const handleOnMauseLeave = () => {
-                          image = image.replace("hover-", "");
-                          setHoverImage({ id: cat.id, image: image });
-                        };
-                        const handleOnMauseEnter = () => {
-                          if (image.indexOf("hover-") === -1) {
-                            image = "hover-" + image;
+                    {
+                      filterCategory &&
+                        filterCategory.length > 0 &&
+                        filterCategory.map((cat) => {
+                          let image = cat.image;
+                          const handleOnMauseLeave = () => {
+                            image = image.replace("hover-", "");
                             setHoverImage({ id: cat.id, image: image });
-                          }
-                        };
-                        return (
-                          <Button
-                            key={cat.id}
-                            onClick={() => {
-                              if (activeKey !== cat.id) setActiveKey(cat.id);
-                              else setActiveKey(null);
-                            }}
-                            disabled={isTabDisabled(cat.id, true)}
-                            className={` ${
-                              isTabDisabled(cat.id, true)
-                                ? "disabled"
-                                : activeKey === cat.id
-                                ? "active"
-                                : ""
-                            }`}
-                            onMouseLeave={handleOnMauseLeave}
-                            onMouseEnter={handleOnMauseEnter}
-                          >
-                            {cat.name}
-                            <img
-                              src={
-                                path_image +
-                                "icons/" +
-                                (hoverImage && hoverImage.id === cat.id
-                                  ? hoverImage.image
-                                  : cat.image)
-                              }
-                              alt="icon"
-                            />
-                          </Button>
-                        );
-                      })
-                    ) : (
-                      <>No Data Found</>
-                    )}
+                          };
+                          const handleOnMauseEnter = () => {
+                            if (image.indexOf("hover-") === -1) {
+                              image = "hover-" + image;
+                              setHoverImage({ id: cat.id, image: image });
+                            }
+                          };
+                          return (
+                            <Button
+                              key={cat.id}
+                              onClick={() => {
+                                if (activeKey !== cat.id) setActiveKey(cat.id);
+                                else setActiveKey(null);
+                              }}
+                              disabled={isTabDisabled(cat.id, true)}
+                              className={` ${
+                                isTabDisabled(cat.id, true)
+                                  ? "disabled"
+                                  : activeKey === cat.id
+                                  ? "active"
+                                  : ""
+                              }`}
+                              onMouseLeave={handleOnMauseLeave}
+                              onMouseEnter={handleOnMauseEnter}
+                            >
+                              {cat.name}
+                              <img
+                                src={
+                                  path_image +
+                                  "icons/" +
+                                  (hoverImage && hoverImage.id === cat.id
+                                    ? hoverImage.image
+                                    : cat.image)
+                                }
+                                alt="icon"
+                              />
+                            </Button>
+                          );
+                        })
+                      // : (
+                      //   <>No Data Found</>
+                      // )
+                    }
                   </div>
                 </div>
                 <div className="touchpoint-box-inner">
@@ -653,11 +664,7 @@ const TouchPoints = () => {
                         <Form.Control
                           type="search"
                           aria-label="Search"
-                          placeholder={
-                            selectedTag.length === 0
-                              ? "Search by tag or content title"
-                              : "Entered text will be here"
-                          }
+                          placeholder={"Search by tag or content title"}
                           value={searchText}
                           onChange={(e) => setSearchText(e.target.value)}
                           onKeyUp={handleSearchTextKeyUp}
@@ -674,87 +681,93 @@ const TouchPoints = () => {
                       </Button>
                     </Form>
                   </div>
-                  {tags && tags.length > 0 ? (
-                    <div className="tags d-flex">
-                      <div className="tag-title">Topics:</div>
-                      <div className="tag-list d-flex">
-                        {tags &&
-                          (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
-                            (tag, idx) => (
-                              <div
-                                className="tag-item"
-                                key={idx}
-                                style={{ cursor: "pointer" }}
-                                onClick={() => handleTagClick(tag)}
-                              >
-                                {tag}
-                              </div>
-                            )
+                  {
+                    tags && tags.length > 0 && (
+                      <div className="tags d-flex">
+                        <div className="tag-title">Topics:</div>
+                        <div className="tag-list d-flex">
+                          {tags &&
+                            (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
+                              (tag, idx) => (
+                                <div
+                                  className="tag-item"
+                                  key={idx}
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => handleTagClick(tag)}
+                                >
+                                  {tag}
+                                </div>
+                              )
+                            )}
+                          {tags && tags.length > 10 && (
+                            <Button
+                              className={
+                                tagShowAllClicked
+                                  ? "show-less-btn"
+                                  : "show-more-btn"
+                              }
+                              // Add class "show-less-btn" show less tags
+                              onClick={() =>
+                                setTagShowAllClicked(!tagShowAllClicked)
+                              }
+                            >
+                              <span>
+                                {tagShowAllClicked ? "Show less" : "Show more"}
+                              </span>
+                              <img
+                                src={`${path_image}right-arrow.svg`}
+                                alt="Show more"
+                                className="arrow-icon"
+                              />
+                            </Button>
                           )}
-                        {tags && tags.length > 10 && (
-                          <Button
-                            className={
-                              tagShowAllClicked
-                                ? "show-less-btn"
-                                : "show-more-btn"
-                            }
-                            // Add class "show-less-btn" show less tags
-                            onClick={() =>
-                              setTagShowAllClicked(!tagShowAllClicked)
-                            }
-                          >
-                            <span>
-                              {tagShowAllClicked ? "Show less" : "Show more"}
-                            </span>
-                            <img
-                              src={`${path_image}right-arrow.svg`}
-                              alt="Show more"
-                              className="arrow-icon"
-                            />
-                          </Button>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <>No Data Found</>
-                  )}
+                    )
+                    // : (
+                    // <>No Data Found</>
+                    // )
+                  }
                   <div className="content-count-box">
                     <div className="content-count">
-                      {categoryTags && Object.keys(categoryTags).length > 1 ? (
-                        Object.keys(categoryTags)
-                          .filter((cat) => cat.toLowerCase() !== "faq")
-                          .map((cat, idx) => {
-                            return (
-                              <div
-                                className={`filter ${
-                                  contentCategory === cat ? "active" : ""
-                                }`}
-                                style={{
-                                  cursor: "pointer",
-                                  userSelect: "none",
-                                }}
-                                key={idx}
-                                onClick={() => setContentCategory(cat)}
-                              >
-                                <img
-                                  src={
-                                    path_image +
-                                    "icons/" +
-                                    iconMapping.category[cat]
-                                  }
-                                  alt=""
-                                />
-                                {cat}
-                                <br />
-                                <div>
-                                  <span>{categoryTags[cat]}</span>
+                      {
+                        categoryTags &&
+                          Object.keys(categoryTags).length > 1 &&
+                          Object.keys(categoryTags)
+                            .filter((cat) => cat.toLowerCase() !== "faq")
+                            .map((cat, idx) => {
+                              return (
+                                <div
+                                  className={`filter ${
+                                    contentCategory === cat ? "active" : ""
+                                  }`}
+                                  style={{
+                                    cursor: "pointer",
+                                    userSelect: "none",
+                                  }}
+                                  key={idx}
+                                  onClick={() => setContentCategory(cat)}
+                                >
+                                  <img
+                                    src={
+                                      path_image +
+                                      "icons/" +
+                                      iconMapping.category[cat]
+                                    }
+                                    alt=""
+                                  />
+                                  {cat}
+                                  <br />
+                                  <div>
+                                    <span>{categoryTags[cat]}</span>
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })
-                      ) : (
-                        <>No Data Found</>
-                      )}
+                              );
+                            })
+                        // : (
+                        // <>No Data Found</>
+                        // )
+                      }
                     </div>
                     <div>
                       {filteredContents && filteredContents.length > 0 ? (

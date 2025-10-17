@@ -74,7 +74,7 @@ const Resources = () => {
   useEffect(() => {
     filterContents();
     if (content) getCategoryTags(content);
-  }, [content]);
+  }, [content, categoryList]);
 
   useEffect(() => {
     (async () => {
@@ -278,11 +278,7 @@ const Resources = () => {
                     <Form.Control
                       type="search"
                       aria-label="Search"
-                      placeholder={
-                        filters.length === 0
-                          ? "Search by tag or content title"
-                          : "Entered text will be here"
-                      }
+                      placeholder={"Search by tag or content title"}
                       value={searchText}
                       name="search"
                       id="search"
@@ -299,70 +295,80 @@ const Resources = () => {
               <div className="tags d-flex">
                 <div className="tag-title">Touchpoints:</div>
                 <div className="tag-list d-flex">
-                  {category && category.length > 0 ? (
-                    category.map((cat) => (
-                      <div
-                        className="tag-item"
-                        key={cat.id}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => selectFilters(cat.name, cat.id, "cat")}
-                      >
-                        {cat.name}
-                      </div>
-                    ))
-                  ) : (
-                    <>No Data Found</>
-                  )}
+                  {
+                    category &&
+                      category.length > 0 &&
+                      category.map((cat) => (
+                        <div
+                          className="tag-item"
+                          key={cat.id}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => selectFilters(cat.name, cat.id, "cat")}
+                        >
+                          {cat.name}
+                        </div>
+                      ))
+                    // : (
+                    //   <>No Data Found</>
+                    // )
+                  }
                 </div>
               </div>
               <div className="tags d-flex">
                 <div className="tag-title">Topics:</div>
-                {tag && tag.length > 0 ? (
-                  <div className="tag-list d-flex">
-                    {tag &&
-                      (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
-                        (tags, idx) => (
-                          <div
-                            className="tag-item"
-                            key={idx}
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              try {
-                                selectFilters(tags, 0, "tag");
-                              } catch (error) {
-                                console.log(
-                                  "Error selecting tag filter:",
-                                  error
-                                );
-                              }
-                            }}
-                          >
-                            {tags}
-                          </div>
-                        )
-                      )}{" "}
-                    {tag && tag.length > 10 && (
-                      <Button
-                        className={
-                          tagShowAllClicked ? "show-less-btn" : "show-more-btn"
-                        }
-                        // Add class "show-less-btn" show less tags
-                        onClick={() => setTagShowAllClicked(!tagShowAllClicked)}
-                      >
-                        <span>
-                          {tagShowAllClicked ? "Show less" : "Show more"}
-                        </span>
-                        <img
-                          src={`${path_image}right-arrow.svg`}
-                          alt="Show more"
-                          className="arrow-icon"
-                        />
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  <>No Data Found</>
-                )}
+                {
+                  tag && tag.length > 0 && (
+                    <div className="tag-list d-flex">
+                      {tag &&
+                        (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                          (tags, idx) => (
+                            <div
+                              className="tag-item"
+                              key={idx}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                try {
+                                  selectFilters(tags, 0, "tag");
+                                } catch (error) {
+                                  console.log(
+                                    "Error selecting tag filter:",
+                                    error
+                                  );
+                                }
+                              }}
+                            >
+                              {tags}
+                            </div>
+                          )
+                        )}{" "}
+                      {tag && tag.length > 10 && (
+                        <Button
+                          className={
+                            tagShowAllClicked
+                              ? "show-less-btn"
+                              : "show-more-btn"
+                          }
+                          // Add class "show-less-btn" show less tags
+                          onClick={() =>
+                            setTagShowAllClicked(!tagShowAllClicked)
+                          }
+                        >
+                          <span>
+                            {tagShowAllClicked ? "Show less" : "Show more"}
+                          </span>
+                          <img
+                            src={`${path_image}right-arrow.svg`}
+                            alt="Show more"
+                            className="arrow-icon"
+                          />
+                        </Button>
+                      )}
+                    </div>
+                  )
+                  // : (
+                  // <>No Data Found</>
+                  // )
+                }
               </div>
               {/* <div className="tags d-flex">
                 <div className="tag-title">Ages:</div>
@@ -395,37 +401,40 @@ const Resources = () => {
               </div> */}
               <div className="content-count-box">
                 <div className="content-count">
-                  {categoryTags && Object.keys(categoryTags).length > 1 ? (
-                    Object.keys(categoryTags)
-                      .filter((cat) => cat.toLowerCase() !== "faq")
-                      .map((cat, idx) => {
-                        return (
-                          <div
-                            className={`filter ${
-                              contentCategory === cat ? "active" : ""
-                            }`}
-                            style={{ cursor: "pointer", userSelect: "none" }}
-                            key={idx}
-                            onClick={() => setContentCategory(cat)}
-                          >
-                            <img
-                              src={
-                                path_image +
-                                "icons/" +
-                                iconMapping.category[cat]
-                              }
-                              alt=""
-                            />
-                            {cat}
-                            <div>
-                              <span>{categoryTags[cat]}</span>
+                  {
+                    categoryTags &&
+                      Object.keys(categoryTags).length > 1 &&
+                      Object.keys(categoryTags)
+                        .filter((cat) => cat.toLowerCase() !== "faq")
+                        .map((cat, idx) => {
+                          return (
+                            <div
+                              className={`filter ${
+                                contentCategory === cat ? "active" : ""
+                              }`}
+                              style={{ cursor: "pointer", userSelect: "none" }}
+                              key={idx}
+                              onClick={() => setContentCategory(cat)}
+                            >
+                              <img
+                                src={
+                                  path_image +
+                                  "icons/" +
+                                  iconMapping.category[cat]
+                                }
+                                alt=""
+                              />
+                              {cat}
+                              <div>
+                                <span>{categoryTags[cat]}</span>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })
-                  ) : (
-                    <>No Data Found</>
-                  )}
+                          );
+                        })
+                    // : (
+                    // <>No Data Found</>
+                    // )
+                  }
                 </div>
                 <div>
                   {" "}
