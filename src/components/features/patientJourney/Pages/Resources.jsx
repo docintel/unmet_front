@@ -374,7 +374,7 @@ const Resources = () => {
               </div> */}
               <div className="content-count-box">
                 <div className="content-count">
-                  {categoryTags && Object.keys(categoryTags).length ? (
+                  {categoryTags && Object.keys(categoryTags).length > 1 ? (
                     Object.keys(categoryTags)
                       .filter((cat) => cat.toLowerCase() !== "faq")
                       .map((cat, idx) => {

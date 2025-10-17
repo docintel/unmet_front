@@ -670,7 +670,7 @@ const TouchPoints = () => {
                   )}
                   <div className="content-count-box">
                     <div className="content-count">
-                      {categoryTags && Object.keys(categoryTags).length > 0 ? (
+                      {categoryTags && Object.keys(categoryTags).length > 1 ? (
                         Object.keys(categoryTags)
                           .filter((cat) => cat.toLowerCase() !== "faq")
                           .map((cat, idx) => {
