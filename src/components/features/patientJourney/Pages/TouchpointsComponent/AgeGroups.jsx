@@ -23,9 +23,9 @@ const AgeGroups = ({
   return (
     <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
       {filterAges.loading ? (
-        <>Loading...</>
+        <></>
       ) : filterAges.error ? (
-        <>No Data Found</>
+        <></>
       ) : (
         filterAges.data &&
         filterAges.data.length > 0 &&

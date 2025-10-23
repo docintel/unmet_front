@@ -292,106 +292,31 @@ const Content = ({
           </Modal.Header>
 
           <Modal.Body>
-             <Tabs
-                defaultActiveKey="new-member"
-                id="share_modal"
-                className="mb-3"
-              >
-                <Tab eventKey="new-member" title="New Member">
-
-                  <Form onSubmit={handleSubmitClick}>
-                    <Form.Group className="mb-3" controlId="formName">
-                      <Form.Label>Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter your name"
-                        name="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Form>
-                </Tab>
-                <Tab eventKey="existing-member" title="Existing Member">
-                  Tab content for Profile
-                </Tab>
-              </Tabs>
-            
+            <Tabs
+              defaultActiveKey="new-member"
+              id="share_modal"
+              className="mb-3"
+            >
+              <Tab eventKey="new-member" title="New Member">
+                <Form onSubmit={handleSubmitClick}>
+                  <Form.Group className="mb-3" controlId="formName">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter your name"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </Form.Group>
+                </Form>
+              </Tab>
+              <Tab eventKey="existing-member" title="Existing Member">
+                Tab content for Profile
+              </Tab>
+            </Tabs>
           </Modal.Body>
-
         </Modal>
-
-
-        {/* <Modal
-          show={showModal}
-          onHide={handleCloseModal}
-          backdrop="static"
-          keyboard={false}
-          centered
-          className="share-modal"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Share</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Form onSubmit={handleSubmitClick}>
-              <Form.Group className="mb-3" controlId="formName">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter your name"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>
-                  Email
-                  <span
-                    style={{
-                      color: "var(--gradient-pink)",
-                      marginLeft: "1px",
-                    }}
-                  >
-                    *
-                  </span>
-                </Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={email}
-                  className={error && error.type === "email" ? "error" : ""}
-                  onChange={(e) => setEmail(e.target.value.trim())}
-                />
-                <p style={{ color: "var(--gradient-pink)" }}>
-                  {error && error.type === "email" && error.message}
-                </p>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formMessage">
-                <Form.Label>Message</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Enter your message"
-                  name="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-              </Form.Group>
-              <p style={{ color: "var(--gradient-pink)" }}>
-                {error && error.type === "global" && error.message}
-              </p>
-              <Button variant="primary" onClick={handleSubmitClick}>
-                Share
-              </Button>
-            </Form>
-          </Modal.Body>
-        </Modal> */}
       </div>
       <div className="content-box">
         <div className="format">
@@ -485,10 +410,12 @@ const Content = ({
             })}
         </div>
         <div className="tags tag-list">
-          {section.tags !== "" &&
-            JSON.parse(section.tags).map((tag, idx) => (
-              <div key={idx}>{tag}</div>
-            ))}
+          {[
+            ...JSON.parse(section.tags || "[]"),
+            ...JSON.parse(section.functional_tags || "[]"),
+          ].map((tag, idx) => (
+            <div key={idx}>{tag}</div>
+          ))}
         </div>
         <div className="date">{section.creation_date}</div>
         <div className="favorite d-flex justify-content-between align-sections-center">
