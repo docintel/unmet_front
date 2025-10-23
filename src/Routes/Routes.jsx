@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"; 
 import Account from "../components/features/patientJourney/Pages/Account";
-import Resources from "../components/features/patientJourney/Pages/Resources";
-import TouchPoints from "../components/features/patientJourney/Pages/TouchPoints";
+import Resources from "../components/features/patientJourney/Pages/ResourcesComponent/Resources";
+import TouchPoints from "../components/features/patientJourney/Pages/TouchpointsComponent/TouchPoints";
 import LoginWithSSO from "../components/features/auth/components/LoginWithSSO";
 import { lazy } from "react";
 const PatientJourneyLanding = lazy(() =>

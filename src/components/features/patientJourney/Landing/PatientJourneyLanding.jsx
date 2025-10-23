@@ -26,8 +26,14 @@ const PatientJourneyLanding = () => {
                 <div className="explore-journey">
                   <h5>Explore your patient's Journey</h5>
                   <div className="patient-journey d-flex align-items-center justify-content-between">
-                    {filterAges && filterAges.length > 0 ? (
-                      filterAges.map((age, idx) => (
+                    {filterAges.loading ? (
+                      <>Loading...</>
+                    ) : filterAges.error ? (
+                      <>No Data Found</>
+                    ) : (
+                      filterAges.data &&
+                      filterAges.data.length > 0 &&
+                      filterAges.data.map((age, idx) => (
                         <React.Fragment key={age.id}>
                           <div
                             dangerouslySetInnerHTML={{
@@ -36,13 +42,11 @@ const PatientJourneyLanding = () => {
                             className="journey-link"
                           ></div>
                           {}
-                          {idx !== filterAges.length - 1 && (
+                          {idx !== filterAges.data.length - 1 && (
                             <div className="line"></div>
                           )}
                         </React.Fragment>
                       ))
-                    ) : (
-                      <>No Data Found</>
                     )}
                   </div>
                   <Link to="/touchpoints" className="start-btn">

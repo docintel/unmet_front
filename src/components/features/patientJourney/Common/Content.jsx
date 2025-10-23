@@ -102,16 +102,6 @@ const Content = ({
       );
   };
 
-  const handleReadClick = (e, link, id) => {
-    e.preventDefault();
-    // If clicking same article, toggle off
-    if (currentReadClick.id === id) {
-      setCurrentReadClick({ previewArticle: null, id: null });
-    } else {
-      setCurrentReadClick({ previewArticle: link, id });
-    }
-  };
-
   const handleShareClick = () => {
     setShowModal(true);
   };
@@ -475,7 +465,7 @@ const Content = ({
         <div className="category">
           {section.diagnosis !== "" &&
             JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
-              const imageName = filterCategory.filter(
+              const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
               return (

@@ -43,19 +43,19 @@ const LoginWithSSO = () => {
     });
   };
 
-  async function loginAsGuest(){
+  async function loginAsGuest() {
     const mail = "Meznah.a.k@docintel.app";
     setLoader(true);
-    const res= await postData("/auth/login", { mail });
-    const userDetails = res?.data?.data
-    console.log("loginAsGuest",userDetails);
-      clearLocalStorage();
-      localStorage.setItem("user_id", userDetails?.userToken);
-      localStorage.setItem("name", userDetails?.name);
-      localStorage.setItem("decrypted_token", userDetails?.jwtToken);
-      setLoader(false);
-      if (!isHcp) navigate("/home");
-      else navigate("/touchpoints");
+    const res = await postData("/auth/login", { mail });
+    const userDetails = res?.data?.data;
+    console.log("loginAsGuest", userDetails);
+    clearLocalStorage();
+    localStorage.setItem("user_id", userDetails?.userToken);
+    localStorage.setItem("name", userDetails?.name);
+    localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+    setLoader(false);
+    if (!isHcp) navigate("/home");
+    else navigate("/touchpoints");
   }
 
   return (
@@ -186,7 +186,8 @@ const LoginWithSSO = () => {
                         }}
                         className="rounded-lg transition"
                       >
-                        Login As Guest <img src={path_image + "login-icon.svg"} alt="" />
+                        Login As Guest{" "}
+                        <img src={path_image + "login-icon.svg"} alt="" />
                       </Button>
                     </Form>
                   </div>

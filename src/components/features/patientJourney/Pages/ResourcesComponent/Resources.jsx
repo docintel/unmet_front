@@ -1,12 +1,11 @@
 import React, { lazy, useContext, useEffect, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
-import { ContentContext } from "../../../../context/ContentContext";
+import { ContentContext } from "../../../../../context/ContentContext";
 // import Content from "../Common/Content";
 import { toast } from "react-toastify";
-import Pagination from "react-bootstrap/Pagination";
-import { iconMapping } from "../../../../constants/iconMapping";
-import FixedSizeList from "../Common/FixedSizedList";
-const Content = lazy(() => import("../Common/Content"));
+import { iconMapping } from "../../../../../constants/iconMapping";
+import FixedSizeList from "../../Common/FixedSizedList";
+const Content = lazy(() => import("../../Common/Content"));
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -28,25 +27,17 @@ const Resources = () => {
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
-  // const [currentReadClick, setCurrentReadClick] = useState({
-  //   previewArticle: null,
-  //   id: null,
-  // });
+
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
 
   useEffect(() => {
-    if (filterAges)
-      setAgeGroup(
-        [...filterAges].sort(
-          (a, b) => a.id - b.id
-          // b.label.localeCompare(a.label, undefined, { sensitivity: "base" })
-        )
-      );
+    if (filterAges.data)
+      setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
     if (filterTag) setTag([...filterTag]);
-    if (filterCategory)
+    if (filterCategory.data)
       setCategory(
-        [...filterCategory].sort((a, b) =>
+        [...filterCategory.data].sort((a, b) =>
           b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
         )
       );
@@ -73,7 +64,7 @@ const Resources = () => {
 
   useEffect(() => {
     filterContents();
-    if (content) getCategoryTags(content);
+    if (!content.pending && !content.error) getCategoryTags(content.data);
   }, [content, categoryList]);
 
   useEffect(() => {
@@ -88,7 +79,10 @@ const Resources = () => {
 
   const getCategoryTags = (content) => {
     if (categoryList) {
-      const CategoryCount = { All: content.length };
+      const CategoryCount = {
+        All: content.filter((item) => item.category.toLowerCase() !== "faq")
+          .length,
+      };
       categoryList.map((cat) => {
         let count = 0;
         content.map((cntnt) => {
@@ -102,11 +96,13 @@ const Resources = () => {
   };
 
   const filterContents = () => {
-    if (content) {
+    if (!content.pending && !content.error) {
       const filteredArray = [];
-      content.map((item) => {
+      content.data.map((item) => {
         if (
-          item.title.toLowerCase().indexOf(searchText.toLowerCase() || "") != -1
+          item.title.toLowerCase().indexOf(searchText.toLowerCase() || "") !=
+            -1 &&
+          item.category.toLowerCase() !== "faq"
         )
           filteredArray.push(item);
       });
@@ -162,25 +158,7 @@ const Resources = () => {
       setFilters([...filters, { txt, id, typ }]);
       if (typ === "age")
         setAgeGroup(
-          [...ageGroup]
-            .filter((ag) => ag.id !== id)
-            .sort(
-              (a, b) => a.id - b.id
-              // b.label
-              //   .replace("&lt;", "<")
-              //   .replace("&gt;", ">")
-              //   .split(" ")[1]
-              //   .slice(0, 2)
-              //   .localeCompare(
-              //     a.label
-              //       .replace("&lt;", "<")
-              //       .replace("&gt;", ">")
-              //       .split(" ")[1]
-              //       .slice(0, 2),
-              //     undefined,
-              //     { sensitivity: "base" }
-              //   )
-            )
+          [...ageGroup].filter((ag) => ag.id !== id).sort((a, b) => a.id - b.id)
         );
       else if (typ === "cat")
         setCategory(
@@ -203,23 +181,7 @@ const Resources = () => {
       if (typ === "age") {
         setFilters([...filters].filter((ag) => ag.id !== id && typ === "age"));
         setAgeGroup(
-          [...ageGroup, { label: txt, id }].sort(
-            (a, b) => a.id - b.id
-            // b.label
-            //   .replace("&lt;", "<")
-            //   .replace("&gt;", ">")
-            //   .split(" ")[1]
-            //   .slice(0, 2)
-            //   .localeCompare(
-            //     a.label
-            //       .replace("&lt;", "<")
-            //       .replace("&gt;", ">")
-            //       .split(" ")[1]
-            //       .slice(0, 2),
-            //     undefined,
-            //     { sensitivity: "base" }
-            //   )
-          )
+          [...ageGroup, { label: txt, id }].sort((a, b) => a.id - b.id)
         );
       } else if (typ === "cat") {
         setFilters([...filters].filter((ct) => ct.id !== id && typ === "cat"));
@@ -261,6 +223,8 @@ const Resources = () => {
                           <span key={idx} className="tag-item">
                             {fltr.typ === "age"
                               ? fltr.txt.split("<br />")[1]
+                              : fltr.typ === "tag"
+                              ? fltr.txt.replace("prefix_", "")
                               : fltr.txt}{" "}
                             <button
                               className="cross-btn"
@@ -295,35 +259,45 @@ const Resources = () => {
               <div className="tags d-flex">
                 <div className="tag-title">Touchpoints:</div>
                 <div className="tag-list d-flex">
-                  {
+                  {filterCategory.loading ? (
+                    <>Loading...</>
+                  ) : filterCategory.error ? (
+                    <>No Data Found</>
+                  ) : (
                     category &&
-                      category.length > 0 &&
-                      category.map((cat) => (
-                        <div
-                          className="tag-item"
-                          key={cat.id}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => selectFilters(cat.name, cat.id, "cat")}
-                        >
-                          {cat.name}
-                        </div>
-                      ))
-                    // : (
-                    //   <>No Data Found</>
-                    // )
-                  }
+                    category.length > 0 &&
+                    category.map((cat) => (
+                      <div
+                        className="tag-item"
+                        key={cat.id}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => selectFilters(cat.name, cat.id, "cat")}
+                      >
+                        {cat.name}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
               <div className="tags d-flex">
                 <div className="tag-title">Topics:</div>
-                {
-                  tag && tag.length > 0 && (
+                {content.loading ? (
+                  <>Loading...</>
+                ) : content.error ? (
+                  <>No Data Found</>
+                ) : (
+                  tag &&
+                  tag.length > 0 && (
                     <div className="tag-list d-flex">
                       {tag &&
                         (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
                           (tags, idx) => (
                             <div
-                              className="tag-item"
+                              className={
+                                "tag-item" +
+                                " " +
+                                (tags.startsWith("prefix_") ? "f-tag" : "n-tag")
+                              }
                               key={idx}
                               style={{ cursor: "pointer" }}
                               onClick={() => {
@@ -337,7 +311,7 @@ const Resources = () => {
                                 }
                               }}
                             >
-                              {tags}
+                              {tags.replace("prefix_", "")}
                             </div>
                           )
                         )}{" "}
@@ -365,80 +339,54 @@ const Resources = () => {
                       )}
                     </div>
                   )
-                  // : (
-                  // <>No Data Found</>
-                  // )
-                }
+                )}
               </div>
-              {/* <div className="tags d-flex">
-                <div className="tag-title">Ages:</div>
-                <div className="tag-list d-flex">
-                  {ageGroup &&
-                    ageGroup.map((ageGrp) => (
-                      <div
-                        className="tag-item"
-                        key={ageGrp.id}
-                        style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          selectFilters(
-                            ageGrp.label
-                              .replace("&lt;", "<")
-                              .replace("&gt;", ">"),
-                            ageGrp.id,
-                            "age"
-                          )
-                        }
-                      >
-                        {
-                          ageGrp.label
-                            .replace("&lt;", "<")
-                            .replace("&gt;", ">")
-                            .split("<br />")[1]
-                        }
-                      </div>
-                    ))}
-                </div>
-              </div> */}
+
               <div className="content-count-box">
                 <div className="content-count">
-                  {
+                  {content.loading ? (
+                    <>Loading...</>
+                  ) : content.error ? (
+                    <>No Data Found</>
+                  ) : (
                     categoryTags &&
-                      Object.keys(categoryTags).length > 1 &&
-                      Object.keys(categoryTags)
-                        .filter((cat) => cat.toLowerCase() !== "faq")
-                        .map((cat, idx) => {
-                          return (
-                            <div
-                              className={`filter ${
-                                contentCategory === cat ? "active" : ""
-                              }`}
-                              style={{ cursor: "pointer", userSelect: "none" }}
-                              key={idx}
-                              onClick={() => setContentCategory(cat)}
-                            >
-                              <img
-                                src={
-                                  path_image +
-                                  "icons/" +
-                                  iconMapping.category[cat]
-                                }
-                                alt=""
-                              />
-                              {cat}
-                              <div>
-                                <span>{categoryTags[cat]}</span>
-                              </div>
+                    Object.keys(categoryTags).length > 1 &&
+                    Object.keys(categoryTags)
+                      .filter((cat) => cat.toLowerCase() !== "faq")
+                      .map((cat, idx) => {
+                        return (
+                          <div
+                            className={`filter ${
+                              contentCategory === cat ? "active" : ""
+                            }`}
+                            style={{ cursor: "pointer", userSelect: "none" }}
+                            key={idx}
+                            onClick={() => setContentCategory(cat)}
+                          >
+                            <img
+                              src={
+                                path_image +
+                                "icons/" +
+                                iconMapping.category[cat]
+                              }
+                              alt=""
+                            />
+                            {cat}
+                            <div>
+                              <span>{categoryTags[cat]}</span>
                             </div>
-                          );
-                        })
-                    // : (
-                    // <>No Data Found</>
-                    // )
-                  }
+                          </div>
+                        );
+                      })
+                  )}
                 </div>
                 <div>
                   {" "}
-                  {filteredContents && filteredContents.length > 0 ? (
+                  {content.loading ? (
+                    <>Loading...</>
+                  ) : content.error ? (
+                    <>No Data Found</>
+                  ) : filteredContents && filteredContents.length > 0 ? (
                     <FixedSizeList
                       itemCount={filteredContents.length}
                       itemSize={3}
@@ -453,8 +401,6 @@ const Resources = () => {
                               idx={section.id}
                               key={index}
                               favTab={isHcp}
-                              // currentReadClick={currentReadClick}
-                              // setCurrentReadClick={setCurrentReadClick}
                             />
                           </React.Fragment>
                         );
