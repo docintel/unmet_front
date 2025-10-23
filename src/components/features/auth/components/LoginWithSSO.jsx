@@ -132,9 +132,15 @@ const LoginWithSSO = () => {
                     <div className="user-name">
                       <h3>
                         Welcome to VWD Journey
-                        <br />
-                        {/* {userDetails?.name || ""} */}
-                        {userData?.name || userData?.first_name || ""}
+                        {userData && (
+                          <>
+                            {" "}
+                            <br />
+                            <span>
+                              {userData?.name || userData?.first_name || ""}
+                            </span>
+                          </>
+                        )}
                       </h3>
                     </div>
                   </div>
