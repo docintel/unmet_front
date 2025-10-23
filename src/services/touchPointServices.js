@@ -1,9 +1,24 @@
 import { postData, getData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
-export const fetchAgeGroupCategories = async (setIsLoading, setToast) => {
+export const fetchAgeGroupCategories = async (
+  setIsLoading,
+  setToast,
+  setFilterCategory,
+  setFilterAges
+) => {
   try {
     setIsLoading(true);
+    setFilterCategory({
+      loading: true,
+      error: false,
+      data: [],
+    });
+    setFilterAges({
+      loading: true,
+      error: false,
+      data: [],
+    });
     const data = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
     const itemList = data?.data?.data?.ageGroups.map((item) => {
       const id = item.id;
@@ -26,14 +41,31 @@ export const fetchAgeGroupCategories = async (setIsLoading, setToast) => {
         femaleImage: item.female_tab_thumb,
       };
     });
-
+    setFilterCategory({
+      loading: false,
+      error: false,
+      data: data?.data?.data?.categories,
+    });
+    setFilterAges({
+      loading: false,
+      error: false,
+      data: itemList,
+    });
     return {
-      ageGroups: itemList,
-      category: data?.data?.data?.categories,
       contentCategory: data?.data?.data?.contentCategory,
     };
   } catch (error) {
     console.error("Error fetching age groups and categories:", error);
+    setFilterCategory({
+      loading: false,
+      error: true,
+      data: [],
+    });
+    setFilterAges({
+      loading: false,
+      error: true,
+      data: [],
+    });
     setToast({
       show: true,
       type: "danger",
@@ -71,12 +103,20 @@ export const fetchNarrativeList = async (
   }
 };
 
-export const fetchContentList = async (setIsLoading, setToast) => {
+export const fetchContentList = async (setIsLoading, setToast, setContents) => {
   try {
     setIsLoading(true);
+    setContents({
+      loading: true,
+      error: false,
+      data: [],
+    });
     const data = await getData(endPoint.FETCH_CONTENT_LIST);
-
-    return { contents: data?.data?.data };
+    setContents({
+      loading: false,
+      error: false,
+      data: data?.data?.data,
+    });
   } catch (error) {
     console.error("Error fetching content list:", error);
     setToast({
@@ -84,6 +124,11 @@ export const fetchContentList = async (setIsLoading, setToast) => {
       type: "danger",
       title: "Error",
       message: "Oops!! failed to fetch content list.",
+    });
+    setContents({
+      loading: false,
+      error: true,
+      data: [],
     });
   } finally {
     setIsLoading(false);

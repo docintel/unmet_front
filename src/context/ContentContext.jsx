@@ -10,12 +10,28 @@ import Loader from "../components/features/patientJourney/Common/Loader";
 export const ContentContext = createContext();
 
 export const ContentProvider = ({ children }) => {
-  const [contents, setContents] = useState(null);
-  const [content, setContent] = useState(null);
+  const [contents, setContents] = useState({
+    loading: false,
+    error: false,
+    data: [],
+  });
+  const [content, setContent] = useState({
+    loading: false,
+    error: false,
+    data: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const [filterAges, setFilterAges] = useState([]);
+  const [filterAges, setFilterAges] = useState({
+    loading: false,
+    error: false,
+    data: [],
+  });
   const [filterTag, setFilterTag] = useState([]);
-  const [filterCategory, setFilterCategory] = useState([]);
+  const [filterCategory, setFilterCategory] = useState({
+    loading: false,
+    error: false,
+    data: [],
+  });
   const [narrative, setNarrative] = useState([]);
   const [isHcp, setIsHcp] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
@@ -35,18 +51,15 @@ export const ContentProvider = ({ children }) => {
     });
 
     (async () => {
-      const cntnts = (await fetchContentList(setIsLoading, setToast)).contents;
-      if (cntnts) {
-        setContents(cntnts);
-      }
+      await fetchContentList(setIsLoading, setToast, setContents);
     })();
   }, []);
 
   useEffect(() => {
-    if (contents) {
+    if (contents.data.length > 0) {
       const filteredList = [];
       let tagArray = [];
-      contents.map((item) => {
+      contents.data.map((item) => {
         if (isHcp && item.hide_in_hcp == "1") return;
         try {
           if (item.tags !== "")
@@ -69,7 +82,13 @@ export const ContentProvider = ({ children }) => {
       });
 
       setFilterTag(uniqueWords);
-      setContent(filteredList);
+      setContent({
+        loading: false,
+        error: false,
+        data: filteredList,
+      });
+    } else {
+      setContent(contents);
     }
   }, [contents, isHcp]);
 
@@ -82,14 +101,16 @@ export const ContentProvider = ({ children }) => {
 
   const fetchAgeGroups = async () => {
     if (
-      filterAges.length == 0 &&
+      filterAges.data.length == 0 &&
       categoryList.length == 0 &&
-      filterCategory.length == 0
+      filterCategory.data.length == 0
     ) {
-      const { ageGroups, category, contentCategory } =
-        await fetchAgeGroupCategories(setIsLoading, setToast);
-      setFilterCategory(category);
-      setFilterAges(ageGroups);
+      const { contentCategory } = await fetchAgeGroupCategories(
+        setIsLoading,
+        setToast,
+        setFilterCategory,
+        setFilterAges
+      );
       setCategoryList(contentCategory);
     }
   };
@@ -106,16 +127,20 @@ export const ContentProvider = ({ children }) => {
   };
 
   const updateRating = (id, rating) => {
-    setContent((prevContent) =>
-      prevContent.map((cntnt) => {
-        if (cntnt.id === id) {
-          return {
-            ...cntnt,
-            ...{ self_rate: cntnt.self_rate === 1 ? 0 : 1, rating: rating },
-          };
-        } else return cntnt;
-      })
-    );
+    setContent((prevContent) => {
+      return {
+        loading: false,
+        error: false,
+        data: prevContent.data.map((cntnt) => {
+          if (cntnt.id === id) {
+            return {
+              ...cntnt,
+              ...{ self_rate: cntnt.self_rate === 1 ? 0 : 1, rating: rating },
+            };
+          } else return cntnt;
+        }),
+      };
+    });
   };
 
   return (

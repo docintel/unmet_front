@@ -7,19 +7,21 @@ import React, {
 } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 // import Content from "../Common/Content";
-import { ContentContext } from "../../../../context/ContentContext";
-import Pagination from "react-bootstrap/Pagination";
-import { iconMapping } from "../../../../constants/iconMapping";
-import FixedSizeList from "../Common/FixedSizedList";
+import { ContentContext } from "../../../../../context/ContentContext";
+import { iconMapping } from "../../../../../constants/iconMapping";
+import FixedSizeList from "../../Common/FixedSizedList";
+import Category from "./Category";
+import AgeGroups from "./AgeGroups";
+import ActiveNarration from "./ActiveNarration";
 
-const Content = lazy(() => import("../Common/Content"));
+const Content = lazy(() => import("../../Common/Content"));
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [isAllSelected, setIsAllSelected] = useState(false);
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
-  const [activeKey, setActiveKey] = useState(null); // no tab selected initially
-  const [activeJourney, setActiveJourney] = useState(null); // no journey selected initially
+  const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
+  const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
   // const [currentReadClick, setCurrentReadClick] = useState({
   //   previewArticle: null,
   //   id: null,
@@ -45,7 +47,6 @@ const TouchPoints = () => {
   const [activeAgeClass, setActiveAgeClass] = useState("");
   const [contentCategory, setContentCategory] = useState("All");
   const [isInfoVisible, setIsInfoVisible] = useState(true);
-  const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
 
@@ -81,8 +82,8 @@ const TouchPoints = () => {
   useEffect(() => {
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
-      setActiveKey(null);
-      setActiveJourney(null);
+      setActiveKey({ id: null, name: "" });
+      setActiveJourney({ id: null, label: "" });
       setActiveNarration(null);
       setSearchText("");
     })();
@@ -95,20 +96,20 @@ const TouchPoints = () => {
 
   useEffect(() => {
     filterContents();
-    if (activeKey && activeJourney) {
+    if (activeKey.id && activeJourney.id) {
       const activeNarrative = narrative.find(
         (narration) =>
-          narration.category_id == activeKey &&
-          narration.age_group_id == activeJourney
+          narration.category_id == activeKey.id &&
+          narration.age_group_id == activeJourney.id
       );
       if (activeNarrative) setActiveNarration(activeNarrative);
       else setActiveNarration(null);
-    } else if (activeKey || activeJourney) {
+    } else if (activeKey.id || activeJourney.id) {
       setIsInfoVisible(false);
-      const activeNarrative = activeKey
-        ? narrative.filter((narration) => narration.category_id == activeKey)
+      const activeNarrative = activeKey.id
+        ? narrative.filter((narration) => narration.category_id == activeKey.id)
         : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney
+            (narration) => narration.age_group_id == activeJourney.id
           );
       if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
       else setActiveNarration(null);
@@ -124,8 +125,8 @@ const TouchPoints = () => {
   useEffect(() => {
     setContents(content);
     filterContents();
-    if (content) {
-      getCategoryTags(content);
+    if (!content.pending && !content.error) {
+      getCategoryTags(content.data);
       filterContents();
       filterTag();
     }
@@ -134,24 +135,23 @@ const TouchPoints = () => {
   const filterTag = () => {
     if (content) {
       let tagArray = [];
-      if (activeKey || activeJourney) {
+      if (activeKey.id || activeJourney.id) {
         let tempContent = [];
-        const age = filterAges
-          .find((val) => val.id == activeJourney)
-          ?.label.replace("&lt;", "<")
+        const age = activeJourney.label
+          .replace("&lt;", "<")
           .replace("&gt;", ">")
           .split("<br />")[1];
-        const catg = filterCategory.find((val) => val.id == activeKey)?.name;
-        if (!activeKey)
-          tempContent = content.filter((item) =>
+        const catg = activeKey.name;
+        if (!activeKey.id)
+          tempContent = content.data.filter((item) =>
             JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
           );
-        else if (!activeJourney)
-          tempContent = content.filter((item) =>
+        else if (!activeJourney.id)
+          tempContent = content.data.filter((item) =>
             JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(catg)
           );
         else {
-          tempContent = content.filter(
+          tempContent = content.data.filter(
             (item) =>
               JSON.parse(item.diagnosis ? item.diagnosis : "[]").includes(
                 catg
@@ -170,7 +170,7 @@ const TouchPoints = () => {
         });
       } else {
         let tempContent = [];
-        tempContent = content.filter(
+        tempContent = content.data.filter(
           (item) => item.female_oriented === (isAllSelected ? 1 : 0)
         );
 
@@ -201,9 +201,6 @@ const TouchPoints = () => {
       if (isAllSelected) {
         const contentList = [];
         content.forEach((element) => {
-          const ageArr = JSON.parse(
-            element.age_groups ? element.age_groups : "[]"
-          );
           if (element.female_oriented === 0) return;
           for (let i = 0; i < selectedTag.length; i++) {
             if (
@@ -221,9 +218,12 @@ const TouchPoints = () => {
           )
             return;
 
-          for (let i = 0; i < filterAges.length; i++) {
-            if (activeJourney && filterAges[i].id === activeJourney) {
-              const ageGroup = filterAges[i].label.split("<br />")[1];
+          for (let i = 0; i < filterAges.data.length; i++) {
+            if (
+              activeJourney.id &&
+              filterAges.data[i].id === activeJourney.id
+            ) {
+              const ageGroup = filterAges.data[i].label.split("<br />")[1];
               if (
                 !JSON.parse(
                   element.age_groups ? element.age_groups : "[]"
@@ -233,12 +233,12 @@ const TouchPoints = () => {
             }
           }
 
-          for (let i = 0; i < filterCategory.length; i++) {
-            if (activeKey && filterCategory[i].id === activeKey) {
+          for (let i = 0; i < filterCategory.data.length; i++) {
+            if (activeKey.id && filterCategory.data[i].id === activeKey.id) {
               if (
                 !JSON.parse(
                   element.diagnosis ? element.diagnosis : "[]"
-                ).includes(filterCategory[i].name)
+                ).includes(filterCategory.data[i].name)
               )
                 return;
             }
@@ -251,23 +251,17 @@ const TouchPoints = () => {
 
         setContents(contentList);
       } else {
-        const categoryNameFilter = filterCategory.find(
-          (val) => val.id == activeKey
-        );
-        const categoryName = categoryNameFilter ? categoryNameFilter.name : "";
+        const categoryName = activeKey.id ? activeKey.name : "";
 
-        const ageGroupFilter = filterAges.find(
-          (val) => val.id == activeJourney
-        );
-        const ageGroupName = ageGroupFilter
-          ? ageGroupFilter.label
+        const ageGroupName = activeJourney.id
+          ? activeJourney.label
               .replace("&lt;", "<")
               .replace("&gt;", ">")
               .split("<br />")[1]
           : "";
 
         const filteredArray = [];
-        content.map((item) => {
+        content.data.map((item) => {
           if (
             item.age_groups.indexOf(ageGroupName) != -1 &&
             item.diagnosis.indexOf(categoryName) != -1 &&
@@ -296,33 +290,24 @@ const TouchPoints = () => {
     }
   };
 
-  const isTabDisabled = useCallback(
-    (cat_id, isCat) => {
-      if (!isAllSelected)
-        return (
-          [5, 6].includes(isCat ? cat_id : activeKey) &&
-          [2, 3].includes(isCat ? activeJourney : cat_id)
-        );
-      else {
-        if (isCat) return cat_id == 3;
-        else return [2, 3].includes(cat_id);
-      }
-    },
-    [activeJourney, activeKey, narrative, isAllSelected]
-  );
-
   const getCategoryTags = (content) => {
     if (categoryList) {
-      const CategoryCount = { All: content.length };
-      categoryList.map((cat) => {
-        let count = 0;
-        content.map((cntnt) => {
-          if (cntnt.category === cat) count++;
+      try {
+        const CategoryCount = {
+          All: content.filter((item) => item.category.toLowerCase() !== "faq")
+            .length,
+        };
+        categoryList.map((cat) => {
+          let count = 0;
+          content.map((cntnt) => {
+            if (cntnt.category === cat) count++;
+          });
+          CategoryCount[cat] = count;
         });
-        CategoryCount[cat] = count;
-      });
-
-      setCategoryTags(CategoryCount);
+        setCategoryTags(CategoryCount);
+      } catch (err) {
+        console.error("Error in getCategoryTags:", err);
+      }
     }
   };
 
@@ -395,249 +380,32 @@ const TouchPoints = () => {
                     <a className="btn"></a>
                   </label>
                 </div>
-                <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
-                  {
-                    filterAges &&
-                      filterAges.length > 0 &&
-                      filterAges.map((lbl) => (
-                        <React.Fragment key={lbl.id}>
-                          <div
-                            key={lbl.id}
-                            className={`journey-link ${
-                              activeJourney === lbl.id ? "active" : ""
-                            } ${
-                              isTabDisabled(lbl.id, false) ? "disabled" : ""
-                            }`}
-                            onClick={() => {
-                              if (!isTabDisabled(lbl.id, false)) {
-                                const agesList = lbl.label
-                                  .replace("&lt;", "")
-                                  .replace("&gt;", "")
-                                  .split("<br />")[1]
-                                  .split(" ")[1]
-                                  .split("-");
-                                let ageName = "";
-                                if (
-                                  agesList.length === 1 &&
-                                  agesList[0] === "6"
-                                )
-                                  ageName = "age" + "0";
-                                else ageName = "age" + agesList[0];
-                                setActiveAgeClass(ageName);
-
-                                if (activeJourney !== lbl.id)
-                                  setActiveJourney(lbl.id);
-                                else {
-                                  setActiveJourney(null);
-                                  setActiveAgeClass("");
-                                }
-                              }
-                            }}
-                          >
-                            <div className="userImg">
-                              <img
-                                src={
-                                  path_image +
-                                  "ages/" +
-                                  (!isAllSelected
-                                    ? lbl.allImage
-                                    : lbl.femaleImage)
-                                }
-                                alt=""
-                              />
-                            </div>
-                            <div
-                              className="user-category"
-                              dangerouslySetInnerHTML={{
-                                __html: lbl.label,
-                              }}
-                            ></div>
-                          </div>
-                          {lbl.id !== filterAges.length + 1 && (
-                            <div
-                              className={`line ${
-                                isTabDisabled(lbl.id, false) ? "disabled" : ""
-                              }`}
-                            ></div>
-                          )}
-                        </React.Fragment>
-                      ))
-                    // : (
-                    // <>No Data Found</>
-                    // )
-                  }
-                </div>
+                <AgeGroups
+                  activeJourney={activeJourney}
+                  setActiveJourney={setActiveJourney}
+                  setActiveAgeClass={setActiveAgeClass}
+                  isAllSelected={isAllSelected}
+                  activeKey={activeKey}
+                />
               </div>
               <div className="touchpoint-box">
                 <div className="touchpoints-header">
-                  <div className="touchpoint-links">
-                    {
-                      filterCategory &&
-                        filterCategory.length > 0 &&
-                        filterCategory.map((cat) => {
-                          let image = cat.image;
-                          const handleOnMauseLeave = () => {
-                            image = image.replace("hover-", "");
-                            setHoverImage({ id: cat.id, image: image });
-                          };
-                          const handleOnMauseEnter = () => {
-                            if (image.indexOf("hover-") === -1) {
-                              image = "hover-" + image;
-                              setHoverImage({ id: cat.id, image: image });
-                            }
-                          };
-                          return (
-                            <Button
-                              key={cat.id}
-                              onClick={() => {
-                                if (activeKey !== cat.id) setActiveKey(cat.id);
-                                else setActiveKey(null);
-                              }}
-                              disabled={isTabDisabled(cat.id, true)}
-                              className={` ${
-                                isTabDisabled(cat.id, true)
-                                  ? "disabled"
-                                  : activeKey === cat.id
-                                  ? "active"
-                                  : ""
-                              }`}
-                              onMouseLeave={handleOnMauseLeave}
-                              onMouseEnter={handleOnMauseEnter}
-                            >
-                              {cat.name}
-                              <img
-                                src={
-                                  path_image +
-                                  "icons/" +
-                                  (hoverImage && hoverImage.id === cat.id
-                                    ? hoverImage.image
-                                    : cat.image)
-                                }
-                                alt="icon"
-                              />
-                            </Button>
-                          );
-                        })
-                      // : (
-                      //   <>No Data Found</>
-                      // )
-                    }
-                  </div>
+                  <Category
+                    activeKey={activeKey}
+                    setActiveKey={setActiveKey}
+                    activeJourney={activeJourney}
+                    isAllSelected={isAllSelected}
+                  ></Category>
                 </div>
+                <ActiveNarration
+                  isInfoVisible={isInfoVisible}
+                  expandNarrative={expandNarrative}
+                  activeNarration={activeNarration}
+                  isHcp={isHcp}
+                  setExapandNarrative={setExapandNarrative}
+                  setIsInfoVisible={setIsInfoVisible}
+                ></ActiveNarration>
                 <div className="touchpoint-box-inner">
-                  {activeNarration ? (
-                    activeNarration.status === "Missing" ? (
-                      <div className="message-info">
-                        <div className="message">
-                          <div className="info-icon">
-                            <img src={path_image + "info-icon.svg"} alt="" />
-                          </div>
-                          <p className="info-text">
-                            Narrative in preparation...
-                          </p>
-                        </div>
-                      </div>
-                    ) : activeNarration.status === "Not applicable" ? (
-                      <div className="message-info">
-                        <div className="message">
-                          <div className="info-icon">
-                            <img src={path_image + "info-icon.svg"} alt="" />
-                          </div>
-                          <p className="info-text">
-                            Narrative in preparation...
-                          </p>
-                        </div>
-                      </div>
-                    ) : activeNarration.status === "Draft" ? (
-                      <div className="message-info">
-                        <div className="message">
-                          <div className="info-icon">
-                            <img src={path_image + "info-icon.svg"} alt="" />
-                          </div>
-                          <p className="info-text">
-                            Narrative in preparation...
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="touchpoint-data">
-                        <div
-                          className={`d-flex justify-content-between narrative-block ${
-                            expandNarrative ? "expanded" : "collapsed"
-                          }`}
-                        >
-                          <div className="content">
-                            <p className="content-title">
-                              {activeNarration.narrative_title}
-                            </p>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: activeNarration.narrative_description,
-                              }}
-                            ></div>
-                          </div>
-                          <div className="content">
-                            <p className="content-title">
-                              {activeNarration.contibution_title}
-                            </p>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: activeNarration.contibution_description,
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                        <div
-                          className={
-                            expandNarrative ? "read-less-btn" : "read-more-btn"
-                          }
-                        >
-                          <button
-                            className="btn btn-link"
-                            onClick={() =>
-                              setExapandNarrative(!expandNarrative)
-                            }
-                          >
-                            Read {expandNarrative ? "Less" : "More"}{" "}
-                            <img
-                              src={path_image + "read-more-icon.svg"}
-                              alt={`read${expandNarrative ? "Less" : "More"}`}
-                            />
-                          </button>
-                        </div>
-                      </div>
-                    )
-                  ) : null}
-                  <div
-                    className="text-center dummy_data"
-                    style={{
-                      maxHeight: isInfoVisible ? "300px" : "0px",
-                      opacity: isInfoVisible ? 1 : 0,
-                      overflow: "hidden",
-                      transform: isInfoVisible
-                        ? "translateY(0)"
-                        : "translateY(-20px)",
-                      transition: "all 0.5s ease",
-                      padding: isInfoVisible ? "32px 12px" : "0",
-                      margin: isInfoVisible ? "0px 0px 50px" : "0",
-                    }}
-                  >
-                    <div className="close-icon">
-                      <img
-                        src={path_image + "cross-btn.svg"}
-                        alt="No Data"
-                        onClick={() => setIsInfoVisible(false)}
-                      />
-                    </div>
-                    <img
-                      src={
-                        path_image +
-                        (isHcp ? "info-banner-dark.png" : "info-banner.png")
-                      }
-                      alt="No Data"
-                      style={{ userSelect: "none" }}
-                    />
-                  </div>
                   <div className="search-bar">
                     <Form
                       className="d-flex"
@@ -681,8 +449,13 @@ const TouchPoints = () => {
                       </Button>
                     </Form>
                   </div>
-                  {
-                    tags && tags.length > 0 && (
+                  {content.loading ? (
+                    <>Loading...</>
+                  ) : content.error ? (
+                    <>No Data Found</>
+                  ) : (
+                    tags &&
+                    tags.length > 0 && (
                       <div className="tags d-flex">
                         <div className="tag-title">Topics:</div>
                         <div className="tag-list d-flex">
@@ -724,53 +497,55 @@ const TouchPoints = () => {
                         </div>
                       </div>
                     )
-                    // : (
-                    // <>No Data Found</>
-                    // )
-                  }
+                  )}
                   <div className="content-count-box">
                     <div className="content-count">
-                      {
+                      {content.loading ? (
+                        <>Loading...</>
+                      ) : content.error ? (
+                        <>No Data Found</>
+                      ) : (
                         categoryTags &&
-                          Object.keys(categoryTags).length > 1 &&
-                          Object.keys(categoryTags)
-                            .filter((cat) => cat.toLowerCase() !== "faq")
-                            .map((cat, idx) => {
-                              return (
-                                <div
-                                  className={`filter ${
-                                    contentCategory === cat ? "active" : ""
-                                  }`}
-                                  style={{
-                                    cursor: "pointer",
-                                    userSelect: "none",
-                                  }}
-                                  key={idx}
-                                  onClick={() => setContentCategory(cat)}
-                                >
-                                  <img
-                                    src={
-                                      path_image +
-                                      "icons/" +
-                                      iconMapping.category[cat]
-                                    }
-                                    alt=""
-                                  />
-                                  {cat}
-                                  <br />
-                                  <div>
-                                    <span>{categoryTags[cat]}</span>
-                                  </div>
+                        Object.keys(categoryTags).length > 1 &&
+                        Object.keys(categoryTags)
+                          .filter((cat) => cat.toLowerCase() !== "faq")
+                          .map((cat, idx) => {
+                            return (
+                              <div
+                                className={`filter ${
+                                  contentCategory === cat ? "active" : ""
+                                }`}
+                                style={{
+                                  cursor: "pointer",
+                                  userSelect: "none",
+                                }}
+                                key={idx}
+                                onClick={() => setContentCategory(cat)}
+                              >
+                                <img
+                                  src={
+                                    path_image +
+                                    "icons/" +
+                                    iconMapping.category[cat]
+                                  }
+                                  alt=""
+                                />
+                                {cat}
+                                <br />
+                                <div>
+                                  <span>{categoryTags[cat]}</span>
                                 </div>
-                              );
-                            })
-                        // : (
-                        // <>No Data Found</>
-                        // )
-                      }
+                              </div>
+                            );
+                          })
+                      )}
                     </div>
                     <div>
-                      {filteredContents && filteredContents.length > 0 ? (
+                      {content.loading ? (
+                        <>Loading...</>
+                      ) : content.error ? (
+                        <>No Data Found</>
+                      ) : filteredContents && filteredContents.length > 0 ? (
                         <FixedSizeList
                           itemCount={filteredContents.length}
                           itemSize={3}
@@ -785,8 +560,6 @@ const TouchPoints = () => {
                                   idx={section.id}
                                   key={index}
                                   favTab={isHcp}
-                                  // currentReadClick={currentReadClick}
-                                  // setCurrentReadClick={setCurrentReadClick}
                                 />
                               </React.Fragment>
                             );
@@ -816,8 +589,6 @@ const TouchPoints = () => {
                           </h5>
                         </div>
                       )}
-
-                      {}
                     </div>
                   </div>
                 </div>
