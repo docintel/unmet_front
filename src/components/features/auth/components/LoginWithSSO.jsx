@@ -136,9 +136,9 @@ const LoginWithSSO = () => {
                           <>
                             {" "}
                             <br />
-                            <span>
+                            <strong>
                               {userData?.name || userData?.first_name || ""}
-                            </span>
+                            </strong>
                           </>
                         )}
                       </h3>
