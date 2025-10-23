@@ -272,10 +272,15 @@
     @include flex-wrap;
     align-items: center;
 
+>div{
+  @include flex-align-center
+}
     img {
       width: 12px;
       height: 12px;
-      margin-left: 4px;
+      margin: 0 8px 0 5px;
+          filter: drop-shadow(0px 1000000px 0 var(--gray300));
+    transform: translateY(-1000000px);
     }
   }
 
