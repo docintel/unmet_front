@@ -180,12 +180,12 @@ const Login = ({ userDetails, setLoader }) => {
                 <img src={`${path_image}logo-img.svg`} alt="logo" />
               </div> */}
                 <div className="user-name">
-                  <h3>
+                  {/* <h3>
                     Welcome to <strong>VWD Journey</strong>
-                    {/* {userDetails?.name || ""} */}
-                  </h3>
+                    {/* {userDetails?.name || ""} 
+                  </h3> */}
                 </div>
-                <h6>Tell us a bit about you to tailor your experience</h6>
+                <h5>Tell us a bit about you to tailor your<br/>experience</h5>
               </div>
 
               <div className="login-form">
