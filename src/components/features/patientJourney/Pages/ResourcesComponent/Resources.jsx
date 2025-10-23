@@ -223,6 +223,8 @@ const Resources = () => {
                           <span key={idx} className="tag-item">
                             {fltr.typ === "age"
                               ? fltr.txt.split("<br />")[1]
+                              : fltr.typ === "tag"
+                              ? fltr.txt.replace("prefix_", "")
                               : fltr.txt}{" "}
                             <button
                               className="cross-btn"
@@ -291,7 +293,11 @@ const Resources = () => {
                         (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
                           (tags, idx) => (
                             <div
-                              className="tag-item"
+                              className={
+                                "tag-item" +
+                                " " +
+                                (tags.startsWith("prefix_") ? "f-tag" : "n-tag")
+                              }
                               key={idx}
                               style={{ cursor: "pointer" }}
                               onClick={() => {
@@ -305,7 +311,7 @@ const Resources = () => {
                                 }
                               }}
                             >
-                              {tags}
+                              {tags.replace("prefix_", "")}
                             </div>
                           )
                         )}{" "}

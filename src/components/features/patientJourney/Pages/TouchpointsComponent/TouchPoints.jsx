@@ -165,7 +165,13 @@ const TouchPoints = () => {
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
-              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+              tagArray = [
+                ...tagArray,
+                ...JSON.parse(item.tags ? item.tags : "[]"),
+                ...JSON.parse(item.functional_tags || "[]").map(
+                  (tag) => "prefix_" + tag
+                ),
+              ];
           } catch (ex) {}
         });
       } else {
@@ -177,7 +183,13 @@ const TouchPoints = () => {
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
-              tagArray = [...tagArray, ...JSON.parse(item.tags)];
+              tagArray = [
+                ...tagArray,
+                ...JSON.parse(item.tags),
+                ...JSON.parse(item.functional_tags || "[]").map(
+                  (tag) => "prefix_" + tag
+                ),
+              ];
           } catch (ex) {}
         });
       }
@@ -204,9 +216,12 @@ const TouchPoints = () => {
           if (element.female_oriented === 0) return;
           for (let i = 0; i < selectedTag.length; i++) {
             if (
-              !JSON.parse(
-                element.tags ? element.tags.toLowerCase() : "[]"
-              ).includes(selectedTag[i].toLowerCase())
+              ![
+                ...JSON.parse(element.tags.toLowerCase() || "[]"),
+                ...JSON.parse(element.functional_tags || "[]").map(
+                  (tag) => "prefix_" + tag
+                ),
+              ].includes(selectedTag[i].toLowerCase())
             )
               return;
           }
@@ -274,9 +289,12 @@ const TouchPoints = () => {
           selectedTag.length === 0
             ? filteredArray
             : filteredArray.filter((item) => {
-                const tagArray = JSON.parse(
-                  item.tags ? item.tags.toLowerCase() : "[]"
-                );
+                const tagArray = [
+                  ...JSON.parse(item.tags ? item.tags.toLowerCase() : "[]"),
+                  ...JSON.parse(item.functional_tags || "[]").map(
+                    (tag) => "prefix_" + tag
+                  ),
+                ];
                 let count = 0;
                 for (let i = 0; i < selectedTag.length; i++) {
                   count = tagArray.includes(selectedTag[i].toLowerCase())
@@ -417,7 +435,7 @@ const TouchPoints = () => {
                             {selectedTag &&
                               selectedTag.map((tag, idx) => (
                                 <span key={idx} className="tag-item">
-                                  {tag}{" "}
+                                  {tag.replace("prefix_", "")}{" "}
                                   <button
                                     type="button"
                                     className="cross-btn"
@@ -461,16 +479,21 @@ const TouchPoints = () => {
                         <div className="tag-list d-flex">
                           {tags &&
                             (tagShowAllClicked ? tags : tags.slice(0, 10)).map(
-                              (tag, idx) => (
-                                <div
-                                  className="tag-item"
-                                  key={idx}
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => handleTagClick(tag)}
-                                >
-                                  {tag}
-                                </div>
-                              )
+                              (tag, idx) => {
+                                let cName = tag.startsWith("prefix_")
+                                  ? "f-tag"
+                                  : "n-tag";
+                                return (
+                                  <div
+                                    className={"tag-item" + " " + cName}
+                                    key={idx}
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => handleTagClick(tag)}
+                                  >
+                                    {tag.replace("prefix_", "")}
+                                  </div>
+                                );
+                              }
                             )}
                           {tags && tags.length > 10 && (
                             <Button

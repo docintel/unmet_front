@@ -63,7 +63,13 @@ export const ContentProvider = ({ children }) => {
         if (isHcp && item.hide_in_hcp == "1") return;
         try {
           if (item.tags !== "")
-            tagArray = [...tagArray, ...JSON.parse(item.tags)];
+            tagArray = [
+              ...tagArray,
+              ...JSON.parse(item.tags || "[]"),
+              ...JSON.parse(item.functional_tags || "[]").map(
+                (tag) => "prefix_" + tag
+              ),
+            ];
         } catch (ex) {}
 
         filteredList.push(item);
