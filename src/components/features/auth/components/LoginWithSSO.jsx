@@ -1,24 +1,39 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
-import { Navigate, useNavigate } from "react-router-dom";
-import { handleSso } from "../../../../services/authService";
+import { useNavigate } from "react-router-dom";
+import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { clearLocalStorage } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
+import { useSearchParams } from "react-router-dom";
 
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { login, logout, isAuthenticated } = useAuth();
-  const isAuthenticatedUser = localStorage.getItem("decrypted_token")
-    ? true
-    : false;
+  const [searchParams] = useSearchParams();
+
+  const { login } = useAuth();
+  // const isAuthenticatedUser = localStorage.getItem("decrypted_token")
+  //   ? true
+  //   : false;
   const navigate = useNavigate();
   const [userVerified, setUserVerified] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [loader, setLoader] = useState(false);
   const [isHcp, setIsHcp] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const id = searchParams.get("user-id") || "";
+  const userId = id.slice(4, id.length - 2);
+
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        const userD = await getUserDetails(userId);
+        setUserData(userD);
+      })();
+    }
+  }, [userId]);
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
@@ -117,7 +132,15 @@ const LoginWithSSO = () => {
                     <div className="user-name">
                       <h3>
                         Welcome to VWD Journey
-                        {/* {userDetails?.name || ""} */}
+                        {userData && (
+                          <>
+                            {" "}
+                            <br />
+                            <strong>
+                              {userData?.name || userData?.first_name || ""}
+                            </strong>
+                          </>
+                        )}
                       </h3>
                     </div>
                   </div>

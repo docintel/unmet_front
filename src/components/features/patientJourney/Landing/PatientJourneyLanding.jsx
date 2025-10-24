@@ -27,9 +27,9 @@ const PatientJourneyLanding = () => {
                   <h5>Explore your patient's Journey</h5>
                   <div className="patient-journey d-flex align-items-center justify-content-between">
                     {filterAges.loading ? (
-                      <>Loading...</>
+                      <></>
                     ) : filterAges.error ? (
-                      <>No Data Found</>
+                      <></>
                     ) : (
                       filterAges.data &&
                       filterAges.data.length > 0 &&

@@ -63,3 +63,20 @@ export const handleSubmit = async (
   setLoader(false);
   navigate("/home");
 };
+
+export const getUserDetails = async (userId) => {
+  try {
+    if (!userId) {
+      return;
+    }
+
+    const userData = await postData(endPoint.GET_USER_DATA, {
+      userId: userId,
+    });
+    if (userData.status === 200) return userData.data.data;
+    else return null;
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return null;
+  }
+};

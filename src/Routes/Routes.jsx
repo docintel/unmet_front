@@ -16,6 +16,6 @@ export const privateRoutes = [
 ];
 
 export const publicRoutes = [
-  { path: "/", element: <Navigate to="/login" replace /> },
+  { path: "/", element: <LoginWithSSO /> },
   { path: "/login", element: <LoginWithSSO /> },
 ];
