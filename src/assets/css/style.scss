@@ -174,11 +174,14 @@ h6 {
   }
 
   .vwd-journey {
-    gap: 42px;
+    gap: 10px;
     @include flex-column;
+    z-index: 3;
+    position: relative;
 
     .vwd-logo {
       text-align: center;
+      margin:0 0 32px;
 
       img {
         max-width: 304px;
@@ -189,11 +192,24 @@ h6 {
     h6 {
       font-family: var(--font-family);
       color: var(--white);
-      font-weight: 300;
+      font-weight: 600;
       line-height: 26.5px;
       text-align: center;
       margin: 0 auto;
       max-width: 576px;
+    }
+    p{
+      color: var(--white);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      text-align: center;
+      margin: 0 auto;
+      max-width: 688px;
+      span{
+        font-weight: 600;
+        display: inline-block;
+      }
     }
   }
 }
@@ -239,8 +255,10 @@ h6 {
         font-family: var(--font-family);
         color: var(--primary-color);
 
-        strong {
+        span {
           font-weight: 600;
+          font-size: 40px;
+          margin:3px 0 0;
         }
       }
     }
@@ -336,7 +354,7 @@ h6 {
 
           +span {
             position: absolute;
-            top: 44px;
+            top: 46px;
             left: 26px;
           }
 
@@ -356,12 +374,12 @@ h6 {
               div {
                 padding: 0;
                 margin: 0;
-                font-size: 15px;
+                font-size: 14px;
                 color: var(--text-color);
                 font-weight: 400;
 
                 div[class*="-placeholder"] {
-                  color: var(--gray);
+                  color: var(--gray100);
                 }
 
                 &:nth-child(2) {
@@ -430,6 +448,7 @@ h6 {
 }
 
 .header {
+  padding: 0 12px;
   &.sticky {
     position: sticky;
     top: 0;
@@ -981,6 +1000,7 @@ h6 {
      
       &.active, &:hover {
         .userImg {
+          background: transparent;
           img {
             filter: grayscale(0);
             opacity: 1;
@@ -1244,6 +1264,7 @@ h6 {
     width: 56px;
     height: 56px;
     margin: 0 0 6px;
+    background: #183b4d;
 
     img {
       border-radius: 50%;
@@ -1291,9 +1312,9 @@ h6 {
 
     .touchpoint-box-inner {
       overflow-y: auto;
-      max-height: 63vh;
+      max-height: 66vh;
       width: 100%;
-      margin-top: 32px;
+      margin-top: 0px;
     }
 
     .touchpoints-header,
@@ -1304,7 +1325,7 @@ h6 {
 
     .search-bar {
       @include flex-align-center;
-      margin: 30px 0 18px;
+      margin: 0px 0 14px;
 
       .inner-search {
         width: 100%;
@@ -1366,7 +1387,9 @@ h6 {
           flex: 1;
 
           &::placeholder {
-            color: rgba(0, 0, 0, 0.4);
+            color: var(--gray100);
+            font-weight: 400;
+            font-family: var(--font-family);
           }
 
           &:focus {
@@ -1397,7 +1420,7 @@ h6 {
 
 
     .touchpoints-header {
-
+      margin:0 0 32px;
       .touchpoint-links {
         @include flex-justify-between;
         margin: 12px 0 12px;
@@ -1429,6 +1452,8 @@ h6 {
             background: linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
             color: var(--white);
             border-color: transparent;
+            background-size: 110%;
+            background-position: center;
 
             &:hover {
               -webkit-background-clip: unset;
@@ -1550,7 +1575,7 @@ h6 {
     }
 
     .tags {
-      margin: 0 0 12px;
+      margin: 0 0 80px;
       //  transition: 0.5s ease;
     }
   }
@@ -1567,23 +1592,28 @@ h6 {
 
   .message-info {
     padding: 28px;
-    background-color: rgba(148, 167, 191, 0.06);
+    background-color: rgba(253, 254, 255, 0.08);
+    box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
     border-radius: 16px;
+    margin:0 0 80px;
 
     .message {
       border-radius: 8px 12px 12px 8px;
       border-left: 5px solid var(--green);
-      background: rgba(148, 167, 191, 0.06);
+      background: rgba(253, 254, 255, 0.08);
       padding: 8px 30px 8px 8px;
       @include flex-align-center;
       gap: 10px;
+          line-height: 26px;
     }
 
-    .info-icon img {
+    .info-icon{
+      img {
       display: block;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
+    } 
 
     .info-text {
       font-size: 14px;
@@ -2263,7 +2293,8 @@ input[type="search"]::-webkit-search-results-decoration {
 
     .content-data {
       iframe {
-        min-height: 92.5vh !important;
+        min-height: calc(100vh - 70px) !important;
+            border-radius: 15px;
       }
     }
   }
