@@ -1260,9 +1260,8 @@ h6 {
   .touchpoint-box {
     @include outer-box;
     border-radius: 20px 20px;
-    filter: drop-shadow(-3px 4px 12.7px rgba(0, 0, 0, 0.22));
     background: var(--primary-color);
-    padding: 12px 0px 24px;
+    padding: 12px 0px 4px;
     fill: rgba(255, 255, 255, 0.02);
     filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.50));
 
@@ -1323,8 +1322,6 @@ h6 {
         margin-right: 8px;
         max-width: 50%;
         overflow-x: auto;
-
-
 
         .tag-item {
           @include flex-align-center;
