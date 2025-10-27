@@ -8,8 +8,9 @@ const Faq = () => {
   const [faqContent, setFaqContent] = useState([]);
 
   useEffect(() => {
-    if (content.length === 0) return;
-    const filteredData = content.filter((item) => {
+    if (content.loading || content.error) return;
+
+    const filteredData = content.data.filter((item) => {
       const categoryLower = item.category.toLowerCase();
       return categoryLower === "faq";
     });

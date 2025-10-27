@@ -10,23 +10,11 @@ import AskIBU from "../Sections/AskIBU";
 import { ContentContext } from "../../../../context/ContentContext";
 
 const Account = () => {
-  const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const [likedIndexes, setLikedIndexes] = React.useState([]);
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [currentReadClick, setCurrentReadClick] = useState({
-  //   previewArticle: null,
-  //   id: null,
-  // });
-  const { setIsLoading } = useContext(ContentContext);
 
-  const handleStarClick = (index) => {
-    setLikedIndexes((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
+  const { setIsLoading } = useContext(ContentContext);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -99,8 +87,6 @@ const Account = () => {
                             section={section}
                             idx={section.id}
                             favTab={false}
-                            // currentReadClick={currentReadClick}
-                            // setCurrentReadClick={setCurrentReadClick}
                           />
                         </React.Fragment>
                       ))
@@ -119,8 +105,6 @@ const Account = () => {
                             section={section}
                             idx={section.id}
                             favTab={true}
-                            // currentReadClick={currentReadClick}
-                            // setCurrentReadClick={setCurrentReadClick}
                           />
                         </React.Fragment>
                       ))
