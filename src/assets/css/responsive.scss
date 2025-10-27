@@ -1,7 +1,77 @@
 @use "./variable"as *;
 @use "./mixin"as *;
 
+
+@media (max-width: $layout-breakpoint-xextraLarge) {
+    .login-left {
+        background-size: 550px;
+
+        .vwd-journey {
+            .vwd-logo {
+                img {
+                    max-width: 260px;
+                }
+            }
+
+            p {
+                max-width: 542px;
+            }
+        }
+    }
+}
+
 @media (max-width: $layout-breakpoint-extraLarge) {
+    .login-left {
+        background-size: 448px;
+        padding: 40px 48px;
+
+        .vwd-journey {
+            gap: 8px;
+
+            .vwd-logo {
+                img {
+                    max-width: 195px;
+                }
+            }
+
+            h6 {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .login-right {
+        .login-box {
+            h5{
+                font-size: 20px;
+                br{
+                    display: none;
+                }
+            }
+            .user-name {
+                h3 {
+                    font-size: 28px;
+                    margin: 0 0 40px;
+
+                    span {
+                        font-size: 32px;
+                        margin: 4px 0 0;
+                    }
+                }
+            }
+        }
+        .login-form{
+            form{
+                gap: 32px;
+
+        }
+        } 
+    }
+
     .login {
         padding: 20px 10px;
 
@@ -17,29 +87,87 @@
             }
         }
     }
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links{
-        gap:5px;
-     
-    }
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button{
-        font-size: 12px;
-    }
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img{
-        width: 16px;
-        height: 16px;
-    }
-    .content-count-box .content-count{
-        gap:25px;
-    }
-    .touchpoints-section{
-         padding: 0 24px;
-    }
-    .header{
-        padding: 0 12px;
-    }
+
+
+.touchpoints-section {
+    	padding: 0 24px;
+	.touchpoint-box {
+		.touchpoints-header {
+			.touchpoint-links {
+				gap: 5px;
+				button {
+					font-size: 12px;
+					img {
+						width: 16px;
+						height: 16px;
+					}
+				}
+			}
+		}
+	}
+
+}
+.content-count-box {
+	.content-count {
+		gap: 25px;
+	}
+}
+
+
 }
 
 @media (max-width: $layout-breakpoint-large) {
+    .login-left {
+    background-size: 350px;
+    padding: 30px 35px;
+    .terms {
+    gap: 20px;
+    div{
+        a {
+    font-size: 12px;
+}
+    } 
+}
+.vwd-journey{
+ .vwd-logo {
+    margin: 0 0 22px;
+}
+}
+
+}
+.login-right{
+    border-radius: 130px 0 0 0;
+    &:before {
+    left: -270px;
+    width: 270px;
+    height: 270px;
+    border-radius: 41%;
+}
+.login-form{
+        margin: 15px 0 10px;
+form {
+    max-width: 380px;
+    gap: 18px;
+    .form-group {
+        .split-button {
+            >div {
+                &:nth-child(3) {
+                    padding: 12px 50px 12px 56px;
+                }
+            }
+            &+span{
+            top: 44px;
+            }
+        }
+    }
+    .message{
+        .text-muted{
+            line-height: 130%;
+        }
+    }
+}
+} 
+}
     .login {
         &.sso-login {
             .login-logo {
@@ -74,22 +202,27 @@
             }
         }
     }
-     .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links{
+
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links {
         flex-wrap: wrap;
         justify-content: flex-start;
     }
-      .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button{
+
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button {
         font-size: 12px;
         padding: 7px 10px;
     }
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img{
+
+    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img {
         width: 14px;
         height: 14px;
     }
-    .content-count-box .content-count{
-        gap:20px;
+
+    .content-count-box .content-count {
+        gap: 20px;
     }
-    .content-count-box .content-count .filter{
+
+    .content-count-box .content-count .filter {
         font-size: 12px;
     }
 }
@@ -108,53 +241,67 @@
     h6 {
         font-size: 18px;
     }
-    .header .header-account .switch{
-    width: 140px;
+
+    .header .header-account .switch {
+        width: 140px;
     }
-    .header .header-account .switch .switch-light > span span{
+
+    .header .header-account .switch .switch-light>span span {
         font-size: 12px;
     }
+
     .touchpoints-section .journey-link-list .journey-link div {
         font-size: 12px;
     }
+
     .touchpoints-section .patient-journey {
-        gap:10px;
+        gap: 10px;
     }
+
     .touchpoints-section .journey-link-list {
-        gap:0;
+        gap: 0;
         margin-left: 0;
     }
-    .touchpoints-section .switch{
+
+    .touchpoints-section .switch {
         flex: 0 0 110px;
     }
-    .touchpoints-section .switch .switch-light > span span{
-     font-size: 12px;
+
+    .touchpoints-section .switch .switch-light>span span {
+        font-size: 12px;
     }
+
     .touchpoints-section .journey-link-list .journey-link .user-category {
-    min-width: 110px;
-    padding: 10px 6px 12px;
-}
- .content-count-box .content-count{
-    gap: 20px 10px;
-    flex-wrap: wrap;
+        min-width: 110px;
+        padding: 10px 6px 12px;
     }
-    .login-left{
+
+    .content-count-box .content-count {
+        gap: 20px 10px;
+        flex-wrap: wrap;
+    }
+
+    .login-left {
         padding: 40px;
     }
-    .login-left .terms{
+
+    .login-left .terms {
         gap: 10px 20px;
         flex-wrap: wrap;
         justify-content: flex-start;
     }
+
     .login-left .terms div a {
         font-size: 12px;
     }
-       .touchpoints-section{
-         padding: 5px;
+
+    .touchpoints-section {
+        padding: 5px;
     }
-      .header{
+
+    .header {
         padding: 0;
-     }
+    }
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -194,25 +341,28 @@
                         >div {
                             &:nth-child(3) {
                                 padding: 10px 40px 10px 18px;
-                                div{
+
+                                div {
                                     font-size: 13px;
                                 }
                             }
-                             &:nth-child(4) {
-                                >div{
-                                    div{
-                                         font-size: 13px;
+
+                            &:nth-child(4) {
+                                >div {
+                                    div {
+                                        font-size: 13px;
                                         padding: 6px 10px;
                                     }
                                 }
-                             }
+                            }
                         }
                     }
 
                     label {
                         margin-bottom: 6px;
                         font-size: 13px;
-                        span{
+
+                        span {
                             font-size: 11px;
                         }
                     }
@@ -228,30 +378,36 @@
     h6 {
         font-size: 16px;
     }
+
     .validation {
-    font-size: 13px;
-}
-}
-@media (max-width: $layout-breakpoint-extraSmall) {
-    .login-page .row{
-            display: flex;
-            flex-direction: column;
-            // flex-direction: column-reverse;
+        font-size: 13px;
     }
-        .login-left {
+}
+
+@media (max-width: $layout-breakpoint-extraSmall) {
+    .login-page .row {
+        display: flex;
+        flex-direction: column;
+        // flex-direction: column-reverse;
+    }
+
+    .login-left {
         padding: 20px;
         // display: none;
     }
-    .login-left .terms{
+
+    .login-left .terms {
         gap: 10px 10px;
         margin-bottom: 30px;
     }
+
     .login-right {
-      border-radius: 0;;
+        border-radius: 0;
+        ;
     }
-    .login-right:before{
+
+    .login-right:before {
         display: none;
     }
-  
+
 }
-   

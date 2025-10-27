@@ -58,7 +58,13 @@ const Account = () => {
           <div className="account-section">
             <div className="profile">
               <div className="profile-img">
-                <img src={path_image + "dummy-circle.svg"} alt="profile" />
+                <img
+                  src={
+                    "https://api.dicebear.com/5.x/initials/svg?seed=" +
+                    userData?.name
+                  }
+                  alt="profile"
+                />
               </div>
               <div className="profile-content">
                 <h4>{userData?.name}</h4>

@@ -1,23 +1,39 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
-import { Navigate, useNavigate } from "react-router-dom";
-import { handleSso } from "../../../../services/authService";
+import { useNavigate } from "react-router-dom";
+import { getUserDetails, handleSso } from "../../../../services/authService";
+import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { clearLocalStorage } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
+import { useSearchParams } from "react-router-dom";
 
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { login, logout, isAuthenticated } = useAuth();
-  const isAuthenticatedUser = localStorage.getItem("decrypted_token")
-    ? true
-    : false;
+  const [searchParams] = useSearchParams();
+
+  const { login } = useAuth();
+  // const isAuthenticatedUser = localStorage.getItem("decrypted_token")
+  //   ? true
+  //   : false;
   const navigate = useNavigate();
   const [userVerified, setUserVerified] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [loader, setLoader] = useState(false);
   const [isHcp, setIsHcp] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const id = searchParams.get("user-id") || "";
+  const userId = id.slice(4, id.length - 2);
+
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        const userD = await getUserDetails(userId);
+        setUserData(userD);
+      })();
+    }
+  }, [userId]);
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
@@ -41,6 +57,21 @@ const LoginWithSSO = () => {
       return newValue;
     });
   };
+
+  async function loginAsGuest() {
+    const mail = "Meznah.a.k@docintel.app";
+    setLoader(true);
+    const res = await postData("/auth/login", { mail });
+    const userDetails = res?.data?.data;
+    console.log("loginAsGuest", userDetails);
+    clearLocalStorage();
+    localStorage.setItem("user_id", userDetails?.userToken);
+    localStorage.setItem("name", userDetails?.name);
+    localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+    setLoader(false);
+    if (!isHcp) navigate("/home");
+    else navigate("/touchpoints");
+  }
 
   return (
     <>
@@ -84,10 +115,9 @@ const LoginWithSSO = () => {
                       <img src={path_image + "vwd-logo.svg"} alt="" />
                     </div>
                     <h6>
-                      Lorem ipsum dolor sit amet consectetur. Eu ac consectetur
-                      purus volutpat. Odio ac enim a justo feugiat varius morbi
-                      nulla justo. Sed quam risus tempor dui quam bibendum.{" "}
+                      Welcome to the VWD Journey- with a Focus on wilate®{" "}
                     </h6>
+                    <p><span>The VWD Journey Tool</span> is an interactive, centralized digital resource  designed to support you in leading meaningful, personalized conversations with healthcare professionals (HCPs), centered on the patient journey and the role wilate® can play in improving care outcomes. This toolbox as a strategic engagement and learning hub for von Willebrand Disease (VWD), enabling tailored discussions diagnosis, treatment decisions, and long-term management, while highlighting wilate®'s value across the full patient journey.</p>
                   </div>
                   <div></div>
                 </div>
@@ -101,7 +131,15 @@ const LoginWithSSO = () => {
                     <div className="user-name">
                       <h3>
                         Welcome to VWD Journey
-                        {/* {userDetails?.name || ""} */}
+                        {userData && (
+                          <>
+                            {" "}
+                            <br />
+                            <span>
+                              {userData?.name || userData?.first_name || ""}
+                            </span>
+                          </>
+                        )}
                       </h3>
                     </div>
                   </div>
@@ -162,6 +200,17 @@ const LoginWithSSO = () => {
                       >
                         Login <img src={path_image + "login-icon.svg"} alt="" />
                       </Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          document.cookie = `isHcp=${isHcp}; 1; path=/`;
+                          loginAsGuest(login, isUserVerified, setLoader);
+                        }}
+                        className="rounded-lg transition"
+                      >
+                        Login As Guest{" "}
+                        <img src={path_image + "login-icon.svg"} alt="" />
+                      </Button>
                     </Form>
                   </div>
                 </div>
@@ -203,6 +252,7 @@ const LoginWithSSO = () => {
           </div>
         </div>
       )}
+      <Login />
     </>
   );
 };

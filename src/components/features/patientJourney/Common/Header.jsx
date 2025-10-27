@@ -60,6 +60,14 @@ const Header = () => {
     setTheme(newTheme);
   };
 
+  const handleHomeRedirection = () => {
+    if (isHcp) {
+      navigate("/touchpoints");
+    } else {
+      navigate("/home");
+    }
+  };
+
   // Ensure theme is set on initial render
   useState(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
@@ -74,7 +82,7 @@ const Header = () => {
               variant="light"
               className="nav w-100 justify-content-between"
             >
-              <Navbar.Brand href="/">
+              <Navbar.Brand onClick={handleHomeRedirection}>
                 <img src={path_image + "vwd-journey-logo.svg"} alt="logo" />
               </Navbar.Brand>
               {/* ✅ Normal inline nav for desktop */}

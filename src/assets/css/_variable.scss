@@ -7,6 +7,7 @@ $green: #4CC6CF;
 $fontfamily: 'Sofia Pro';
 $white: #FFFFFF;
 $light-gray: #A3A3A3;
+$light-gray100: #B5C2D3;
 $pink:#d61975;
 $gradient-orange:#F79548;
 $gradient-pink:#E94262;
@@ -28,6 +29,7 @@ $black: #000000;
 --pink:#{$pink};
 --gradient-orange:#{$gradient-orange};
 --gradient-pink:#{$gradient-pink};
+--gray100:#{$light-gray100};
 --gray300:#{$border-color};
 --font-family:#{$fontfamily};
 --white100:#{$white100};
@@ -39,7 +41,7 @@ $black: #000000;
 
 [data-bs-theme='dark']{
     --primary-color: #{$primary-color};
-    --primary-gradient:  linear-gradient(97deg, #F79548 0%, #E94262 100%);
+    --primary-gradient:  linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
     --green: #{$green};
     // --gray:#{$white};
     --white100:#{$white};

@@ -165,10 +165,9 @@ const Login = ({ userDetails, setLoader }) => {
                   <img src={path_image + "vwd-logo.svg"} alt="" />
                 </div>
                 <h6>
-                  Lorem ipsum dolor sit amet consectetur. Eu ac consectetur
-                  purus volutpat. Odio ac enim a justo feugiat varius morbi
-                  nulla justo. Sed quam risus tempor dui quam bibendum.{" "}
+                  Welcome to the VWD Journey- with a Focus on wilate®{" "}
                 </h6>
+                <p><span>The VWD Journey Tool</span> is an interactive, centralized digital resource  designed to support you in leading meaningful, personalized conversations with healthcare professionals (HCPs), centered on the patient journey and the role wilate® can play in improving care outcomes. This toolbox as a strategic engagement and learning hub for von Willebrand Disease (VWD), enabling tailored discussions diagnosis, treatment decisions, and long-term management, while highlighting wilate®'s value across the full patient journey.</p>
               </div>
               <div></div>
             </div>
@@ -180,12 +179,12 @@ const Login = ({ userDetails, setLoader }) => {
                 <img src={`${path_image}logo-img.svg`} alt="logo" />
               </div> */}
                 <div className="user-name">
-                  <h3>
+                  {/* <h3>
                     Welcome to <strong>VWD Journey</strong>
-                    {/* {userDetails?.name || ""} */}
-                  </h3>
+                    {/* {userDetails?.name || ""} 
+                  </h3> */}
                 </div>
-                <h6>Tell us a bit about you to tailor your experience</h6>
+                <h5>Tell us a bit about you to tailor your<br />experience</h5>
               </div>
 
               <div className="login-form">
@@ -281,9 +280,8 @@ const Login = ({ userDetails, setLoader }) => {
                       }
                     >
                       <Select
-                        className={`split-button ${
-                          errors.region ? "error" : ""
-                        }`}
+                        className={`split-button ${errors.region ? "error" : ""
+                          }`}
                         value={selectedRegion}
                         onChange={handleRegionChange}
                         placeholder="Select your region"
@@ -348,15 +346,14 @@ const Login = ({ userDetails, setLoader }) => {
                       }
                     >
                       <Select
-                        className={`split-button ${
-                          errors.country ? "error" : ""
-                        }`}
+                        className={`split-button ${errors.country ? "error" : ""
+                          }`}
                         value={selectedCountry}
                         onChange={setSelectedCountry}
                         placeholder="Select your country"
                         options={countryList}
                         isClearable
-                        // isDisabled={!selectedRegion}
+                      // isDisabled={!selectedRegion}
                       />
                       <span>
                         <svg

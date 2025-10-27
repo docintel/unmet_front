@@ -1,4 +1,4 @@
-@use "./variable" as *;
+@use "./variable"as *;
 
 @mixin vertical-list {
   display: flex;
@@ -123,6 +123,7 @@
     flex: 1;
     text-align: center;
     margin-left: -6px;
+
     &:first-child {
       margin-left: 0;
     }
@@ -176,7 +177,7 @@
     @include flex-space-between;
     margin: 0 0 12px;
 
-    > div {
+    >div {
       gap: 8px;
 
       img {
@@ -214,7 +215,7 @@
         background: var(--white);
         box-shadow: 0 4px 12px 0 rgba(181, 194, 211, 0.5);
         overflow: hidden;
-        margin-top: -20px;
+        margin-top: -27px;
 
         a {
           color: var(--gray300);
@@ -267,14 +268,20 @@
     font-weight: 400;
     margin: 16px 0;
     gap: 3px 8px;
-    white-space: nowrap;
     @include flex-wrap;
+    white-space: nowrap;
     align-items: center;
+
+    >div {
+      @include flex-align-center
+    }
 
     img {
       width: 12px;
       height: 12px;
-      margin-left: 4px;
+      margin: 0 8px 0 5px;
+      filter: drop-shadow(0px 1000000px 0 var(--gray300));
+      transform: translateY(-1000000px);
     }
   }
 
@@ -401,7 +408,7 @@
       display: none;
     }
 
-    > span {
+    >span {
       text-align: left;
       top: auto;
       position: absolute;
@@ -446,12 +453,11 @@
 @mixin split-btn {
   max-width: 448px;
   min-width: 60px;
-  padding: 15px 50px 15px 56px;
+  padding: 14px 50px 14px 56px;
   font-size: 14px;
   font-family: var(--font-family);
   line-height: 20px;
-  background: var(--white) url(../images/dropdown-arrow-orange.svg) no-repeat 94%
-    center;
+  background: var(--white) url(/assets/images/dropdown-arrow-orange.svg) no-repeat 94% center;
   box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.4);
   border-radius: 40px;
   border: 0;
@@ -474,7 +480,7 @@
   padding: 8px;
   max-height: 170px;
 
-  > div {
+  >div {
     height: 100%;
     overflow-y: auto;
     max-height: 152px;
@@ -563,46 +569,77 @@
   }
 }
 
-  @mixin show-more-btn {
-       display: flex;
-       align-items: center;
-       gap: 8px;
-       background: transparent;
-       border: none;
-       border-radius: 40px;
-       padding: 0px 16px;
-       font-size: 14px;
-       color: var(--gray);
-       cursor: pointer;
-       white-space: nowrap;
-       
-        &:active{
-          background-color: transparent;
-        }
-     img {
-      width: 16px;
-      height: 16px;
-      }
+@mixin show-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 40px;
+  padding: 0px 16px;
+  font-size: 14px;
+  color: var(--gray);
+  cursor: pointer;
+  white-space: nowrap;
 
-       &:hover {
-        //  background: rgba(254, 244, 237, 0.05);
-         color: var(--white);
-         img {
-           filter: brightness(0) invert(1); 
-         }
-       }
-     }
+  &:active {
+    background-color: transparent;
+  }
 
+  img {
+    width: 16px;
+    height: 16px;
+  }
 
+  &:hover {
+    //  background: rgba(254, 244, 237, 0.05);
+    color: var(--white);
 
-  .form-group{
-    ::-webkit-scrollbar-track {
-    background: rgba(148, 167, 191, 0.2);
+    img {
+      filter: brightness(0) invert(1);
+    }
+  }
 }
-  }
-  @mixin box-shadow{
-    background: #183B4D;
-    fill: rgba(255, 255, 255, 0.02);
-    filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.5)); 
-  }
 
+
+
+.form-group {
+  ::-webkit-scrollbar-track {
+    background: rgba(148, 167, 191, 0.2);
+  }
+}
+
+@mixin box-shadow {
+  background: #183B4D;
+  fill: rgba(255, 255, 255, 0.02);
+  filter: drop-shadow(0 0 8px rgba(0, 39, 59, 0.5));
+}
+
+@mixin message {
+  border-radius: 8px 12px 12px 8px;
+  border-left: 5px solid var(--green);
+  background: rgba(148, 167, 191, 0.06);
+  padding: 8px 30px 8px 8px;
+  @include flex-align-start;
+  gap: 10px;
+
+  .text-muted {
+    font-size: 13px;
+    color: var(--gray300) !important;
+    font-weight: 400;
+    margin: 0;
+  }
+}
+
+@mixin form-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  font-weight: 600;
+
+  span {
+    font-weight: 300;
+    font-size: 13px;
+  }
+}
