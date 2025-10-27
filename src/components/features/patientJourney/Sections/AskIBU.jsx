@@ -113,7 +113,7 @@ const AskIBU = () => {
       {/* Filter button */}
       {location.pathname !== "/account" && (
         <div className="filter-section">
-          {dataToMap.length > 0 ? <div className="filter-container">
+          {dataToMap.length > 0 || appliedFilters.length > 0 ? <div className="filter-container">
               <button
                 className="btn btn-link filter-btn"
                 onClick={() => setShowFilterBox(!showFilterBox)}
