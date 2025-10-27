@@ -155,7 +155,7 @@ h6 {
   @include flex-center;
   flex-direction: column;
   background: url(../assets/images/vwd-background.svg) no-repeat;
-  background-position: left 95%;
+  background-position: left 96%;
 
   .terms {
     @include flex-middle;
@@ -1353,10 +1353,11 @@ h6 {
     }
     .touchpoint-box-content{
       padding: 0 8px 0 0px;
+      width: 100%;
     }
     .touchpoint-box-inner {
       overflow-y: auto;
-      max-height: 66vh;
+      max-height: 68.9vh;
       width: 100%;
       margin-top: 0px;
       padding:0 11px 0 24px;
@@ -1465,7 +1466,8 @@ h6 {
 
 
     .touchpoints-header {
-      margin:0 0 32px;
+      // margin:0 0 32px;
+      margin:0 0 12px;
       .touchpoint-links {
         @include flex-justify-between;
         margin: 12px 0 12px;
@@ -2473,7 +2475,7 @@ input[type="search"]::-webkit-search-results-decoration {
     .toastMessage {
       font-size: 14px;
       margin: 0;
-      color: var(--gray);
+      color: var(--light-gray);
       font-weight: 400;
     }
 
@@ -2588,6 +2590,10 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 
   .touchpoints-section {
+    .userImg{
+      background: transparent;
+
+    }
     &.age0,
     &.age6,
     &.age12,
@@ -2803,6 +2809,7 @@ input[type="search"]::-webkit-search-results-decoration {
         }
         .content-count-box-outer{
           padding-right: 8px;
+          width:100%;
         }
         .content-count-box{
           .touchpoint-data-boxes{
@@ -2870,6 +2877,7 @@ input[type="search"]::-webkit-search-results-decoration {
           }
         }
       }
+      
     }
   }
 
@@ -2883,6 +2891,9 @@ input[type="search"]::-webkit-search-results-decoration {
         } 
         .content-box {
           box-shadow: 0 1px 10px 0 rgba(93, 26, 39, 0.32);
+        }
+        .dark-progress{
+          background: rgba(93, 26, 39, 0.24)!important;
         }
       }
     }

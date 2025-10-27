@@ -50,9 +50,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       if (section.self_rate !== 1) {
         setToast({
           show: true,
-          type: "info",
-          title: "Success",
-          message: "Rating saved successfully",
+          type: "success",
+          title: "Added to Your Likes",
+          message: "This content is now part of your favorites list.",
         });
       } else {
         setToast({
@@ -631,19 +631,20 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       </div>
       {/* Transparent overlay with circular progress */}
       {downloading && (
-        <div
+        <div class="dark-progress"
           style={{
             position: "absolute",
-            top: 0,
+            top: '21px',
             left: 0,
             right: 0,
-            bottom: 0,
-            background: "rgba(255,255,255,0.6)",
+            bottom: '-3px',
+            background: "rgba(24, 59, 77, 0.50)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: "8px",
+            borderRadius: "8px 8px 16px 16px",
             zIndex: 1000,
+            backdropFilter: 'blur(2px)',
           }}
         >
           <div style={{ position: "relative", width: 120, height: 120 }}>
@@ -656,7 +657,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 cx="60"
                 cy="60"
                 r="45"
-                stroke="#e0e0e0"
+                stroke="#ffffff"
                 strokeWidth="10"
                 fill="none"
               />
@@ -664,7 +665,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 cx="60"
                 cy="60"
                 r="45"
-                stroke="#007bff"
+                stroke="#4CC6CF"
                 strokeWidth="10"
                 fill="none"
                 strokeDasharray={circumference}
@@ -681,9 +682,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                fontWeight: "bold",
-                fontSize: "18px",
-                color: "#007bff",
+                fontWeight: "600",
+                fontSize: "16px",
+                color: "#ffffff",
               }}
             >
               {progress}%
