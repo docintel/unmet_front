@@ -335,14 +335,29 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   {" "}
                   Scan to open the content
                 </span>
-                <div style={{ textAlign: "center", display: "block" }}>
-                  <QRCode value={section.previewArticle} size={128} />
+                <div
+                  style={{
+                    textAlign: "center",
+                    display: "block",
+                    color: "blue",
+                  }}
+                >
+                  <QRCode
+                    value={section.previewArticle}
+                    size={160}
+                    fgColor="#183B4D"
+                  />
                 </div>
 
                 <span style={{ textAlign: "center", display: "block" }}>
-                  Ask the HCP to scan this code. They’ll authenticate with their
-                  One Source account and the content will open on their phone.
+                  Ask the HCP to scan this code. They&apos;ll authenticate with
+                  their One Source account and the content will open on their
+                  phone.
                 </span>
+
+                <Button type="button" onClick={handleCloseModal}>
+                  Close
+                </Button>
               </Tab>
             </Tabs>
           </Modal.Body>
