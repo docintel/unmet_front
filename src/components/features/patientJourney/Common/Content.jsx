@@ -17,7 +17,8 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
 import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section: initialSection, idx, favTab }) =>
+{
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -90,7 +91,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     } catch (ex) {}
   };
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
@@ -435,8 +437,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           (Required)
                         </span>
                       </Form.Label>
-                      <div className="input-with-icon front">
-                        <span>
+                      <div className="input-with-icon">
+                        <span className="icon">
                           <svg
                             width="22"
                             height="21"
@@ -488,9 +490,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           (Required)
                         </span>
                       </Form.Label>
-                      <div className="input-with-icon front">
+                      <div className="input-with-icon">
                         <span className="icon">
-                          <i className="bi bi-envelope"></i>
+                          <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z" fill="#B5C2D3" />
+                          </svg>
                         </span>
                         <Form.Control
                           type="email"
@@ -511,9 +515,14 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           (Required)
                         </span>
                       </Form.Label>
-                      <div className="input-with-icon front">
+                      <div className="input-with-icon">
                         <span className="icon">
-                          <i className="bi bi-geo-alt"></i>
+                          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
+                          </svg>
                         </span>
                         <Form.Control
                           as="select"
@@ -606,46 +615,38 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   </Form>
                 </div>
               </Tab>
-              <Tab eventKey="existing-member" title="Existing Member">
-                <div className="warning-message">
-                  <div className="info-icon">
-                    <img src={path_image + "warning-icon.svg"} alt="" />
+              <Tab eventKey="existing-member" title="Existing Member" >
+                <div className="existing-member">
+                  <div className="warning-message">
+                    <div className="info-icon">
+                      <img src={path_image + "warning-icon.svg"} alt="" />
+                    </div>
+                    <div className="text-muted">
+                      This screen is for the HCP. Please hand them your device to review and give consent.
+                    </div>
                   </div>
-                  <div className="text-muted">
-                    This screen is for the HCP. Please hand them your device to
-                    review and give consent.
+                  <div className="qr-section">
+                    <span>
+                      Scan to open the content
+                    </span>
+                    <div className="qr-box">
+                      <QRCode
+                        value={section.previewArticle}
+                        size={192}
+                        fgColor="#183B4D"
+                      />
+                    </div>
                   </div>
-                </div>
-                <br />
-                <span style={{ textAlign: "center", display: "block" }}>
-                  {" "}
-                  Scan to open the content
-                </span>
-                <br />
-                <div
-                  style={{
-                    textAlign: "center",
-                    display: "block",
-                    color: "blue",
-                  }}
-                >
-                  <QRCode
-                    value={section.previewArticle}
-                    size={160}
-                    fgColor="#183B4D"
-                  />
-                </div>
-                <br />
-                <div className="info-message" style={{ textAlign: "center" }}>
-                  Ask the HCP to scan this code. They&apos;ll authenticate with
-                  their One Source account and the content will open on their
-                  phone.
-                </div>
-                <br />
 
-                <Button type="button" onClick={handleCloseModal}>
-                  Close
-                </Button>
+                  <div className="info-message">
+                    Ask the HCP to scan this code. They’ll authenticate with their One Source account and the content will open on their phone.
+                  </div>
+
+                  <button className="btn done">
+                    Done
+                    <img src={path_image + "correct.svg"} alt="" />
+                  </button>
+                </div>
               </Tab>
             </Tabs>
           </Modal.Body>
