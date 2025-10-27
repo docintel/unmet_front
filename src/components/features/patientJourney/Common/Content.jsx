@@ -15,8 +15,10 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
 import QRCode from "react-qr-code";
+import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section: initialSection, idx, favTab }) =>
+{
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -65,7 +67,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     } catch (ex) { }
   };
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
@@ -313,8 +316,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <Form.Label>
                         Name <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon front">
-                        <span>
+                      <div className="input-with-icon">
+                        <span className="icon">
                           <svg
                             width="22"
                             height="21"
@@ -356,9 +359,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <Form.Label>
                         Email <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon front">
+                      <div className="input-with-icon">
                         <span className="icon">
-                          <i className="bi bi-envelope"></i>
+                          <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z" fill="#B5C2D3" />
+                          </svg>
                         </span>
                         <Form.Control type="email" placeholder="Enter your email" />
                       </div>
@@ -368,107 +373,109 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <Form.Label>
                         Country <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon front">
+                      <div className="input-with-icon">
                         <span className="icon">
-                          <i className="bi bi-geo-alt"></i>
+                          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
+                          </svg>
                         </span>
-                        <Form.Control as="select">
-                          <option>Select your country</option>
-                          <option>India</option>
-                          <option>USA</option>
-                          <option>UK</option>
-                        </Form.Control>
+                        <Select
+                          className="split-button"
+                          value=""
+                          onChange=""
+                          placeholder="Select your country"
+                          options=""
+                          isClearable
+                        />
+                        {/* <div className="split-button"></div> */}
                       </div>
-                    </Form.Group>
 
-                    <Form.Group className="form-group consent-group">
-                      <Form.Label>
-                        I also consent to: <span>(Required)</span>
-                      </Form.Label>
-                      <div className="radio-options">
-                        <Form.Check type="radio" label="Receive One Source updates and new materials from Octapharma." name="consent" />
-                        <Form.Check type="radio" label="Receive invitations to future events." name="consent" defaultChecked />
-                        <Form.Check type="radio" label="Both of the options above." name="consent" />
-                        <Form.Check type="radio" label="None of the options above." name="consent" />
+                    </Form.Group>
+                    <div class="consent-section">
+                      <p>I also consent to: <span class="required">(Required)</span></p>
+
+                      <label class="custom-radio">
+                        <input type="radio" name="consent" />
+                        <span class="radio-check"></span>
+                        Receive One Source updates and new materials from Octapharma.
+                      </label>
+
+                      <label class="custom-radio">
+                        <input type="radio" name="consent" />
+                        <span class="radio-check"></span>
+                        Receive invitations to future events.
+                      </label>
+
+                      <label class="custom-radio">
+                        <input type="radio" name="consent" />
+                        <span class="radio-check"></span>
+                        Both of the options above.
+                      </label>
+
+                      <label class="custom-radio">
+                        <input type="radio" name="consent" />
+                        <span class="radio-check"></span>
+                        None of the options above.
+                      </label>
+                    </div>
+
+
+                    <div className="message">
+                      <div className="info-icon">
+                        <img src={path_image + "info-icon.svg"} alt="" />
                       </div>
-                    </Form.Group>
-
-                    <div className="note-box">
-                      <i className="bi bi-info-circle"></i>
-                      <p>
-                        Your consent can be changed or withdrawn at any time in your One Source (Docintel)
-                        account after registration.
-                      </p>
+                      <Form.Text className="text-muted">
+                        Your consent can be changed or withdrawn at any time in your One Source (Docintel) account after registration.
+                      </Form.Text>
                     </div>
 
                     <div className="form-buttons">
                       <button className="btn cancel">Cancel</button>
                       <button className="btn share">
-                        Share <i className="bi bi-send-fill"></i>
+                        Share
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8174 0.111456C13.6079 0.00776914 14.343 -0.0314554 14.9561 0.0276345C15.5394 0.0839043 16.1503 0.241371 16.5397 0.660773C16.9175 1.06785 17.0412 1.67981 17.0736 2.26233C17.1078 2.87674 17.0465 3.61039 16.9222 4.40019C16.673 5.98382 16.1556 7.88919 15.5347 9.71595C14.9135 11.5436 14.1797 13.3209 13.4863 14.646C13.1415 15.3051 12.7942 15.8752 12.4642 16.2874C12.3 16.4925 12.1227 16.6806 11.9344 16.8204C11.7557 16.9532 11.4949 17.0963 11.1817 17.0825C10.6784 17.0602 10.2958 16.7841 10.0147 16.4192C9.74535 16.0696 9.53231 15.5956 9.34328 15.048C8.96411 13.9494 8.60857 12.3288 8.14943 10.2409C8.05084 9.79248 7.96756 9.64007 7.89309 9.5597C7.87725 9.54262 7.85744 9.52604 7.83286 9.50761C7.80162 9.49098 7.77036 9.47377 7.74172 9.45146C7.64573 9.40043 7.49965 9.34144 7.26239 9.27487C6.92157 9.17925 6.35115 9.07134 5.62095 8.92005C4.91164 8.77308 4.08622 8.59167 3.30161 8.35771C2.52526 8.1262 1.74386 7.83034 1.14423 7.43812C0.556832 7.05385 0.00525668 6.48129 1.9402e-05 5.67135C-0.0019242 5.36282 0.142499 5.10662 0.279967 4.92672C0.424119 4.73809 0.61603 4.56065 0.826029 4.39612C1.24775 4.06575 1.82802 3.72205 2.49676 3.38213C3.84083 2.69895 5.63607 1.98585 7.47723 1.39319C9.317 0.801006 11.2321 0.319433 12.8174 0.111456ZM14.8356 1.27194C14.3547 1.2256 13.7246 1.25324 12.9802 1.35088C11.4957 1.54561 9.65824 2.00405 7.85972 2.58297C6.06232 3.16155 4.33248 3.85104 3.06317 4.49622C2.42542 4.82039 1.92647 5.12245 1.5967 5.38082C1.43119 5.51053 1.32907 5.61346 1.27362 5.686C1.26516 5.69708 1.25914 5.70689 1.25409 5.71448C1.2762 5.88995 1.41103 6.11923 1.82863 6.39238C2.27596 6.68497 2.91964 6.93935 3.65887 7.1598C4.38966 7.37771 5.17123 7.55047 5.87404 7.69609C6.55602 7.83739 7.20384 7.96008 7.60012 8.07125C7.73698 8.10966 7.87029 8.15181 7.99888 8.19983L10.5998 5.59974C10.8439 5.35566 11.2395 5.35566 11.4836 5.59974C11.7276 5.84382 11.7276 6.23946 11.4836 6.48353L9.00311 8.96318C9.18853 9.2582 9.28897 9.6032 9.37014 9.9723C9.83677 12.0944 10.1754 13.6267 10.5249 14.6395C10.7002 15.1473 10.8605 15.469 11.0051 15.6567C11.0859 15.7616 11.1455 15.8021 11.1849 15.8195L11.189 15.817C11.2579 15.7658 11.359 15.6678 11.4885 15.5061C11.7456 15.1849 12.0495 14.6949 12.3788 14.0657C13.0339 12.8135 13.7444 11.1 14.3514 9.31393C14.9588 7.52698 15.4534 5.69468 15.6877 4.20569C15.8052 3.45917 15.8533 2.82233 15.826 2.33151C15.7969 1.80923 15.6882 1.58108 15.6234 1.5112C15.5592 1.44203 15.3462 1.32115 14.8356 1.27194Z" fill="white" />
+                        </svg>
                       </button>
                     </div>
                   </Form>
-
                 </div>
               </Tab>
-              <Tab eventKey="existing-member" title="Existing Member">
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.002 12.4998C10.4621 12.4998 10.8352 12.873 10.8353 13.3332C10.8353 13.7934 10.4622 14.1665 10.002 14.1665H9.99463C9.5344 14.1665 9.1613 13.7934 9.1613 13.3332C9.16141 12.873 9.53446 12.4998 9.99463 12.4998H10.002Z"
-                        fill="#F79548"
-                      />
-                      <path
-                        d="M10.0011 6.87483C10.3463 6.87483 10.626 7.15475 10.6261 7.49983V10.8332C10.6261 11.1783 10.3463 11.4582 10.0011 11.4582C9.65597 11.4582 9.37614 11.1783 9.37614 10.8332V7.49983C9.37625 7.15475 9.65603 6.87483 10.0011 6.87483Z"
-                        fill="#F79548"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.6364 1.6787C9.52319 1.38446 10.4791 1.38442 11.3659 1.6787C12.2492 1.97193 12.9429 2.66784 13.6397 3.64485C14.3386 4.62504 15.1118 5.99423 16.1104 7.76106C17.1089 9.52805 17.8833 10.8968 18.3646 12.005C18.8451 13.1115 19.0844 14.0674 18.8936 14.9852C18.7013 15.909 18.2272 16.7492 17.537 17.3843C16.8482 18.0178 15.9101 18.2853 14.7293 18.4137C13.5471 18.5423 11.9977 18.5415 10.0011 18.5415C8.00458 18.5415 6.45524 18.5423 5.27295 18.4137C4.09209 18.2853 3.1541 18.0178 2.46534 17.3843C1.77504 16.7492 1.30101 15.9091 1.10873 14.9852C0.917824 14.0674 1.15718 13.1115 1.6377 12.005C2.11904 10.8968 2.89337 9.528 3.89193 7.76106C4.89041 5.99428 5.66366 4.62502 6.36264 3.64485C7.05937 2.66788 7.7531 1.9719 8.6364 1.6787ZM10.972 2.86523C10.3409 2.65582 9.66139 2.65586 9.03028 2.86523C8.53366 3.03008 8.03373 3.45392 7.37989 4.37076C6.72831 5.28451 5.99259 6.58452 4.97999 8.3763C3.9674 10.168 3.23331 11.4694 2.78435 12.5031C2.33466 13.5385 2.22201 14.1983 2.33269 14.7305C2.47238 15.4017 2.81577 16.0085 3.31169 16.4647C3.7012 16.823 4.30818 17.0515 5.40805 17.1711C6.50672 17.2905 7.97505 17.2915 10.0011 17.2915C12.0272 17.2915 13.4956 17.2905 14.5942 17.1711C15.694 17.0515 16.3011 16.8229 16.6906 16.4647C17.1864 16.0085 17.5299 15.4016 17.6696 14.7305C17.7803 14.1983 17.6676 13.5385 17.2179 12.5031C16.769 11.4694 16.0349 10.1681 15.0223 8.3763C14.0097 6.58447 13.274 5.28453 12.6224 4.37076C11.9685 3.45388 11.4686 3.0301 10.972 2.86523Z"
-                        fill="#F79548"
-                      />
-                    </svg>
+              <Tab eventKey="existing-member" title="Existing Member" >
+                <div className="existing-member">
+                  <div className="warning-message">
+                    <div className="info-icon">
+                      <img src={path_image + "warning-icon.svg"} alt="" />
+                    </div>
+                    <div className="text-muted">
+                      This screen is for the HCP. Please hand them your device to review and give consent.
+                    </div>
                   </div>
-                  <div>
-                    This screen is for the HCP. Show them the QR code to open
-                    the content on their own device.
+                  <div className="qr-section">
+                    <span>
+                      Scan to open the content
+                    </span>
+                    <div className="qr-box">
+                      <QRCode
+                        value={section.previewArticle}
+                        size={192}
+                        fgColor="#183B4D"
+                      />
+                    </div>
                   </div>
-                </div>
-                <span style={{ textAlign: "center", display: "block" }}>
-                  {" "}
-                  Scan to open the content
-                </span>
-                <div
-                  style={{
-                    textAlign: "center",
-                    display: "block",
-                    color: "blue",
-                  }}
-                >
-                  <QRCode
-                    value={section.previewArticle}
-                    size={160}
-                    fgColor="#183B4D"
-                  />
-                </div>
 
-                <span style={{ textAlign: "center", display: "block" }}>
-                  Ask the HCP to scan this code. They&apos;ll authenticate with
-                  their One Source account and the content will open on their
-                  phone.
-                </span>
+                  <div className="info-message">
+                    Ask the HCP to scan this code. They’ll authenticate with their One Source account and the content will open on their phone.
+                  </div>
 
-                <Button type="button" onClick={handleCloseModal}>
-                  Close
-                </Button>
+                  <button className="btn done">
+                    Done
+                    <img src={path_image + "correct.svg"} alt="" />
+                  </button>
+                </div>
               </Tab>
             </Tabs>
           </Modal.Body>
