@@ -87,33 +87,35 @@
             }
         }
     }
+    .touchpoints-section {
+      padding: 0 24px;
 
+     .touchpoint-box {
+       .touchpoints-header {
+        .touchpoint-links {
+        gap: 5px;
 
-.touchpoints-section {
-    	padding: 0 24px;
-	.touchpoint-box {
-		.touchpoints-header {
-			.touchpoint-links {
-				gap: 5px;
-				button {
-					font-size: 12px;
-					img {
-						width: 16px;
-						height: 16px;
-					}
-				}
-			}
-		}
-	}
+        button {
+          font-size: 12px;
 
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+  }
 }
 .content-count-box {
-	.content-count {
-		gap: 25px;
-	}
+  .content-count {
+    gap: 25px;
+  }
 }
 
-
+.header {
+  padding: 0 12px;
+}
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -202,29 +204,37 @@ form {
             }
         }
     }
-
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links {
+.touchpoints-section {
+  .touchpoint-box {
+    .touchpoints-header {
+      .touchpoint-links {
         flex-wrap: wrap;
         justify-content: flex-start;
-    }
 
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button {
-        font-size: 12px;
-        padding: 7px 10px;
-    }
+        button {
+          font-size: 12px;
+          padding: 7px 10px;
 
-    .touchpoints-section .touchpoint-box .touchpoints-header .touchpoint-links button img {
-        width: 14px;
-        height: 14px;
+          img {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
     }
+  }
+}
 
-    .content-count-box .content-count {
-        gap: 20px;
-    }
+.content-count-box {
+  .content-count {
+    gap: 20px;
 
-    .content-count-box .content-count .filter {
-        font-size: 12px;
+    .filter {
+      font-size: 12px;
     }
+  }
+}
+
 }
 
 @media (max-width: $layout-breakpoint-medium) {
@@ -241,67 +251,83 @@ form {
     h6 {
         font-size: 18px;
     }
+    .header {
+      padding: 0;
 
-    .header .header-account .switch {
-        width: 140px;
+  .header-account {
+    .switch {
+      width: 140px;
+
+      .switch-light {
+        > span {
+          span {
+            font-size: 12px;
+          }
+        }
+      }
     }
+  }
+}
 
-    .header .header-account .switch .switch-light>span span {
+.touchpoints-section {
+  padding: 5px;
+
+  .journey-link-list {
+    gap: 0;
+    margin-left: 0;
+
+    .journey-link {
+      div {
         font-size: 12px;
-    }
+      }
 
-    .touchpoints-section .journey-link-list .journey-link div {
-        font-size: 12px;
-    }
-
-    .touchpoints-section .patient-journey {
-        gap: 10px;
-    }
-
-    .touchpoints-section .journey-link-list {
-        gap: 0;
-        margin-left: 0;
-    }
-
-    .touchpoints-section .switch {
-        flex: 0 0 110px;
-    }
-
-    .touchpoints-section .switch .switch-light>span span {
-        font-size: 12px;
-    }
-
-    .touchpoints-section .journey-link-list .journey-link .user-category {
+      .user-category {
         min-width: 110px;
         padding: 10px 6px 12px;
+      }
     }
+  }
 
-    .content-count-box .content-count {
-        gap: 20px 10px;
-        flex-wrap: wrap;
+  .patient-journey {
+    gap: 10px;
+  }
+
+  .switch {
+    flex: 0 0 110px;
+
+    .switch-light {
+      > span {
+        span {
+          font-size: 12px;
+        }
+      }
     }
+  }
+}
 
-    .login-left {
-        padding: 40px;
-    }
+.content-count-box {
+  .content-count {
+    gap: 20px 10px;
+    flex-wrap: wrap;
+  }
+}
 
-    .login-left .terms {
-        gap: 10px 20px;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
+.login-left {
+  padding: 40px;
 
-    .login-left .terms div a {
+  .terms {
+    gap: 10px 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    div {
+      a {
         font-size: 12px;
+      }
     }
+  }
+}
 
-    .touchpoints-section {
-        padding: 5px;
-    }
-
-    .header {
-        padding: 0;
-    }
 }
 
 @media (max-width: $layout-breakpoint-small) {
