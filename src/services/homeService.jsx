@@ -70,7 +70,7 @@ export const fetchTags = async (setIsLoading) => {
   setIsLoading(true);
   try {
     const response = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
-    return response?.data?.data?.tags || [];
+    return response?.data?.data?.contentCategory || [];
   } catch (error) {
     console.error("Error fetching tags:", error);
     return [];

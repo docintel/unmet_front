@@ -113,19 +113,18 @@ const AskIBU = () => {
       {/* Filter button */}
       {location.pathname !== "/account" && (
         <div className="filter-section">
-          <div className="filter-container">
-            <button
-              className="btn btn-link filter-btn"
-              onClick={() => setShowFilterBox(!showFilterBox)}
-            >
-              {showFilterBox ? (
-                <img src={path_image + "close-arrow.svg"} alt="Filter Icon" />
-              ) : (
-                <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />
-              )}
-            </button>
-          </div>
-
+          {dataToMap.length > 0 ? <div className="filter-container">
+              <button
+                className="btn btn-link filter-btn"
+                onClick={() => setShowFilterBox(!showFilterBox)}
+              >
+                {showFilterBox ? (
+                  <img src={path_image + "close-arrow.svg"} alt="Filter Icon" />
+                ) : (
+                  <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />
+                )}
+              </button>
+            </div> : null}
           {/* Filter dropdown */}
           {showFilterBox && (
             <div className="filter-box" style={{ zIndex: 1000 }}>
@@ -179,7 +178,6 @@ const AskIBU = () => {
               </div>
             </div>
           )}
-
           {/* Applied filters */}
           {appliedFilters.length > 0 && (
             <div className="applied-filters mb-3">
