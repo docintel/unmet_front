@@ -3,7 +3,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import {
+import
+{
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -20,7 +21,8 @@ const Content = ({
   favTab,
   // currentReadClick,
   // setCurrentReadClick,
-}) => {
+}) =>
+{
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -37,7 +39,8 @@ const Content = ({
   const [readContent, setReadContent] = useState(false);
   const circumference = 2 * Math.PI * 45;
 
-  const handleStarClick = async () => {
+  const handleStarClick = async () =>
+  {
     try {
       const response = await updateContentRating(
         section.id,
@@ -65,7 +68,7 @@ const Content = ({
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   // useEffect(() => {
@@ -74,11 +77,13 @@ const Content = ({
   //   }
   // }, [currentReadClick, section.id]);
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) => {
+      .map((tag) =>
+      {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -102,21 +107,25 @@ const Content = ({
       );
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = () =>
+  {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async () =>
+  {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) => {
+    const getContentSize = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) => {
+    const downloadFileChuck = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -201,9 +210,8 @@ const Content = ({
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -212,9 +220,8 @@ const Content = ({
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -235,14 +242,16 @@ const Content = ({
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () =>
+  {
     setShowModal(false);
     setEmail("");
     setName("");
     setMessage("");
   };
 
-  const handleSubmitClick = async (e) => {
+  const handleSubmitClick = async (e) =>
+  {
     e.preventDefault();
     try {
       if (!email) {
@@ -298,18 +307,122 @@ const Content = ({
               className="mb-3"
             >
               <Tab eventKey="new-member" title="New Member">
-                <Form onSubmit={handleSubmitClick}>
-                  <Form.Group className="mb-3" controlId="formName">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter your name"
-                      name="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Form>
+                <div className="message-info">
+                  <div className="warning-message">
+                    <div className="info-icon">
+                      <img src={path_image + "warning-icon.svg"} alt="" />
+                    </div>
+                    <div className="text-muted">
+                      This screen is for the HCP. Please hand them your device to review and give consent.
+                    </div>
+                  </div>
+                  <div className="info-message">
+                    By registering, you agree to receive the selected content by email. Your data will be handled according to the data-privacy policy of <span>Octapharma AG</span> and <span>Docintel.app</span>.
+                  </div>
+                </div>
+                <div className="share-form">
+                  <Form className="registration-form">
+                    <Form.Group className="form-group">
+                      <Form.Label>
+                        Name <span>(Required)</span>
+                      </Form.Label>
+                      <div className="input-with-icon front">
+                        <span>
+                          <svg
+                            width="22"
+                            height="21"
+                            viewBox="0 0 22 21"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M11 13.2565L11 14.7565"
+                              stroke="#B5C2D3"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M2 9.25647L2.15288 12.1197C2.31714 15.7335 2.39927 17.5403 3.55885 18.6484C4.71843 19.7565 6.52716 19.7565 10.1446 19.7565H11.8554C15.4728 19.7565 17.2816 19.7565 18.4412 18.6484C19.6007 17.5403 19.6829 15.7335 19.8471 12.1197L20 9.25647"
+                              stroke="#B5C2D3"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                            <path
+                              d="M1.84718 8.69953C3.54648 11.9309 7.3792 13.2565 11 13.2565C14.6208 13.2565 18.4535 11.9309 20.1528 8.69953C20.964 7.15703 20.3498 4.25647 18.352 4.25647H3.648C1.65023 4.25647 1.03603 7.15703 1.84718 8.69953Z"
+                              stroke="#B5C2D3"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="M15 4.25647L14.9117 3.94741C14.4717 2.40736 14.2517 1.63734 13.7279 1.1969C13.2041 0.75647 12.5084 0.75647 11.117 0.75647H10.883C9.49159 0.75647 8.79587 0.75647 8.2721 1.1969C7.74832 1.63734 7.52832 2.40736 7.0883 3.94741L7 4.25647"
+                              stroke="#B5C2D3"
+                              strokeWidth="1.5"
+                            />
+                          </svg>
+                        </span>
+                        <Form.Control type="text" placeholder="Enter your name" />
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>
+                        Email <span>(Required)</span>
+                      </Form.Label>
+                      <div className="input-with-icon front">
+                        <span className="icon">
+                          <i className="bi bi-envelope"></i>
+                        </span>
+                        <Form.Control type="email" placeholder="Enter your email" />
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>
+                        Country <span>(Required)</span>
+                      </Form.Label>
+                      <div className="input-with-icon front">
+                        <span className="icon">
+                          <i className="bi bi-geo-alt"></i>
+                        </span>
+                        <Form.Control as="select">
+                          <option>Select your country</option>
+                          <option>India</option>
+                          <option>USA</option>
+                          <option>UK</option>
+                        </Form.Control>
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group consent-group">
+                      <Form.Label>
+                        I also consent to: <span>(Required)</span>
+                      </Form.Label>
+                      <div className="radio-options">
+                        <Form.Check type="radio" label="Receive One Source updates and new materials from Octapharma." name="consent" />
+                        <Form.Check type="radio" label="Receive invitations to future events." name="consent" defaultChecked />
+                        <Form.Check type="radio" label="Both of the options above." name="consent" />
+                        <Form.Check type="radio" label="None of the options above." name="consent" />
+                      </div>
+                    </Form.Group>
+
+                    <div className="note-box">
+                      <i className="bi bi-info-circle"></i>
+                      <p>
+                        Your consent can be changed or withdrawn at any time in your One Source (Docintel)
+                        account after registration.
+                      </p>
+                    </div>
+
+                    <div className="form-buttons">
+                      <button className="btn cancel">Cancel</button>
+                      <button className="btn share">
+                        Share <i className="bi bi-send-fill"></i>
+                      </button>
+                    </div>
+                  </Form>
+
+                </div>
               </Tab>
               <Tab eventKey="existing-member" title="Existing Member">
                 Tab content for Profile
@@ -389,7 +502,8 @@ const Content = ({
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
+            {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -426,7 +540,7 @@ const Content = ({
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
