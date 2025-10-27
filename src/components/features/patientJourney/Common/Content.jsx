@@ -28,7 +28,6 @@ const Content = ({ section: initialSection, idx, favTab }) =>
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState({
@@ -258,7 +257,13 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     setShowModal(false);
     setEmail("");
     setName("");
-    setMessage("");
+    setCountry("");
+    setCheckboxChecked({
+      checkbox3: false,
+      checkbox4: true,
+      checkbox5: false,
+      checkbox6: false,
+    });
   };
 
   const handleSubmitClick = async (e) => {
