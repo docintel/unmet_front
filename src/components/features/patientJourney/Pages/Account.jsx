@@ -105,8 +105,6 @@ const Account = () => {
                             section={section}
                             idx={section.id}
                             favTab={true}
-                            // currentReadClick={currentReadClick}
-                            // setCurrentReadClick={setCurrentReadClick}
                           />
                         </React.Fragment>
                       ))
