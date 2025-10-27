@@ -3,8 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import
-{
+import {
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -14,7 +13,9 @@ import { toast } from "react-toastify";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
+import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
+import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
@@ -29,12 +30,37 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloading, setDownloading] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    name: { error: false, message: "" },
+    email: { error: false, message: "" },
+    country: { error: false, message: "" },
+    consent: { error: false, message: "" },
+    global: { error: false, message: "" },
+  });
+  const [country, setCountry] = useState("");
   const [readContent, setReadContent] = useState(false);
+  const [countryList, setCountryList] = useState([]);
+  const [checkboxChecked, setCheckboxChecked] = useState({
+    checkbox3: false,
+    checkbox4: true,
+    checkbox5: false,
+    checkbox6: false,
+  });
   const circumference = 2 * Math.PI * 45;
 
-  const handleStarClick = async () =>
-  {
+  const filterCountries = () => {
+    const coutries = Object.entries(countryRegionArray).map(([country]) => ({
+      value: country,
+      label: country,
+    }));
+    setCountryList(coutries);
+  };
+
+  useEffect(() => {
+    filterCountries();
+  }, [country]);
+
+  const handleStarClick = async () => {
     try {
       const response = await updateContentRating(
         section.id,
@@ -62,15 +88,14 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
   const getAgeGroup = () => {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) =>
-      {
+      .map((tag) => {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -94,25 +119,21 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       );
   };
 
-  const handleShareClick = () =>
-  {
+  const handleShareClick = () => {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () =>
-  {
+  const handleDownloadClick = async () => {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) =>
-    {
+    const getContentSize = async (fileUrl) => {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) =>
-    {
+    const downloadFileChuck = async (fileUrl) => {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -197,8 +218,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -207,8 +229,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -229,36 +252,121 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     }
   };
 
-  const handleCloseModal = () =>
-  {
+  const handleCloseModal = () => {
     setShowModal(false);
     setEmail("");
     setName("");
     setMessage("");
   };
 
-  const handleSubmitClick = async (e) =>
-  {
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
     try {
+      let newError = {
+        name: { error: false, message: "" },
+        email: { error: false, message: "" },
+        country: { error: false, message: "" },
+        consent: { error: false, message: "" },
+        global: { error: false, message: "" },
+      };
+
       if (!email) {
-        setError({ type: "email", message: "Email is required!!" });
-        return;
+        newError.email = { error: true, message: "Email is required!!" };
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newError.email = {
+          error: true,
+          message: "Please enter correct email!!",
+        };
       }
 
-      await SubmitShareContent(
-        section.id,
-        email,
-        message || null,
-        name || null,
-        setIsLoading,
-        setToast
-      );
-      toast.success("Content shared via email successfully");
-      handleCloseModal();
+      if (!name) {
+        newError.name = { error: true, message: "Name is required!!" };
+      }
+
+      if (!country) {
+        newError.country = { error: true, message: "Country is required!!" };
+      }
+
+      if (
+        !checkboxChecked.checkbox3 &&
+        !checkboxChecked.checkbox4 &&
+        !checkboxChecked.checkbox5 &&
+        !checkboxChecked.checkbox6
+      ) {
+        newError.consent = { error: true, message: "Consent is required!!" };
+      }
+
+      setError(newError);
+
+      if (
+        newError.name.error ||
+        newError.email.error ||
+        newError.country.error ||
+        newError.consent.error
+      )
+        return;
+
+      let consentStr = "";
+
+      if (checkboxChecked.checkbox5) {
+        consentStr = consentStr + "checkbox3~checkbox4~checkbox5";
+      } else if (checkboxChecked.checkbox3) {
+        consentStr = consentStr + "checkbox3";
+      } else if (checkboxChecked.checkbox4) {
+        consentStr = consentStr + "checkbox4";
+      } else if (checkboxChecked.checkbox6) {
+        consentStr = consentStr + "checkbox6";
+      }
+
+      console.log(consentStr);
+      // await SubmitShareContent(section.id, email, message, name, setIsLoading, setToast);
+      // toast.success("Content shared via email successfully");
+      // handleCloseModal();
     } catch (ex) {
-      setError({ type: "global", message: "Oops!! somthing went wrong." });
+      setError({
+        name: { error: false, message: "" },
+        email: { error: false, message: "" },
+        country: { error: false, message: "" },
+        consent: { error: false, message: "" },
+        global: { error: true, message: "Oops!! Something went wrong." },
+      });
     }
+  };
+
+  const handleCheckBoxClick = (name) => {
+    if (name === "checkbox3")
+      setCheckboxChecked({
+        checkbox3: checkboxChecked.checkbox5
+          ? true
+          : !checkboxChecked.checkbox3,
+        checkbox4: false,
+        checkbox5: false,
+        checkbox6: false,
+      });
+    else if (name === "checkbox4")
+      setCheckboxChecked({
+        checkbox3: false,
+        checkbox4: checkboxChecked.checkbox5
+          ? true
+          : !checkboxChecked.checkbox4,
+        checkbox5: false,
+        checkbox6: false,
+      });
+    else if (name === "checkbox5")
+      setCheckboxChecked({
+        checkbox3: !checkboxChecked.checkbox5,
+        checkbox4: !checkboxChecked.checkbox5,
+        checkbox5: !checkboxChecked.checkbox5,
+        checkbox6: false,
+      });
+    else if (name === "checkbox6")
+      setCheckboxChecked({
+        checkbox3: false,
+        checkbox4: false,
+        checkbox5: false,
+        checkbox6: !checkboxChecked.checkbox6,
+      });
   };
 
   // Add state for hover
@@ -300,11 +408,15 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <img src={path_image + "warning-icon.svg"} alt="" />
                     </div>
                     <div className="text-muted">
-                      This screen is for the HCP. Please hand them your device to review and give consent.
+                      This screen is for the HCP. Please hand them your device
+                      to review and give consent.
                     </div>
                   </div>
                   <div className="info-message">
-                    By registering, you agree to receive the selected content by email. Your data will be handled according to the data-privacy policy of <span>Octapharma AG</span> and <span>Docintel.app</span>.
+                    By registering, you agree to receive the selected content by
+                    email. Your data will be handled according to the
+                    data-privacy policy of <span>Octapharma AG</span> and{" "}
+                    <span>Docintel.app</span>.
                   </div>
                 </div>
                 <div className="share-form">
@@ -348,10 +460,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                             />
                           </svg>
                         </span>
-                        <Form.Control type="text" placeholder="Enter your name" />
-                      </div>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      </div>{" "}
+                      {error.name.error && (
+                        <div className="">{error.name.message}</div>
+                      )}
                     </Form.Group>
-
                     <Form.Group className="form-group">
                       <Form.Label>
                         Email <span>(Required)</span>
@@ -360,8 +479,16 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         <span className="icon">
                           <i className="bi bi-envelope"></i>
                         </span>
-                        <Form.Control type="email" placeholder="Enter your email" />
+                        <Form.Control
+                          type="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
                       </div>
+                      {error.email.error && (
+                        <div className="">{error.email.message}</div>
+                      )}
                     </Form.Group>
 
                     <Form.Group className="form-group">
@@ -372,13 +499,24 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         <span className="icon">
                           <i className="bi bi-geo-alt"></i>
                         </span>
-                        <Form.Control as="select">
-                          <option>Select your country</option>
-                          <option>India</option>
-                          <option>USA</option>
-                          <option>UK</option>
+                        <Form.Control
+                          as="select"
+                          onChange={(e) => setCountry(e.target.value)}
+                          defaultValue=""
+                        >
+                          <option value="" disabled>
+                            Select your country
+                          </option>
+                          {countryList.map((cntry, idx) => (
+                            <option key={idx} value={cntry.value}>
+                              {cntry.label}
+                            </option>
+                          ))}
                         </Form.Control>
                       </div>
+                      {error.country.error && (
+                        <div className="">{error.country.message}</div>
+                      )}
                     </Form.Group>
 
                     <Form.Group className="form-group consent-group">
@@ -386,29 +524,67 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         I also consent to: <span>(Required)</span>
                       </Form.Label>
                       <div className="radio-options">
-                        <Form.Check type="radio" label="Receive One Source updates and new materials from Octapharma." name="consent" />
-                        <Form.Check type="radio" label="Receive invitations to future events." name="consent" defaultChecked />
-                        <Form.Check type="radio" label="Both of the options above." name="consent" />
-                        <Form.Check type="radio" label="None of the options above." name="consent" />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox3")}
+                          checked={checkboxChecked.checkbox3}
+                          label="Receive One Source updates and new materials from Octapharma."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox4")}
+                          checked={checkboxChecked.checkbox4}
+                          label="Receive invitations to future events."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox5")}
+                          checked={checkboxChecked.checkbox5}
+                          label="Both of the options above."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox6")}
+                          checked={checkboxChecked.checkbox6}
+                          label="None of the options above."
+                          name="consent"
+                        />
                       </div>
+                      {error.consent.error && (
+                        <div className="">{error.consent.message}</div>
+                      )}
                     </Form.Group>
 
                     <div className="note-box">
                       <i className="bi bi-info-circle"></i>
                       <p>
-                        Your consent can be changed or withdrawn at any time in your One Source (Docintel)
-                        account after registration.
+                        Your consent can be changed or withdrawn at any time in
+                        your One Source (Docintel) account after registration.
                       </p>
                     </div>
-
+                    {error.global.error && (
+                      <div className="">{error.global.message}</div>
+                    )}
                     <div className="form-buttons">
-                      <button className="btn cancel">Cancel</button>
-                      <button className="btn share">
+                      <button
+                        className="btn cancel"
+                        type="button"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="btn share"
+                        type="button"
+                        onClick={handleSubmitClick}
+                      >
                         Share <i className="bi bi-send-fill"></i>
                       </button>
                     </div>
                   </Form>
-
                 </div>
               </Tab>
               <Tab eventKey="existing-member" title="Existing Member">
@@ -545,8 +721,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
-            {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -583,7 +758,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
