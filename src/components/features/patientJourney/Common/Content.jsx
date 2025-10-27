@@ -308,21 +308,23 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         return;
 
       let consentStr = "";
+      if (checkboxChecked.checkbox5)
+        consentStr = "checkbox3~checkbox4~checkbox5";
+      else if (checkboxChecked.checkbox3) consentStr = "checkbox3";
+      else if (checkboxChecked.checkbox4) consentStr = "checkbox4";
+      else if (checkboxChecked.checkbox6) consentStr = "checkbox6";
 
-      if (checkboxChecked.checkbox5) {
-        consentStr = consentStr + "checkbox3~checkbox4~checkbox5";
-      } else if (checkboxChecked.checkbox3) {
-        consentStr = consentStr + "checkbox3";
-      } else if (checkboxChecked.checkbox4) {
-        consentStr = consentStr + "checkbox4";
-      } else if (checkboxChecked.checkbox6) {
-        consentStr = consentStr + "checkbox6";
-      }
-
-      console.log(consentStr);
-      // await SubmitShareContent(section.id, email, message, name, setIsLoading, setToast);
-      // toast.success("Content shared via email successfully");
-      // handleCloseModal();
+      await SubmitShareContent(
+        section.id,
+        email,
+        name,
+        country,
+        consentStr,
+        setIsLoading,
+        setToast
+      );
+      toast.success("Content shared via email successfully");
+      handleCloseModal();
     } catch (ex) {
       setError({
         name: { error: false, message: "" },
