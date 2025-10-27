@@ -622,6 +622,9 @@ h6 {
       text-decoration: none;
       text-align: center;
       background: var(--green);
+      &:hover{
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%), var(--green);
+      }
     }
   }
 
@@ -1241,7 +1244,7 @@ h6 {
         .user-category {
           color: var(--green);
           position: relative;
-          background: var(--dark-blue);
+          background: var(--primary-color);
           box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
           border-radius: 27px 27px 0 0;
 
@@ -1254,7 +1257,7 @@ h6 {
             height: 42px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: 21px 21px 0 var(--dark-blue);
+            box-shadow: 21px 21px 0 var(--primary-color);
           }
 
           &:after {
@@ -1267,7 +1270,7 @@ h6 {
             height: 42px;
             background: transparent;
             border-radius: 50%;
-            box-shadow: -21px 21px 0 var(--dark-blue);
+            box-shadow: -21px 21px 0 var(--primary-color);
           }
         }
       }
@@ -1281,9 +1284,9 @@ h6 {
               right: 0px;
               width: 17px;
               height: 30px;
-              background: var(--dark-blue);
+              background: var(--primary-color);
               border-radius: 0;
-              box-shadow: -21px 21px 0 var(--dark-blue)
+              box-shadow: -21px 21px 0 var(--primary-color)
             }
           }
         }
@@ -2432,7 +2435,7 @@ input[type="search"]::-webkit-search-results-decoration {
     padding: 8px 8px 8px 12px;
     border-radius: 8px 12px 12px 8px;
     border-left: 4px solid;
-    background: var(--dark-blue);
+    background: var(--primary-color);
     fill: var(--white100);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 12px;
@@ -2927,7 +2930,7 @@ input[type="search"]::-webkit-search-results-decoration {
         color: var(--gray300);
 
         &.active {
-          color: var(--dark-blue);
+          color: var(--primary-color);
 
           div {
             background: #FEF4ED;
