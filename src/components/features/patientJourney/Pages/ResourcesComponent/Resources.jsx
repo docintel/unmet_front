@@ -359,7 +359,7 @@ const Resources = () => {
                   )
                 )}
               </div>
-
+              <div className="content-count-box-outer">
               <div className="content-count-box">
                 <div className="content-count">
                   {content.loading ? (
@@ -470,6 +470,7 @@ const Resources = () => {
                     </div>
                   )}
                 </div>{" "}
+              </div>
               </div>
             </div>
           </div>

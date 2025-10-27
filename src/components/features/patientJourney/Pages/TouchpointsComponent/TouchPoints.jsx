@@ -416,6 +416,7 @@ const TouchPoints = () => {
                     isAllSelected={isAllSelected}
                   ></Category>
                 </div>
+                <div className="touchpoint-box-content">
                 <div className="touchpoint-box-inner">
                 <ActiveNarration
                   isInfoVisible={isInfoVisible}
@@ -639,6 +640,7 @@ const TouchPoints = () => {
                       )}
                     </div>
                   </div>
+                </div>
                 </div>
                 </div>
               </div>

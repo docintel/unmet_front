@@ -252,7 +252,6 @@ const LoginWithSSO = () => {
           </div>
         </div>
       )}
-      <Login />
     </>
   );
 };
