@@ -409,6 +409,8 @@ const TouchPoints = () => {
                     isAllSelected={isAllSelected}
                   ></Category>
                 </div>
+                <div className="touchpoint-box-content">
+                <div className="touchpoint-box-inner">
                 <ActiveNarration
                   isInfoVisible={isInfoVisible}
                   expandNarrative={expandNarrative}
@@ -417,7 +419,7 @@ const TouchPoints = () => {
                   setExapandNarrative={setExapandNarrative}
                   setIsInfoVisible={setIsInfoVisible}
                 ></ActiveNarration>
-                <div className="touchpoint-box-inner">
+                <div className="box-inner">
                   <div className="search-bar">
                     <Form
                       className="d-flex"
@@ -631,6 +633,8 @@ const TouchPoints = () => {
                       )}
                     </div>
                   </div>
+                </div>
+                </div>
                 </div>
               </div>
             </div>

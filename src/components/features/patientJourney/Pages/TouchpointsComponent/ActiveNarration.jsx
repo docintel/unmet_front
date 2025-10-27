@@ -9,7 +9,7 @@ const ActiveNarration = ({
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
   return (
-    <div className="touchpoint-box-inner">
+    <div className="box-inner">
       {activeNarration ? (
         activeNarration.status === "Missing" ? (
           <div className="message-info">
@@ -92,7 +92,7 @@ const ActiveNarration = ({
           transform: isInfoVisible ? "translateY(0)" : "translateY(-20px)",
           transition: "all 0.5s ease",
           padding: isInfoVisible ? "32px 12px" : "0",
-          margin: isInfoVisible ? "0px 0px 50px" : "0",
+          margin: isInfoVisible ? "0px 0px 80px" : "0",
         }}
       >
         <div className="close-icon">
