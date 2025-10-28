@@ -3710,6 +3710,7 @@ input[type="search"]::-webkit-search-results-decoration {
     border: none;
     border-radius: 16px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: var(--white);
   }
 
   .modal-body {
@@ -3777,7 +3778,6 @@ input[type="search"]::-webkit-search-results-decoration {
     }
   }
 }
-
 .form-control::-webkit-input-placeholder {
   color: var(--gray100);
   opacity: 1;
