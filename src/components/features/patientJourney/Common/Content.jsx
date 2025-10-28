@@ -444,7 +444,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                     <div className="info-icon">
                       <img src={path_image + "warning-icon.svg"} alt="" />
                     </div>
-                    <div className="text-muted">
+                    <div className="text-message">
                       This screen is for the HCP. Please hand them your device
                       to review and give consent.
                     </div>
@@ -670,7 +670,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                       <div className="info-icon">
                         <img src={path_image + "info-icon.svg"} alt="" />
                       </div>
-                      <Form.Text className="text-muted">
+                      <Form.Text className="text-message">
                         Your consent can be changed or withdrawn at any time in
                         your One Source (Docintel) account after registration.
                       </Form.Text>
@@ -684,27 +684,14 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                       >
                         Cancel
                       </button>
-                      <button
+                      <Button
                         className="btn share"
                         type="button"
                         onClick={handleSubmitClick}
                       >
                         Share
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M12.8174 0.111456C13.6079 0.00776914 14.343 -0.0314554 14.9561 0.0276345C15.5394 0.0839043 16.1503 0.241371 16.5397 0.660773C16.9175 1.06785 17.0412 1.67981 17.0736 2.26233C17.1078 2.87674 17.0465 3.61039 16.9222 4.40019C16.673 5.98382 16.1556 7.88919 15.5347 9.71595C14.9135 11.5436 14.1797 13.3209 13.4863 14.646C13.1415 15.3051 12.7942 15.8752 12.4642 16.2874C12.3 16.4925 12.1227 16.6806 11.9344 16.8204C11.7557 16.9532 11.4949 17.0963 11.1817 17.0825C10.6784 17.0602 10.2958 16.7841 10.0147 16.4192C9.74535 16.0696 9.53231 15.5956 9.34328 15.048C8.96411 13.9494 8.60857 12.3288 8.14943 10.2409C8.05084 9.79248 7.96756 9.64007 7.89309 9.5597C7.87725 9.54262 7.85744 9.52604 7.83286 9.50761C7.80162 9.49098 7.77036 9.47377 7.74172 9.45146C7.64573 9.40043 7.49965 9.34144 7.26239 9.27487C6.92157 9.17925 6.35115 9.07134 5.62095 8.92005C4.91164 8.77308 4.08622 8.59167 3.30161 8.35771C2.52526 8.1262 1.74386 7.83034 1.14423 7.43812C0.556832 7.05385 0.00525668 6.48129 1.9402e-05 5.67135C-0.0019242 5.36282 0.142499 5.10662 0.279967 4.92672C0.424119 4.73809 0.61603 4.56065 0.826029 4.39612C1.24775 4.06575 1.82802 3.72205 2.49676 3.38213C3.84083 2.69895 5.63607 1.98585 7.47723 1.39319C9.317 0.801006 11.2321 0.319433 12.8174 0.111456ZM14.8356 1.27194C14.3547 1.2256 13.7246 1.25324 12.9802 1.35088C11.4957 1.54561 9.65824 2.00405 7.85972 2.58297C6.06232 3.16155 4.33248 3.85104 3.06317 4.49622C2.42542 4.82039 1.92647 5.12245 1.5967 5.38082C1.43119 5.51053 1.32907 5.61346 1.27362 5.686C1.26516 5.69708 1.25914 5.70689 1.25409 5.71448C1.2762 5.88995 1.41103 6.11923 1.82863 6.39238C2.27596 6.68497 2.91964 6.93935 3.65887 7.1598C4.38966 7.37771 5.17123 7.55047 5.87404 7.69609C6.55602 7.83739 7.20384 7.96008 7.60012 8.07125C7.73698 8.10966 7.87029 8.15181 7.99888 8.19983L10.5998 5.59974C10.8439 5.35566 11.2395 5.35566 11.4836 5.59974C11.7276 5.84382 11.7276 6.23946 11.4836 6.48353L9.00311 8.96318C9.18853 9.2582 9.28897 9.6032 9.37014 9.9723C9.83677 12.0944 10.1754 13.6267 10.5249 14.6395C10.7002 15.1473 10.8605 15.469 11.0051 15.6567C11.0859 15.7616 11.1455 15.8021 11.1849 15.8195L11.189 15.817C11.2579 15.7658 11.359 15.6678 11.4885 15.5061C11.7456 15.1849 12.0495 14.6949 12.3788 14.0657C13.0339 12.8135 13.7444 11.1 14.3514 9.31393C14.9588 7.52698 15.4534 5.69468 15.6877 4.20569C15.8052 3.45917 15.8533 2.82233 15.826 2.33151C15.7969 1.80923 15.6882 1.58108 15.6234 1.5112C15.5592 1.44203 15.3462 1.32115 14.8356 1.27194Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </button>
+                        <img src={path_image + "send-icon.svg"} alt="" />
+                      </Button>
                     </div>
                   </Form>
                 </div>
@@ -715,7 +702,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                     <div className="info-icon">
                       <img src={path_image + "warning-icon.svg"} alt="" />
                     </div>
-                    <div className="text-muted">
+                    <div className="text-message">
                       This screen is for the HCP. Please hand them your device
                       to review and give consent.
                     </div>
@@ -737,7 +724,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                     their phone.
                   </div>
 
-                  <button
+                  <Button
                     className="btn done"
                     type="button"
                     onClick={() =>
@@ -752,7 +739,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   >
                     Done
                     <img src={path_image + "correct.svg"} alt="" />
-                  </button>
+                  </Button>
                 </div>
               </Tab>
             </Tabs>
@@ -778,7 +765,6 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z" fill="#3CAC8E" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z" fill="#3CAC8E" />
                 </svg>
-
               </div>
 
               <h2 className="title">You’re All Done — Content Shared</h2>
@@ -792,9 +778,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                     They’ll also receive an email shortly with a secure link to the same content for reference.
                   </p>
 
-                  <button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                  <Button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
                     Done
-                  </button>
+                  </Button>
                 </div>
               )}
               {showConfirmationModal.newMember && (
@@ -809,9 +795,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                     <span className="highlight"> One Source.</span>
                   </p>
 
-                  <button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                  <Button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
                     Done
-                  </button>
+                  </Button>
                 </div>
               )}
 
