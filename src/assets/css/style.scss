@@ -395,6 +395,11 @@ h6 {
                   }
                 }
               }
+              @media (max-width: $layout-breakpoint-small) {
+                div{
+                  font-size: 12px;
+                }
+              }
             }
 
             &:nth-child(4) {
@@ -3743,7 +3748,7 @@ input[type="search"]::-webkit-search-results-decoration {
     .title {
       font-size: 24px;
       font-weight: 600;
-      color: #183b4d;
+      color: var(--primary-color);
       margin: 0;
     }
 
@@ -3754,7 +3759,7 @@ input[type="search"]::-webkit-search-results-decoration {
         font-size: 16px;
         font-weight: 600;
         line-height: 20px;
-        color: #183b4d;
+        color: var(--primary-color);
 
         .email {
           color: var(--green);

@@ -546,31 +546,120 @@
     .validation {
         font-size: 13px;
     }
+    .login-page{
+        background: linear-gradient(141deg, #4CC6CF 40.73%, #DF9C5B 64.64%, #F79548 71.06%, #F58B4B 77%, #F06A55 84.67%, #E94262 100%);
+        .row{
+            flex-direction: column-reverse;
+        }
+        &.sso{
+            .login-right{
+                 padding:106px 24px 122px;
+                .login-form{
+                    margin:3px 0 0;
+                    form{
+                        .message{
+                            padding: 11px 8px 11px 8px;
+                                    margin-bottom: 16px;
+                            .text-muted{
+                                font-size: 12px;
+                            }
+                        }
+                        button{
+                            font-size: 16px;
+        padding: 8px 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .login-right{
+        min-height: initial;
+        padding:40px 24px 25px;
+        border-radius: 0 0 0 80px;
+        filter: drop-shadow(0 17px 18px rgba(0, 0, 0, 0.08));
+        .login-form, .share-modal{
+            form{
+                .login-switch{
+                    .switch{
+                        .switch-light{
+                            height: 24px;
+                            >span{
+                                span{
+                                    padding: 1px 1px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+        .login-form{
+                    margin: 32px 0 10px;
+            form{
+                gap: 32px;
+                 .form-group{
+                     label{
+                        span{
+                            font-size: 10px;
+                        }
+                     } 
+                     .split-button{
+                        +span{
+                            left:24px
+                        }
+                        >div{
+                            &:nth-child(3){
+                                padding:10px 50px 10px 52px;
+                            }     
+                        }
+                     }
+                 }
+                 button{
+                    font-size: 16px;
+        padding: 8px 15px;
+        min-width: 142px;
+                 }
+                 
+            }
+        }
+        &::before{left: auto;
+                width: 160px;
+        height: 160px;
+        border-radius: 64%;
+        box-shadow: 89px -74px 0 #ffffff;
+        right: 0;
+        bottom: -159px;
+    }
+    }
+    .login-left{
+        flex-direction: column-reverse;
+                padding: 47px 24px 10px;
+        .vwd-journey{
+            .vwd-logo{
+                margin: 0 0 18px;
+                img{
+                    width:130px
+                }
+            } 
+           h6 {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+        } 
+        .terms{
+            margin-top:10px;
+        }
+    } 
+
 }
 
 @media (max-width: $layout-breakpoint-extraSmall) {
-    .login-page .row {
-        display: flex;
-        flex-direction: column;
-        // flex-direction: column-reverse;
-    }
 
-    .login-left {
-        padding: 20px;
-        // display: none;
-    }
 
     .login-left .terms {
         gap: 10px 10px;
-        margin-bottom: 30px;
-    }
-
-    .login-right {
-        border-radius: 0;
-    }
-
-    .login-right:before {
-        display: none;
     }
 
 }

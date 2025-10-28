@@ -475,6 +475,25 @@
       }
     }
   }
+  @media (max-width: $layout-breakpoint-small) {
+    width: 184px;
+
+    .switch-light {
+      >span {
+        span {
+          &:first-child {
+            width: 116px;
+            font-size: 14px;
+          }
+
+          &:last-child {
+            width: 60px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
 }
 
 @mixin split-btn {
@@ -495,6 +514,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
 }
 
 @mixin split-btn-dropdown {
