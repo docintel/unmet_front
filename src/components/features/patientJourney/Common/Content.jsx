@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
+import Select from "react-select";
 import
 {
   SubmitShareContent,
@@ -16,7 +17,7 @@ import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
-import Select from "react-select/base";
+// import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
@@ -507,17 +508,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         </span>
                       </Form.Label>
 
-                      <div className={`input-with-icon ${error.country.error ? "error" : ""}`}>
+                      {/* <div className={`input-with-icon ${error.country.error ? "error" : ""}`}> */}
                         {/* Left icon */}
-                        <span className="icon-left">
+                        {/* <span className="icon-left">
                           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
                             <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
                             <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
                           </svg>
-                        </span>
-                        <Form.Control
+                        </span> */}
+                        {/* <Form.Control
                           as="select"
                           value={country}
                           onChange={(e) => setCountry(e.target.value)}
@@ -530,9 +531,41 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                               {cntry.label}
                             </option>
                           ))}
-                        </Form.Control>
-
-                        <span className="icon-right">
+                        </Form.Control> */}
+                        <div
+                      onMouseEnter={(e) =>
+                        e.currentTarget
+                          .querySelector(".split-button")
+                          .classList.add("active")
+                      }
+                      onMouseLeave={(e) =>
+                        e.currentTarget
+                          .querySelector(".split-button")
+                          .classList.remove("active")
+                      }
+                    >
+                        <Select
+                        className={`split-button ${error.country.error ? "error" : ""
+                          }`}
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                        placeholder="Select your country"
+                        options={countryList}
+                        isClearable
+                      />
+                      <span>
+                          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
+                          </svg>
+                        </span>
+                        {error.country && error.region && (
+                        <div className="validation">{error.region}</div>
+                        // <div className={`input-with-icon ${error.country.error ? "error" : ""}`}>
+                      )}
+                        {/* <span className="icon-right">
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.1435 16.6354C12.4683 16.6005 12.7192 16.4517 12.9016 16.3125C13.0896 16.1691 13.2867 15.9702 13.4664 15.7905L19.7396 9.51731C20.0868 9.17017 20.0868 8.60749 19.7396 8.26035C19.3925 7.91322 18.8298 7.91322 18.4827 8.26035L12.2095 14.5336C12.1266 14.6165 12.0591 14.6835 12 14.7407C11.9409 14.6835 11.8734 14.6165 11.7905 14.5336L5.51731 8.26035C5.17017 7.91322 4.60749 7.91322 4.26035 8.26035C3.91322 8.60749 3.91322 9.17017 4.26035 9.51731L10.5336 15.7905C10.7133 15.9702 10.9104 16.1691 11.0984 16.3125C11.3069 16.4716 11.6048 16.6435 12 16.6435L12.1435 16.6354Z" fill="url(#paint0_linear_3101_3088)" />
                             <defs>
@@ -542,7 +575,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                               </linearGradient>
                             </defs>
                           </svg>
-                        </span>
+                        </span> */}
                       </div>
 
                       {error.country.error && (

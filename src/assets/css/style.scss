@@ -3139,7 +3139,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
   .form-group {
     margin-bottom: 24px;
-
+        position: relative;
     label {
         font-size: 16px;
         font-weight: 600;
@@ -3154,6 +3154,87 @@ input[type="search"]::-webkit-search-results-decoration {
       line-height: normal;
       }
     }
+    .split-button {
+          &.active {
+            +span {
+              svg {
+                path {
+                  stroke: var(--green);
+                }
+              }
+            }
+          }
+
+          &.error {
+            +span {
+              svg {
+                path {
+                  stroke: var(--gradient-pink);
+                }
+              }
+
+            }
+          }
+
+          &.error {
+            &.active {
+              +span {
+                svg {
+                  path {
+                    stroke: var(--gradient-pink);
+                  }
+                }
+              }
+            }
+          }
+
+          +span {
+            position: absolute;
+            top: 46px;
+            left: 26px;
+          }
+
+          &.error {
+            >div {
+              &:nth-child(3) {
+                box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
+              }
+            }
+          }
+
+          >div {
+            &:nth-child(3) {
+              @include split-btn;
+              background-size: 15px;
+
+              div {
+                padding: 0;
+                margin: 0;
+                font-size: 14px;
+                color: var(--text-color);
+                font-weight: 400;
+
+                div[class*="-placeholder"] {
+                  color: var(--gray100);
+                }
+
+                &:nth-child(2) {
+                  span {
+                    display: none;
+                  }
+
+                  div {
+                    display: none;
+                  }
+                }
+              }
+            }
+
+            &:nth-child(4) {
+              @include split-btn-dropdown;
+            }
+          }
+        }
     .form-control:focus{
       box-shadow: none;
     }
