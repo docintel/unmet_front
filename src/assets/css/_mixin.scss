@@ -297,6 +297,10 @@
         font-weight: 400;
         color: var(--green);
         padding: 1px 8px;
+        &.f-tag {
+        background: rgba(247, 149, 72, 0.2);
+        color: #F79548;
+       }
       }
     }
   }
@@ -349,7 +353,7 @@
       padding: 2px 6px;
       color: var(--dark-green);
       font-size: 10px;
-      text-transform: capitalize;
+      // text-transform: capitalize;
     }
   }
 
