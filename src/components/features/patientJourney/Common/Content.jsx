@@ -865,14 +865,22 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             ...JSON.parse(section.functional_tags || "[]").map(
               (tag) => "prefix_" + tag
             ),
-          ].map((tag, idx) => (
-            <div
-              key={idx}
-              className={`${tag.startsWith("prefix_") ? "f-tag" : "n-tag"}`}
-            >
-              {tag.replace("prefix_", "")}
-            </div>
-          ))}
+          ]
+            .sort((a, b) =>
+              b
+                .replace("prefix_", "")
+                .localeCompare(a.replace("prefix_", ""), undefined, {
+                  sensitivity: "base",
+                })
+            )
+            .map((tag, idx) => (
+              <div
+                key={idx}
+                className={`${tag.startsWith("prefix_") ? "f-tag" : "n-tag"}`}
+              >
+                {tag.replace("prefix_", "")}
+              </div>
+            ))}
         </div>
         <div className="date">{section.creation_date}</div>
         <div className="favorite d-flex justify-content-between align-sections-center">
