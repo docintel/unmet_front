@@ -169,9 +169,9 @@ const TouchPoints = () => {
               tagArray = [
                 ...tagArray,
                 ...JSON.parse(item.tags ? item.tags : "[]"),
-                ...JSON.parse(item.functional_tags || "[]").map(
-                  (tag) => "prefix_" + tag
-                ),
+                ...JSON.parse(
+                  item.functional_tags ? item.functional_tags : "[]"
+                ).map((tag) => "prefix_" + tag),
               ];
           } catch (ex) {}
         });
@@ -186,10 +186,10 @@ const TouchPoints = () => {
             if (item.tags !== "")
               tagArray = [
                 ...tagArray,
-                ...JSON.parse(item.tags),
-                ...JSON.parse(item.functional_tags || "[]").map(
-                  (tag) => "prefix_" + tag
-                ),
+                ...JSON.parse(item.tags ? item.tags : "[]"),
+                ...JSON.parse(
+                  item.functional_tags ? item.functional_tags : "[]"
+                ).map((tag) => "prefix_" + tag),
               ];
           } catch (ex) {}
         });
@@ -219,15 +219,16 @@ const TouchPoints = () => {
           for (let i = 0; i < selectedTag.length; i++) {
             if (
               ![
-                ...JSON.parse(element.tags.toLowerCase() || "[]"),
+                ...JSON.parse(element.tags ? element.tags.toLowerCase() : "[]"),
                 ...JSON.parse(
-                  element.functional_tags.toLowerCase() || "[]"
+                  element.functional_tags
+                    ? element.functional_tags.toLowerCase()
+                    : "[]"
                 ).map((tag) => "prefix_" + tag),
               ].includes(selectedTag[i].toLowerCase())
             )
               return;
           }
-
           if (
             element.title
               .toLowerCase()
@@ -292,9 +293,11 @@ const TouchPoints = () => {
             : filteredArray.filter((item) => {
                 const tagArray = [
                   ...JSON.parse(item.tags ? item.tags.toLowerCase() : "[]"),
-                  ...JSON.parse(item.functional_tags.toLowerCase() || "[]").map(
-                    (tag) => "prefix_" + tag
-                  ),
+                  ...JSON.parse(
+                    item.functional_tags
+                      ? item.functional_tags.toLowerCase()
+                      : "[]"
+                  ).map((tag) => "prefix_" + tag),
                 ];
                 let count = 0;
                 for (let i = 0; i < selectedTag.length; i++) {

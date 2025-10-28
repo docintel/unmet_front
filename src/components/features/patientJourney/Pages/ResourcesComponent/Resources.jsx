@@ -127,7 +127,9 @@ const Resources = () => {
               [
                 ...JSON.parse(element.tags ? element.tags.toLowerCase() : "[]"),
                 ...JSON.parse(
-                  element.functional_tags.toLowerCase() || "[]"
+                  element.functional_tags
+                    ? element.functional_tags.toLowerCase()
+                    : "[]"
                 ).map((tag) => "prefix_" + tag),
               ].includes(filters[i].txt.toLowerCase())
             )

@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
+import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
+import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
@@ -26,12 +28,39 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloading, setDownloading] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    name: { error: false, message: "" },
+    email: { error: false, message: "" },
+    country: { error: false, message: "" },
+    consent: { error: false, message: "" },
+    global: { error: false, message: "" },
+  });
+  const [country, setCountry] = useState("");
   const [readContent, setReadContent] = useState(false);
+  const [countryList, setCountryList] = useState([]);
+  const [checkboxChecked, setCheckboxChecked] = useState({
+    checkbox3: false,
+    checkbox4: true,
+    checkbox5: false,
+    checkbox6: false,
+  });
   const circumference = 2 * Math.PI * 45;
+
+  const filterCountries = () =>
+  {
+    const coutries = Object.entries(countryRegionArray).map(([country]) => ({
+      value: country,
+      label: country,
+    }));
+    setCountryList(coutries);
+  };
+
+  useEffect(() =>
+  {
+    filterCountries();
+  }, [country]);
 
   const handleStarClick = async () =>
   {
@@ -234,31 +263,127 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setShowModal(false);
     setEmail("");
     setName("");
-    setMessage("");
+    setCountry("");
+    setCheckboxChecked({
+      checkbox3: false,
+      checkbox4: true,
+      checkbox5: false,
+      checkbox6: false,
+    });
   };
 
   const handleSubmitClick = async (e) =>
   {
     e.preventDefault();
     try {
+      let newError = {
+        name: { error: false, message: "" },
+        email: { error: false, message: "" },
+        country: { error: false, message: "" },
+        consent: { error: false, message: "" },
+        global: { error: false, message: "" },
+      };
+
       if (!email) {
-        setError({ type: "email", message: "Email is required!!" });
-        return;
+        newError.email = { error: true, message: "Email is required!!" };
       }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newError.email = {
+          error: true,
+          message: "Please enter correct email!!",
+        };
+      }
+
+      if (!name) {
+        newError.name = { error: true, message: "Name is required!!" };
+      }
+
+      if (!country) {
+        newError.country = { error: true, message: "Country is required!!" };
+      }
+
+      if (
+        !checkboxChecked.checkbox3 &&
+        !checkboxChecked.checkbox4 &&
+        !checkboxChecked.checkbox5 &&
+        !checkboxChecked.checkbox6
+      ) {
+        newError.consent = { error: true, message: "Consent is required!!" };
+      }
+
+      setError(newError);
+
+      if (
+        newError.name.error ||
+        newError.email.error ||
+        newError.country.error ||
+        newError.consent.error
+      )
+        return;
+
+      let consentStr = "";
+      if (checkboxChecked.checkbox5)
+        consentStr = "checkbox3~checkbox4~checkbox5";
+      else if (checkboxChecked.checkbox3) consentStr = "checkbox3";
+      else if (checkboxChecked.checkbox4) consentStr = "checkbox4";
+      else if (checkboxChecked.checkbox6) consentStr = "checkbox6";
 
       await SubmitShareContent(
         section.id,
         email,
-        message || null,
-        name || null,
+        name,
+        country,
+        consentStr,
         setIsLoading,
         setToast
       );
       toast.success("Content shared via email successfully");
       handleCloseModal();
     } catch (ex) {
-      setError({ type: "global", message: "Oops!! somthing went wrong." });
+      setError({
+        name: { error: false, message: "" },
+        email: { error: false, message: "" },
+        country: { error: false, message: "" },
+        consent: { error: false, message: "" },
+        global: { error: true, message: "Oops!! Something went wrong." },
+      });
     }
+  };
+
+  const handleCheckBoxClick = (name) =>
+  {
+    if (name === "checkbox3")
+      setCheckboxChecked({
+        checkbox3: checkboxChecked.checkbox5
+          ? true
+          : !checkboxChecked.checkbox3,
+        checkbox4: false,
+        checkbox5: false,
+        checkbox6: false,
+      });
+    else if (name === "checkbox4")
+      setCheckboxChecked({
+        checkbox3: false,
+        checkbox4: checkboxChecked.checkbox5
+          ? true
+          : !checkboxChecked.checkbox4,
+        checkbox5: false,
+        checkbox6: false,
+      });
+    else if (name === "checkbox5")
+      setCheckboxChecked({
+        checkbox3: !checkboxChecked.checkbox5,
+        checkbox4: !checkboxChecked.checkbox5,
+        checkbox5: !checkboxChecked.checkbox5,
+        checkbox6: false,
+      });
+    else if (name === "checkbox6")
+      setCheckboxChecked({
+        checkbox3: false,
+        checkbox4: false,
+        checkbox5: false,
+        checkbox6: !checkboxChecked.checkbox6,
+      });
   };
 
   // Add state for hover
@@ -300,175 +425,236 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <img src={path_image + "warning-icon.svg"} alt="" />
                     </div>
                     <div className="text-muted">
-                      This screen is for the HCP. Please hand them your device to review and give consent.
+                      This screen is for the HCP. Please hand them your device
+                      to review and give consent.
                     </div>
                   </div>
                   <div className="info-message">
-                    By registering, you agree to receive the selected content by email. Your data will be handled according to the data-privacy policy of <span>Octapharma AG</span> and <span>Docintel.app</span>.
+                    By registering, you agree to receive the selected content by
+                    email. Your data will be handled according to the
+                    data-privacy policy of <span>Octapharma AG</span> and{" "}
+                    <span>Docintel.app</span>.
                   </div>
                 </div>
                 <div className="share-form">
                   <Form className="registration-form">
                     <Form.Group className="form-group">
                       <Form.Label>
-                        Name <span>(Required)</span>
+                        HCP Name{" "}
+                        <span style={{ fontWeight: "lighter" }}>
+                          (Required)
+                        </span>
                       </Form.Label>
-                      <div className="input-with-icon front">
-                        <span>
+                      <div className={"input-with-icon" + (error.name.error ? " error" : "")}>
+                        <span className="icon">
+                          <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.93007 13.0464C2.67249 13.7835 -0.624787 15.2886 1.38348 17.172C2.3645 18.092 3.4571 18.75 4.83077 18.75H12.6692C14.0429 18.75 15.1355 18.092 16.1165 17.172C18.1248 15.2886 14.8275 13.7835 13.5699 13.0464C10.6209 11.3179 6.87906 11.3179 3.93007 13.0464Z" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12.75 4.75C12.75 6.95914 10.9591 8.75 8.75 8.75C6.54086 8.75 4.75 6.95914 4.75 4.75C4.75 2.54086 6.54086 0.75 8.75 0.75C10.9591 0.75 12.75 2.54086 12.75 4.75Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M18.3721 2.31564C18.5957 2.07342 18.7074 1.95232 18.8262 1.88168C19.1128 1.71123 19.4657 1.70593 19.7571 1.8677C19.8779 1.93474 19.9931 2.05244 20.2235 2.28783C20.4539 2.52322 20.5692 2.64092 20.6348 2.76428C20.7931 3.06194 20.788 3.42244 20.6211 3.71521C20.5519 3.83655 20.4334 3.95073 20.1963 4.1791L17.3752 6.89629C16.9259 7.32906 16.7012 7.54545 16.4204 7.65512C16.1396 7.76479 15.831 7.75672 15.2136 7.74057L15.1296 7.73838C14.9417 7.73346 14.8477 7.73101 14.7931 7.66901C14.7385 7.60702 14.7459 7.5113 14.7608 7.31985L14.7689 7.2159C14.8109 6.67706 14.8319 6.40765 14.9371 6.16547C15.0423 5.92328 15.2238 5.72664 15.5868 5.33335L18.3721 2.31564Z" stroke="#B5C2D3" stroke-width="1.5" stroke-linejoin="round" />
+                          </svg>
+                        </span>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                      </div>{" "}
+                      {error.name.error && (
+                        <div className="validation">{error.name.message}</div>
+                      )}
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label>
+                        HCP Email{" "}
+                        <span style={{ fontWeight: "lighter" }}>
+                          (Required)
+                        </span>
+                      </Form.Label>
+                      <div className={"input-with-icon" + (error.email.error ? " error" : "")}>
+                        <span className="icon">
                           <svg
                             width="22"
-                            height="21"
-                            viewBox="0 0 22 21"
+                            height="19"
+                            viewBox="0 0 22 19"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path
-                              d="M11 13.2565L11 14.7565"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M2 9.25647L2.15288 12.1197C2.31714 15.7335 2.39927 17.5403 3.55885 18.6484C4.71843 19.7565 6.52716 19.7565 10.1446 19.7565H11.8554C15.4728 19.7565 17.2816 19.7565 18.4412 18.6484C19.6007 17.5403 19.6829 15.7335 19.8471 12.1197L20 9.25647"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M1.84718 8.69953C3.54648 11.9309 7.3792 13.2565 11 13.2565C14.6208 13.2565 18.4535 11.9309 20.1528 8.69953C20.964 7.15703 20.3498 4.25647 18.352 4.25647H3.648C1.65023 4.25647 1.03603 7.15703 1.84718 8.69953Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M15 4.25647L14.9117 3.94741C14.4717 2.40736 14.2517 1.63734 13.7279 1.1969C13.2041 0.75647 12.5084 0.75647 11.117 0.75647H10.883C9.49159 0.75647 8.79587 0.75647 8.2721 1.1969C7.74832 1.63734 7.52832 2.40736 7.0883 3.94741L7 4.25647"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z"
+                              fill="#B5C2D3"
                             />
                           </svg>
                         </span>
-                        <Form.Control type="text" placeholder="Enter your name" />
+                        <Form.Control
+                          type="email"
+                          placeholder="Enter your email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
                       </div>
+                      {error.email.error && (
+                        <div className="validation">{error.email.message}</div>
+                      )}
                     </Form.Group>
-
                     <Form.Group className="form-group">
                       <Form.Label>
-                        Email <span>(Required)</span>
-                      </Form.Label>
-                      <div className="input-with-icon front">
-                        <span className="icon">
-                          <i className="bi bi-envelope"></i>
+                        HCP Country{" "}
+                        <span style={{ fontWeight: "lighter" }}>
+                          (Required)
                         </span>
-                        <Form.Control type="email" placeholder="Enter your email" />
-                      </div>
-                    </Form.Group>
+                      </Form.Label>
 
-                    <Form.Group className="form-group">
-                      <Form.Label>
-                        Country <span>(Required)</span>
-                      </Form.Label>
-                      <div className="input-with-icon front">
-                        <span className="icon">
-                          <i className="bi bi-geo-alt"></i>
+                      <div className={`input-with-icon ${error.country.error ? "error" : ""}`}>
+                        {/* Left icon */}
+                        <span className="icon-left">
+                          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
+                          </svg>
                         </span>
-                        <Form.Control as="select">
-                          <option>Select your country</option>
-                          <option>India</option>
-                          <option>USA</option>
-                          <option>UK</option>
+                        <Form.Control
+                          as="select"
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select your country
+                          </option>
+                          {countryList.map((cntry, idx) => (
+                            <option key={idx} value={cntry.value}>
+                              {cntry.label}
+                            </option>
+                          ))}
                         </Form.Control>
+
+                        <span className="icon-right">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.1435 16.6354C12.4683 16.6005 12.7192 16.4517 12.9016 16.3125C13.0896 16.1691 13.2867 15.9702 13.4664 15.7905L19.7396 9.51731C20.0868 9.17017 20.0868 8.60749 19.7396 8.26035C19.3925 7.91322 18.8298 7.91322 18.4827 8.26035L12.2095 14.5336C12.1266 14.6165 12.0591 14.6835 12 14.7407C11.9409 14.6835 11.8734 14.6165 11.7905 14.5336L5.51731 8.26035C5.17017 7.91322 4.60749 7.91322 4.26035 8.26035C3.91322 8.60749 3.91322 9.17017 4.26035 9.51731L10.5336 15.7905C10.7133 15.9702 10.9104 16.1691 11.0984 16.3125C11.3069 16.4716 11.6048 16.6435 12 16.6435L12.1435 16.6354Z" fill="url(#paint0_linear_3101_3088)" />
+                            <defs>
+                              <linearGradient id="paint0_linear_3101_3088" x1="4" y1="8" x2="21.0842" y2="11.9286" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#F79548" />
+                                <stop offset="1" stop-color="#E94262" />
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </span>
                       </div>
+
+                      {error.country.error && (
+                        <div className="validation">{error.country.message}</div>
+                      )}
                     </Form.Group>
+
 
                     <Form.Group className="form-group consent-group">
-                      <Form.Label>
+                      <Form.Label className="checkbox-label">
                         I also consent to: <span>(Required)</span>
                       </Form.Label>
                       <div className="radio-options">
-                        <Form.Check type="radio" label="Receive One Source updates and new materials from Octapharma." name="consent" />
-                        <Form.Check type="radio" label="Receive invitations to future events." name="consent" defaultChecked />
-                        <Form.Check type="radio" label="Both of the options above." name="consent" />
-                        <Form.Check type="radio" label="None of the options above." name="consent" />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox3")}
+                          checked={checkboxChecked.checkbox3}
+                          label="Receive One Source updates and new materials from Octapharma."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox4")}
+                          checked={checkboxChecked.checkbox4}
+                          label="Receive invitations to future events."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox5")}
+                          checked={checkboxChecked.checkbox5}
+                          label="Both of the options above."
+                          name="consent"
+                        />
+                        <Form.Check
+                          type="checkbox"
+                          onChange={() => handleCheckBoxClick("checkbox6")}
+                          checked={checkboxChecked.checkbox6}
+                          label="None of the options above."
+                          name="consent"
+                        />
                       </div>
+                      {error.consent.error && (
+                        <div className="validation">{error.consent.message}</div>
+                      )}
                     </Form.Group>
 
-                    <div className="note-box">
-                      <i className="bi bi-info-circle"></i>
-                      <p>
-                        Your consent can be changed or withdrawn at any time in your One Source (Docintel)
-                        account after registration.
-                      </p>
+                    <div className="message">
+                      <div className="info-icon">
+                        <img src={path_image + "info-icon.svg"} alt="" />
+                      </div>
+                      <Form.Text className="text-muted">
+                        Your consent can be changed or withdrawn at any time in your One Source (Docintel) account after registration.
+                      </Form.Text>
                     </div>
 
                     <div className="form-buttons">
-                      <button className="btn cancel">Cancel</button>
-                      <button className="btn share">
+                      <button
+                        className="btn cancel"
+                        type="button"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="btn share"
+                        type="button"
+                        onClick={handleSubmitClick}
+                      >
                         Share <i className="bi bi-send-fill"></i>
                       </button>
                     </div>
                   </Form>
-
                 </div>
               </Tab>
               <Tab eventKey="existing-member" title="Existing Member">
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.002 12.4998C10.4621 12.4998 10.8352 12.873 10.8353 13.3332C10.8353 13.7934 10.4622 14.1665 10.002 14.1665H9.99463C9.5344 14.1665 9.1613 13.7934 9.1613 13.3332C9.16141 12.873 9.53446 12.4998 9.99463 12.4998H10.002Z"
-                        fill="#F79548"
-                      />
-                      <path
-                        d="M10.0011 6.87483C10.3463 6.87483 10.626 7.15475 10.6261 7.49983V10.8332C10.6261 11.1783 10.3463 11.4582 10.0011 11.4582C9.65597 11.4582 9.37614 11.1783 9.37614 10.8332V7.49983C9.37625 7.15475 9.65603 6.87483 10.0011 6.87483Z"
-                        fill="#F79548"
-                      />
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.6364 1.6787C9.52319 1.38446 10.4791 1.38442 11.3659 1.6787C12.2492 1.97193 12.9429 2.66784 13.6397 3.64485C14.3386 4.62504 15.1118 5.99423 16.1104 7.76106C17.1089 9.52805 17.8833 10.8968 18.3646 12.005C18.8451 13.1115 19.0844 14.0674 18.8936 14.9852C18.7013 15.909 18.2272 16.7492 17.537 17.3843C16.8482 18.0178 15.9101 18.2853 14.7293 18.4137C13.5471 18.5423 11.9977 18.5415 10.0011 18.5415C8.00458 18.5415 6.45524 18.5423 5.27295 18.4137C4.09209 18.2853 3.1541 18.0178 2.46534 17.3843C1.77504 16.7492 1.30101 15.9091 1.10873 14.9852C0.917824 14.0674 1.15718 13.1115 1.6377 12.005C2.11904 10.8968 2.89337 9.528 3.89193 7.76106C4.89041 5.99428 5.66366 4.62502 6.36264 3.64485C7.05937 2.66788 7.7531 1.9719 8.6364 1.6787ZM10.972 2.86523C10.3409 2.65582 9.66139 2.65586 9.03028 2.86523C8.53366 3.03008 8.03373 3.45392 7.37989 4.37076C6.72831 5.28451 5.99259 6.58452 4.97999 8.3763C3.9674 10.168 3.23331 11.4694 2.78435 12.5031C2.33466 13.5385 2.22201 14.1983 2.33269 14.7305C2.47238 15.4017 2.81577 16.0085 3.31169 16.4647C3.7012 16.823 4.30818 17.0515 5.40805 17.1711C6.50672 17.2905 7.97505 17.2915 10.0011 17.2915C12.0272 17.2915 13.4956 17.2905 14.5942 17.1711C15.694 17.0515 16.3011 16.8229 16.6906 16.4647C17.1864 16.0085 17.5299 15.4016 17.6696 14.7305C17.7803 14.1983 17.6676 13.5385 17.2179 12.5031C16.769 11.4694 16.0349 10.1681 15.0223 8.3763C14.0097 6.58447 13.274 5.28453 12.6224 4.37076C11.9685 3.45388 11.4686 3.0301 10.972 2.86523Z"
-                        fill="#F79548"
-                      />
-                    </svg>
+                <div className="existing-member">
+                  <div className="warning-message">
+                    <div className="info-icon">
+                      <img src={path_image + "warning-icon.svg"} alt="" />
+                    </div>
+                    <div className="text-muted">
+                      This screen is for the HCP. Please hand them your device
+                      to review and give consent.
+                    </div>
                   </div>
-                  <div>
-                    This screen is for the HCP. Show them the QR code to open
-                    the content on their own device.
+                  <div className="qr-section">
+                    <span>Scan to open the content</span>
+                    <div className="qr-box">
+                      <QRCode
+                        value={section.previewArticle}
+                        size={192}
+                        fgColor="#183B4D"
+                      />
+                    </div>
                   </div>
-                </div>
-                <span style={{ textAlign: "center", display: "block" }}>
-                  {" "}
-                  Scan to open the content
-                </span>
-                <div
-                  style={{
-                    textAlign: "center",
-                    display: "block",
-                    color: "blue",
-                  }}
-                >
-                  <QRCode
-                    value={section.previewArticle}
-                    size={160}
-                    fgColor="#183B4D"
-                  />
-                </div>
 
-                <span style={{ textAlign: "center", display: "block" }}>
-                  Ask the HCP to scan this code. They&apos;ll authenticate with
-                  their One Source account and the content will open on their
-                  phone.
-                </span>
+                  <div className="info-message">
+                    Ask the HCP to scan this code. They&apos;ll authenticate
+                    with their One Source account and the content will open on
+                    their phone.
+                  </div>
 
-                <Button type="button" onClick={handleCloseModal}>
-                  Close
-                </Button>
+                  <button
+                    className="btn done"
+                    type="button"
+                    onClick={handleCloseModal}
+                  >
+                    Done
+                    <img src={path_image + "correct.svg"} alt="" />
+                  </button>
+                </div>
               </Tab>
             </Tabs>
           </Modal.Body>

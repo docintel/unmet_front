@@ -175,20 +175,22 @@ export const TrackDownloads = async (id, setIsLoading, setToast) => {
 export const SubmitShareContent = async (
   id,
   email,
-  message,
   name,
+  country,
+  consent,
   setIsLoading,
   setToast
 ) => {
   try {
     setIsLoading(true);
 
-    const data = await postData(endPoint.CONTENT_SHARE, {
-      pdf_id: id,
-      email: email,
-      message: message,
-      name: name,
-    });
+    // const data = await postData(endPoint.CONTENT_SHARE, {
+    //   pdf_id: id,
+    //   email: email,
+    //   consent: consent,
+    //   country: country,
+    //   name: name,
+    // });
   } catch (error) {
     console.error("Error while updating rating:", error);
     setToast({
