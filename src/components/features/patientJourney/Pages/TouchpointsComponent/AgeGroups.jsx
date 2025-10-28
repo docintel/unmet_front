@@ -13,9 +13,14 @@ const AgeGroups = ({
   const { filterAges } = useContext(ContentContext);
   const isTabDisabled = useCallback(
     (cat_id) => {
-      if (!isAllSelected)
-        return [5, 6].includes(activeKey.id) && [2, 3].includes(cat_id);
-      else return [2, 3].includes(cat_id);
+      if (!isAllSelected) {
+        const isDisabled =
+          [5, 6].includes(activeKey.id) && [2, 3].includes(cat_id);
+        return isDisabled;
+      } else {
+        const isDisabled = [2, 3].includes(cat_id);
+        return isDisabled;
+      }
     },
     [activeJourney, activeKey, isAllSelected]
   );

@@ -14,9 +14,14 @@ const Category = ({
   const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
   const isTabDisabled = useCallback(
     (cat_id) => {
-      if (!isAllSelected)
-        return [5, 6].includes(cat_id) && [2, 3].includes(activeJourney);
-      else return cat_id == 3;
+      if (!isAllSelected) {
+        const isDisabled =
+          [5, 6].includes(cat_id) && [2, 3].includes(activeJourney.id);
+        return isDisabled;
+      } else {
+        const isDisabled = cat_id == 3;
+        return isDisabled;
+      }
     },
     [activeKey, isAllSelected, activeJourney]
   );
