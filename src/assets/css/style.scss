@@ -1892,7 +1892,9 @@ h6 {
     }
   }
 }
-
+.content-count-box-outer{
+  width: 100%;
+}
 .content-count-box {
   width: 100%;
   padding: 0 0;
@@ -2854,7 +2856,8 @@ input[type="search"]::-webkit-search-results-decoration {
               background: linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
               color: var(--white);
               border-color: transparent;
-
+              background-position: center;
+              background-size: 110%;
               &:hover {
                 -webkit-background-clip: unset;
                 background-clip: unset;
@@ -2910,6 +2913,9 @@ input[type="search"]::-webkit-search-results-decoration {
         &.f-tag{
           background: var(--gradient-orange);
           color:var(--white);
+        }
+        &:hover{
+          background: linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%), #4CC6CF;
         }
       }
 
