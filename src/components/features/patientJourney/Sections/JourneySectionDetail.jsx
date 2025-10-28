@@ -8,7 +8,7 @@ export default function JourneySectionDetail({ onSectionClick, section }) {
 
   return (
     <div
-      className={`journey-box d-flex ${
+      className={`journey-boxes d-flex ${
         section.class != "ask-ibu" ? "flex-row-reverse" : ""
       }`}
     >
