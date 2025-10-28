@@ -19,7 +19,8 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section: initialSection, idx, favTab }) =>
+{
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -95,7 +96,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     } catch (ex) { }
   };
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
@@ -480,6 +482,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                             viewBox="0 0 22 19"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
+                            className="fill-svg"
                           >
                             <path
                               fill-rule="evenodd"
@@ -507,53 +510,28 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           (Required)
                         </span>
                       </Form.Label>
-
-                      {/* <div className={`input-with-icon ${error.country.error ? "error" : ""}`}> */}
-                        {/* Left icon */}
-                        {/* <span className="icon-left">
-                          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
-                            <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z" stroke="#B5C2D3" stroke-width="1.5" />
-                            <path d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z" stroke="#B5C2D3" stroke-width="1.5" />
-                          </svg>
-                        </span> */}
-                        {/* <Form.Control
-                          as="select"
+                      <div
+                        onMouseEnter={(e) =>
+                          e.currentTarget
+                            .querySelector(".split-button")
+                            .classList.add("active")
+                        }
+                        onMouseLeave={(e) =>
+                          e.currentTarget
+                            .querySelector(".split-button")
+                            .classList.remove("active")
+                        }
+                      >
+                        <Select
+                          className={`split-button ${error.country.error ? "error" : ""
+                            }`}
                           value={country}
                           onChange={(e) => setCountry(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Select your country
-                          </option>
-                          {countryList.map((cntry, idx) => (
-                            <option key={idx} value={cntry.value}>
-                              {cntry.label}
-                            </option>
-                          ))}
-                        </Form.Control> */}
-                        <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
-                        <Select
-                        className={`split-button ${error.country.error ? "error" : ""
-                          }`}
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                        placeholder="Select your country"
-                        options={countryList}
-                        isClearable
-                      />
-                      <span>
+                          placeholder="Select your country"
+                          options={countryList}
+                          isClearable
+                        />
+                        <span>
                           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
                             <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -562,20 +540,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           </svg>
                         </span>
                         {error.country && error.region && (
-                        <div className="validation">{error.region}</div>
-                        // <div className={`input-with-icon ${error.country.error ? "error" : ""}`}>
-                      )}
-                        {/* <span className="icon-right">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.1435 16.6354C12.4683 16.6005 12.7192 16.4517 12.9016 16.3125C13.0896 16.1691 13.2867 15.9702 13.4664 15.7905L19.7396 9.51731C20.0868 9.17017 20.0868 8.60749 19.7396 8.26035C19.3925 7.91322 18.8298 7.91322 18.4827 8.26035L12.2095 14.5336C12.1266 14.6165 12.0591 14.6835 12 14.7407C11.9409 14.6835 11.8734 14.6165 11.7905 14.5336L5.51731 8.26035C5.17017 7.91322 4.60749 7.91322 4.26035 8.26035C3.91322 8.60749 3.91322 9.17017 4.26035 9.51731L10.5336 15.7905C10.7133 15.9702 10.9104 16.1691 11.0984 16.3125C11.3069 16.4716 11.6048 16.6435 12 16.6435L12.1435 16.6354Z" fill="url(#paint0_linear_3101_3088)" />
-                            <defs>
-                              <linearGradient id="paint0_linear_3101_3088" x1="4" y1="8" x2="21.0842" y2="11.9286" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#F79548" />
-                                <stop offset="1" stop-color="#E94262" />
-                              </linearGradient>
-                            </defs>
-                          </svg>
-                        </span> */}
+                          <div className="validation">{error.region}</div>
+                        )}
                       </div>
 
                       {error.country.error && (
@@ -645,7 +611,10 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         type="button"
                         onClick={handleSubmitClick}
                       >
-                        Share <i className="bi bi-send-fill"></i>
+                        Share
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.8174 0.111456C13.6079 0.00776914 14.343 -0.0314554 14.9561 0.0276345C15.5394 0.0839043 16.1503 0.241371 16.5397 0.660773C16.9175 1.06785 17.0412 1.67981 17.0736 2.26233C17.1078 2.87674 17.0465 3.61039 16.9222 4.40019C16.673 5.98382 16.1556 7.88919 15.5347 9.71595C14.9135 11.5436 14.1797 13.3209 13.4863 14.646C13.1415 15.3051 12.7942 15.8752 12.4642 16.2874C12.3 16.4925 12.1227 16.6806 11.9344 16.8204C11.7557 16.9532 11.4949 17.0963 11.1817 17.0825C10.6784 17.0602 10.2958 16.7841 10.0147 16.4192C9.74535 16.0696 9.53231 15.5956 9.34328 15.048C8.96411 13.9494 8.60857 12.3288 8.14943 10.2409C8.05084 9.79248 7.96756 9.64007 7.89309 9.5597C7.87725 9.54262 7.85744 9.52604 7.83286 9.50761C7.80162 9.49098 7.77036 9.47377 7.74172 9.45146C7.64573 9.40043 7.49965 9.34144 7.26239 9.27487C6.92157 9.17925 6.35115 9.07134 5.62095 8.92005C4.91164 8.77308 4.08622 8.59167 3.30161 8.35771C2.52526 8.1262 1.74386 7.83034 1.14423 7.43812C0.556832 7.05385 0.00525668 6.48129 1.9402e-05 5.67135C-0.0019242 5.36282 0.142499 5.10662 0.279967 4.92672C0.424119 4.73809 0.61603 4.56065 0.826029 4.39612C1.24775 4.06575 1.82802 3.72205 2.49676 3.38213C3.84083 2.69895 5.63607 1.98585 7.47723 1.39319C9.317 0.801006 11.2321 0.319433 12.8174 0.111456ZM14.8356 1.27194C14.3547 1.2256 13.7246 1.25324 12.9802 1.35088C11.4957 1.54561 9.65824 2.00405 7.85972 2.58297C6.06232 3.16155 4.33248 3.85104 3.06317 4.49622C2.42542 4.82039 1.92647 5.12245 1.5967 5.38082C1.43119 5.51053 1.32907 5.61346 1.27362 5.686C1.26516 5.69708 1.25914 5.70689 1.25409 5.71448C1.2762 5.88995 1.41103 6.11923 1.82863 6.39238C2.27596 6.68497 2.91964 6.93935 3.65887 7.1598C4.38966 7.37771 5.17123 7.55047 5.87404 7.69609C6.55602 7.83739 7.20384 7.96008 7.60012 8.07125C7.73698 8.10966 7.87029 8.15181 7.99888 8.19983L10.5998 5.59974C10.8439 5.35566 11.2395 5.35566 11.4836 5.59974C11.7276 5.84382 11.7276 6.23946 11.4836 6.48353L9.00311 8.96318C9.18853 9.2582 9.28897 9.6032 9.37014 9.9723C9.83677 12.0944 10.1754 13.6267 10.5249 14.6395C10.7002 15.1473 10.8605 15.469 11.0051 15.6567C11.0859 15.7616 11.1455 15.8021 11.1849 15.8195L11.189 15.817C11.2579 15.7658 11.359 15.6678 11.4885 15.5061C11.7456 15.1849 12.0495 14.6949 12.3788 14.0657C13.0339 12.8135 13.7444 11.1 14.3514 9.31393C14.9588 7.52698 15.4534 5.69468 15.6877 4.20569C15.8052 3.45917 15.8533 2.82233 15.826 2.33151C15.7969 1.80923 15.6882 1.58108 15.6234 1.5112C15.5592 1.44203 15.3462 1.32115 14.8356 1.27194Z" fill="white" />
+                        </svg>
                       </button>
                     </div>
                   </Form>
