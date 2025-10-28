@@ -3006,7 +3006,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
      .registration-form {
         max-width: 448px;
-         margin: 0 auto;
+        margin: 0 auto;
 
   .form-group {
     margin-bottom: 24px;
@@ -3042,7 +3042,9 @@ input[type="search"]::-webkit-search-results-decoration {
         display: flex;
         align-items: center;
       }
-      
+        &.error{
+        box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.4);
+      }
       input,
       Select {
         border: none;
@@ -3056,9 +3058,13 @@ input[type="search"]::-webkit-search-results-decoration {
       select {
         appearance: none;
         cursor: pointer;
+        color: var(--gray300);
+          font-size: 14px;
       }
     }
+    
   }
+  
 
  .consent-section {
   color: #344054;
@@ -3083,9 +3089,30 @@ input[type="search"]::-webkit-search-results-decoration {
 
  }
 
- .custom-radio {
+ .consent-group{
+
+   label{
+    color: var(--gray);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    margin: 0;
+   }
+  .checkbox-label{
+       font-size: 16px;
+        font-weight: 600;
+        color: var(--gray300);
+        margin: 0 0 12px;
+   }
+   .form-check{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+   }
+ .radio-options {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   position: relative;
   font-size: 14px;
@@ -3093,9 +3120,9 @@ input[type="search"]::-webkit-search-results-decoration {
   font-weight: 400;
   line-height: 18px;
   color: var(--gray300);
- }
-
- .custom-radio input[type="radio"] {
+  flex-direction: column;
+ 
+input[type="checkbox"] {
     border: 1px solid #97B6CF;
     width: 16px;
     height: 16px;
@@ -3108,7 +3135,7 @@ input[type="search"]::-webkit-search-results-decoration {
     print-color-adjust: exact;
  }
 
- .custom-radio input[type="radio"]:checked {
+input[type="checkbox"]:checked {
   background-color: var(--green);
   border-color: var(--green);
   background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e");
@@ -3116,6 +3143,12 @@ input[type="search"]::-webkit-search-results-decoration {
   background-position: center;
   background-size: 15px;
  }
+ .form-check-input:focus{
+  box-shadow: none;
+ }
+}
+}
+
 
   .message{
     margin-top: 24px;

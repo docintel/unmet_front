@@ -3,7 +3,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import {
+import
+{
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -48,7 +49,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
   });
   const circumference = 2 * Math.PI * 45;
 
-  const filterCountries = () => {
+  const filterCountries = () =>
+  {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
       value: country,
       label: country,
@@ -56,11 +58,13 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     setCountryList(coutries);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterCountries();
   }, [country]);
 
-  const handleStarClick = async () => {
+  const handleStarClick = async () =>
+  {
     try {
       const response = await updateContentRating(
         section.id,
@@ -88,7 +92,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   const getAgeGroup = () =>
@@ -96,7 +100,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) => {
+      .map((tag) =>
+      {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -120,21 +125,25 @@ const Content = ({ section: initialSection, idx, favTab }) =>
       );
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = () =>
+  {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async () =>
+  {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) => {
+    const getContentSize = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) => {
+    const downloadFileChuck = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -219,9 +228,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -230,9 +238,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -253,7 +260,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () =>
+  {
     setShowModal(false);
     setEmail("");
     setName("");
@@ -266,7 +274,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     });
   };
 
-  const handleSubmitClick = async (e) => {
+  const handleSubmitClick = async (e) =>
+  {
     e.preventDefault();
     try {
       let newError = {
@@ -343,7 +352,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     }
   };
 
-  const handleCheckBoxClick = (name) => {
+  const handleCheckBoxClick = (name) =>
+  {
     if (name === "checkbox3")
       setCheckboxChecked({
         checkbox3: checkboxChecked.checkbox5
@@ -434,39 +444,12 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                       <Form.Label>
                         Name <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon">
+                      <div className={"input-with-icon" + (error.name.error ? " error" : "")}>
                         <span className="icon">
-                          <svg
-                            width="22"
-                            height="21"
-                            viewBox="0 0 22 21"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M11 13.2565L11 14.7565"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M2 9.25647L2.15288 12.1197C2.31714 15.7335 2.39927 17.5403 3.55885 18.6484C4.71843 19.7565 6.52716 19.7565 10.1446 19.7565H11.8554C15.4728 19.7565 17.2816 19.7565 18.4412 18.6484C19.6007 17.5403 19.6829 15.7335 19.8471 12.1197L20 9.25647"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M1.84718 8.69953C3.54648 11.9309 7.3792 13.2565 11 13.2565C14.6208 13.2565 18.4535 11.9309 20.1528 8.69953C20.964 7.15703 20.3498 4.25647 18.352 4.25647H3.648C1.65023 4.25647 1.03603 7.15703 1.84718 8.69953Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M15 4.25647L14.9117 3.94741C14.4717 2.40736 14.2517 1.63734 13.7279 1.1969C13.2041 0.75647 12.5084 0.75647 11.117 0.75647H10.883C9.49159 0.75647 8.79587 0.75647 8.2721 1.1969C7.74832 1.63734 7.52832 2.40736 7.0883 3.94741L7 4.25647"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
+                          <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.93007 13.0464C2.67249 13.7835 -0.624787 15.2886 1.38348 17.172C2.3645 18.092 3.4571 18.75 4.83077 18.75H12.6692C14.0429 18.75 15.1355 18.092 16.1165 17.172C18.1248 15.2886 14.8275 13.7835 13.5699 13.0464C10.6209 11.3179 6.87906 11.3179 3.93007 13.0464Z" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12.75 4.75C12.75 6.95914 10.9591 8.75 8.75 8.75C6.54086 8.75 4.75 6.95914 4.75 4.75C4.75 2.54086 6.54086 0.75 8.75 0.75C10.9591 0.75 12.75 2.54086 12.75 4.75Z" stroke="#B5C2D3" stroke-width="1.5" />
+                            <path d="M18.3721 2.31564C18.5957 2.07342 18.7074 1.95232 18.8262 1.88168C19.1128 1.71123 19.4657 1.70593 19.7571 1.8677C19.8779 1.93474 19.9931 2.05244 20.2235 2.28783C20.4539 2.52322 20.5692 2.64092 20.6348 2.76428C20.7931 3.06194 20.788 3.42244 20.6211 3.71521C20.5519 3.83655 20.4334 3.95073 20.1963 4.1791L17.3752 6.89629C16.9259 7.32906 16.7012 7.54545 16.4204 7.65512C16.1396 7.76479 15.831 7.75672 15.2136 7.74057L15.1296 7.73838C14.9417 7.73346 14.8477 7.73101 14.7931 7.66901C14.7385 7.60702 14.7459 7.5113 14.7608 7.31985L14.7689 7.2159C14.8109 6.67706 14.8319 6.40765 14.9371 6.16547C15.0423 5.92328 15.2238 5.72664 15.5868 5.33335L18.3721 2.31564Z" stroke="#B5C2D3" stroke-width="1.5" stroke-linejoin="round" />
                           </svg>
                         </span>
                         <Form.Control
@@ -477,14 +460,14 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         />
                       </div>{" "}
                       {error.name.error && (
-                        <div className="">{error.name.message}</div>
+                        <div className="validation">{error.name.message}</div>
                       )}
                     </Form.Group>
                     <Form.Group className="form-group">
                       <Form.Label>
                         Email <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon">
+                      <div className={"input-with-icon" + (error.email.error ? " error" : "")}>
                         <span className="icon">
                           <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z" fill="#B5C2D3" />
@@ -498,16 +481,17 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         />
                       </div>
                       {error.email.error && (
-                        <div className="">{error.email.message}</div>
+                        <div className="validation">{error.email.message}</div>
                       )}
                     </Form.Group>
-
                     <Form.Group className="form-group">
                       <Form.Label>
                         Country <span>(Required)</span>
                       </Form.Label>
-                      <div className="input-with-icon">
-                        <span className="icon">
+
+                      <div className={`input-with-icon ${error.country.error ? "error" : ""}`}>
+                        {/* Left icon */}
+                        <span className="icon-left">
                           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" />
                             <path d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797" stroke="#B5C2D3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -517,8 +501,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         </span>
                         <Form.Control
                           as="select"
+                          value={country}
                           onChange={(e) => setCountry(e.target.value)}
-                          defaultValue=""
                         >
                           <option value="" disabled>
                             Select your country
@@ -529,14 +513,28 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                             </option>
                           ))}
                         </Form.Control>
+
+                        <span className="icon-right">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.1435 16.6354C12.4683 16.6005 12.7192 16.4517 12.9016 16.3125C13.0896 16.1691 13.2867 15.9702 13.4664 15.7905L19.7396 9.51731C20.0868 9.17017 20.0868 8.60749 19.7396 8.26035C19.3925 7.91322 18.8298 7.91322 18.4827 8.26035L12.2095 14.5336C12.1266 14.6165 12.0591 14.6835 12 14.7407C11.9409 14.6835 11.8734 14.6165 11.7905 14.5336L5.51731 8.26035C5.17017 7.91322 4.60749 7.91322 4.26035 8.26035C3.91322 8.60749 3.91322 9.17017 4.26035 9.51731L10.5336 15.7905C10.7133 15.9702 10.9104 16.1691 11.0984 16.3125C11.3069 16.4716 11.6048 16.6435 12 16.6435L12.1435 16.6354Z" fill="url(#paint0_linear_3101_3088)" />
+                            <defs>
+                              <linearGradient id="paint0_linear_3101_3088" x1="4" y1="8" x2="21.0842" y2="11.9286" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#F79548" />
+                                <stop offset="1" stop-color="#E94262" />
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </span>
                       </div>
+
                       {error.country.error && (
-                        <div className="">{error.country.message}</div>
+                        <div className="validation">{error.country.message}</div>
                       )}
                     </Form.Group>
 
+
                     <Form.Group className="form-group consent-group">
-                      <Form.Label>
+                      <Form.Label className="checkbox-label">
                         I also consent to: <span>(Required)</span>
                       </Form.Label>
                       <div className="radio-options">
@@ -570,20 +568,19 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         />
                       </div>
                       {error.consent.error && (
-                        <div className="">{error.consent.message}</div>
+                        <div className="validation">{error.consent.message}</div>
                       )}
                     </Form.Group>
 
-                    <div className="note-box">
-                      <i className="bi bi-info-circle"></i>
-                      <p>
-                        Your consent can be changed or withdrawn at any time in
-                        your One Source (Docintel) account after registration.
-                      </p>
+                    <div className="message">
+                      <div className="info-icon">
+                        <img src={path_image + "info-icon.svg"} alt="" />
+                      </div>
+                      <Form.Text className="text-muted">
+                        Your consent can be changed or withdrawn at any time in your One Source (Docintel) account after registration.
+                      </Form.Text>
                     </div>
-                    {error.global.error && (
-                      <div className="">{error.global.message}</div>
-                    )}
+
                     <div className="form-buttons">
                       <button
                         className="btn cancel"
@@ -711,7 +708,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
+            {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -748,7 +746,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
