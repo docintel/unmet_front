@@ -3564,7 +3564,7 @@ input[type="checkbox"]:checked {
       }
 
       &:hover {
-        opacity: 0.9;
+         background: linear-gradient(277deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
       }
     }
   }
@@ -3624,8 +3624,12 @@ input[type="checkbox"]:checked {
         i {
           font-size: 14px;
         }
+
+      &:hover {
+             background: linear-gradient(277deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
      }
    }
+  }
   }
 
   //------ Share comfirmation popup-------
@@ -3711,7 +3715,7 @@ input[type="checkbox"]:checked {
           transition: opacity 0.3s ease;
 
           &:hover {
-            opacity: 0.9;
+                background: linear-gradient(277deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
           }
         }
       }
