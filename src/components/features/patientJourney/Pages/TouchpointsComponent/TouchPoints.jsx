@@ -22,15 +22,13 @@ const TouchPoints = () => {
   const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
-  // const [currentReadClick, setCurrentReadClick] = useState({
-  //   previewArticle: null,
-  //   id: null,
-  // });
+
   const {
     content,
     filterAges,
     filterCategory,
     narrative,
+    filterTag,
     isHcp,
     categoryList,
     fetchAgeGroups,
@@ -52,6 +50,9 @@ const TouchPoints = () => {
 
   useEffect(() => {
     filterContents();
+    filterTags();
+
+    // setTags(filterTag.filter((tg) => !selectedTag.includes(tg)));
   }, [selectedTag]);
 
   useEffect(() => {
@@ -91,7 +92,7 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
-    filterTag();
+    filterTags();
   }, [activeKey, activeJourney, isAllSelected]);
 
   useEffect(() => {
@@ -128,11 +129,11 @@ const TouchPoints = () => {
     if (!content.pending && !content.error) {
       getCategoryTags(content.data);
       filterContents();
-      filterTag();
+      filterTags();
     }
   }, [content]);
 
-  const filterTag = () => {
+  const filterTags = () => {
     if (content) {
       let tagArray = [];
       if (activeKey.id || activeJourney.id) {
@@ -168,9 +169,9 @@ const TouchPoints = () => {
               tagArray = [
                 ...tagArray,
                 ...JSON.parse(item.tags ? item.tags : "[]"),
-                ...JSON.parse(item.functional_tags || "[]").map(
-                  (tag) => "prefix_" + tag
-                ),
+                ...JSON.parse(
+                  item.functional_tags ? item.functional_tags : "[]"
+                ).map((tag) => "prefix_" + tag),
               ];
           } catch (ex) {}
         });
@@ -185,10 +186,10 @@ const TouchPoints = () => {
             if (item.tags !== "")
               tagArray = [
                 ...tagArray,
-                ...JSON.parse(item.tags),
-                ...JSON.parse(item.functional_tags || "[]").map(
-                  (tag) => "prefix_" + tag
-                ),
+                ...JSON.parse(item.tags ? item.tags : "[]"),
+                ...JSON.parse(
+                  item.functional_tags ? item.functional_tags : "[]"
+                ).map((tag) => "prefix_" + tag),
               ];
           } catch (ex) {}
         });
@@ -204,7 +205,7 @@ const TouchPoints = () => {
         if (freqDiff !== 0) return freqDiff;
         return a.localeCompare(b);
       });
-      setTags(uniqueWords);
+      setTags(uniqueWords.filter((tg) => !selectedTag.includes(tg)));
     }
   };
 
@@ -212,21 +213,22 @@ const TouchPoints = () => {
     if (content) {
       if (isAllSelected) {
         const contentList = [];
-        content.forEach((element) => {
+        content.data.forEach((element) => {
           if (element.female_oriented === 0) return;
 
           for (let i = 0; i < selectedTag.length; i++) {
             if (
               ![
-                ...JSON.parse(element.tags.toLowerCase() || "[]"),
+                ...JSON.parse(element.tags ? element.tags.toLowerCase() : "[]"),
                 ...JSON.parse(
-                  element.functional_tags.toLowerCase() || "[]"
+                  element.functional_tags
+                    ? element.functional_tags.toLowerCase()
+                    : "[]"
                 ).map((tag) => "prefix_" + tag),
               ].includes(selectedTag[i].toLowerCase())
             )
               return;
           }
-
           if (
             element.title
               .toLowerCase()
@@ -291,9 +293,11 @@ const TouchPoints = () => {
             : filteredArray.filter((item) => {
                 const tagArray = [
                   ...JSON.parse(item.tags ? item.tags.toLowerCase() : "[]"),
-                  ...JSON.parse(item.functional_tags.toLowerCase() || "[]").map(
-                    (tag) => "prefix_" + tag
-                  ),
+                  ...JSON.parse(
+                    item.functional_tags
+                      ? item.functional_tags.toLowerCase()
+                      : "[]"
+                  ).map((tag) => "prefix_" + tag),
                 ];
                 let count = 0;
                 for (let i = 0; i < selectedTag.length; i++) {
@@ -350,20 +354,12 @@ const TouchPoints = () => {
   };
 
   const handleTagClick = (tag) => {
-    setSelectedTag([...selectedTag, tag].sort());
-    setTags([...tags].filter((tg) => tg !== tag));
+    setSelectedTag([...selectedTag, tag]);
   };
 
   const removeFilter = (tag) => {
-    setSelectedTag([...selectedTag].filter((tg) => tg !== tag).sort());
-    setTags([...tags, tag]);
+    setSelectedTag([...selectedTag].filter((tg) => tg !== tag));
   };
-
-  // Assume you have a way to detect dark mode, e.g. via a context or a prop.
-  // For demonstration, let's use a simple hook:
-  const isDarkMode =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   return (
     <>
