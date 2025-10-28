@@ -3747,6 +3747,13 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
   //------ Share comfirmation popup-------
+  .modal-backdrop.show {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    /* background: red; */
+}
  .confirmation {
   .modal-dialog {
     width: 100%;
