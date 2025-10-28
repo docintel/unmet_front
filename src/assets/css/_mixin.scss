@@ -456,6 +456,25 @@
       display: none;
     }
   }
+  @media (max-width: $layout-breakpoint-medium) {
+    width: 160px;
+
+    .switch-light {
+      >span {
+        span {
+          &:first-child {
+            width: 95px;
+            font-size: 12px;
+          }
+
+          &:last-child {
+            width: 57px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
 }
 
 @mixin split-btn {

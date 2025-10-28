@@ -184,7 +184,7 @@ const Login = ({ userDetails, setLoader }) => {
                     {/* {userDetails?.name || ""} 
                   </h3> */}
                 </div>
-                <h5>Tell us a bit about you to tailor your<br />experience</h5>
+                <h5>Tell us a bit about you to tailor your <br />experience</h5>
               </div>
 
               <div className="login-form">
