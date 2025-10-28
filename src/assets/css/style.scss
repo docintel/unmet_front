@@ -1839,7 +1839,7 @@ h6 {
   gap: 12px;
   font-size: 10px;
   font-weight: 500;
-  text-transform: capitalize;
+  // text-transform: capitalize;
   margin: 12px 0 40px;
   flex-wrap: wrap;
 
@@ -3047,8 +3047,8 @@ input[type="search"]::-webkit-search-results-decoration {
       border-bottom: 1px solid #D4DCE5;
       &::before{
         border-radius: 16px;
-    background: linear-gradient(97deg, #4CC6CF 0%, #F79548 47%, #E94262 100%);
-    box-shadow: 0 1px 10px 0 rgba(93, 26, 39, 0.32);
+        background: linear-gradient(97deg, #4CC6CF 0%, #F79548 47%, #E94262 100%);
+        box-shadow: 0 1px 10px 0 rgba(93, 26, 39, 0.32);
     content: "";
     position: absolute;
     top: 0;
@@ -3521,6 +3521,98 @@ input[type="checkbox"]:checked {
      }
    }
   }
+
+  //------ Share comfirmation popup-------
+ .confirmation {
+  .modal-dialog {
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
+  }
+
+  .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-body {
+    padding: 0;
+  }
+
+  .confirmation-card {
+    text-align: center;
+    border-top: 8px solid #3cac8e;
+    border-radius: 12px;
+
+    .check-icon {
+      display: flex;
+      justify-content: center;
+      margin: 32px 0;
+
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #183b4d;
+      margin: 0;
+    }
+
+    .description-box {
+      padding: 32px 40px 24px;
+
+      .description {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        color: #183b4d;
+
+        .email {
+          color: var(--green);
+          font-weight: 500;
+        }
+      }
+
+      .note {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #5e7683;
+        margin: 0;
+
+        .highlight {
+          font-weight: 600;
+        }
+      }
+
+      .btn {
+        &.done {
+          border: none;
+          outline: none;
+          color: #fff;
+          margin-top: 32px;
+          font-size: 15px;
+          font-weight: 500;
+          padding: 8px 32px;
+          border-radius: 40px;
+          background: linear-gradient(97deg, #f79548 0%, #e94262 100%);
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+}
+
 
 .form-control::-webkit-input-placeholder {
   color: #B5C2D3;

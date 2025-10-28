@@ -4,7 +4,8 @@ import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
-import {
+import
+{
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -18,7 +19,8 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section: initialSection, idx, favTab }) =>
+{
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -54,7 +56,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   });
   const circumference = 2 * Math.PI * 45;
 
-  const filterCountries = () => {
+  const filterCountries = () =>
+  {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
       value: country,
       label: country,
@@ -62,11 +65,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setCountryList(coutries);
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     filterCountries();
   }, [country]);
 
-  const handleStarClick = async () => {
+  const handleStarClick = async () =>
+  {
     try {
       const response = await updateContentRating(
         section.id,
@@ -94,14 +99,16 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
-  const getAgeGroup = () => {
+  const getAgeGroup = () =>
+  {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) => {
+      .map((tag) =>
+      {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -125,21 +132,25 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       );
   };
 
-  const handleShareClick = () => {
+  const handleShareClick = () =>
+  {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () => {
+  const handleDownloadClick = async () =>
+  {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) => {
+    const getContentSize = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) => {
+    const downloadFileChuck = async (fileUrl) =>
+    {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -224,9 +235,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -235,9 +245,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -258,7 +267,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     }
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = () =>
+  {
     setShowModal(false);
     setEmail("");
     setName("");
@@ -271,7 +281,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     });
   };
 
-  const handleSubmitClick = async (e) => {
+  const handleSubmitClick = async (e) =>
+  {
     e.preventDefault();
     try {
       let newError = {
@@ -353,7 +364,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     }
   };
 
-  const handleCheckBoxClick = (name) => {
+  const handleCheckBoxClick = (name) =>
+  {
     if (name === "checkbox3")
       setCheckboxChecked({
         checkbox3: checkboxChecked.checkbox5
@@ -388,7 +400,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       });
   };
 
-  const handleCloseConfirmationModal = () => {
+  const handleCloseConfirmationModal = () =>
+  {
     setShowConfirmationModal({
       existingMember: false,
       newMember: false,
@@ -557,9 +570,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         }
                       >
                         <Select
-                          className={`split-button ${
-                            error.country.error ? "error" : ""
-                          }`}
+                          className={`split-button ${error.country.error ? "error" : ""
+                            }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -728,7 +740,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <button
                     className="btn done"
                     type="button"
-                    onClick={() => {
+                    onClick={() =>
+                    {
                       setShowConfirmationModal({
                         existingMember: true,
                         newMember: false,
@@ -754,20 +767,59 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           backdrop="static"
           keyboard={false}
           centered
-          className="share-modal"
+          className="confirmation"
           size="lg"
         >
-          {showConfirmationModal.existingMember && (
-            <Modal.Body>Existing Member</Modal.Body>
-          )}{" "}
-          {showConfirmationModal.newMember && (
-            <Modal.Body>New Member</Modal.Body>
-          )}
-          <Button type="button" onClick={handleCloseConfirmationModal}>
-            Done
-          </Button>
+          <Modal.Body>
+
+            <div className="confirmation-card">
+              <div className="check-icon">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z" fill="#3CAC8E" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z" fill="#3CAC8E" />
+                </svg>
+
+              </div>
+
+              <h2 className="title">You’re All Done — Content Shared</h2>
+              {showConfirmationModal.existingMember && (
+                <div className="description-box">
+                  <p className="description">
+                    The HCP can now access the shared content directly on One Source using their existing account.
+                  </p>
+
+                  <p className="note">
+                    They’ll also receive an email shortly with a secure link to the same content for reference.
+                  </p>
+
+                  <button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                    Done
+                  </button>
+                </div>
+              )}
+              {showConfirmationModal.newMember && (
+                <div className="description-box">
+                  <p className="description">
+                    The HCP has been successfully registered, and the content has been sent to:<br />
+                    <span className="email"> Example@gmail.com</span>
+                  </p>
+
+                  <p className="note">
+                    They&apos;ll receive an email shortly with a secure link to access the content on<br />
+                    <span className="highlight"> One Source.</span>
+                  </p>
+
+                  <button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                    Done
+                  </button>
+                </div>
+              )}
+
+            </div>
+          </Modal.Body>
         </Modal>
       </div>
+
       <div className="content-box">
         <div className="format">
           <div className="d-flex align-items-center">
@@ -839,7 +891,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
+            {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -891,7 +944,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
