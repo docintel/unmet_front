@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { ContentContext } from "../../../../../context/ContentContext";
 
 const AgeGroups = ({
@@ -20,6 +20,20 @@ const AgeGroups = ({
     [activeJourney, activeKey, isAllSelected]
   );
 
+  const getClassName = (label) => {
+    const agesList = label
+      .replace("&lt;", "")
+      .replace("&gt;", "")
+      .split("<br />")[1]
+      .split(" ")[1]
+      .split("-");
+    let ageName = "";
+    if (agesList.length === 1 && agesList[0] === "6") ageName = "age" + "0";
+    else ageName = "age" + agesList[0];
+
+    return ageName;
+  };
+
   return (
     <div className="journey-link-list d-flex align-items-center justify-content-between w-100 gap-2">
       {filterAges.loading ? (
@@ -35,21 +49,14 @@ const AgeGroups = ({
               key={lbl.id}
               className={`journey-link ${
                 activeJourney.id === lbl.id ? "active" : ""
-              } ${isTabDisabled(lbl.id) ? "disabled" : ""}`}
+              } ${isTabDisabled(lbl.id) ? "disabled" : ""} ${getClassName(
+                lbl.label
+              )}`}
               onClick={() => {
-                if (!isTabDisabled(lbl.id)) {
-                  const agesList = lbl.label
-                    .replace("&lt;", "")
-                    .replace("&gt;", "")
-                    .split("<br />")[1]
-                    .split(" ")[1]
-                    .split("-");
-                  let ageName = "";
-                  if (agesList.length === 1 && agesList[0] === "6")
-                    ageName = "age" + "0";
-                  else ageName = "age" + agesList[0];
-                  setActiveAgeClass(ageName);
+                const ageName = getClassName(lbl.label);
+                setActiveAgeClass(ageName);
 
+                if (!isTabDisabled(lbl.id)) {
                   if (activeJourney.id !== lbl.id)
                     setActiveJourney({ id: lbl.id, label: lbl.label });
                   else {
