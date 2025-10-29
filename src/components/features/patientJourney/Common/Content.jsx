@@ -452,8 +452,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   <div className="info-message">
                     By registering, you agree to receive the selected content by
                     email. Your data will be handled according to the
-                    data-privacy policy of <span>Octapharma AG</span> and{" "}
-                    <span>Docintel.app</span>.
+                    data-privacy policy of <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> and{" "}
+                    <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Docintel.app</a>.
                   </div>
                 </div>
                 <div className="share-form">
