@@ -1538,7 +1538,8 @@ a{
       .content-count-box {
         margin: 30px 0 0;
         overflow-y: auto;
-        max-height: 73.2vh;
+        // max-height: 73.2vh;
+        max-height: 72.5vh;
 
         .content-count {
           margin-left: 0;

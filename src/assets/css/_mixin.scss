@@ -308,6 +308,9 @@
        }
       }
     }
+    @media (max-width: $layout-breakpoint-small) {
+      flex-direction: row;
+    }
   }
 
   .favorite {

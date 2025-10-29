@@ -144,6 +144,10 @@
 
 @media (max-width: 1365px) {
     .content-count-box {
+        .content-count {
+            gap: 18px;
+        }
+
         .touchpoint-data-boxes {
             gap: 2.2rem 2.5rem;
 
@@ -256,15 +260,17 @@
         .touchpoint-box {
             .touchpoints-header {
                 padding: 0px 16px;
+
                 .touchpoint-links {
                     flex-wrap: wrap;
                     justify-content: flex-start;
                     margin: 8px 0 8px;
+
                     button {
-                            font-size: 11px;
-                            padding: 7px 8px;
-                            line-height: 14px;
-                            min-width: auto;
+                        font-size: 11px;
+                        padding: 7px 8px;
+                        line-height: 14px;
+                        min-width: auto;
 
                         img {
                             width: 14px;
@@ -273,40 +279,47 @@
                     }
                 }
             }
-            .touchpoint-box-inner{
+
+            .touchpoint-box-inner {
                 padding: 0 11px 0 16px;
             }
         }
-        .userImg{
-            width:40px;
-            height:40px;
+
+        .userImg {
+            width: 40px;
+            height: 40px;
         }
-     .journey-link-list{
-        padding:8px 10px 0px 10px;
-        .journey-link{
-            .user-category {
-    min-width: 110px;
-    padding: 13px 5px 17px;
-}
-        } 
-     } 
+
+        .journey-link-list {
+            padding: 8px 10px 0px 10px;
+
+            .journey-link {
+                .user-category {
+                    min-width: 110px;
+                    padding: 13px 5px 17px;
+                }
+            }
+        }
     }
 
     .content-count-box {
         .content-count {
-            gap: 20px;
+            gap: 15px;
+
 
             .filter {
-                font-size: 12px;
+                font-size: 11px;
             }
         }
-        .touchpoint-data-boxes{
+
+        .touchpoint-data-boxes {
             gap: 2rem 2rem;
+
             .detail-data-box {
-            width: calc(33.33% - 1.4rem);
-            min-width: initial;
+                width: calc(33.33% - 1.4rem);
+                min-width: initial;
+            }
         }
-        } 
     }
 
     .header {
@@ -323,6 +336,30 @@
         }
     }
 
+    .tags {
+        .tag-list {
+            button {
+                padding: 0px 0px 0 9px;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 4px 16px;
+        min-width: 75px;
+    }
+}
+
+@media (max-width: 991px) {
+    .header {
+        .nav {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-medium) {
@@ -352,6 +389,7 @@
             .switch {
                 width: 140px;
                 margin: 0 !important;
+                display: none;
 
                 &:after {
                     display: none;
@@ -382,6 +420,22 @@
     .touchpoints-section {
         padding: 5px;
 
+        .touchpoint-box {
+            .touchpoints-header {
+                .touchpoint-links {
+                    gap: 12px;
+                    flex-wrap: nowrap;
+                    white-space: nowrap;
+                    overflow-x: auto;
+
+                    button {
+                        font-size: 12px;
+                        padding: 8px 16px;
+                    }
+                }
+            }
+        }
+
         .journey-link-list {
             gap: 0;
             margin-left: 0;
@@ -392,8 +446,8 @@
                 }
 
                 .user-category {
-                    min-width: 110px;
-                    padding: 10px 6px 12px;
+                    min-width: 100px;
+                    padding: 10px 4px 12px;
                 }
             }
         }
@@ -417,8 +471,16 @@
 
     .content-count-box {
         .content-count {
-            gap: 20px 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 30px;
+            white-space: nowrap;
+        }
+
+        .touchpoint-data-boxes {
+            .detail-data-box {
+                width: calc(50% - 1rem);
+            }
         }
     }
 
@@ -572,12 +634,67 @@
                 font-size: 18px;
             }
         }
-
     }
 
     .patient-journey {
         .journey-link {
             font-size: 12px;
+        }
+    }
+
+    .content-count::-webkit-scrollbar,
+    .touchpoint-links::-webkit-scrollbar,
+    .journey-link-list::-webkit-scrollbar {
+        width: 2px;
+        height: 3px;
+        display: none;
+    }
+
+    .no-data {
+        gap: 20px;
+        min-height: 300px;
+
+        h5 {
+            font-size: 20px;
+            line-height: 28px;
+        }
+    }
+
+    [data-bs-theme=dark] {
+        .header {
+            &.sticky {
+                background: linear-gradient(50deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+            }
+
+            .custom-toggler {
+                .navbar-toggler-icon {
+                    filter: none;
+                    transform: translateY(0px);
+                }
+            }
+        }
+
+        .touchpoints-section {
+            .touchpoint-box {
+                &.resource-container {
+                    margin-top: 8px;
+                    .search-bar {
+                        padding: 0 12px;
+                    }
+                    .tags {
+                        padding: 0 12px;
+                    }
+                }
+            }
+        }
+
+        .custom-offcanvas {
+            .offcanvas-header {
+                .btn-close {
+                    filter: brightness(0) invert(1);
+                    opacity: 1;
+                }
+            }
         }
     }
 }
@@ -855,20 +972,63 @@
 
     .touchpoints-section {
         padding: 0px;
-        .switch{
+
+        .touchpoint-box {
+            .touchpoints-header {
+                padding: 0px 12px;
+            }
+
+            .tags {
+                flex-direction: column;
+                margin-bottom: 35px;
+            }
+        }
+
+        .switch {
             width: 100%;
-            flex:0 0 100%;
-            max-width:100%;
-            .switch-light{
-                > span{
-                    span{
-                        &:first-child, &:last-child{
+            flex: 0 0 100%;
+            max-width: 100%;
+
+            .switch-light {
+                >span {
+                    span {
+
+                        &:first-child,
+                        &:last-child {
                             width: 50%;
                             text-align: center;
                         }
                     }
-                } 
-            } 
+                }
+            }
+        }
+
+        .journey-link-list {
+            white-space: nowrap;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        .patient-journey {
+            .line {
+                border-top: 1px dashed var(--gray);
+                border-left: 0;
+                height: 1px;
+                width: 30px;
+            }
+        }
+
+        .message-info {
+            padding: 15px;
+            margin: 0 0 25px;
+        }
+    }
+
+    .content-count-box {
+        .touchpoint-data-boxes {
+            .detail-data-box {
+                width: 100%;
+            }
         }
     }
 }
