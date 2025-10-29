@@ -15,6 +15,7 @@ const endPoint = {
   USER_DETAILS: "/users/get-user-details",
   GET_RECENT_CONTENT: "/content/get-recent-content",
   GET_USER_DATA: "/auth/details",
+  GENERATE_QRCODE_URL: "/content/create-qr-url",
 };
 
 export default endPoint;
