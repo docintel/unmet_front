@@ -490,6 +490,9 @@ a{
     &.active {
       color: var(--green);
     }
+    &:focus-visible{
+      box-shadow:none;
+    }
   }
 
   .offcanvas-header {
@@ -549,7 +552,9 @@ a{
         text-decoration: none;
         padding: 21px 0 20px;
         position: relative;
-
+        &:focus-visible {
+          box-shadow: none;
+        }
         &.active {
           color: var(--green);
           // border-top: 3px solid var(--dark-green);
