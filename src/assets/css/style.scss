@@ -474,6 +474,9 @@ h6 {
       width: 100%;
       padding: 0;
     }
+    .navbar-brand{
+      width: 290px;
+    }
   }
 
   .navbar-brand {
@@ -2504,7 +2507,7 @@ input[type="search"]::-webkit-search-results-decoration {
     @include flex-middle;
     position: relative;
     background-color: var(--primary-color);
-    padding: 11px 24px;
+    padding: 11px 115px 11px 24px;
     border: 0;
 
     .back-btn {
@@ -3182,6 +3185,7 @@ input[type="search"]::-webkit-search-results-decoration {
     }
 
     .custom-modal-header {
+       background: var(--primary-gradient);
       .back-btn {
         color: var(--green);
         background: var(--white);
@@ -3208,6 +3212,9 @@ input[type="search"]::-webkit-search-results-decoration {
         }
       }
     }
+   .custom-modal-body {
+    background: var(--primary-gradient);
+}
   }
 }
 
