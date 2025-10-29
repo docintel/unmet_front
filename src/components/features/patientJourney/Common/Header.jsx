@@ -61,11 +61,14 @@ const Header = () => {
   };
 
   const handleHomeRedirection = () => {
-    if (isHcp) {
-      navigate("/touchpoints");
-    } else {
-      navigate("/home");
-    }
+    // if (isHcp) {
+    //   navigate("/touchpoints");
+    // } else {
+    //   navigate("/home");
+    // }
+
+    if (isHcp) navigate("/touchpoints");
+    else navigate("/touchpoints");
   };
 
   // Ensure theme is set on initial render
@@ -88,7 +91,7 @@ const Header = () => {
               {/* ✅ Normal inline nav for desktop */}
               {!isMobile && (
                 <Nav className="justify-content-center flex-grow-1">
-                  {!isHcp && (
+                  {/* {!isHcp && (
                     <NavLink
                       to="/home"
                       className={({ isActive }) =>
@@ -97,7 +100,7 @@ const Header = () => {
                     >
                       Home
                     </NavLink>
-                  )}
+                  )} */}
                   <NavLink
                     to="/touchpoints"
                     className={({ isActive }) =>
@@ -114,7 +117,7 @@ const Header = () => {
                   >
                     Resources
                   </NavLink>
-                  {!isHcp && (
+                  {/* {!isHcp && (
                     <NavLink
                       to="/account"
                       className={({ isActive }) =>
@@ -123,7 +126,7 @@ const Header = () => {
                     >
                       My Account
                     </NavLink>
-                  )}
+                  )} */}
                 </Nav>
               )}
 
@@ -195,7 +198,7 @@ const Header = () => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="flex-column text-center">
-                    {!isHcp && (
+                    {/* {!isHcp && (
                       <NavLink
                         to="/home"
                         className={({ isActive }) =>
@@ -205,7 +208,7 @@ const Header = () => {
                       >
                         Home
                       </NavLink>
-                    )}
+                    )} */}
                     <NavLink
                       to="/touchpoints"
                       className={({ isActive }) =>
@@ -224,7 +227,7 @@ const Header = () => {
                     >
                       Resources
                     </NavLink>
-                    {!isHcp && (
+                    {/* {!isHcp && (
                       <NavLink
                         to="/account"
                         className={({ isActive }) =>
@@ -234,7 +237,7 @@ const Header = () => {
                       >
                         My Account
                       </NavLink>
-                    )}
+                    )} */}
                   </Nav>
                 </Offcanvas.Body>
               </Offcanvas>
