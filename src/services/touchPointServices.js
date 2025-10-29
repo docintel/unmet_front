@@ -184,13 +184,13 @@ export const SubmitShareContent = async (
   try {
     setIsLoading(true);
 
-    // const data = await postData(endPoint.CONTENT_SHARE, {
-    //   pdf_id: id,
-    //   email: email,
-    //   consent: consent,
-    //   country: country,
-    //   name: name,
-    // });
+    const data = await postData(endPoint.CONTENT_SHARE, {
+      pdf_id: id,
+      email: email,
+      consent: consent,
+      country: country?.value,
+      name: name,
+    });
   } catch (error) {
     console.error("Error while updating rating:", error);
     setToast({
@@ -202,5 +202,38 @@ export const SubmitShareContent = async (
     throw new Error("Error while sharing content");
   } finally {
     setIsLoading(false);
+  }
+};
+
+export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) => {
+  try {
+    setQrCodeUrl({
+      loading: true,
+      error: false,
+      data: "",
+    });
+    const data = await postData(endPoint.GENERATE_QRCODE_URL, {
+      pdf_id: pdfId,
+    });
+    if (data.status === 201) {
+      setQrCodeUrl({
+        loading: false,
+        error: false,
+        data: data.data.data.url,
+      });
+    } else {
+      setQrCodeUrl({
+        loading: false,
+        error: true,
+        data: "",
+      });
+    }
+  } catch (ex) {
+    console.error("Error while updating rating:", error);
+    setQrCodeUrl({
+      loading: false,
+      error: true,
+      data: "",
+    });
   }
 };

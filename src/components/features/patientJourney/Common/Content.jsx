@@ -5,6 +5,7 @@ import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
 import {
+  GenerateQrcodeUrl,
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -52,7 +53,20 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     newMember: false,
     open: false,
   });
+  const [qrCodeUrl, setQrCodeUrl] = useState({
+    loading: false,
+    error: false,
+    data: "",
+  });
   const circumference = 2 * Math.PI * 45;
+
+  useEffect(() => {
+    setQrCodeUrl({
+      loading: false,
+      error: false,
+      data: "",
+    });
+  }, [showModal]);
 
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
@@ -62,9 +76,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setCountryList(coutries);
   };
 
-  const handleTabSelect = (key) => {
+  const handleTabSelect = async (key) => {
     if (key === "existing-member") {
-      console.log("tab existing member");
+      try {
+        if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
+      } catch (ex) {}
     }
   };
 
@@ -446,8 +462,21 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <div className="info-message">
                     By registering, you agree to receive the selected content by
                     email. Your data will be handled according to the
-                    data-privacy policy of <a href="https://onesource.octapharma.com/octapharma-privacy" target="_blank">Octapharma AG</a> and{" "}
-                    <a href="https://onesource.octapharma.com/docintel-privacy" target="_blank">Docintel.app</a>.
+                    data-privacy policy of{" "}
+                    <a
+                      href="https://onesource.octapharma.com/octapharma-privacy"
+                      target="_blank"
+                    >
+                      Octapharma AG
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href="https://onesource.octapharma.com/docintel-privacy"
+                      target="_blank"
+                    >
+                      Docintel.app
+                    </a>
+                    .
                   </div>
                 </div>
                 <div className="share-form">
@@ -704,13 +733,19 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   </div>
                   <div className="qr-section">
                     <span>Scan to open the content</span>
-                    <div className="qr-box">
-                      <QRCode
-                        value={section.previewArticle}
-                        size={192}
-                        fgColor="#183B4D"
-                      />
-                    </div>
+                    {qrCodeUrl.loading ? (
+                      <>Loading...</>
+                    ) : qrCodeUrl.error ? (
+                      <>Failed to generate the QR code</>
+                    ) : (
+                      <div className="qr-box">
+                        <QRCode
+                          value={qrCodeUrl.data}
+                          size={192}
+                          fgColor="#183B4D"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div className="info-message">
