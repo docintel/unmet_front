@@ -61,7 +61,8 @@ export const handleSubmit = async (
   localStorage.setItem("name", userDetails?.name);
   localStorage.setItem("decrypted_token", userDetails?.jwtToken);
   setLoader(false);
-  navigate("/home");
+  navigate("/touchpoints");
+  // navigate("/home");
 };
 
 export const getUserDetails = async (userId) => {

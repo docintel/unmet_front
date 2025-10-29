@@ -45,7 +45,9 @@ const LoginWithSSO = () => {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
-      if (!isHcp) navigate("/home");
+      // if (!isHcp) navigate("/home");
+      // else navigate("/touchpoints");
+      if (!isHcp) navigate("/touchpoints");
       else navigate("/touchpoints");
     }
     setLoader(false);
@@ -69,7 +71,10 @@ const LoginWithSSO = () => {
     localStorage.setItem("name", userDetails?.name);
     localStorage.setItem("decrypted_token", userDetails?.jwtToken);
     setLoader(false);
-    if (!isHcp) navigate("/home");
+    // if (!isHcp) navigate("/home");
+    // else navigate("/touchpoints");
+
+    if (!isHcp) navigate("/touchpoints");
     else navigate("/touchpoints");
   }
 
@@ -117,7 +122,18 @@ const LoginWithSSO = () => {
                     <h6>
                       Welcome to the VWD Journey- with a Focus on wilate®{" "}
                     </h6>
-                    <p><span>The VWD Journey Tool</span> is an interactive, centralized digital resource  designed to support you in leading meaningful, personalized conversations with healthcare professionals (HCPs), centered on the patient journey and the role wilate® can play in improving care outcomes. This toolbox as a strategic engagement and learning hub for von Willebrand Disease (VWD), enabling tailored discussions diagnosis, treatment decisions, and long-term management, while highlighting wilate®'s value across the full patient journey.</p>
+                    <p>
+                      <span>The VWD Journey Tool</span> is an interactive,
+                      centralized digital resource designed to support you in
+                      leading meaningful, personalized conversations with
+                      healthcare professionals (HCPs), centered on the patient
+                      journey and the role wilate® can play in improving care
+                      outcomes. This toolbox as a strategic engagement and
+                      learning hub for von Willebrand Disease (VWD), enabling
+                      tailored discussions diagnosis, treatment decisions, and
+                      long-term management, while highlighting wilate®'s value
+                      across the full patient journey.
+                    </p>
                   </div>
                   <div></div>
                 </div>
