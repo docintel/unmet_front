@@ -4,8 +4,7 @@ import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
-import
-{
+import {
   SubmitShareContent,
   TrackDownloads,
   updateContentRating,
@@ -19,8 +18,7 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) =>
-{
+const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -56,8 +54,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
   });
   const circumference = 2 * Math.PI * 45;
 
-  const filterCountries = () =>
-  {
+  const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
       value: country,
       label: country,
@@ -65,13 +62,17 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     setCountryList(coutries);
   };
 
-  useEffect(() =>
-  {
+  const handleTabSelect = (key) => {
+    if (key === "existing-member") {
+      console.log("tab existing member");
+    }
+  };
+
+  useEffect(() => {
     filterCountries();
   }, [country]);
 
-  const handleStarClick = async () =>
-  {
+  const handleStarClick = async () => {
     try {
       const response = await updateContentRating(
         section.id,
@@ -99,16 +100,14 @@ const Content = ({ section: initialSection, idx, favTab }) =>
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
-  const getAgeGroup = () =>
-  {
+  const getAgeGroup = () => {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) =>
-      {
+      .map((tag) => {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -132,25 +131,21 @@ const Content = ({ section: initialSection, idx, favTab }) =>
       );
   };
 
-  const handleShareClick = () =>
-  {
+  const handleShareClick = () => {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () =>
-  {
+  const handleDownloadClick = async () => {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) =>
-    {
+    const getContentSize = async (fileUrl) => {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) =>
-    {
+    const downloadFileChuck = async (fileUrl) => {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -235,8 +230,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -245,8 +241,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -267,8 +264,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     }
   };
 
-  const handleCloseModal = () =>
-  {
+  const handleCloseModal = () => {
     setShowModal(false);
     setEmail("");
     setName("");
@@ -281,8 +277,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     });
   };
 
-  const handleSubmitClick = async (e) =>
-  {
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
     try {
       let newError = {
@@ -364,8 +359,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     }
   };
 
-  const handleCheckBoxClick = (name) =>
-  {
+  const handleCheckBoxClick = (name) => {
     if (name === "checkbox3")
       setCheckboxChecked({
         checkbox3: checkboxChecked.checkbox5
@@ -400,8 +394,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
       });
   };
 
-  const handleCloseConfirmationModal = () =>
-  {
+  const handleCloseConfirmationModal = () => {
     setShowConfirmationModal({
       existingMember: false,
       newMember: false,
@@ -437,6 +430,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
               defaultActiveKey="new-member"
               id="share_modal"
               className="mb-3"
+              onSelect={handleTabSelect}
             >
               <Tab eventKey="new-member" title="New Member">
                 <div className="message-info">
@@ -481,20 +475,20 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                             <path
                               d="M3.93007 13.0464C2.67249 13.7835 -0.624787 15.2886 1.38348 17.172C2.3645 18.092 3.4571 18.75 4.83077 18.75H12.6692C14.0429 18.75 15.1355 18.092 16.1165 17.172C18.1248 15.2886 14.8275 13.7835 13.5699 13.0464C10.6209 11.3179 6.87906 11.3179 3.93007 13.0464Z"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                             <path
                               d="M12.75 4.75C12.75 6.95914 10.9591 8.75 8.75 8.75C6.54086 8.75 4.75 6.95914 4.75 4.75C4.75 2.54086 6.54086 0.75 8.75 0.75C10.9591 0.75 12.75 2.54086 12.75 4.75Z"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                             <path
                               d="M18.3721 2.31564C18.5957 2.07342 18.7074 1.95232 18.8262 1.88168C19.1128 1.71123 19.4657 1.70593 19.7571 1.8677C19.8779 1.93474 19.9931 2.05244 20.2235 2.28783C20.4539 2.52322 20.5692 2.64092 20.6348 2.76428C20.7931 3.06194 20.788 3.42244 20.6211 3.71521C20.5519 3.83655 20.4334 3.95073 20.1963 4.1791L17.3752 6.89629C16.9259 7.32906 16.7012 7.54545 16.4204 7.65512C16.1396 7.76479 15.831 7.75672 15.2136 7.74057L15.1296 7.73838C14.9417 7.73346 14.8477 7.73101 14.7931 7.66901C14.7385 7.60702 14.7459 7.5113 14.7608 7.31985L14.7689 7.2159C14.8109 6.67706 14.8319 6.40765 14.9371 6.16547C15.0423 5.92328 15.2238 5.72664 15.5868 5.33335L18.3721 2.31564Z"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
-                              stroke-linejoin="round"
+                              strokeWidth="1.5"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </span>
@@ -532,8 +526,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                             className="fill-svg"
                           >
                             <path
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
+                              fillRule="evenodd"
+                              clipRule="evenodd"
                               d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z"
                               fill="#B5C2D3"
                             />
@@ -570,8 +564,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         }
                       >
                         <Select
-                          className={`split-button ${error.country.error ? "error" : ""
-                            }`}
+                          className={`split-button ${
+                            error.country.error ? "error" : ""
+                          }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -591,25 +586,25 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                             <path
                               d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
                             />
                             <path
                               d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                             <path
                               d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                             <path
                               d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z"
                               stroke="#B5C2D3"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                           </svg>
                         </span>
@@ -727,8 +722,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   <Button
                     className="btn done"
                     type="button"
-                    onClick={() =>
-                    {
+                    onClick={() => {
                       setShowConfirmationModal({
                         existingMember: true,
                         newMember: false,
@@ -758,12 +752,27 @@ const Content = ({ section: initialSection, idx, favTab }) =>
           size="lg"
         >
           <Modal.Body>
-
             <div className="confirmation-card">
               <div className="check-icon">
-                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z" fill="#3CAC8E" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z" fill="#3CAC8E" />
+                <svg
+                  width="36"
+                  height="36"
+                  viewBox="0 0 36 36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z"
+                    fill="#3CAC8E"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z"
+                    fill="#3CAC8E"
+                  />
                 </svg>
               </div>
 
@@ -771,14 +780,20 @@ const Content = ({ section: initialSection, idx, favTab }) =>
               {showConfirmationModal.existingMember && (
                 <div className="description-box">
                   <p className="description">
-                    The HCP can now access the shared content directly on One Source using their existing account.
+                    The HCP can now access the shared content directly on One
+                    Source using their existing account.
                   </p>
 
                   <p className="note">
-                    They’ll also receive an email shortly with a secure link to the same content for reference.
+                    They’ll also receive an email shortly with a secure link to
+                    the same content for reference.
                   </p>
 
-                  <Button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                  <Button
+                    type="button"
+                    className="btn done"
+                    onClick={handleCloseConfirmationModal}
+                  >
                     Done
                   </Button>
                 </div>
@@ -786,21 +801,28 @@ const Content = ({ section: initialSection, idx, favTab }) =>
               {showConfirmationModal.newMember && (
                 <div className="description-box">
                   <p className="description">
-                    The HCP has been successfully registered, and the content has been sent to:<br />
+                    The HCP has been successfully registered, and the content
+                    has been sent to:
+                    <br />
                     <span className="email"> Example@gmail.com</span>
                   </p>
 
                   <p className="note">
-                    They&apos;ll receive an email shortly with a secure link to access the content on<br />
+                    They&apos;ll receive an email shortly with a secure link to
+                    access the content on
+                    <br />
                     <span className="highlight"> One Source.</span>
                   </p>
 
-                  <Button type="button" className="btn done" onClick={handleCloseConfirmationModal}>
+                  <Button
+                    type="button"
+                    className="btn done"
+                    onClick={handleCloseConfirmationModal}
+                  >
                     Done
                   </Button>
                 </div>
               )}
-
             </div>
           </Modal.Body>
         </Modal>
@@ -839,8 +861,8 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
                         d="M14 0.291992C15.7259 0.291992 17.125 1.6911 17.125 3.41699C17.125 5.14288 15.7259 6.54199 14 6.54199C12.9586 6.54199 12.0369 6.03207 11.4691 5.24886L7.04281 7.29232C7.09555 7.51992 7.125 7.75668 7.125 8.00033C7.125 8.24424 7.09567 8.48131 7.04281 8.70915L11.4683 10.751C12.0361 9.96785 12.9587 9.45866 14 9.45866C15.7259 9.45866 17.125 10.8578 17.125 12.5837C17.125 14.3095 15.7259 15.7087 14 15.7087C12.2741 15.7087 10.875 14.3095 10.875 12.5837C10.875 12.3454 10.9018 12.1133 10.9523 11.8903L6.52116 9.84522C5.95253 10.621 5.03554 11.1253 4 11.1253C2.27411 11.1253 0.875 9.72622 0.875 8.00033C0.875 6.27444 2.27411 4.87533 4 4.87533C5.03572 4.87533 5.95337 5.37947 6.52197 6.15544L10.9531 4.11117C10.9025 3.88786 10.875 3.65563 10.875 3.41699C10.875 1.6911 12.2741 0.291992 14 0.291992ZM14 10.7087C12.9645 10.7087 12.125 11.5481 12.125 12.5837C12.125 13.6192 12.9645 14.4587 14 14.4587C15.0355 14.4587 15.875 13.6192 15.875 12.5837C15.875 11.5481 15.0355 10.7087 14 10.7087ZM4 6.12533C2.96447 6.12533 2.125 6.96479 2.125 8.00033C2.125 9.03586 2.96447 9.87533 4 9.87533C5.03553 9.87533 5.875 9.03586 5.875 8.00033C5.875 6.96479 5.03553 6.12533 4 6.12533ZM14 1.54199C12.9645 1.54199 12.125 2.38146 12.125 3.41699C12.125 4.45253 12.9645 5.29199 14 5.29199C15.0355 5.29199 15.875 4.45253 15.875 3.41699C15.875 2.38146 15.0355 1.54199 14 1.54199Z"
                         fill="var(--gray)"
                       />
@@ -877,8 +899,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
-            {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -930,7 +951,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   isStarHovered
                     ? path_image + "star-hover.svg"
                     : path_image +
-                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
                 }
                 alt=""
                 style={{ cursor: "pointer" }}
