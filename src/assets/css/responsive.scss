@@ -116,28 +116,42 @@
         .content-count {
             gap: 25px;
         }
-    .touchpoint-data-boxes {
-    gap: 2.6rem 3rem;
-    .detail-data-box{
-        width: calc(33.33% - 2rem);
-    }
-}
+
+        .touchpoint-data-boxes {
+            gap: 2.6rem 3rem;
+
+            .detail-data-box {
+                width: calc(33.33% - 2rem);
+            }
+        }
     }
 
-    // .header {
-    //   padding: 0 12px;
-    // }
+    .header {
+        padding: 0 12px;
+    }
+
+    .main-page {
+        padding: 0 12px;
+    }
+
+    .touchpoints-section {
+        .journey-link-list {
+            padding: 8px 10px 0px 24px;
+            margin-right: -10px;
+        }
+    }
 }
 
 @media (max-width: 1365px) {
-.content-count-box{
- .touchpoint-data-boxes {
-    gap: 2.2rem 2.5rem;
-    .detail-data-box {
-    width: calc(33.33% - 1.7rem);
-}
- }
-}
+    .content-count-box {
+        .touchpoint-data-boxes {
+            gap: 2.2rem 2.5rem;
+
+            .detail-data-box {
+                width: calc(33.33% - 1.7rem);
+            }
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -241,13 +255,16 @@
     .touchpoints-section {
         .touchpoint-box {
             .touchpoints-header {
+                padding: 0px 16px;
                 .touchpoint-links {
                     flex-wrap: wrap;
                     justify-content: flex-start;
-
+                    margin: 8px 0 8px;
                     button {
-                        font-size: 12px;
-                        padding: 7px 10px;
+                            font-size: 11px;
+                            padding: 7px 8px;
+                            line-height: 14px;
+                            min-width: auto;
 
                         img {
                             width: 14px;
@@ -256,7 +273,23 @@
                     }
                 }
             }
+            .touchpoint-box-inner{
+                padding: 0 11px 0 16px;
+            }
         }
+        .userImg{
+            width:40px;
+            height:40px;
+        }
+     .journey-link-list{
+        padding:8px 10px 0px 10px;
+        .journey-link{
+            .user-category {
+    min-width: 110px;
+    padding: 13px 5px 17px;
+}
+        } 
+     } 
     }
 
     .content-count-box {
@@ -267,11 +300,33 @@
                 font-size: 12px;
             }
         }
+        .touchpoint-data-boxes{
+            gap: 2rem 2rem;
+            .detail-data-box {
+            width: calc(33.33% - 1.4rem);
+            min-width: initial;
+        }
+        } 
+    }
+
+    .header {
+        .header-inner {
+            .navbar-brand {
+                width: 220px;
+            }
+        }
+
+        .nav {
+            .navbar-nav {
+                gap: 30px;
+            }
+        }
     }
 
 }
 
 @media (max-width: $layout-breakpoint-medium) {
+
     .login {
         .login-box {
             .login-logo {
@@ -287,11 +342,20 @@
     }
 
     .header {
-        padding: 0;
+        .nav {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
 
         .header-account {
             .switch {
                 width: 140px;
+                margin: 0 !important;
+
+                &:after {
+                    display: none;
+                }
 
                 .switch-light {
                     >span {
@@ -300,6 +364,17 @@
                         }
                     }
                 }
+            }
+
+            .logout {
+                display: none;
+            }
+        }
+
+        .custom-toggler {
+            .navbar-toggler-icon {
+                filter: drop-shadow(0px 1000px 0 var(--gray));
+                transform: translateY(-1000px);
             }
         }
     }
@@ -401,7 +476,8 @@
                     margin: 0 0 25px;
                 }
             }
-            h5{
+
+            h5 {
                 font-size: 18px;
             }
         }
@@ -420,39 +496,45 @@
 
                         &+span {
                             left: 18px;
-                                    top: 33px;
-                                    svg{
-                                        width: 20px;
-                                        height: 20px;
-                                    }
+                            top: 33px;
+
+                            svg {
+                                width: 20px;
+                                height: 20px;
+                            }
                         }
                     }
-                    label{
-    margin-bottom: 6px;
-    font-size: 14px;
-    span{
-        font-size: 11px;
-    }
+
+                    label {
+                        margin-bottom: 6px;
+                        font-size: 14px;
+
+                        span {
+                            font-size: 11px;
+                        }
                     }
                 }
 
                 .message {
-                        padding: 8px 14px 8px 8px;
+                    padding: 8px 14px 8px 8px;
+
                     .text-muted {
                         line-height: 130%;
                     }
                 }
-                .login-switch{
-                    .form-label{
+
+                .login-switch {
+                    .form-label {
                         font-size: 14px;
                         margin: 0 0 7px;
                     }
                 }
-                button{
-                        font-size: 14px;
-                        padding: 7px 15px;
-                            min-width: 125px;
-                    } 
+
+                button {
+                    font-size: 14px;
+                    padding: 7px 15px;
+                    min-width: 125px;
+                }
             }
         }
     }
@@ -461,22 +543,43 @@
         &.sso {
             .login-right {
                 .login-form {
-                form {
-                    .message {
-                        margin-bottom: 26px;
-                    }
-                    button{
-                        font-size: 14px;
-                        padding: 7px 15px;
+                    form {
+                        .message {
+                            margin-bottom: 26px;
+                        }
+
+                        button {
+                            font-size: 14px;
+                            padding: 7px 15px;
+                        }
                     }
                 }
             }
-            }
         }
     }
+
     .validation {
-    margin-top: 5px;
-}
+        margin-top: 5px;
+    }
+
+    .custom-offcanvas {
+        background: #183B4D;
+    }
+
+    .journey-box {
+        .explore-journey {
+            h5 {
+                font-size: 18px;
+            }
+        }
+
+    }
+
+    .patient-journey {
+        .journey-link {
+            font-size: 12px;
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -557,46 +660,57 @@
     .validation {
         font-size: 13px;
     }
-    .login-page{
+
+    .login-page {
         background: linear-gradient(141deg, #4CC6CF 40.73%, #DF9C5B 64.64%, #F79548 71.06%, #F58B4B 77%, #F06A55 84.67%, #E94262 100%);
-        .row{
+
+        .row {
             flex-direction: column-reverse;
         }
-        &.sso{
-            .login-right{
-                 padding:106px 24px 122px;
-                .login-form{
-                    margin:3px 0 0;
-                    form{
-                        .message{
+
+        &.sso {
+            .login-right {
+                padding: 106px 24px 122px;
+
+                .login-form {
+                    margin: 3px 0 0;
+
+                    form {
+                        .message {
                             padding: 11px 8px 11px 8px;
-                                    margin-bottom: 16px;
-                            .text-muted{
+                            margin-bottom: 16px;
+
+                            .text-muted {
                                 font-size: 12px;
                             }
                         }
-                        button{
+
+                        button {
                             font-size: 16px;
-        padding: 8px 15px;
+                            padding: 8px 15px;
                         }
                     }
                 }
             }
         }
     }
-    .login-right{
+
+    .login-right {
         min-height: initial;
-        padding:40px 24px 25px;
+        padding: 40px 24px 25px;
         border-radius: 0 0 0 80px;
         filter: drop-shadow(0 17px 18px rgba(0, 0, 0, 0.08));
-        .login-form, .share-modal{
-            form{
-                .login-switch{
-                    .switch{
-                        .switch-light{
+
+        .login-form,
+        .share-modal {
+            form {
+                .login-switch {
+                    .switch {
+                        .switch-light {
                             height: 24px;
-                            >span{
-                                span{
+
+                            >span {
+                                span {
                                     padding: 1px 1px;
                                 }
                             }
@@ -604,67 +718,159 @@
                     }
                 }
             }
-        } 
-        .login-form{
-                    margin: 32px 0 10px;
-            form{
+        }
+
+        .login-form {
+            margin: 32px 0 10px;
+
+            form {
                 gap: 32px;
-                 .form-group{
-                     label{
-                        span{
+
+                .form-group {
+                    label {
+                        span {
                             font-size: 10px;
                         }
-                     } 
-                     .split-button{
-                        +span{
-                            left:24px
+                    }
+
+                    .split-button {
+                        +span {
+                            left: 24px
                         }
-                        >div{
-                            &:nth-child(3){
-                                padding:10px 50px 10px 52px;
-                            }     
+
+                        >div {
+                            &:nth-child(3) {
+                                padding: 10px 50px 10px 52px;
+                            }
                         }
-                     }
-                 }
-                 button{
+                    }
+                }
+
+                button {
                     font-size: 16px;
-        padding: 8px 15px;
-        min-width: 142px;
-                 }
-                 
+                    padding: 8px 15px;
+                    min-width: 142px;
+                }
+
             }
         }
-        &::before{left: auto;
-                width: 160px;
-        height: 160px;
-        border-radius: 64%;
-        box-shadow: 89px -74px 0 #ffffff;
-        right: 0;
-        bottom: -159px;
+
+        &::before {
+            left: auto;
+            width: 160px;
+            height: 160px;
+            border-radius: 64%;
+            box-shadow: 89px -74px 0 #ffffff;
+            right: 0;
+            bottom: -159px;
+        }
     }
-    }
-    .login-left{
+
+    .login-left {
         background: none;
         flex-direction: column-reverse;
-                padding: 47px 24px 10px;
-        .vwd-journey{
-            .vwd-logo{
+        padding: 47px 24px 10px;
+
+        .vwd-journey {
+            .vwd-logo {
                 margin: 0 0 18px;
-                img{
-                    width:130px
+
+                img {
+                    width: 130px
                 }
-            } 
-           h6 {
-    font-size: 14px;
-    line-height: 18px;
-}
+            }
 
-        } 
-        .terms{
-            margin-top:10px;
+            h6 {
+                font-size: 14px;
+                line-height: 18px;
+            }
+
         }
-    } 
 
+        .terms {
+            margin-top: 10px;
+        }
+    }
+
+    .header {
+        padding: 0 0px;
+
+        .header-inner {
+            .navbar-brand {
+                width: auto;
+                margin: 0;
+
+                img {
+                    max-width: 65px;
+                }
+            }
+
+            .header-account {
+                flex-direction: column-reverse;
+                align-items: flex-end !important;
+
+                .switch {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .offcanvas.offcanvas-end {
+        width: 100%;
+    }
+
+    .journey-box {
+        padding: 15px 0px 10px;
+        flex-direction: column;
+        gap: 15px;
+
+        .explore-journey {
+            .start-btn {
+                font-size: 14px;
+                min-width: 100px;
+                padding: 6px 24px;
+            }
+        }
+
+        .col {
+            width: 100%;
+        }
+    }
+
+    .patient-journey {
+        gap: 16px;
+        margin: 30px 0;
+        width: 100%;
+        flex-direction: column;
+
+        .line {
+            border-top: 0;
+            width: 1px;
+            border-left: 1px dashed var(--gray);
+            height: 30px;
+            flex: 0 0 auto;
+        }
+    }
+
+    .touchpoints-section {
+        padding: 0px;
+        .switch{
+            width: 100%;
+            flex:0 0 100%;
+            max-width:100%;
+            .switch-light{
+                > span{
+                    span{
+                        &:first-child, &:last-child{
+                            width: 50%;
+                            text-align: center;
+                        }
+                    }
+                } 
+            } 
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-extraSmall) {

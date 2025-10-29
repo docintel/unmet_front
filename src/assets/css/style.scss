@@ -444,12 +444,48 @@ a{
   width: 250px;
   background: var(--white);
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
-
+.offcanvas-body{
+  padding: 0 16px;
+  .nav{
+    gap:10px;
+  }
+  .header-account{
+    flex-direction: column;
+    margin-top:32px;
+    .switch{
+      @include switch;
+      margin:0;
+      width:100%;
+      max-width: 100%;
+      .switch-light{
+        width:100%;
+        >span{
+          span{
+            width:50%!important;
+          }
+        }
+      }
+    }
+    .logout{
+      width:100%;
+      border-top: 1px solid #94A7BF;
+      padding:16px 16px 0;
+      margin-top: 24px;
+      a{
+        @include flex-justify-center;
+        color:#E94262;
+        font-size: 14px;
+        gap:8px;
+      }
+    }
+  }
+}
   .nav-link {
-    color: #333;
-    font-weight: 500;
-    padding: 12px 0;
+    color: var(--gray);
+    font-weight: 400;
+    padding: 10px 0;
     display: block;
+    font-size: 14px;
 
     &.active {
       color: var(--green);
@@ -457,7 +493,14 @@ a{
   }
 
   .offcanvas-header {
-    border-bottom: 1px solid #eee;
+        padding: 11px 12px;
+        .btn-close{
+          margin-right: 0;
+          background: url(../assets/images/modal-close-arrow.svg) no-repeat center;
+          &:focus{
+            box-shadow: none;
+          }
+        }
   }
 }
 
@@ -1567,8 +1610,15 @@ a{
           background: rgba(76, 198, 207, 0.2);
           color: var(--green);
           font-size: 12px;
-          padding: 1px 4px 1px 8px;
+          padding: 3px 4px 3px 8px;
           border-radius: 40px;
+          &.f-tag{
+background: rgba(247, 149, 72, 0.20);
+color: #F79548;
+.cross-btn{
+  background: #F79548;
+}
+          }
 
           .cross-btn {
             background: var(--green);
@@ -1626,6 +1676,11 @@ a{
           height: 40px;
           margin-left: 12px;
           @include flex-middle;
+          &.cross-btn {
+            img{
+              width:8px;
+            }
+          }
 
           &:hover {
             background: linear-gradient(267deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
@@ -2037,7 +2092,7 @@ a{
     flex: 1;
 
     .tag-item {
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 24px;
       background: rgba(76, 198, 207, 0.20);
       color: var(--green);
@@ -3835,27 +3890,9 @@ input:-webkit-autofill:focus {
 }
 
 
-
-
-
-// .journey-link-list {
-//   position: relative;
-// }
-
-// .journey-indicator {
-//   position: absolute;
-//   bottom: -2px;
-//   left: 0;
-//   height: 3px;
-//   width: 0;
-//   background-color: #00bcd4;
-//   border-radius: 2px;
-//   transition: left 0.3s ease, width 0.3s ease, opacity 0.2s ease;
-//   opacity: 0;
-//   pointer-events: none;
-// }
-
-// .journey-link.active {
-//   color: #00bcd4;
-//   transition: color 0.3s ease;
-// }
+.offcanvas-backdrop{
+  &.show {
+    opacity: .5;
+    background: rgba(0, 0, 0, 0.38);
+}
+}
