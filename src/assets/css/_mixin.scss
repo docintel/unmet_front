@@ -297,6 +297,10 @@
         font-weight: 400;
         color: var(--green);
         padding: 1px 8px;
+        &.f-tag {
+        background: rgba(247, 149, 72, 0.2);
+        color: #F79548;
+       }
       }
     }
   }
@@ -349,7 +353,7 @@
       padding: 2px 6px;
       color: var(--dark-green);
       font-size: 10px;
-      text-transform: capitalize;
+      // text-transform: capitalize;
     }
   }
 
@@ -452,6 +456,44 @@
       display: none;
     }
   }
+  @media (max-width: $layout-breakpoint-medium) {
+    width: 160px;
+
+    .switch-light {
+      >span {
+        span {
+          &:first-child {
+            width: 95px;
+            font-size: 12px;
+          }
+
+          &:last-child {
+            width: 57px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: $layout-breakpoint-small) {
+    width: 184px;
+
+    .switch-light {
+      >span {
+        span {
+          &:first-child {
+            width: 116px;
+            font-size: 14px;
+          }
+
+          &:last-child {
+            width: 60px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
 }
 
 @mixin split-btn {
@@ -472,6 +514,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
 }
 
 @mixin split-btn-dropdown {
@@ -647,3 +690,37 @@
     font-size: 13px;
   }
 }
+@mixin cancel {
+                position: relative;
+                background: var(--white);
+                font-weight: 500;
+                color: transparent;
+                background-image: linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                z-index: 1;
+
+                &::before {
+                  content: "";
+                  position: absolute;
+                  inset: 0;
+                  border-radius: 40px;
+                  padding: 1px;
+                  background: linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+                  -webkit-mask:
+                    linear-gradient(var(--white) 0 0) content-box,
+                    linear-gradient(var(--white) 0 0);
+                  mask:
+                    linear-gradient(var(--white) 0 0) content-box,
+                    linear-gradient(var(--white) 0 0);
+                  -webkit-mask-composite: xor;
+                  mask-composite: exclude;
+                  pointer-events: none;
+                  z-index: -1;
+                }
+
+                &:hover {
+                  background-color: rgba(254, 244, 237, 0.5);
+                }
+              }

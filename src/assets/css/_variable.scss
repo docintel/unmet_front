@@ -13,7 +13,6 @@ $gradient-orange:#F79548;
 $gradient-pink:#E94262;
 $border-color:#5E7683;
 $white100: rgba(253, 254, 255, 0.08);
-$dark-blue: #183B4D;
 $black: #000000;
 
 
@@ -33,7 +32,6 @@ $black: #000000;
 --gray300:#{$border-color};
 --font-family:#{$fontfamily};
 --white100:#{$white100};
---dark-blue: #{$dark-blue};
 --black: #{$black};
 
 }
@@ -49,9 +47,9 @@ $black: #000000;
 
 
 
-$layout-breakpoint-extraSmall: 576px;
-$layout-breakpoint-small: 767px;
-$layout-breakpoint-medium: 991px;
-$layout-breakpoint-large: 1199px;
-$layout-breakpoint-extraLarge: 1399px;
 $layout-breakpoint-xextraLarge: 1500px;
+$layout-breakpoint-extraLarge: 1399px;
+$layout-breakpoint-large: 1199px;
+$layout-breakpoint-medium: 991px;
+$layout-breakpoint-small: 767px;
+$layout-breakpoint-extraSmall: 576px;
