@@ -54,6 +54,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   });
   const circumference = 2 * Math.PI * 45;
 
+  const handleTabSelect = (key) => {
+    if (key === "existing-member") {
+    }
+  };
+
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
       value: country,
@@ -424,6 +429,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
               defaultActiveKey="new-member"
               id="share_modal"
               className="mb-3"
+              onSelect={handleTabSelect}
             >
               <Tab eventKey="new-member" title="New Member">
                 <div className="message-info">
