@@ -20,7 +20,13 @@ const Content = lazy(() => import("../../Common/Content"));
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [isAllSelected, setIsAllSelected] = useState(false);
-  const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  // const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  const toggleUserType = () => {
+  const newValue = !isAllSelected;
+  setIsAllSelected((prev) => !prev)
+  trackingUserAction("filter_clicked", newValue ? "Female" : "All", currentTabValue);
+};
+
   const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
 
@@ -36,6 +42,7 @@ const TouchPoints = () => {
     currentTabValue,
     getNarratives,
     setToast,
+    currentTabValue
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
