@@ -1,7 +1,80 @@
 @use "./variable"as *;
 @use "./mixin"as *;
 
+
+@media (max-width: $layout-breakpoint-xextraLarge) {
+    .login-left {
+        background-size: 550px;
+
+        .vwd-journey {
+            .vwd-logo {
+                img {
+                    max-width: 260px;
+                }
+            }
+
+            p {
+                max-width: 542px;
+            }
+        }
+    }
+}
+
 @media (max-width: $layout-breakpoint-extraLarge) {
+    .login-left {
+        background-size: 448px;
+        padding: 40px 48px;
+
+        .vwd-journey {
+            gap: 8px;
+
+            .vwd-logo {
+                img {
+                    max-width: 195px;
+                }
+            }
+
+            h6 {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    }
+
+    .login-right {
+        .login-box {
+            h5 {
+                font-size: 20px;
+
+                br {
+                    display: none;
+                }
+            }
+
+            .user-name {
+                h3 {
+                    font-size: 28px;
+                    margin: 0 0 40px;
+
+                    span {
+                        font-size: 32px;
+                        margin: 4px 0 0;
+                    }
+                }
+            }
+        }
+
+        .login-form {
+            form {
+                gap: 32px;
+
+            }
+        }
+    }
+
     .login {
         padding: 20px 10px;
 
@@ -17,38 +90,137 @@
             }
         }
     }
+
     .touchpoints-section {
-      padding: 0 24px;
+        padding: 0 12px;
 
-     .touchpoint-box {
-       .touchpoints-header {
-        .touchpoint-links {
-        gap: 5px;
+        .touchpoint-box {
+            .touchpoints-header {
+                .touchpoint-links {
+                    gap: 5px;
 
-        button {
-          font-size: 12px;
+                    button {
+                        font-size: 12px;
 
-          img {
-            width: 16px;
-            height: 16px;
-          }
+                        img {
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
-}
-.content-count-box {
-  .content-count {
-    gap: 25px;
-  }
+
+    .content-count-box {
+        .content-count {
+            gap: 25px;
+        }
+
+        .touchpoint-data-boxes {
+            gap: 2.6rem 3rem;
+
+            .detail-data-box {
+                width: calc(33.33% - 2rem);
+            }
+        }
+    }
+
+    .header {
+        padding: 0 12px;
+    }
+
+    .main-page {
+        padding: 0 12px;
+    }
+
+    .touchpoints-section {
+        .journey-link-list {
+            padding: 8px 10px 0px 24px;
+            margin-right: -10px;
+        }
+    }
 }
 
-.header {
-  padding: 0 12px;
-}
+@media (max-width: 1365px) {
+    .content-count-box {
+        .content-count {
+            gap: 18px;
+        }
+
+        .touchpoint-data-boxes {
+            gap: 2.2rem 2.5rem;
+
+            .detail-data-box {
+                width: calc(33.33% - 1.7rem);
+            }
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-large) {
+    .login-left {
+        background-size: 350px;
+        padding: 30px 35px;
+
+        .terms {
+            gap: 20px;
+
+            div {
+                a {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .vwd-journey {
+            .vwd-logo {
+                margin: 0 0 22px;
+            }
+        }
+
+    }
+
+    .login-right {
+        border-radius: 130px 0 0 0;
+
+        &:before {
+            left: -270px;
+            width: 270px;
+            height: 270px;
+            border-radius: 41%;
+        }
+
+        .login-form {
+            margin: 15px 0 10px;
+
+            form {
+                max-width: 380px;
+                gap: 18px;
+
+                .form-group {
+                    .split-button {
+                        >div {
+                            &:nth-child(3) {
+                                padding: 12px 50px 12px 56px;
+                            }
+                        }
+
+                        &+span {
+                            top: 44px;
+                        }
+                    }
+                }
+
+                .message {
+                    .text-muted {
+                        line-height: 130%;
+                    }
+                }
+            }
+        }
+    }
+
     .login {
         &.sso-login {
             .login-logo {
@@ -83,40 +255,115 @@
             }
         }
     }
-.touchpoints-section {
-  .touchpoint-box {
-    .touchpoints-header {
-      .touchpoint-links {
-        flex-wrap: wrap;
-        justify-content: flex-start;
 
-        button {
-          font-size: 12px;
-          padding: 7px 10px;
+    .touchpoints-section {
+        .touchpoint-box {
+            .touchpoints-header {
+                padding: 0px 16px;
 
-          img {
-            width: 14px;
-            height: 14px;
-          }
+                .touchpoint-links {
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    margin: 8px 0 8px;
+
+                    button {
+                        font-size: 11px;
+                        padding: 7px 8px;
+                        line-height: 14px;
+                        min-width: auto;
+
+                        img {
+                            width: 14px;
+                            height: 14px;
+                        }
+                    }
+                }
+            }
+
+            .touchpoint-box-inner {
+                padding: 0 11px 0 16px;
+            }
         }
-      }
+
+        .userImg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .journey-link-list {
+            padding: 8px 10px 0px 10px;
+
+            .journey-link {
+                .user-category {
+                    min-width: 110px;
+                    padding: 13px 5px 17px;
+                }
+            }
+        }
     }
-  }
+
+    .content-count-box {
+        .content-count {
+            gap: 15px;
+
+
+            .filter {
+                font-size: 11px;
+            }
+        }
+
+        .touchpoint-data-boxes {
+            gap: 2rem 2rem;
+
+            .detail-data-box {
+                width: calc(33.33% - 1.4rem);
+                min-width: initial;
+            }
+        }
+    }
+
+    .header {
+        .header-inner {
+            .navbar-brand {
+                width: 220px;
+            }
+        }
+
+        .nav {
+            .navbar-nav {
+                gap: 30px;
+            }
+        }
+    }
+
+    .tags {
+        .tag-list {
+            button {
+                padding: 0px 0px 0 9px;
+                font-size: 13px;
+            }
+        }
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 4px 16px;
+        min-width: 75px;
+    }
 }
 
-.content-count-box {
-  .content-count {
-    gap: 20px;
-
-    .filter {
-      font-size: 12px;
+@media (max-width: 991px) {
+    .header {
+        .nav {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
     }
-  }
-}
-
 }
 
 @media (max-width: $layout-breakpoint-medium) {
+
     .login {
         .login-box {
             .login-logo {
@@ -130,83 +377,326 @@
     h6 {
         font-size: 18px;
     }
+
     .header {
-      padding: 0;
+        .nav {
+            .navbar-nav {
+                flex-direction: row;
+            }
+        }
 
-  .header-account {
-    .switch {
-      width: 140px;
+        .header-account {
+            .switch {
+                width: 140px;
+                margin: 0 !important;
+                display: none;
 
-      .switch-light {
-        > span {
-          span {
+                &:after {
+                    display: none;
+                }
+
+                .switch-light {
+                    >span {
+                        span {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+
+            .logout {
+                display: none;
+            }
+        }
+
+        .custom-toggler {
+            .navbar-toggler-icon {
+                filter: drop-shadow(0px 1000px 0 var(--gray));
+                transform: translateY(-1000px);
+            }
+        }
+    }
+
+    .touchpoints-section {
+        padding: 5px;
+
+        .touchpoint-box {
+            .touchpoints-header {
+                .touchpoint-links {
+                    gap: 12px;
+                    flex-wrap: nowrap;
+                    white-space: nowrap;
+                    overflow-x: auto;
+
+                    button {
+                        font-size: 12px;
+                        padding: 8px 16px;
+                    }
+                }
+            }
+        }
+
+        .journey-link-list {
+            gap: 0;
+            margin-left: 0;
+
+            .journey-link {
+                div {
+                    font-size: 12px;
+                }
+
+                .user-category {
+                    min-width: 100px;
+                    padding: 10px 4px 12px;
+                }
+            }
+        }
+
+        .patient-journey {
+            gap: 10px;
+        }
+
+        .switch {
+            flex: 0 0 110px;
+
+            .switch-light {
+                >span {
+                    span {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    .content-count-box {
+        .content-count {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 30px;
+            white-space: nowrap;
+        }
+
+        .touchpoint-data-boxes {
+            .detail-data-box {
+                width: calc(50% - 1rem);
+            }
+        }
+    }
+
+    .login-left {
+        padding: 20px;
+        background-size: 220px;
+
+        .terms {
+            gap: 5px 15px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+
+            div {
+                a {
+                    font-size: 10px;
+                }
+            }
+        }
+
+        .vwd-journey {
+            h6 {
+                font-size: 13px;
+            }
+
+            p {
+                font-size: 12px;
+                line-height: 16px;
+            }
+
+            .vwd-logo {
+                margin: 0 0 10px;
+
+                img {
+                    max-width: 155px;
+                }
+            }
+        }
+    }
+
+    .login-right {
+        padding: 20px;
+        border-radius: 100px 0 0 0;
+
+        &:before {
+            left: -250px;
+            width: 250px;
+            height: 250px;
+            border-radius: 32%;
+        }
+
+        .login-box {
+            .user-name {
+                h3 {
+                    font-size: 24px;
+                    margin: 0 0 25px;
+                }
+            }
+
+            h5 {
+                font-size: 18px;
+            }
+        }
+
+        .login-form {
+            form {
+                position: relative;
+
+                .form-group {
+                    .split-button {
+                        >div {
+                            &:nth-child(3) {
+                                padding: 10px 50px 10px 48px;
+                            }
+                        }
+
+                        &+span {
+                            left: 18px;
+                            top: 33px;
+
+                            svg {
+                                width: 20px;
+                                height: 20px;
+                            }
+                        }
+                    }
+
+                    label {
+                        margin-bottom: 6px;
+                        font-size: 14px;
+
+                        span {
+                            font-size: 11px;
+                        }
+                    }
+                }
+
+                .message {
+                    padding: 8px 14px 8px 8px;
+
+                    .text-muted {
+                        line-height: 130%;
+                    }
+                }
+
+                .login-switch {
+                    .form-label {
+                        font-size: 14px;
+                        margin: 0 0 7px;
+                    }
+                }
+
+                button {
+                    font-size: 14px;
+                    padding: 7px 15px;
+                    min-width: 125px;
+                }
+            }
+        }
+    }
+
+    .login-page {
+        &.sso {
+            .login-right {
+                .login-form {
+                    form {
+                        .message {
+                            margin-bottom: 26px;
+                        }
+
+                        button {
+                            font-size: 14px;
+                            padding: 7px 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .validation {
+        margin-top: 5px;
+    }
+
+    .custom-offcanvas {
+        background: #183B4D;
+    }
+
+    .journey-box {
+        .explore-journey {
+            h5 {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .patient-journey {
+        .journey-link {
             font-size: 12px;
-          }
         }
-      }
     }
-  }
-}
 
-.touchpoints-section {
-  padding: 5px;
-
-  .journey-link-list {
-    gap: 0;
-    margin-left: 0;
-
-    .journey-link {
-      div {
-        font-size: 12px;
-      }
-
-      .user-category {
-        min-width: 110px;
-        padding: 10px 6px 12px;
-      }
+    .content-count::-webkit-scrollbar,
+    .touchpoint-links::-webkit-scrollbar,
+    .journey-link-list::-webkit-scrollbar {
+        width: 2px;
+        height: 3px;
+        display: none;
     }
-  }
 
-  .patient-journey {
-    gap: 10px;
-  }
+    .no-data {
+        gap: 20px;
+        min-height: 300px;
 
-  .switch {
-    flex: 0 0 110px;
-
-    .switch-light {
-      > span {
-        span {
-          font-size: 12px;
+        h5 {
+            font-size: 20px;
+            line-height: 28px;
         }
-      }
     }
-  }
-}
 
-.content-count-box {
-  .content-count {
-    gap: 20px 10px;
-    flex-wrap: wrap;
-  }
-}
+    [data-bs-theme=dark] {
+        .header {
+            &.sticky {
+                background: linear-gradient(50deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+            }
 
-.login-left {
-  padding: 40px;
+            .custom-toggler {
+                .navbar-toggler-icon {
+                    filter: none;
+                    transform: translateY(0px);
+                }
+            }
+        }
 
-  .terms {
-    gap: 10px 20px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+        .touchpoints-section {
+            .touchpoint-box {
+                &.resource-container {
+                    margin-top: 8px;
+                    .search-bar {
+                        padding: 0 12px;
+                    }
+                    .tags {
+                        padding: 0 12px;
+                    }
+                }
+            }
+        }
 
-    div {
-      a {
-        font-size: 12px;
-      }
+        .custom-offcanvas {
+            .offcanvas-header {
+                .btn-close {
+                    filter: brightness(0) invert(1);
+                    opacity: 1;
+                }
+            }
+        }
     }
-  }
-}
-
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -246,25 +736,28 @@
                         >div {
                             &:nth-child(3) {
                                 padding: 10px 40px 10px 18px;
-                                div{
+
+                                div {
                                     font-size: 13px;
                                 }
                             }
-                             &:nth-child(4) {
-                                >div{
-                                    div{
-                                         font-size: 13px;
+
+                            &:nth-child(4) {
+                                >div {
+                                    div {
+                                        font-size: 13px;
                                         padding: 6px 10px;
                                     }
                                 }
-                             }
+                            }
                         }
                     }
 
                     label {
                         margin-bottom: 6px;
                         font-size: 13px;
-                        span{
+
+                        span {
                             font-size: 11px;
                         }
                     }
@@ -280,30 +773,271 @@
     h6 {
         font-size: 16px;
     }
+
     .validation {
-    font-size: 13px;
-}
-}
-@media (max-width: $layout-breakpoint-extraSmall) {
-    .login-page .row{
-            display: flex;
-            flex-direction: column;
-            // flex-direction: column-reverse;
+        font-size: 13px;
     }
-        .login-left {
-        padding: 20px;
-        // display: none;
+
+    .login-page {
+        background: linear-gradient(141deg, #4CC6CF 40.73%, #DF9C5B 64.64%, #F79548 71.06%, #F58B4B 77%, #F06A55 84.67%, #E94262 100%);
+
+        .row {
+            flex-direction: column-reverse;
+        }
+
+        &.sso {
+            .login-right {
+                padding: 106px 24px 122px;
+
+                .login-form {
+                    margin: 3px 0 0;
+
+                    form {
+                        .message {
+                            padding: 11px 8px 11px 8px;
+                            margin-bottom: 16px;
+
+                            .text-muted {
+                                font-size: 12px;
+                            }
+                        }
+
+                        button {
+                            font-size: 16px;
+                            padding: 8px 15px;
+                        }
+                    }
+                }
+            }
+        }
     }
-    .login-left .terms{
-        gap: 10px 10px;
-        margin-bottom: 30px;
-    }
+
     .login-right {
-      border-radius: 0;;
+        min-height: initial;
+        padding: 40px 24px 25px;
+        border-radius: 0 0 0 80px;
+        filter: drop-shadow(0 17px 18px rgba(0, 0, 0, 0.08));
+
+        .login-form,
+        .share-modal {
+            form {
+                .login-switch {
+                    .switch {
+                        .switch-light {
+                            height: 24px;
+
+                            >span {
+                                span {
+                                    padding: 1px 1px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .login-form {
+            margin: 32px 0 10px;
+
+            form {
+                gap: 32px;
+
+                .form-group {
+                    label {
+                        span {
+                            font-size: 10px;
+                        }
+                    }
+
+                    .split-button {
+                        +span {
+                            left: 24px
+                        }
+
+                        >div {
+                            &:nth-child(3) {
+                                padding: 10px 50px 10px 52px;
+                            }
+                        }
+                    }
+                }
+
+                button {
+                    font-size: 16px;
+                    padding: 8px 15px;
+                    min-width: 142px;
+                }
+
+            }
+        }
+
+        &::before {
+            left: auto;
+            width: 160px;
+            height: 160px;
+            border-radius: 64%;
+            box-shadow: 89px -74px 0 #ffffff;
+            right: 0;
+            bottom: -159px;
+        }
     }
-    .login-right:before{
-        display: none;
+
+    .login-left {
+        background: none;
+        flex-direction: column-reverse;
+        padding: 47px 24px 10px;
+
+        .vwd-journey {
+            .vwd-logo {
+                margin: 0 0 18px;
+
+                img {
+                    width: 130px
+                }
+            }
+
+            h6 {
+                font-size: 14px;
+                line-height: 18px;
+            }
+
+        }
+
+        .terms {
+            margin-top: 10px;
+        }
     }
-  
+
+    .header {
+        padding: 0 0px;
+
+        .header-inner {
+            .navbar-brand {
+                width: auto;
+                margin: 0;
+
+                img {
+                    max-width: 65px;
+                }
+            }
+
+            .header-account {
+                flex-direction: column-reverse;
+                align-items: flex-end !important;
+
+                .switch {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    .offcanvas.offcanvas-end {
+        width: 100%;
+    }
+
+    .journey-box {
+        padding: 15px 0px 10px;
+        flex-direction: column;
+        gap: 15px;
+
+        .explore-journey {
+            .start-btn {
+                font-size: 14px;
+                min-width: 100px;
+                padding: 6px 24px;
+            }
+        }
+
+        .col {
+            width: 100%;
+        }
+    }
+
+    .patient-journey {
+        gap: 16px;
+        margin: 30px 0;
+        width: 100%;
+        flex-direction: column;
+
+        .line {
+            border-top: 0;
+            width: 1px;
+            border-left: 1px dashed var(--gray);
+            height: 30px;
+            flex: 0 0 auto;
+        }
+    }
+
+    .touchpoints-section {
+        padding: 0px;
+
+        .touchpoint-box {
+            .touchpoints-header {
+                padding: 0px 12px;
+            }
+
+            .tags {
+                flex-direction: column;
+                margin-bottom: 35px;
+            }
+        }
+
+        .switch {
+            width: 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+
+            .switch-light {
+                >span {
+                    span {
+
+                        &:first-child,
+                        &:last-child {
+                            width: 50%;
+                            text-align: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .journey-link-list {
+            white-space: nowrap;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        .patient-journey {
+            .line {
+                border-top: 1px dashed var(--gray);
+                border-left: 0;
+                height: 1px;
+                width: 30px;
+            }
+        }
+
+        .message-info {
+            padding: 15px;
+            margin: 0 0 25px;
+        }
+    }
+
+    .content-count-box {
+        .touchpoint-data-boxes {
+            .detail-data-box {
+                width: 100%;
+            }
+        }
+    }
 }
-   
+
+@media (max-width: $layout-breakpoint-extraSmall) {
+
+
+    .login-left .terms {
+        gap: 10px 10px;
+    }
+
+}

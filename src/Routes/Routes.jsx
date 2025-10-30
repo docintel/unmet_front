@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom"; 
+import { Navigate } from "react-router-dom";
 import Account from "../components/features/patientJourney/Pages/Account";
 import Resources from "../components/features/patientJourney/Pages/ResourcesComponent/Resources";
 import TouchPoints from "../components/features/patientJourney/Pages/TouchpointsComponent/TouchPoints";
@@ -9,10 +9,10 @@ const PatientJourneyLanding = lazy(() =>
 );
 
 export const privateRoutes = [
-  { path: "/home", element: <PatientJourneyLanding /> },
+  // { path: "/home", element: <PatientJourneyLanding /> },
   { path: "/touchpoints", element: <TouchPoints /> },
   { path: "/resources", element: <Resources /> },
-  { path: "/account", element: <Account /> },
+  // { path: "/account", element: <Account /> },
 ];
 
 export const publicRoutes = [

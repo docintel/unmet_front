@@ -7,12 +7,12 @@ $green: #4CC6CF;
 $fontfamily: 'Sofia Pro';
 $white: #FFFFFF;
 $light-gray: #A3A3A3;
+$light-gray100: #B5C2D3;
 $pink:#d61975;
 $gradient-orange:#F79548;
 $gradient-pink:#E94262;
 $border-color:#5E7683;
 $white100: rgba(253, 254, 255, 0.08);
-$dark-blue: #183B4D;
 $black: #000000;
 
 
@@ -28,10 +28,10 @@ $black: #000000;
 --pink:#{$pink};
 --gradient-orange:#{$gradient-orange};
 --gradient-pink:#{$gradient-pink};
+--gray100:#{$light-gray100};
 --gray300:#{$border-color};
 --font-family:#{$fontfamily};
 --white100:#{$white100};
---dark-blue: #{$dark-blue};
 --black: #{$black};
 
 }
@@ -47,9 +47,9 @@ $black: #000000;
 
 
 
-$layout-breakpoint-extraSmall: 576px;
-$layout-breakpoint-small: 767px;
-$layout-breakpoint-medium: 991px;
-$layout-breakpoint-large: 1199px;
-$layout-breakpoint-extraLarge: 1399px;
 $layout-breakpoint-xextraLarge: 1500px;
+$layout-breakpoint-extraLarge: 1399px;
+$layout-breakpoint-large: 1199px;
+$layout-breakpoint-medium: 990px;
+$layout-breakpoint-small: 767px;
+$layout-breakpoint-extraSmall: 576px;

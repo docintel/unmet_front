@@ -61,11 +61,14 @@ const Header = () => {
   };
 
   const handleHomeRedirection = () => {
-    if (isHcp) {
-      navigate("/touchpoints");
-    } else {
-      navigate("/home");
-    }
+    // if (isHcp) {
+    //   navigate("/touchpoints");
+    // } else {
+    //   navigate("/home");
+    // }
+
+    if (isHcp) navigate("/touchpoints");
+    else navigate("/touchpoints");
   };
 
   // Ensure theme is set on initial render
@@ -88,7 +91,7 @@ const Header = () => {
               {/* ✅ Normal inline nav for desktop */}
               {!isMobile && (
                 <Nav className="justify-content-center flex-grow-1">
-                  {!isHcp && (
+                  {/* {!isHcp && (
                     <NavLink
                       to="/home"
                       className={({ isActive }) =>
@@ -97,7 +100,7 @@ const Header = () => {
                     >
                       Home
                     </NavLink>
-                  )}
+                  )} */}
                   <NavLink
                     to="/touchpoints"
                     className={({ isActive }) =>
@@ -114,7 +117,7 @@ const Header = () => {
                   >
                     Resources
                   </NavLink>
-                  {!isHcp && (
+                  {/* {!isHcp && (
                     <NavLink
                       to="/account"
                       className={({ isActive }) =>
@@ -123,7 +126,7 @@ const Header = () => {
                     >
                       My Account
                     </NavLink>
-                  )}
+                  )} */}
                 </Nav>
               )}
 
@@ -189,13 +192,12 @@ const Header = () => {
                     <img
                       src={path_image + "vwd-journey-logo.svg"}
                       alt="logo"
-                      style={{ height: "30px" }}
                     />
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="flex-column text-center">
-                    {!isHcp && (
+                    {/* {!isHcp && (
                       <NavLink
                         to="/home"
                         className={({ isActive }) =>
@@ -205,7 +207,7 @@ const Header = () => {
                       >
                         Home
                       </NavLink>
-                    )}
+                    )} */}
                     <NavLink
                       to="/touchpoints"
                       className={({ isActive }) =>
@@ -224,7 +226,7 @@ const Header = () => {
                     >
                       Resources
                     </NavLink>
-                    {!isHcp && (
+                    {/* {!isHcp && (
                       <NavLink
                         to="/account"
                         className={({ isActive }) =>
@@ -234,8 +236,48 @@ const Header = () => {
                       >
                         My Account
                       </NavLink>
-                    )}
+                    )} */}
                   </Nav>
+                  <div className="header-account d-flex align-items-center">
+                <div className="switch">
+                  <label className="switch-light">
+                    <input
+                      type="checkbox"
+                      checked={isHcp}
+                      onChange={toggleUserType}
+                      onClick={toggleTheme}
+                      style={{ margin: 0 }}
+                    />
+                    <span>
+                      <span className={`switch-btn ${!isHcp ? "active" : ""}`}>
+                        Octapharma
+                      </span>
+                      <span className={`switch-btn ${isHcp ? "active" : ""}`}>
+                        HCP
+                      </span>
+                    </span>
+                    <a className="btn"></a>
+                  </label>
+                </div>
+
+                <div className="logout">
+                  <span>
+                    <Link
+                      to="/"
+                      onClick={(e) => {
+                        e.preventDefault(); // stop default link navigation
+                        logout();
+                      }}
+                    >
+                      Log out
+                      <div className="logout-icon">
+                        <img src={path_image + "logout.svg"} alt="user" />
+                      </div>
+                    </Link>
+                  </span>
+                </div>
+
+              </div>
                 </Offcanvas.Body>
               </Offcanvas>
             )}
