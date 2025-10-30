@@ -17,7 +17,6 @@ import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
-// import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
@@ -282,15 +281,6 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setEmail("");
-    setName("");
-    setCountry("");
-    setCheckboxChecked({
-      checkbox3: false,
-      checkbox4: true,
-      checkbox5: false,
-      checkbox6: false,
-    });
   };
 
   const handleSubmitClick = async (e) => {
@@ -414,6 +404,15 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   };
 
   const handleCloseConfirmationModal = () => {
+    setEmail("");
+    setName("");
+    setCountry("");
+    setCheckboxChecked({
+      checkbox3: false,
+      checkbox4: true,
+      checkbox5: false,
+      checkbox6: false,
+    });
     setShowConfirmationModal({
       existingMember: false,
       newMember: false,
@@ -855,7 +854,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     The HCP has been successfully registered, and the content
                     has been sent to:
                     <br />
-                    <span className="email"> Example@gmail.com</span>
+                    <span className="email"> {email}</span>
                   </p>
 
                   <p className="note">

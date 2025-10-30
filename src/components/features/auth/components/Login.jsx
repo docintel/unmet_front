@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import  { useState, useMemo, useCallback, useEffect } from "react";
 import { Container, Form, Row, Button, Col } from "react-bootstrap";
 import Select from "react-select";
 import { countryRegionArray } from "../../../../constants/countryRegion";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
 const Login = ({ userDetails, setLoader }) => {
