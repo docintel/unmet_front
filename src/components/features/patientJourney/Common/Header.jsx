@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, Row, Offcanvas } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { clearLocalStorage } from "../../../../helper/helper";
@@ -8,10 +9,10 @@ import { ContentContext } from "../../../../context/ContentContext";
 
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { isHcp, setIsHcp } = useContext(ContentContext);
+  const { isHcp, setIsHcp ,setCurrentTabValue} = useContext(ContentContext);
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 991);
-
+  const location = useLocation();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -70,6 +71,15 @@ const Header = () => {
     if (isHcp) navigate("/touchpoints");
     else navigate("/touchpoints");
   };
+
+
+  useEffect(() => {
+  if (location.pathname.includes("/touchpoints")) {
+    setCurrentTabValue("touchpoints");
+  } else if (location.pathname.includes("/resources")) {
+    setCurrentTabValue("resources");
+  }
+}, [location.pathname, setCurrentTabValue]);
 
   // Ensure theme is set on initial render
   useState(() => {

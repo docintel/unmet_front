@@ -41,6 +41,7 @@ export const ContentProvider = ({ children }) => {
     message: null,
     show: false,
   });
+  const [currentTabValue, setCurrentTabValue] = useState("");
 
   useEffect(() => {
     document.cookie.split(";").forEach((item) => {
@@ -160,6 +161,8 @@ export const ContentProvider = ({ children }) => {
         isHcp,
         categoryList,
         toast,
+        currentTabValue,
+        setCurrentTabValue,
         updateRating,
         setIsLoading,
         fetchAgeGroups,
