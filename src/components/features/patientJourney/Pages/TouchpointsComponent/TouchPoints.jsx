@@ -13,6 +13,7 @@ import FixedSizeList from "../../Common/FixedSizedList";
 import Category from "./Category";
 import AgeGroups from "./AgeGroups";
 import ActiveNarration from "./ActiveNarration";
+import { trackingUserAction } from "../../../../../helper/helper";
 
 const Content = lazy(() => import("../../Common/Content"));
 
@@ -32,6 +33,7 @@ const TouchPoints = () => {
     isHcp,
     categoryList,
     fetchAgeGroups,
+    currentTabValue,
     getNarratives,
     setToast,
   } = useContext(ContentContext);
@@ -209,13 +211,12 @@ const TouchPoints = () => {
     }
   };
 
-  const filterContents = () => {
+  const filterContents = async() => {
     if (content) {
       if (isAllSelected) {
         const contentList = [];
         content.data.forEach((element) => {
           if (element.female_oriented === 0) return;
-
           for (let i = 0; i < selectedTag.length; i++) {
             if (
               ![
@@ -556,7 +557,7 @@ const TouchPoints = () => {
                                       userSelect: "none",
                                     }}
                                     key={idx}
-                                    onClick={() => setContentCategory(cat)}
+                                    onClick={() =>{ trackingUserAction("category_clicked",cat,currentTabValue); setContentCategory(cat)}}
                                   >
                                     <img
                                       src={

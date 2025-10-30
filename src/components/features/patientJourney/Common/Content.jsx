@@ -1051,7 +1051,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       {/* Transparent overlay with circular progress */}
       {downloading && (
         <div
-          class="dark-progress"
+          className="dark-progress"
           style={{
             position: "absolute",
             top: "21px",
