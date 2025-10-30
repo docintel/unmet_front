@@ -64,18 +64,32 @@ const LoginWithSSO = () => {
     const mail = "Meznah.a.k@docintel.app";
     setLoader(true);
     const res = await postData("/auth/login", { mail });
-    const userDetails = res?.data?.data;
-    console.log("loginAsGuest", userDetails);
-    clearLocalStorage();
-    localStorage.setItem("user_id", userDetails?.userToken);
-    localStorage.setItem("name", userDetails?.name);
-    localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+    const { jwtToken, userRegistered, name, userToken } = res?.data?.data;
+
+    if (!userRegistered) {
+      setUserVerified(true);
+      setUserDetails({ name, jwtToken, userToken });
+    } else {
+      clearLocalStorage();
+      localStorage.setItem("user_id", userToken);
+      localStorage.setItem("name", name);
+      localStorage.setItem("decrypted_token", jwtToken);
+      // if (!isHcp) navigate("/home");
+      // else navigate("/touchpoints");
+      if (!isHcp) navigate("/touchpoints");
+      else navigate("/touchpoints");
+    }
+
+    // clearLocalStorage();
+    // localStorage.setItem("user_id", userDetails?.userToken);
+    // localStorage.setItem("name", userDetails?.name);
+    // localStorage.setItem("decrypted_token", userDetails?.jwtToken);
     setLoader(false);
     // if (!isHcp) navigate("/home");
     // else navigate("/touchpoints");
 
-    if (!isHcp) navigate("/touchpoints");
-    else navigate("/touchpoints");
+    // if (!isHcp) navigate("/touchpoints");
+    // else navigate("/touchpoints");
   }
 
   return (
