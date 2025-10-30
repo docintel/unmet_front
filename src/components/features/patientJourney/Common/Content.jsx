@@ -17,13 +17,14 @@ import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
+import { trackingUserAction } from "../../../../helper/helper";
 // import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { filterCategory, updateRating, setIsLoading, setToast } =
+  const { filterCategory, updateRating, setIsLoading, setToast,currentTabValue } =
     useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -275,6 +276,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       setDownloading(false);
 
       await TrackDownloads(section.id, setIsLoading, setToast);
+      return fileName;
     } catch (ex) {
       toast.error("Failed to download the content.");
     }
@@ -903,7 +905,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
               <Dropdown.Menu>
                 {section.share == 1 && (
-                  <Dropdown.Item onClick={handleShareClick}>
+                  <Dropdown.Item 
+                  // onClick={handleShareClick}
+                  onClick={async () => {
+                  handleShareClick()
+                  await trackingUserAction("share_clicked",section.title,currentTabValue)
+                  }}
+                  >
                     <svg
                       width="18"
                       height="16"
@@ -922,7 +930,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   </Dropdown.Item>
                 )}{" "}
                 {section.download == 1 && (
-                  <Dropdown.Item onClick={handleDownloadClick}>
+                  <Dropdown.Item 
+                  // onClick={handleDownloadClick}
+                  onClick={async () => {
+                  handleDownloadClick()
+                  await trackingUserAction("download_clicked",section.title,currentTabValue)
+                  }}
+                  >
                     <svg
                       width="18"
                       height="16"
@@ -1015,7 +1029,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           </div>
           <Button
             variant="primary"
-            onClick={(e) => setReadContent(!readContent)}
+            // onClick={(e) => setReadContent(!readContent)}
+             onClick={async (e) => {
+                if (!readContent) {
+                  await trackingUserAction("view_clicked", section?.title, currentTabValue);
+                }
+                setReadContent(!readContent);
+              }}
           >
             {readContent ? "Close" : "View"}
           </Button>

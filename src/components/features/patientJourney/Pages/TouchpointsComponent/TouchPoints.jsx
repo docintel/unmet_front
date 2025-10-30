@@ -13,13 +13,20 @@ import FixedSizeList from "../../Common/FixedSizedList";
 import Category from "./Category";
 import AgeGroups from "./AgeGroups";
 import ActiveNarration from "./ActiveNarration";
+import { trackingUserAction } from "../../../../../helper/helper";
 
 const Content = lazy(() => import("../../Common/Content"));
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [isAllSelected, setIsAllSelected] = useState(false);
-  const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  // const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  const toggleUserType = () => {
+  const newValue = !isAllSelected;
+  setIsAllSelected((prev) => !prev)
+  trackingUserAction("filter_clicked", newValue ? "Female" : "All", currentTabValue);
+};
+
   const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
 
@@ -34,6 +41,7 @@ const TouchPoints = () => {
     fetchAgeGroups,
     getNarratives,
     setToast,
+    currentTabValue
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
