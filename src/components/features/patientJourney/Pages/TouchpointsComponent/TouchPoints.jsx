@@ -39,7 +39,6 @@ const TouchPoints = () => {
     isHcp,
     categoryList,
     fetchAgeGroups,
-    currentTabValue,
     getNarratives,
     setToast,
     currentTabValue
@@ -342,11 +341,13 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
+    if(searchText.length >= 3 || selectedTag.length != 0){
+       await trackingUserAction("content_searched",{searchText,selectedTag:selectedTag},currentTabValue);
+    }
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else
-      setToast({
+     if(searchText.length <=3) setToast({
         type: "danger",
         title: "Error",
         message: "Please enter at least three characters to search",
