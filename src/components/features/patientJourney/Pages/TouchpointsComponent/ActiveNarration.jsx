@@ -1,3 +1,4 @@
+import React from "react";
 const ActiveNarration = ({
   isInfoVisible,
   expandNarrative,
@@ -7,6 +8,17 @@ const ActiveNarration = ({
   setIsInfoVisible,
 }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
+
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 767);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className="box-inner">
@@ -41,7 +53,7 @@ const ActiveNarration = ({
         ) : (
           <div className="touchpoint-data">
             <div
-              className={`d-flex justify-content-between narrative-block ${
+              className={`d-flex ${isMobile ? 'flex-column' : 'justify-content-between'} narrative-block ${
                 expandNarrative ? "expanded" : "collapsed"
               }`}
             >
@@ -68,6 +80,7 @@ const ActiveNarration = ({
             </div>
             <div
               className={expandNarrative ? "read-less-btn" : "read-more-btn"}
+              style={{ marginTop: isMobile ? '20px' : 'inherit' }}
             >
               <button
                 className="btn btn-link"
@@ -86,13 +99,13 @@ const ActiveNarration = ({
       <div
         className="text-center dummy_data"
         style={{
-          maxHeight: isInfoVisible ? "300px" : "0px",
+          maxHeight: isInfoVisible ? (isMobile ? "380px" : "300px") : "0px",
           opacity: isInfoVisible ? 1 : 0,
           overflow: "hidden",
           transform: isInfoVisible ? "translateY(0)" : "translateY(-20px)",
           transition: "all 0.5s ease",
-          padding: isInfoVisible ? "32px 12px" : "0",
-          margin: isInfoVisible ? "0px 0px 80px" : "0",
+          padding: isInfoVisible ? (isMobile ? "40px 8px 32px" : "32px 12px") : "0",
+          margin: isInfoVisible ? (isMobile ? "0px 0px 60px" : "0px 0px 80px") : "0",
         }}
       >
         <div className="close-icon">
@@ -104,10 +117,11 @@ const ActiveNarration = ({
         </div>
         <img
           src={
-            path_image + (isHcp ? "info-banner-dark.png" : "info-banner.png")
+            path_image + (isHcp ? 
+              (isMobile ? "info-banner-mobile.png" : "info-banner-dark.png") :
+              (isMobile ? "info-banner-mobile.png" : "info-banner.png"))
           }
           alt="No Data"
-          style={{ userSelect: "none" }}
         />
       </div>
     </div>

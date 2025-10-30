@@ -156,6 +156,18 @@
             }
         }
     }
+
+    .touchpoints-section {
+        .touchpoint-box {
+            .touchpoints-header {
+                .touchpoint-links {
+                    button {
+                        padding: 7px 13px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: $layout-breakpoint-large) {
@@ -263,7 +275,7 @@
 
                 .touchpoint-links {
                     flex-wrap: wrap;
-                    justify-content: flex-start;
+                    justify-content: space-between;
                     margin: 8px 0 8px;
 
                     button {
@@ -283,6 +295,10 @@
             .touchpoint-box-inner {
                 padding: 0 11px 0 16px;
             }
+
+            .tags {
+                margin: 0 0 20px;
+            }
         }
 
         .userImg {
@@ -290,8 +306,12 @@
             height: 40px;
         }
 
+        .patient-journey {
+            gap: 12px;
+        }
+
         .journey-link-list {
-            padding: 8px 10px 0px 10px;
+            // padding: 8px 10px 0px 10px;
 
             .journey-link {
                 .user-category {
@@ -299,6 +319,11 @@
                     padding: 13px 5px 17px;
                 }
             }
+        }
+
+        .message-info {
+            padding: 18px;
+            margin: 0 0 20px;
         }
     }
 
@@ -379,6 +404,9 @@
     }
 
     .header {
+        .header-inner{
+            padding: 0;
+        }
         .nav {
             .navbar-nav {
                 flex-direction: row;
@@ -422,6 +450,7 @@
 
         .touchpoint-box {
             .touchpoints-header {
+                        padding: 0px 12px;
                 .touchpoint-links {
                     gap: 12px;
                     flex-wrap: nowrap;
@@ -434,10 +463,22 @@
                     }
                 }
             }
+
+            // .dummy_data{
+            //     max-height: initial!important;
+            //     padding:40px 12px 32px!important;
+            //     margin:0 0 60px!important;
+            //     .close-icon{
+            //         padding: 7px 13px!important;
+            //     }
+            // }
+            .touchpoint-box-inner {
+                padding: 0 12px;
+            }
         }
 
         .journey-link-list {
-            gap: 0;
+            gap: 0.2 !important;
             margin-left: 0;
 
             .journey-link {
@@ -475,6 +516,8 @@
             overflow-x: auto;
             gap: 30px;
             white-space: nowrap;
+            margin: 0 -12px 36px -12px;
+            padding:12px 30px 12px 12px;
         }
 
         .touchpoint-data-boxes {
@@ -678,9 +721,11 @@
             .touchpoint-box {
                 &.resource-container {
                     margin-top: 8px;
+
                     .search-bar {
                         padding: 0 12px;
                     }
+
                     .tags {
                         padding: 0 12px;
                     }
@@ -1006,7 +1051,7 @@
         .journey-link-list {
             white-space: nowrap;
             overflow-x: auto;
-            margin: 0;
+            // margin: 0;
         }
 
         .patient-journey {
@@ -1029,6 +1074,17 @@
             .detail-data-box {
                 width: 100%;
             }
+        }
+    }
+
+    .no-data {
+        width: 100%;
+        min-height: 250px;
+        padding: 10px;
+
+        h5 {
+            font-size: 15px;
+            line-height: 20px;
         }
     }
 }

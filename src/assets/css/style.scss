@@ -91,7 +91,9 @@ a{
 
 
 }
-
+ .nav-link {
+transition: none;
+ }
 .login-page {
   background: linear-gradient(112deg, var(--green) 0%, #D99E60 19.87%, var(--gradient-orange) 29.43%, var(--gradient-pink) 60.44%);
   min-height: 100vh;
