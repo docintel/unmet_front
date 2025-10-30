@@ -6,3 +6,21 @@ export const clearLocalStorage = () => {
           }
         }
       };
+
+
+export const trackingUserAction = async (actionType, actionValue = "") => {
+     const payload = {
+      actionType,
+      actionValue,
+      timestamp: new Date().toISOString(),
+      currentTabValue
+     }
+  try {
+
+    console.log("Tracking User Action:", payload);
+
+  } catch (error) {
+
+  }
+
+}
