@@ -213,6 +213,7 @@ const TouchPoints = () => {
   };
 
   const filterContents = () => {
+    console.log("contnts")
     if (content) {
       if (isAllSelected) {
         const contentList = [];
