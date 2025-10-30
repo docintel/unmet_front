@@ -6,7 +6,8 @@ export const fetchAgeGroupCategories = async (
   setToast,
   setFilterCategory,
   setFilterAges
-) => {
+) =>
+{
   try {
     setIsLoading(true);
     setFilterCategory({
@@ -20,15 +21,15 @@ export const fetchAgeGroupCategories = async (
       data: [],
     });
     const data = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
-    const itemList = data?.data?.data?.ageGroups.map((item) => {
+    const itemList = data?.data?.data?.ageGroups.map((item) =>
+    {
       const id = item.id;
       const label =
         item.label +
-        (`<br />Age ${
-          (parseInt(item.min_age) == 0 && "&lt;") ||
+        (`<br />Age ${(parseInt(item.min_age) == 0 && "&lt;") ||
           (item.max_age === null && "&gt;") ||
           ""
-        }` +
+          }` +
           (item.max_age
             ? item.min_age === 0
               ? item.max_age
@@ -81,7 +82,8 @@ export const fetchNarrativeList = async (
   narration_type,
   setIsLoading,
   setToast
-) => {
+) =>
+{
   try {
     setIsLoading(true);
     const data = await getData(endPoint.FETCH_NARRATION_LIST);
@@ -103,7 +105,8 @@ export const fetchNarrativeList = async (
   }
 };
 
-export const fetchContentList = async (setIsLoading, setToast, setContents) => {
+export const fetchContentList = async (setIsLoading, setToast, setContents) =>
+{
   try {
     setIsLoading(true);
     setContents({
@@ -135,7 +138,8 @@ export const fetchContentList = async (setIsLoading, setToast, setContents) => {
   }
 };
 
-export const updateContentRating = async (id, setIsLoading, setToast) => {
+export const updateContentRating = async (id, setIsLoading, setToast) =>
+{
   try {
     setIsLoading(true);
 
@@ -157,7 +161,8 @@ export const updateContentRating = async (id, setIsLoading, setToast) => {
   }
 };
 
-export const TrackDownloads = async (id, setIsLoading, setToast) => {
+export const TrackDownloads = async (id, setIsLoading, setToast) =>
+{
   try {
     // setIsLoading(true);
 
@@ -180,7 +185,8 @@ export const SubmitShareContent = async (
   consent,
   setIsLoading,
   setToast
-) => {
+) =>
+{
   try {
     setIsLoading(true);
 
@@ -205,16 +211,20 @@ export const SubmitShareContent = async (
   }
 };
 
-export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) => {
+export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) =>
+{
   try {
     setQrCodeUrl({
       loading: true,
       error: false,
       data: "",
     });
+
     const data = await postData(endPoint.GENERATE_QRCODE_URL, {
       pdf_id: pdfId,
     });
+
+
     if (data.status === 201) {
       setQrCodeUrl({
         loading: false,
@@ -229,11 +239,11 @@ export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) => {
       });
     }
   } catch (ex) {
-    console.error("Error while updating rating:", error);
     setQrCodeUrl({
       loading: false,
       error: true,
       data: "",
-    });
+    }); console.error("Error while updating rating:", error);
+
   }
 };
