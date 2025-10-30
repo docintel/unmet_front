@@ -47,7 +47,7 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
-
+  const [searchBackspace, setSearchBackspace] = useState(false);
   useEffect(() => {
     filterContents();
     filterTags();
@@ -120,7 +120,10 @@ const TouchPoints = () => {
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
-    if (searchText.length == 0) handleSearchClick();
+    if (searchText.length == 0) {
+      if (!searchBackspace) setSelectedTag([]);
+      handleSearchClick();
+    }
   }, [searchText]);
 
   useEffect(() => {
@@ -347,6 +350,8 @@ const TouchPoints = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Backspace") setSearchBackspace(true);
+    else setSearchBackspace(false);
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
