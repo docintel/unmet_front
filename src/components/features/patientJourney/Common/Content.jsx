@@ -43,7 +43,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   const [countryList, setCountryList] = useState([]);
   const [checkboxChecked, setCheckboxChecked] = useState({
     checkbox3: false,
-    checkbox4: true,
+    checkbox4: false,
     checkbox5: false,
     checkbox6: false,
   });
@@ -305,21 +305,20 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       };
 
       if (!email) {
-        newError.email = { error: true, message: "Email is required!!" };
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        newError.email = { error: true, message: "Email is required" };
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         newError.email = {
           error: true,
-          message: "Please enter correct email!!",
+          message: "Please enter valid email",
         };
       }
 
       if (!name) {
-        newError.name = { error: true, message: "Name is required!!" };
+        newError.name = { error: true, message: "Name is required" };
       }
 
       if (!country) {
-        newError.country = { error: true, message: "Country is required!!" };
+        newError.country = { error: true, message: "Country is required" };
       }
 
       if (
@@ -328,7 +327,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         !checkboxChecked.checkbox5 &&
         !checkboxChecked.checkbox6
       ) {
-        newError.consent = { error: true, message: "Consent is required!!" };
+        newError.consent = { error: true, message: "Consent is required" };
       }
 
       setError(newError);
@@ -375,39 +374,43 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     }
   };
 
-  const handleCheckBoxClick = (name) => {
-    if (name === "checkbox3")
-      setCheckboxChecked({
-        checkbox3: checkboxChecked.checkbox5
-          ? true
-          : !checkboxChecked.checkbox3,
-        checkbox4: false,
-        checkbox5: false,
-        checkbox6: false,
-      });
-    else if (name === "checkbox4")
-      setCheckboxChecked({
-        checkbox3: false,
-        checkbox4: checkboxChecked.checkbox5
-          ? true
-          : !checkboxChecked.checkbox4,
-        checkbox5: false,
-        checkbox6: false,
-      });
-    else if (name === "checkbox5")
-      setCheckboxChecked({
-        checkbox3: !checkboxChecked.checkbox5,
-        checkbox4: !checkboxChecked.checkbox5,
-        checkbox5: !checkboxChecked.checkbox5,
-        checkbox6: false,
-      });
-    else if (name === "checkbox6")
-      setCheckboxChecked({
-        checkbox3: false,
-        checkbox4: false,
-        checkbox5: false,
-        checkbox6: !checkboxChecked.checkbox6,
-      });
+  const handleCheckBoxClick = (name, isChecked) => {
+    let checkbox3 = false,
+      checkbox4 = false,
+      checkbox5 = false,
+      checkbox6 = false;
+    if (name === "checkbox3") {
+      if (isChecked) {
+        checkbox3 = true;
+        if (checkboxChecked.checkbox4 || checkboxChecked.checkbox5) {
+          checkbox4 = true;
+          checkbox5 = true;
+        }
+      } else checkbox4 = checkboxChecked.checkbox4;
+    } else if (name === "checkbox4") {
+      if (isChecked) {
+        checkbox4 = true;
+        if (checkboxChecked.checkbox3 || checkboxChecked.checkbox5) {
+          checkbox3 = true;
+          checkbox5 = true;
+        }
+      } else checkbox3 = checkboxChecked.checkbox3;
+    } else if (name === "checkbox5") {
+      if (isChecked) {
+        checkbox3 = true;
+        checkbox4 = true;
+        checkbox5 = true;
+      }
+    } else if (name === "checkbox6") {
+      if (isChecked) checkbox6 = true;
+    }
+
+    setCheckboxChecked({
+      checkbox3: checkbox3,
+      checkbox4: checkbox4,
+      checkbox5: checkbox5,
+      checkbox6: checkbox6,
+    });
   };
 
   const handleCloseConfirmationModal = () => {
@@ -656,28 +659,41 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       <div className="radio-options">
                         <Form.Check
                           type="checkbox"
-                          onChange={() => handleCheckBoxClick("checkbox3")}
+                          id="checkbox3"
+                          onChange={(e) =>
+                            handleCheckBoxClick("checkbox3", e.target.checked)
+                          }
                           checked={checkboxChecked.checkbox3}
-                          label="Receive One Source updates and new materials from Octapharma."
+                          label="Receive One Source updates and new materials from
+                          Octapharma."
                           name="consent"
                         />
                         <Form.Check
                           type="checkbox"
-                          onChange={() => handleCheckBoxClick("checkbox4")}
+                          id="checkbox4"
+                          onChange={(e) =>
+                            handleCheckBoxClick("checkbox4", e.target.checked)
+                          }
                           checked={checkboxChecked.checkbox4}
                           label="Receive invitations to future events."
                           name="consent"
                         />
                         <Form.Check
                           type="checkbox"
-                          onChange={() => handleCheckBoxClick("checkbox5")}
+                          id="checkbox5"
+                          onChange={(e) =>
+                            handleCheckBoxClick("checkbox5", e.target.checked)
+                          }
                           checked={checkboxChecked.checkbox5}
                           label="Both of the options above."
                           name="consent"
                         />
                         <Form.Check
                           type="checkbox"
-                          onChange={() => handleCheckBoxClick("checkbox6")}
+                          id="checkbox6"
+                          onChange={(e) =>
+                            handleCheckBoxClick("checkbox6", e.target.checked)
+                          }
                           checked={checkboxChecked.checkbox6}
                           label="None of the options above."
                           name="consent"
@@ -811,7 +827,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 </svg>
               </div>
 
-              <h2 className="title">You’re All Done — Content Shared</h2>
+              <h2 className="title">You&apos;re All Done — Content Shared</h2>
               {showConfirmationModal.existingMember && (
                 <div className="description-box">
                   <p className="description">
@@ -820,8 +836,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   </p>
 
                   <p className="note">
-                    They’ll also receive an email shortly with a secure link to
-                    the same content for reference.
+                    They&apos;ll also receive an email shortly with a secure
+                    link to the same content for reference.
                   </p>
 
                   <Button
