@@ -5,7 +5,7 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import { Link, useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
-const Login = ({ userDetails, setLoader }) => {
+const Login = ({ userDetails, setLoader,isHcp }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
 
@@ -111,7 +111,8 @@ const Login = ({ userDetails, setLoader }) => {
         validateForm,
         navigate,
         userDetails,
-        setLoader
+        setLoader,
+        isHcp
       );
     },
     [

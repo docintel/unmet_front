@@ -43,7 +43,8 @@ const Header = () => {
   };
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = async() => {
+    await trackingUserAction("logout_clicked", "Logout", currentTabValue);
     clearLocalStorage();
     document.documentElement.setAttribute("data-bs-theme", "light");
     navigate("/");
@@ -179,7 +180,7 @@ const Header = () => {
 
                       onClick={async (e) => {
                         e.preventDefault(); // stop default link navigation
-                        trackingUserAction("logout_clicked", "Logout", currentTabValue);
+                        
                         logout(); 
                       }}
 

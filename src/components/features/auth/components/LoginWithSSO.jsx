@@ -5,7 +5,7 @@ import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { clearLocalStorage } from "../../../../helper/helper";
+import { clearLocalStorage, trackingUserAction } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
 import { useSearchParams } from "react-router-dom";
 
@@ -45,6 +45,7 @@ const LoginWithSSO = () => {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");
       if (!isHcp) navigate("/touchpoints");
@@ -74,6 +75,7 @@ const LoginWithSSO = () => {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");
       if (!isHcp) navigate("/touchpoints");
@@ -274,7 +276,7 @@ const LoginWithSSO = () => {
         //   </div>
       )}
       {userVerified && (
-        <Login userDetails={userDetails} setLoader={setLoader} />
+        <Login userDetails={userDetails} setLoader={setLoader} isHcp={isHcp} />
       )}
       {loader && (
         <div style={{ display: loader ? "block" : "none" }}>
