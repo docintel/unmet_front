@@ -971,7 +971,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 src={
                   path_image +
                   (ratingFocus
-                    ? "star-img.svg"
+                    ? "star-focus.svg"
                     : isStarHovered
                     ? "star-hover.svg"
                     : section.self_rate
