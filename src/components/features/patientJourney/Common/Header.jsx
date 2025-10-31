@@ -60,7 +60,7 @@ const Header = () => {
     localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
     await trackingUserAction(
-    "view_model_clicked",
+    "view_mode_clicked",
     newTheme === "dark" ? "HCP" : "Octapharma", 
     currentTabValue
   );

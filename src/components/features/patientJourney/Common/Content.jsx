@@ -926,7 +926,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleShareClick}
                     onClick={async () => {
                       handleShareClick();
-                      await trackingUserAction(
+                       trackingUserAction(
                         "share_clicked",
                         { title: section?.title, pdf_id: section?.id },
                         currentTabValue
@@ -955,9 +955,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleDownloadClick}
                     onClick={async () => {
                       handleDownloadClick();
-                      await trackingUserAction(
+                       trackingUserAction(
                         "download_clicked",
-                        { title: section?.title, pdf_id: section?.pdf_id },
+                        { title: section?.title, pdf_id: section?.id },
                         currentTabValue
                       );
                     }}
@@ -1057,7 +1057,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             // onClick={(e) => setReadContent(!readContent)}
             onClick={async (e) => {
               if (!readContent) {
-                await trackingUserAction(
+                 trackingUserAction(
                   "view_clicked",
                   { title: section?.title, pdf_id: section?.id },
                   currentTabValue
