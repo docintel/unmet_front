@@ -228,10 +228,12 @@
           font-weight: 400;
           padding: 8px 16px;
 
-          svg {
+          svg, img {
             margin-right: 12px;
           }
-
+          img{
+          width:18px;
+        }
           &:hover {
             background: #f4f6f9;
             color: #94a7bf;
@@ -245,6 +247,10 @@
               path {
                 fill: var(--green);
               }
+            }
+            img{
+              filter: drop-shadow(0px 1000px 0 var(--green));
+              transform: translateY(-1000px);
             }
           }
         }
