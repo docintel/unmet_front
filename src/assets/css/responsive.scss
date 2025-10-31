@@ -375,6 +375,11 @@
         padding: 4px 16px;
         min-width: 75px;
     }
+    .dark-progress{
+        top:16px!important;
+        bottom:2px!important;
+    }
+
 }
 
 @media (max-width: 991px) {
@@ -446,7 +451,7 @@
     }
 
     .touchpoints-section {
-        padding: 5px;
+        padding: 0px;
 
         .touchpoint-box {
             .touchpoints-header {
@@ -955,7 +960,7 @@
     }
 
     .header {
-        padding: 0 0px;
+        padding: 0 12px;
 
         .header-inner {
             .navbar-brand {
