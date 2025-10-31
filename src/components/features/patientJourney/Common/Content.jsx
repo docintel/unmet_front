@@ -24,8 +24,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { filterCategory, updateRating, setIsLoading, setToast,currentTabValue } =
-    useContext(ContentContext);
+  const {
+    filterCategory,
+    updateRating,
+    setIsLoading,
+    setToast,
+    currentTabValue,
+  } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -276,9 +281,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       setDownloading(false);
 
       await TrackDownloads(section.id, setIsLoading, setToast);
-      return fileName;
+      // return fileName;
     } catch (ex) {
-      toast.error("Failed to download the content.");
+      console.log(ex);
+      setToast({
+        show: true,
+        type: "danger",
+        title: "Error",
+        message: "Failed to download the content.",
+      });
+    } finally {
+      setProgress(0);
     }
   };
 
@@ -905,12 +918,16 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
               <Dropdown.Menu>
                 {section.share == 1 && (
-                  <Dropdown.Item 
-                  // onClick={handleShareClick}
-                  onClick={async () => {
-                  handleShareClick()
-                  await trackingUserAction("share_clicked",section.title,currentTabValue)
-                  }}
+                  <Dropdown.Item
+                    // onClick={handleShareClick}
+                    onClick={async () => {
+                      handleShareClick();
+                      await trackingUserAction(
+                        "share_clicked",
+                        section.title,
+                        currentTabValue
+                      );
+                    }}
                   >
                     <svg
                       width="18"
@@ -930,12 +947,16 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   </Dropdown.Item>
                 )}{" "}
                 {section.download == 1 && (
-                  <Dropdown.Item 
-                  // onClick={handleDownloadClick}
-                  onClick={async () => {
-                  handleDownloadClick()
-                  await trackingUserAction("download_clicked",section.title,currentTabValue)
-                  }}
+                  <Dropdown.Item
+                    // onClick={handleDownloadClick}
+                    onClick={async () => {
+                      handleDownloadClick();
+                      await trackingUserAction(
+                        "download_clicked",
+                        section.title,
+                        currentTabValue
+                      );
+                    }}
                   >
                     <svg
                       width="18"
@@ -1030,12 +1051,16 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           <Button
             variant="primary"
             // onClick={(e) => setReadContent(!readContent)}
-             onClick={async (e) => {
-                if (!readContent) {
-                  await trackingUserAction("view_clicked", section?.title, currentTabValue);
-                }
-                setReadContent(!readContent);
-              }}
+            onClick={async (e) => {
+              if (!readContent) {
+                await trackingUserAction(
+                  "view_clicked",
+                  section?.title,
+                  currentTabValue
+                );
+              }
+              setReadContent(!readContent);
+            }}
           >
             {readContent ? "Close" : "View"}
           </Button>
