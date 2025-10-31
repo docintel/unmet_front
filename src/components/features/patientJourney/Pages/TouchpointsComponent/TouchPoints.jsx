@@ -51,8 +51,6 @@ const TouchPoints = () => {
   useEffect(() => {
     filterContents();
     filterTags();
-
-    // setTags(filterTag.filter((tg) => !selectedTag.includes(tg)));
   }, [selectedTag]);
 
   useEffect(() => {
@@ -336,7 +334,7 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
@@ -472,7 +470,17 @@ const TouchPoints = () => {
                           </div>
                           <Button
                             variant="outline-success"
-                            onClick={handleSearchClick}
+                            onClick={(e) => {
+                              handleSearchClick(e);
+                              if (e.target.value.length <= 3)
+                                setToast({
+                                  type: "danger",
+                                  title: "Error",
+                                  message:
+                                    "Please enter at least three characters to search",
+                                  show: true,
+                                });
+                            }}
                           >
                             <img
                               src={path_image + "search-icon.svg"}

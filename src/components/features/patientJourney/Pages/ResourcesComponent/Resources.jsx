@@ -17,6 +17,7 @@ const Resources = () => {
     filterTag,
     categoryList,
     filterCategory,
+    setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -148,11 +149,19 @@ const Resources = () => {
   const handleSearchClick = (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else toast("Please enter at least three characters to search");
+    else
+      setToast({
+        type: "danger",
+        title: "Error",
+        message: "Please enter at least three characters to search",
+        show: true,
+      });
   };
 
   const handleSearchTextKeyUp = (e) => {
     if (e.key === "Enter") {
+      if (searchText.length < 3) filterContents();
+
       e.preventDefault();
       handleSearchClick();
     }
@@ -264,7 +273,21 @@ const Resources = () => {
                       onKeyUp={handleSearchTextKeyUp}
                     />
                   </div>
-                  <Button variant="outline-success" onClick={handleSearchClick}>
+                  <Button
+                    variant="outline-success"
+                    onClick={(e) => {
+                      handleSearchClick(e);
+                      if (e.target.value.length < 3) {
+                        setToast({
+                          type: "danger",
+                          title: "Error",
+                          message:
+                            "Please enter at least three characters to search",
+                          show: true,
+                        });
+                      }
+                    }}
+                  >
                     <img src={path_image + "search-icon.svg"} alt="Search" />
                   </Button>
                 </Form>
@@ -297,20 +320,6 @@ const Resources = () => {
               <div className="tags d-flex">
                 <div className="tag-title">Topics:</div>
                 {content.loading ? (
-                  // <Placeholder
-                  //   as="p"
-                  //   animation="wave"
-                  //   xs={10}
-                  //   style={{ display: "flex", gap: "6px" }}
-                  // >
-                  //   {[1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                  //     <Placeholder
-                  //       key={index}
-                  //       xs={1}
-                  //       style={{ height: "20px", borderRadius: "6px" }}
-                  //     />
-                  //   ))}
-                  // </Placeholder>
                   <></>
                 ) : content.error ? (
                   <></>
