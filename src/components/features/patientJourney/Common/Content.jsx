@@ -4,8 +4,7 @@ import { Button, Form, Tab, Tabs } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
-import
-{
+import {
   GenerateQrcodeUrl,
   SubmitShareContent,
   TrackDownloads,
@@ -19,8 +18,7 @@ import { iconMapping } from "../../../../constants/iconMapping";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
 
-const Content = ({ section: initialSection, idx, favTab }) =>
-{
+const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -59,10 +57,10 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     error: false,
     data: "",
   });
+  const [ratingFocus, setRatingFocus] = useState(false);
   const circumference = 2 * Math.PI * 45;
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     setQrCodeUrl({
       loading: false,
       error: false,
@@ -70,8 +68,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     });
   }, [showModal]);
 
-  const filterCountries = () =>
-  {
+  const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray).map(([country]) => ({
       value: country,
       label: country,
@@ -79,22 +76,19 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     setCountryList(coutries);
   };
 
-  const handleTabSelect = async (key) =>
-  {
+  const handleTabSelect = async (key) => {
     if (key === "existing-member") {
       try {
         if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
-      } catch (ex) { }
+      } catch (ex) {}
     }
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     filterCountries();
   }, [country]);
 
-  const handleStarClick = async () =>
-  {
+  const handleStarClick = async () => {
     try {
       const response = await updateContentRating(
         section.id,
@@ -122,16 +116,14 @@ const Content = ({ section: initialSection, idx, favTab }) =>
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
-  const getAgeGroup = () =>
-  {
+  const getAgeGroup = () => {
     const tags =
       section.age_groups !== "" ? JSON.parse(section.age_groups) : [];
     return tags
-      .map((tag) =>
-      {
+      .map((tag) => {
         if (tag === "Age <6")
           return {
             tagLabel: tag,
@@ -155,25 +147,21 @@ const Content = ({ section: initialSection, idx, favTab }) =>
       );
   };
 
-  const handleShareClick = () =>
-  {
+  const handleShareClick = () => {
     setShowModal(true);
   };
 
-  const handleDownloadClick = async () =>
-  {
+  const handleDownloadClick = async () => {
     let received = 0;
     let total = 0;
 
-    const getContentSize = async (fileUrl) =>
-    {
+    const getContentSize = async (fileUrl) => {
       const response = await fetch(fileUrl, { method: "HEAD" });
       if (!response.ok) throw new Error("Request failed");
       total += parseInt(response.headers.get("Content-Length"));
     };
 
-    const downloadFileChuck = async (fileUrl) =>
-    {
+    const downloadFileChuck = async (fileUrl) => {
       const response = await fetch(fileUrl);
       if (!response.ok) throw new Error("Download failed");
       const reader = response.body.getReader();
@@ -258,8 +246,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -268,8 +257,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -286,17 +276,23 @@ const Content = ({ section: initialSection, idx, favTab }) =>
 
       await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
-      toast.error("Failed to download the content.");
+      console.log(ex);
+      setToast({
+        show: true,
+        type: "danger",
+        title: "Error",
+        message: "Failed to download the content.",
+      });
+    } finally {
+      setProgress(0);
     }
   };
 
-  const handleCloseModal = () =>
-  {
+  const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  const handleSubmitClick = async (e) =>
-  {
+  const handleSubmitClick = async (e) => {
     e.preventDefault();
     try {
       let newError = {
@@ -377,8 +373,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     }
   };
 
-  const handleCheckBoxClick = (name, isChecked) =>
-  {
+  const handleCheckBoxClick = (name, isChecked) => {
     let checkbox3 = false,
       checkbox4 = false,
       checkbox5 = false,
@@ -417,8 +412,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
     });
   };
 
-  const handleCloseConfirmationModal = () =>
-  {
+  const handleCloseConfirmationModal = () => {
     setEmail("");
     setName("");
     setCountry("");
@@ -610,8 +604,9 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         }
                       >
                         <Select
-                          className={`split-button ${error.country.error ? "error" : ""
-                            }`}
+                          className={`split-button ${
+                            error.country.error ? "error" : ""
+                          }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -767,10 +762,13 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                         <div className="skeleton-box"></div>
                         {/* <p>Generating your QR code...</p> */}
                       </div>
-                    ) : (qrCodeUrl.error || !qrCodeUrl.data) ? (
+                    ) : qrCodeUrl.error || !qrCodeUrl.data ? (
                       <div className="qr-status error">
                         <img src={path_image + "error-alert.svg"} alt="error" />
-                        <p>Failed to generate<br /> the QR code</p>
+                        <p>
+                          Failed to generate
+                          <br /> the QR code
+                        </p>
                       </div>
                     ) : (
                       <div className="qr-box">
@@ -792,8 +790,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
                   <Button
                     className="btn done"
                     type="button"
-                    onClick={() =>
-                    {
+                    onClick={() => {
                       setShowConfirmationModal({
                         existingMember: true,
                         newMember: false,
@@ -923,8 +920,7 @@ const Content = ({ section: initialSection, idx, favTab }) =>
         <div className="subheading">{section.pdf_sub_title}</div>
         <div className="category">
           {section.diagnosis !== "" &&
-            JSON.parse(section.diagnosis).map((dgns, idx, arr) =>
-            {
+            JSON.parse(section.diagnosis).map((dgns, idx, arr) => {
               const imageName = filterCategory.data.filter(
                 (item) => item.name === dgns
               )[0];
@@ -973,16 +969,25 @@ const Content = ({ section: initialSection, idx, favTab }) =>
             {favTab ? null : (
               <img
                 src={
-                  isStarHovered
-                    ? path_image + "star-hover.svg"
-                    : path_image +
-                    (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                  path_image +
+                  (ratingFocus
+                    ? "star-img.svg"
+                    : isStarHovered
+                    ? "star-hover.svg"
+                    : section.self_rate
+                    ? "star-filled.svg"
+                    : "star-img.svg")
                 }
+                onMouseDown={() => setRatingFocus(true)}
+                onMouseUp={() => setRatingFocus(false)}
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
                 onMouseEnter={() => setIsStarHovered(true)}
-                onMouseLeave={() => setIsStarHovered(false)}
+                onMouseLeave={() => {
+                  setIsStarHovered(false);
+                  setRatingFocus(false);
+                }}
               />
             )}
             {favTab ? null : section.rating}
