@@ -62,7 +62,7 @@ const AgeGroups = ({
               onClick={async () => {
                 const ageName = getClassName(lbl.label);
                 setActiveAgeClass(ageName);
-                await trackingUserAction("associated_age",stripHTML(lbl.label),currentTabValue);
+                trackingUserAction("associated_age_clicked",stripHTML(lbl.label),currentTabValue);
                 if (!isTabDisabled(lbl.id)) {
                   if (activeJourney.id !== lbl.id)
                     setActiveJourney({ id: lbl.id, label: lbl.label });

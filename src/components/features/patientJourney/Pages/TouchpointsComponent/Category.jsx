@@ -52,7 +52,7 @@ const Category = ({
             <Button
               key={cat.id}
               onClick={async() => {
-                await trackingUserAction("associated_touchpoint_clicked",cat.name,currentTabValue)
+               trackingUserAction("associated_touchpoint_clicked",cat.name,currentTabValue)
                 if (activeKey.id !== cat.id)
                   setActiveKey({ id: cat.id, name: cat.name });
                 else setActiveKey({ id: null, name: "" });

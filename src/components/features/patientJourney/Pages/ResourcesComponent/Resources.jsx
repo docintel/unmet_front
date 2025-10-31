@@ -149,7 +149,7 @@ const Resources = () => {
     if (e) e.preventDefault();
 
     if(searchText.length >= 3 || filters.length != 0){
-           await trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
+   trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
     }
 
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
@@ -160,6 +160,9 @@ const Resources = () => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
+      if(searchText.length >= 3 || filters.length != 0){
+        trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
+     }
     }
   };
 

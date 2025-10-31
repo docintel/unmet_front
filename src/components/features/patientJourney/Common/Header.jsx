@@ -59,7 +59,7 @@ const Header = () => {
     document.documentElement.setAttribute("data-bs-theme", newTheme);
     localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
-    await trackingUserAction(
+    trackingUserAction(
     "view_mode_clicked",
     newTheme === "dark" ? "HCP" : "Octapharma", 
     currentTabValue
@@ -179,7 +179,7 @@ const Header = () => {
 
                       onClick={async (e) => {
                         e.preventDefault(); // stop default link navigation
-                        await trackingUserAction("logout_clicked", "Logout", currentTabValue);
+                        trackingUserAction("logout_clicked", "Logout", currentTabValue);
                         logout(); 
                       }}
 

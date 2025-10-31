@@ -347,13 +347,6 @@ const TouchPoints = () => {
 
   const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
-    if (searchText.length >= 3 || selectedTag.length != 0) {
-      await trackingUserAction(
-        "content_searched",
-        { searchText, selectedTag: selectedTag },
-        currentTabValue
-      );
-    }
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
       setToast({
@@ -375,6 +368,9 @@ const TouchPoints = () => {
         });
       e.preventDefault();
       handleSearchClick();
+        if (searchText.length >= 3 || selectedTag.length != 0) {
+             trackingUserAction("content_searched", { searchText, selectedTag: selectedTag },currentTabValue);
+          }
     }
   };
 
@@ -495,6 +491,13 @@ const TouchPoints = () => {
                             variant="outline-success"
                             onClick={(e) => {
                               handleSearchClick(e);
+                              if (searchText.length >= 3 || selectedTag.length != 0) {
+                                  trackingUserAction(
+                                    "content_searched",
+                                    { searchText, selectedTag: selectedTag },
+                                    currentTabValue
+                                  );
+                                }
                               if (e.target.value.length <= 3)
                                 setToast({
                                   type: "danger",
