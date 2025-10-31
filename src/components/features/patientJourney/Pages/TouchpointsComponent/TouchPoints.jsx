@@ -366,6 +366,13 @@ const TouchPoints = () => {
 
   const handleSearchTextKeyUp = (e) => {
     if (e.key === "Enter") {
+      if (searchText.length <= 3)
+        setToast({
+          type: "danger",
+          title: "Error",
+          message: "Please enter at least three characters to search",
+          show: true,
+        });
       e.preventDefault();
       handleSearchClick();
     }
