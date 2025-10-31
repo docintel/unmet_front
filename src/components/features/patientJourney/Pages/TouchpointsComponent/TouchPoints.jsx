@@ -143,6 +143,8 @@ const TouchPoints = () => {
           .replace("&gt;", ">")
           .split("<br />")[1];
         const catg = activeKey.name;
+
+        console.log(activeKey.id);
         if (!activeKey.id)
           tempContent = content.data.filter((item) =>
             JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
@@ -160,9 +162,13 @@ const TouchPoints = () => {
               JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
           );
         }
-        tempContent = tempContent.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
+
+        if (isAllSelected)
+          tempContent = tempContent.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+        console.log(tempContent);
+
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -472,7 +478,7 @@ const TouchPoints = () => {
                             variant="outline-success"
                             onClick={(e) => {
                               handleSearchClick(e);
-                              if (!e.target.value || e.target.value.length <= 3)
+                              if (searchText.length <= 3)
                                 setToast({
                                   type: "danger",
                                   title: "Error",

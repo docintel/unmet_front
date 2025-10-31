@@ -277,7 +277,7 @@ const Resources = () => {
                     variant="outline-success"
                     onClick={(e) => {
                       handleSearchClick(e);
-                      if (!e.target.value || e.target.value.length < 3) {
+                      if (searchText.length < 3) {
                         setToast({
                           type: "danger",
                           title: "Error",
