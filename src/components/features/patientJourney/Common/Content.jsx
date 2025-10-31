@@ -96,6 +96,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleStarClick = async () => {
     try {
+      trackingUserAction(
+        "content_like_clicked",
+        { title: section?.title, pdf_id: section?.id },
+        currentTabValue
+      );
       const response = await updateContentRating(
         section.id,
         setIsLoading,
@@ -924,7 +929,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       handleShareClick();
                       await trackingUserAction(
                         "share_clicked",
-                        section.title,
+                        { title: section?.title, pdf_id: section?.id },
                         currentTabValue
                       );
                     }}
@@ -953,7 +958,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                       handleDownloadClick();
                       await trackingUserAction(
                         "download_clicked",
-                        section.title,
+                        { title: section?.title, pdf_id: section?.pdf_id },
                         currentTabValue
                       );
                     }}
@@ -1055,7 +1060,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
               if (!readContent) {
                 await trackingUserAction(
                   "view_clicked",
-                  section?.title,
+                  { title: section?.title, pdf_id: section?.id },
                   currentTabValue
                 );
               }
