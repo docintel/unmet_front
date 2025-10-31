@@ -19,7 +19,7 @@ const Routing = createBrowserRouter([
       }
     ]
   },
-  { path: "*", element: <div>404 Not Found</div> }
+  { path: "*", element: <div className="page-404"><h1>404 Not Found</h1></div> }
 ]);
 
 export default Routing;

@@ -17,7 +17,6 @@ import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import QRCode from "react-qr-code";
-// import Select from "react-select/base";
 
 const Content = ({ section: initialSection, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
@@ -58,6 +57,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     error: false,
     data: "",
   });
+  const [ratingFocus, setRatingFocus] = useState(false);
   const circumference = 2 * Math.PI * 45;
 
   useEffect(() => {
@@ -276,21 +276,20 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
       await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
-      toast.error("Failed to download the content.");
+      console.log(ex);
+      setToast({
+        show: true,
+        type: "danger",
+        title: "Error",
+        message: "Failed to download the content.",
+      });
+    } finally {
+      setProgress(0);
     }
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setEmail("");
-    setName("");
-    setCountry("");
-    setCheckboxChecked({
-      checkbox3: false,
-      checkbox4: true,
-      checkbox5: false,
-      checkbox6: false,
-    });
   };
 
   const handleSubmitClick = async (e) => {
@@ -414,6 +413,15 @@ const Content = ({ section: initialSection, idx, favTab }) => {
   };
 
   const handleCloseConfirmationModal = () => {
+    setEmail("");
+    setName("");
+    setCountry("");
+    setCheckboxChecked({
+      checkbox3: false,
+      checkbox4: true,
+      checkbox5: false,
+      checkbox6: false,
+    });
     setShowConfirmationModal({
       existingMember: false,
       newMember: false,
@@ -750,9 +758,18 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <div className="qr-section">
                     <span>Scan to open the content</span>
                     {qrCodeUrl.loading ? (
-                      <>Loading...</>
-                    ) : qrCodeUrl.error ? (
-                      <>Failed to generate the QR code</>
+                      <div className="qr-skeleton">
+                        <div className="skeleton-box"></div>
+                        {/* <p>Generating your QR code...</p> */}
+                      </div>
+                    ) : qrCodeUrl.error || !qrCodeUrl.data ? (
+                      <div className="qr-status error">
+                        <img src={path_image + "error-alert.svg"} alt="error" />
+                        <p>
+                          Failed to generate
+                          <br /> the QR code
+                        </p>
+                      </div>
                     ) : (
                       <div className="qr-box">
                         <QRCode
@@ -805,26 +822,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           <Modal.Body>
             <div className="confirmation-card">
               <div className="check-icon">
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z"
-                    fill="#3CAC8E"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z"
-                    fill="#3CAC8E"
-                  />
-                </svg>
+                <img src={path_image + "check-icon-img.png"} alt="success" />
               </div>
 
               <h2 className="title">You&apos;re All Done — Content Shared</h2>
@@ -855,7 +853,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     The HCP has been successfully registered, and the content
                     has been sent to:
                     <br />
-                    <span className="email"> Example@gmail.com</span>
+                    <span className="email"> {email}</span>
                   </p>
 
                   <p className="note">
@@ -904,41 +902,13 @@ const Content = ({ section: initialSection, idx, favTab }) => {
               <Dropdown.Menu>
                 {section.share == 1 && (
                   <Dropdown.Item onClick={handleShareClick}>
-                    <svg
-                      width="18"
-                      height="16"
-                      viewBox="0 0 18 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M14 0.291992C15.7259 0.291992 17.125 1.6911 17.125 3.41699C17.125 5.14288 15.7259 6.54199 14 6.54199C12.9586 6.54199 12.0369 6.03207 11.4691 5.24886L7.04281 7.29232C7.09555 7.51992 7.125 7.75668 7.125 8.00033C7.125 8.24424 7.09567 8.48131 7.04281 8.70915L11.4683 10.751C12.0361 9.96785 12.9587 9.45866 14 9.45866C15.7259 9.45866 17.125 10.8578 17.125 12.5837C17.125 14.3095 15.7259 15.7087 14 15.7087C12.2741 15.7087 10.875 14.3095 10.875 12.5837C10.875 12.3454 10.9018 12.1133 10.9523 11.8903L6.52116 9.84522C5.95253 10.621 5.03554 11.1253 4 11.1253C2.27411 11.1253 0.875 9.72622 0.875 8.00033C0.875 6.27444 2.27411 4.87533 4 4.87533C5.03572 4.87533 5.95337 5.37947 6.52197 6.15544L10.9531 4.11117C10.9025 3.88786 10.875 3.65563 10.875 3.41699C10.875 1.6911 12.2741 0.291992 14 0.291992ZM14 10.7087C12.9645 10.7087 12.125 11.5481 12.125 12.5837C12.125 13.6192 12.9645 14.4587 14 14.4587C15.0355 14.4587 15.875 13.6192 15.875 12.5837C15.875 11.5481 15.0355 10.7087 14 10.7087ZM4 6.12533C2.96447 6.12533 2.125 6.96479 2.125 8.00033C2.125 9.03586 2.96447 9.87533 4 9.87533C5.03553 9.87533 5.875 9.03586 5.875 8.00033C5.875 6.96479 5.03553 6.12533 4 6.12533ZM14 1.54199C12.9645 1.54199 12.125 2.38146 12.125 3.41699C12.125 4.45253 12.9645 5.29199 14 5.29199C15.0355 5.29199 15.875 4.45253 15.875 3.41699C15.875 2.38146 15.0355 1.54199 14 1.54199Z"
-                        fill="var(--gray)"
-                      />
-                    </svg>
+                    <img src={path_image + "share-img.svg"} alt="share" />
                     Share
                   </Dropdown.Item>
                 )}{" "}
                 {section.download == 1 && (
                   <Dropdown.Item onClick={handleDownloadClick}>
-                    <svg
-                      width="18"
-                      height="16"
-                      viewBox="0 0 18 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M15.9108 9.45801C16.0258 9.13274 16.383 8.96232 16.7083 9.07715C17.0336 9.19216 17.204 9.54929 17.0892 9.87467L16.8947 10.4264C16.5203 11.4874 16.2226 12.3323 15.9059 12.985C15.5823 13.6521 15.2131 14.1756 14.6633 14.5646C14.1135 14.9536 13.4973 15.1276 12.7606 15.2108C12.0397 15.2922 11.144 15.2913 10.0189 15.2913H7.98113C6.85606 15.2913 5.96035 15.2922 5.23943 15.2108C4.50268 15.1276 3.88655 14.9536 3.33676 14.5646C2.78695 14.1756 2.41773 13.6521 2.09408 12.985C1.77742 12.3323 1.47976 11.4874 1.10531 10.4264L0.910814 9.87467C0.795983 9.5493 0.966405 9.19216 1.29167 9.07715C1.61705 8.96231 1.97418 9.13274 2.0892 9.45801L2.28451 10.0106C2.66843 11.0984 2.93994 11.8651 3.21876 12.4398C3.49062 13.0001 3.74318 13.3209 4.0586 13.5441C4.37403 13.7673 4.76058 13.899 5.3794 13.9689C6.0141 14.0406 6.82767 14.0413 7.98113 14.0413H10.0189C11.1723 14.0413 11.9859 14.0406 12.6206 13.9689C13.2394 13.899 13.626 13.7673 13.9414 13.5441C14.2568 13.3209 14.5094 13.0001 14.7813 12.4398C15.0601 11.8651 15.3316 11.0984 15.7155 10.0106L15.9108 9.45801Z"
-                        fill="var(--gray)"
-                      />
-                      <path
-                        d="M9.00001 0.708008C9.34513 0.708069 9.62501 0.987868 9.62501 1.33301V8.38379C9.62648 8.38207 9.62842 8.38064 9.62989 8.37891C9.81909 8.15562 10.0046 7.91831 10.176 7.7002C10.336 7.49645 10.5041 7.28224 10.6349 7.14762C10.8755 6.90024 11.2712 6.89427 11.5187 7.1346C11.7661 7.3751 11.772 7.77087 11.5317 8.01839C11.4578 8.09443 11.3358 8.24634 11.1582 8.47249C10.9917 8.68443 10.791 8.94227 10.5837 9.18701C10.3787 9.42894 10.149 9.68007 9.9196 9.87549C9.8047 9.97336 9.6748 10.0702 9.53549 10.1449C9.40098 10.2168 9.2152 10.2913 9.00001 10.2913C8.78482 10.2913 8.59905 10.2168 8.46453 10.1449C8.32521 10.0703 8.19533 9.97336 8.08041 9.87549C7.85104 9.68008 7.62136 9.42895 7.41635 9.18701C7.20897 8.94227 7.00827 8.68443 6.8418 8.47249C6.66419 8.24636 6.54219 8.09446 6.46827 8.01839C6.22792 7.77086 6.23385 7.37511 6.48129 7.1346C6.72883 6.89431 7.12459 6.9002 7.36508 7.14762C7.49588 7.28225 7.66404 7.49647 7.82406 7.7002C7.99539 7.91831 8.18093 8.15563 8.37012 8.37891C8.3716 8.38063 8.37354 8.38206 8.37501 8.38379V1.33301C8.37501 0.98783 8.65483 0.708008 9.00001 0.708008Z"
-                        fill="var(--gray)"
-                      />
-                    </svg>
+                    <img src={path_image + "download-img.svg"} alt="download" />
                     Download
                   </Dropdown.Item>
                 )}{" "}
@@ -999,16 +969,25 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             {favTab ? null : (
               <img
                 src={
-                  isStarHovered
-                    ? path_image + "star-hover.svg"
-                    : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                  path_image +
+                  (ratingFocus
+                    ? "star-focus.svg"
+                    : isStarHovered
+                    ? "star-hover.svg"
+                    : section.self_rate
+                    ? "star-filled.svg"
+                    : "star-img.svg")
                 }
+                onMouseDown={() => setRatingFocus(true)}
+                onMouseUp={() => setRatingFocus(false)}
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
                 onMouseEnter={() => setIsStarHovered(true)}
-                onMouseLeave={() => setIsStarHovered(false)}
+                onMouseLeave={() => {
+                  setIsStarHovered(false);
+                  setRatingFocus(false);
+                }}
               />
             )}
             {favTab ? null : section.rating}
