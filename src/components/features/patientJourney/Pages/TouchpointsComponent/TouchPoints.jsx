@@ -127,8 +127,7 @@ const TouchPoints = () => {
   }, [searchText]);
 
   useEffect(() => {
-    setContents(content);
-    filterContents();
+    setContents(content.data);
     if (!content.pending && !content.error) {
       getCategoryTags(content.data);
       filterContents();
@@ -213,7 +212,6 @@ const TouchPoints = () => {
   };
 
   const filterContents = () => {
-    console.log("contnts")
     if (content) {
       if (isAllSelected) {
         const contentList = [];
