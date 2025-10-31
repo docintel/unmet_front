@@ -277,7 +277,6 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       setDownloading(false);
 
       await TrackDownloads(section.id, setIsLoading, setToast);
-      return fileName;
     } catch (ex) {
       toast.error("Failed to download the content.");
     }
