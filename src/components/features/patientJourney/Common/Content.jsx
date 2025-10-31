@@ -91,6 +91,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleStarClick = async () => {
     try {
+      trackingUserAction("content_like_clicked",{title : section?.title,pdf_id:section?.id},currentTabValue)
       const response = await updateContentRating(
         section.id,
         setIsLoading,
@@ -909,7 +910,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   // onClick={handleShareClick}
                   onClick={async () => {
                   handleShareClick()
-                  await trackingUserAction("share_clicked",section.title,currentTabValue)
+                  await trackingUserAction("share_clicked",{title :section?.title,pdf_id:section?.id},currentTabValue)
                   }}
                   >
                     <svg
@@ -934,7 +935,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   // onClick={handleDownloadClick}
                   onClick={async () => {
                   handleDownloadClick()
-                  await trackingUserAction("download_clicked",section.title,currentTabValue)
+                  await trackingUserAction("download_clicked",{title : section?.title,pdf_id : section?.pdf_id},currentTabValue)
                   }}
                   >
                     <svg
@@ -1032,7 +1033,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             // onClick={(e) => setReadContent(!readContent)}
              onClick={async (e) => {
                 if (!readContent) {
-                  await trackingUserAction("view_clicked", section?.title, currentTabValue);
+                  await trackingUserAction("view_clicked", {title:section?.title,pdf_id:section?.id}, currentTabValue);
                 }
                 setReadContent(!readContent);
               }}
