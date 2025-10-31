@@ -4043,6 +4043,31 @@ label {
       }
     }
   }
+  @media (max-width:$layout-breakpoint-small){
+    .modal-dialog{
+      max-width: 90%;
+      margin:0 auto;
+    }
+    .confirmation-card{
+      .check-icon{
+        margin: 25px 0;
+      }
+      .title {
+    font-size: 18px;
+}
+.description-box {
+    padding: 26px 20px 24px;
+    .description, .note{
+      font-size: 14px;
+    }
+    .btn{
+      &.done{
+        margin-top: 24px;
+      }
+    }
+}
+    } 
+  }
 }
 .form-control::-webkit-input-placeholder {
   color: var(--gray100);
