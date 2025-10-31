@@ -1,4 +1,5 @@
-
+import endPoint from "../services/axios/apiEndpoint";
+import { postData } from "../services/axios/apiHelper";
 
 
 
@@ -22,16 +23,17 @@ export function stripHTML(htmlString) {
 export const trackingUserAction = async (actionType, actionValue = "",currentTabValue = "resources") => {
   console.log(currentTabValue,"currentTabValue")
      const payload = {
-      actionType,
-      actionValue,
-      timestamp: new Date().toISOString(),
-      currentTabValue
+      action: actionType,
+      value: actionValue,
+      current_tab : currentTabValue
      }
   try {
+   const res= await postData(endPoint.Tracking, payload);
 
-    console.log("Tracking User Action:", payload);
+    console.log("Tracking User Action:", res);
 
   } catch (error) {
+    console.log("Error tracking user action:", error);
 
   }
 
