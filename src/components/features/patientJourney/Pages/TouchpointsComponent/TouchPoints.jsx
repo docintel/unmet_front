@@ -47,12 +47,10 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
-
+  const [searchBackspace, setSearchBackspace] = useState(false);
   useEffect(() => {
     filterContents();
     filterTags();
-
-    // setTags(filterTag.filter((tg) => !selectedTag.includes(tg)));
   }, [selectedTag]);
 
   useEffect(() => {
@@ -120,12 +118,14 @@ const TouchPoints = () => {
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
-    if (searchText.length == 0) handleSearchClick();
+    if (searchText.length == 0) {
+      if (!searchBackspace) setSelectedTag([]);
+      handleSearchClick();
+    }
   }, [searchText]);
 
   useEffect(() => {
-    setContents(content);
-    filterContents();
+    setContents(content.data);
     if (!content.pending && !content.error) {
       getCategoryTags(content.data);
       filterContents();
@@ -334,7 +334,7 @@ const TouchPoints = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
@@ -347,6 +347,8 @@ const TouchPoints = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Backspace") setSearchBackspace(true);
+    else setSearchBackspace(false);
     if (e.key === "Enter") {
       e.preventDefault();
       handleSearchClick();
@@ -468,7 +470,17 @@ const TouchPoints = () => {
                           </div>
                           <Button
                             variant="outline-success"
-                            onClick={handleSearchClick}
+                            onClick={(e) => {
+                              handleSearchClick(e);
+                              if (!e.target.value || e.target.value.length <= 3)
+                                setToast({
+                                  type: "danger",
+                                  title: "Error",
+                                  message:
+                                    "Please enter at least three characters to search",
+                                  show: true,
+                                });
+                            }}
                           >
                             <img
                               src={path_image + "search-icon.svg"}
