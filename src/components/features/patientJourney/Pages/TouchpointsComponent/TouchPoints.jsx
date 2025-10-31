@@ -22,10 +22,14 @@ const TouchPoints = () => {
   const [isAllSelected, setIsAllSelected] = useState(false);
   // const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const toggleUserType = () => {
-  const newValue = !isAllSelected;
-  setIsAllSelected((prev) => !prev)
-  trackingUserAction("filter_clicked", newValue ? "Female" : "All", currentTabValue);
-};
+    const newValue = !isAllSelected;
+    setIsAllSelected((prev) => !prev);
+    trackingUserAction(
+      "filter_clicked",
+      newValue ? "Female" : "All",
+      currentTabValue
+    );
+  };
 
   const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
@@ -41,7 +45,7 @@ const TouchPoints = () => {
     fetchAgeGroups,
     getNarratives,
     setToast,
-    currentTabValue
+    currentTabValue,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -217,7 +221,7 @@ const TouchPoints = () => {
     }
   };
 
-  const filterContents = async() => {
+  const filterContents = async () => {
     if (content) {
       if (isAllSelected) {
         const contentList = [];
@@ -343,11 +347,16 @@ const TouchPoints = () => {
 
   const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
-    if(searchText.length >= 3 || selectedTag.length != 0){
-       await trackingUserAction("content_searched",{searchText,selectedTag:selectedTag},currentTabValue);
+    if (searchText.length >= 3 || selectedTag.length != 0) {
+      await trackingUserAction(
+        "content_searched",
+        { searchText, selectedTag: selectedTag },
+        currentTabValue
+      );
     }
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-     if(searchText.length <=3) setToast({
+    else
+      setToast({
         type: "danger",
         title: "Error",
         message: "Please enter at least three characters to search",
@@ -477,7 +486,17 @@ const TouchPoints = () => {
                           </div>
                           <Button
                             variant="outline-success"
-                            onClick={handleSearchClick}
+                            onClick={(e) => {
+                              handleSearchClick(e);
+                              if (e.target.value.length <= 3)
+                                setToast({
+                                  type: "danger",
+                                  title: "Error",
+                                  message:
+                                    "Please enter at least three characters to search",
+                                  show: true,
+                                });
+                            }}
                           >
                             <img
                               src={path_image + "search-icon.svg"}
@@ -565,7 +584,14 @@ const TouchPoints = () => {
                                       userSelect: "none",
                                     }}
                                     key={idx}
-                                    onClick={() =>{ trackingUserAction("category_clicked",cat,currentTabValue); setContentCategory(cat)}}
+                                    onClick={() => {
+                                      trackingUserAction(
+                                        "category_clicked",
+                                        cat,
+                                        currentTabValue
+                                      );
+                                      setContentCategory(cat);
+                                    }}
                                   >
                                     <img
                                       src={
