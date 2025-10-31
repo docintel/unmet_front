@@ -9,7 +9,7 @@ import { ContentContext } from "../../../../context/ContentContext";
 
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { isHcp, setIsHcp ,setCurrentTabValue,currentTabValue} = useContext(ContentContext);
+  const { isHcp, setIsHcp ,setCurrentTabValue,currentTabValue,setIsLoading} = useContext(ContentContext);
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 991);
   const location = useLocation();
@@ -44,9 +44,11 @@ const Header = () => {
   const navigate = useNavigate();
 
   const logout = async() => {
+    setIsLoading(true);
     await trackingUserAction("logout_clicked", "Logout", currentTabValue);
     clearLocalStorage();
     document.documentElement.setAttribute("data-bs-theme", "light");
+    setIsLoading(false);
     navigate("/");
   };
   const [theme, setTheme] = useState(() => {

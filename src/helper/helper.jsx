@@ -21,8 +21,12 @@ export function stripHTML(htmlString) {
 
 
 let trackingQueue = Promise.resolve();
-export const trackingUserAction = (actionType, actionValue = "", currentTabValue = "resources") => {
-  // Define what each request should do
+ 
+export const trackingUserAction = async (
+  actionType,
+  actionValue = "",
+  currentTabValue = "resources"
+) => {
   const task = async () => {
     const payload = {
       action: actionType,
@@ -32,8 +36,11 @@ export const trackingUserAction = (actionType, actionValue = "", currentTabValue
     try {
       await postData(endPoint.Tracking, payload);
     } catch (error) {
-      console.log("Error tracking user action:", error);
+      console.error("Error tracking user action:", error);
     }
   };
-  trackingQueue = trackingQueue.finally(() => task());
+ 
+  // Chain the new task onto the queue properly
+  trackingQueue = trackingQueue.then(() => task());
+  return trackingQueue; // return the Promise so it can be awaited
 };
