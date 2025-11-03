@@ -1,6 +1,6 @@
 import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
-import { clearLocalStorage } from "../helper/helper";
+import { clearLocalStorage, trackingUserAction } from "../helper/helper";
 
 export const handleSso = async (login, handleLoginSuccess, setLoader) => {
   try {
@@ -39,7 +39,8 @@ export const handleSubmit = async (
   validateForm,
   navigate,
   userDetails,
-  setLoader
+  setLoader,
+  isHcp
 ) => {
   e.preventDefault();
   if (!validateForm()) {
@@ -60,7 +61,9 @@ export const handleSubmit = async (
   localStorage.setItem("user_id", userDetails?.userToken);
   localStorage.setItem("name", userDetails?.name);
   localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+  localStorage.setItem("sessionId", userDetails?.sessionId);
   setLoader(false);
+  trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
   navigate("/touchpoints");
   // navigate("/home");
 };

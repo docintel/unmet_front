@@ -1,5 +1,7 @@
 import React, { useCallback, useContext, useState } from "react";
 import { ContentContext } from "../../../../../context/ContentContext";
+import { trackingUserAction } from "../../../../../helper/helper";
+import { stripHTML } from "../../../../../helper/helper";
 
 const AgeGroups = ({
   activeJourney,
@@ -10,7 +12,7 @@ const AgeGroups = ({
 }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
-  const { filterAges } = useContext(ContentContext);
+  const { filterAges,currentTabValue } = useContext(ContentContext);
   const isTabDisabled = useCallback(
     (cat_id) => {
       if (!isAllSelected) {
@@ -57,10 +59,10 @@ const AgeGroups = ({
               } ${isTabDisabled(lbl.id) ? "disabled" : ""} ${getClassName(
                 lbl.label
               )}`}
-              onClick={() => {
+              onClick={async () => {
                 const ageName = getClassName(lbl.label);
                 setActiveAgeClass(ageName);
-
+                trackingUserAction("associated_age_clicked",stripHTML(lbl.label),currentTabValue);
                 if (!isTabDisabled(lbl.id)) {
                   if (activeJourney.id !== lbl.id)
                     setActiveJourney({ id: lbl.id, label: lbl.label });

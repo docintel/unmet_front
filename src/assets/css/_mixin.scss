@@ -559,7 +559,7 @@
       padding: 8px 10px;
       border-radius: 20px;
       cursor: pointer;
-       background-color: transparent;
+      //  background-color: red;
       
       &:hover {
         background-color: var(--secondary-color);
@@ -567,6 +567,7 @@
       }
     }
   }
+  
 }
 
 @mixin shapes {
