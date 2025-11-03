@@ -1062,6 +1062,11 @@
                 }
             }
         } 
+        &.age26{
+            .touchpoint-box{
+                border-radius: 20px 20px 0 0;
+            }
+        }
         .touchpoint-box {
             .touchpoints-header {
                 padding: 0px 12px;
@@ -1095,10 +1100,27 @@
         .journey-link-list {
             white-space: nowrap;
             overflow-x: auto;
-            width: calc(100% - 8px) !important;
+            width: calc(100% - 32px) !important;
+            padding: 8px 34px 0px 34px;
+            margin: 0 auto;
             .journey-link {
+                &:last-child{
+                    &.active{
+                        .user-category{
+                            &:after{
+                                    bottom: 0px;
+                                    right: -42px;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: -21px 21px 0 var(--primary-color);
+                            }
+                        }
+                    }
+                }
                 .user-category {
-                    min-width: 110px;
+                    min-width: 120px;
                 }
             }
         
