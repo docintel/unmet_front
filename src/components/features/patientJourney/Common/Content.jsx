@@ -1088,7 +1088,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           fullscreen
           dialogClassName="iframe-custom-modal"
         >
-          <Modal.Header className="custom-modal-header">
+          {/* <Modal.Header className="custom-modal-header">
             <button className="back-btn" onClick={() => setReadContent(false)}>
               <img src={path_image + "left-white-arrow.svg"} alt="" />
               <span>Back</span>
@@ -1096,7 +1096,23 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             <div className="modal-logo">
               <img src={path_image + "vwd-journey-logo.svg"} alt="" />
             </div>
+          </Modal.Header> */}
+          <Modal.Header className="custom-modal-header">
+            <button className="back-btn" onClick={() => setReadContent(false)}>
+              <img src={path_image + "left-white-arrow.svg"} alt="Back" />
+              <span>Back</span>
+            </button>
+
+            <div className="modal-title">
+              Clinical efficacy of simoctocog alfa versus extended half-life recombinant FVIII concentrates in hemophilia A patients undergoing personalized prophylaxis using a matching–adjusted indirect comparison method Subtitle: Craig M. Kessler et al. European Journal of Haematology 2023
+            </div>
+
+            <div className="modal-logo">
+              <img src={path_image + "vwd-journey-logo.svg"} alt="Logo" />
+            </div>
           </Modal.Header>
+
+
 
           <Modal.Body className="custom-modal-body">
             <div className="content-data" ref={iframeRef}>
