@@ -1104,7 +1104,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             </button>
 
             <div className="modal-title">
-              Clinical efficacy of simoctocog alfa versus extended half-life recombinant FVIII concentrates in hemophilia A patients undergoing personalized prophylaxis using a matching–adjusted indirect comparison method Subtitle: Craig M. Kessler et al. European Journal of Haematology 2023
+              {
+                section?.title
+               }
             </div>
 
             <div className="modal-logo">
