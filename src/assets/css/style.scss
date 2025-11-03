@@ -3575,9 +3575,22 @@ label {
 }
 } 
 } 
+.message{
+  padding: 8px 8px;
+}
 } 
 } 
     }
+}
+.existing-member {
+    gap: 30px;
+    .qr-section{
+      .qr-box{
+       padding: 18px;
+
+    }
+    } 
+   
 }
   }
 }

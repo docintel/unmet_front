@@ -59,9 +59,9 @@ const ActiveNarration = ({
             <div
               className={`d-flex ${
                 isMobile ? "flex-column" : "justify-content-between"
-              } narrative-block ${expandNarrative ? "expanded" : "collapsed"}`}
+              } narrative-block ${!isMobile && expandNarrative ? "expanded" : "collapsed"}`}
             >
-              <div className="content">
+              <div className={`content ${isMobile && expandNarrativeTitle ? "expanded" : "collapsed"}`}>
                 <p className="content-title">
                   {activeNarration.narrative_title}
                 </p>
@@ -90,7 +90,7 @@ const ActiveNarration = ({
                   </div>
                 )}
               </div>
-              <div className="content">
+              <div className={`content ${isMobile && expandContributionTitle ? "expanded" : "collapsed"}`}>
                 <p className="content-title">
                   {activeNarration.contibution_title}
                 </p>
