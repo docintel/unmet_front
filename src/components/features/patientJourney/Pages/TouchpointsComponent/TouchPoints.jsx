@@ -415,7 +415,11 @@ const TouchPoints = () => {
                   ></Category>
                 </div>
                 <div className="touchpoint-box-content">
-                  <div className="touchpoint-box-inner">
+                  <div  key={activeJourney.id || 0} className="touchpoint-box-inner" style={{
+                    animation: `slideUpper 0.8s linear both`,
+                  }}>
+                    {/* <div className="touchpoint-box-inner">  */}
+                {/* }}> */}
                     <ActiveNarration
                       isInfoVisible={isInfoVisible}
                       expandNarrative={expandNarrative}

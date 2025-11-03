@@ -3,6 +3,7 @@
 
 
 @media (max-width: $layout-breakpoint-xextraLarge) {
+    
     .login-left {
         background-size: 550px;
 
@@ -1088,7 +1089,7 @@
         .journey-link-list {
             white-space: nowrap;
             overflow-x: auto;
-            // margin: 0;
+            width: calc(100% - 8px) !important;
         }
 
         .patient-journey {
