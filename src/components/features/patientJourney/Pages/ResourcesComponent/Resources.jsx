@@ -5,6 +5,7 @@ import { ContentContext } from "../../../../../context/ContentContext";
 import { toast } from "react-toastify";
 import { iconMapping } from "../../../../../constants/iconMapping";
 import FixedSizeList from "../../Common/FixedSizedList";
+import { trackingUserAction } from "../../../../../helper/helper";
 const Content = lazy(() => import("../../Common/Content"));
 
 const Resources = () => {
@@ -16,19 +17,18 @@ const Resources = () => {
     filterAges,
     filterTag,
     categoryList,
+    currentTabValue,
     filterCategory,
     setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
-
   const [searchText, setSearchText] = useState("");
   const [categoryTags, setCategoryTags] = useState();
   const [tag, setTag] = useState([]);
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
-
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
 
@@ -146,8 +146,13 @@ const Resources = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
+
+    if(searchText.length >= 3 || filters.length != 0){
+   trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
+    }
+
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
       setToast({
@@ -164,6 +169,9 @@ const Resources = () => {
 
       e.preventDefault();
       handleSearchClick();
+      if(searchText.length >= 3 || filters.length != 0){
+        trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
+     }
     }
   };
 
@@ -399,7 +407,7 @@ const Resources = () => {
                               }`}
                               style={{ cursor: "pointer", userSelect: "none" }}
                               key={idx}
-                              onClick={() => setContentCategory(cat)}
+                               onClick={() =>{ trackingUserAction("category_clicked",cat,currentTabValue); setContentCategory(cat)}}
                             >
                               <img
                                 src={
