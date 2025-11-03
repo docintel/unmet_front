@@ -1607,18 +1607,26 @@ transition: none;
       padding: 0 0px;
       filter: none;
       height: 100%;
+      .resources-box-outer{
+        width:100%;
+        flex: 0 0 auto;
+      }
       .content-count-box-outer{
-        height: calc(100% - 188px);
-        @media (max-width:$layout-breakpoint-xextraLarge) {
-           height: calc(100% - 188px);
-        }
+        // height: calc(100% - 188px);
+        // @media (max-width:$layout-breakpoint-xextraLarge) {
+        //    height: calc(100% - 188px);
+        // }
+        margin: 30px 0 0;
+    overflow-y: auto;
+    height: 100%;
+    flex:1;
       }
       .content-count-box {
-        margin: 30px 0 0;
-        overflow-y: auto;
+        margin: 0px 0 0;
+        // overflow-y: auto;
         // max-height: 73.2vh;
         // max-height: 72.5vh;
-        height: 100%;
+        // height: 100%;
 
         .content-count {
           margin-left: 0;
@@ -2753,7 +2761,8 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       border-radius: 15px;
     }
   }
-    @media (max-width: 991px) {
+
+    @media (max-width: $layout-breakpoint-medium) {
    .custom-modal-header{
     display: flex;
     flex-wrap: wrap;
@@ -2764,6 +2773,20 @@ input[type="search"]::-webkit-search-results-decoration:hover {
     order: 3;
    } 
    }
+  }
+    @media (max-width:$layout-breakpoint-small){
+    .custom-modal-header{
+          padding: 11px 82px 11px 12px;
+          .back-btn {
+    font-size: 12px;
+    padding: 4px 11px;
+    max-width: 80px;
+        gap: 5px;
+}
+    }
+    .custom-modal-body {
+      padding: 0px 4px 0px;
+  }
   }
 }
 
@@ -2923,6 +2946,12 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       .toastTitle {
         color: #3CAC8E;
       }
+    }
+  }
+  @media (max-width:$layout-breakpoint-small){
+        right: 12px;
+    .alert-toast{
+      width:90vw;
     }
   }
 }
@@ -4031,7 +4060,10 @@ input:-webkit-autofill:focus {
         // padding: 0 0px 12px;
         margin-top: 14px;
             height: calc(100% - 14px);
-
+            padding-right: 8px;
+        .resources-box-outer{
+          width: calc(100% + 8px);
+        }
         .search-bar {
           margin-top: 18px;
           padding: 0 24px;
@@ -4042,7 +4074,7 @@ input:-webkit-autofill:focus {
         }
 
         .content-count-box-outer {
-          padding-right: 8px;
+          padding-right: 0px;
           width: 100%;
               height: calc(100% - 177px);
         }
