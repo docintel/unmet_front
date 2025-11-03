@@ -447,23 +447,9 @@ const Resources = () => {
                       </div>
                     ) : filteredContents && filteredContents.length > 0 ? (
                       <FixedSizeList
-                        itemCount={filteredContents.length}
-                        itemSize={3}
-                        renderItem={(index) => {
-                          const section = filteredContents[index];
-
-                          if (!section) return null;
-                          return (
-                            <React.Fragment key={section.id}>
-                              <Content
-                                section={section}
-                                idx={section.id}
-                                key={index}
-                                favTab={isHcp}
-                              />
-                            </React.Fragment>
-                          );
-                        }}
+                        items={filteredContents}
+                        itemCount={9}
+                        favTab={isHcp}
                       />
                     ) : (
                       <div className="no-data">
