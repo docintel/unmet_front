@@ -1055,7 +1055,13 @@
 
     .touchpoints-section {
         padding: 0px;
-
+        .touchpoint-data{
+            .narrative-block{
+                .content{
+                        min-height: 128px;
+                }
+            }
+        } 
         .touchpoint-box {
             .touchpoints-header {
                 padding: 0px 12px;
@@ -1090,6 +1096,12 @@
             white-space: nowrap;
             overflow-x: auto;
             width: calc(100% - 8px) !important;
+            .journey-link {
+                .user-category {
+                    min-width: 110px;
+                }
+            }
+        
         }
 
         .patient-journey {
