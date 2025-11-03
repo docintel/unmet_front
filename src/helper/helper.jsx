@@ -28,10 +28,12 @@ export const trackingUserAction = async (
   currentTabValue = "resources"
 ) => {
   const task = async () => {
+    const sessionId = localStorage.getItem("sessionId");
     const payload = {
       action: actionType,
       value: actionValue,
       current_tab: currentTabValue,
+      sessionId: sessionId || null,
     };
     try {
       await postData(endPoint.Tracking, payload);

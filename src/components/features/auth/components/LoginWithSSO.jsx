@@ -37,14 +37,15 @@ const LoginWithSSO = () => {
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
-    const { jwtToken, userRegistered, name, userToken } = res?.data?.data || {};
+    const { jwtToken, userRegistered, name, userToken,sessionId } = res?.data?.data || {};
     if (!userRegistered) {
       setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken });
+      setUserDetails({ name, jwtToken, userToken,sessionId });
     } else {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      localStorage.setItem("sessionId", sessionId);
       trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");
@@ -65,16 +66,17 @@ const LoginWithSSO = () => {
     const mail = "Meznah.a.k@docintel.app";
     setLoader(true);
     const res = await postData("/auth/login", { mail });
-    const { jwtToken, userRegistered, name, userToken } = res?.data?.data;
+    const { jwtToken, userRegistered, name, userToken ,sessionId} = res?.data?.data;
 
     if (!userRegistered) {
       setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken });
+      setUserDetails({ name, jwtToken, userToken,sessionId });
     } else {
       clearLocalStorage();
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      localStorage.setItem("sessionId", sessionId);
       trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");

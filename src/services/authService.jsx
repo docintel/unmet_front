@@ -61,6 +61,7 @@ export const handleSubmit = async (
   localStorage.setItem("user_id", userDetails?.userToken);
   localStorage.setItem("name", userDetails?.name);
   localStorage.setItem("decrypted_token", userDetails?.jwtToken);
+  localStorage.setItem("sessionId", userDetails?.sessionId);
   setLoader(false);
   trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
   navigate("/touchpoints");
