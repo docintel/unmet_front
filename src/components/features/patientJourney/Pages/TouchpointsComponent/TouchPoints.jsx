@@ -13,13 +13,24 @@ import FixedSizeList from "../../Common/FixedSizedList";
 import Category from "./Category";
 import AgeGroups from "./AgeGroups";
 import ActiveNarration from "./ActiveNarration";
+import { trackingUserAction } from "../../../../../helper/helper";
 
 const Content = lazy(() => import("../../Common/Content"));
 
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [isAllSelected, setIsAllSelected] = useState(false);
-  const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  // const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  const toggleUserType = () => {
+    const newValue = !isAllSelected;
+    setIsAllSelected((prev) => !prev);
+    trackingUserAction(
+      "filter_clicked",
+      newValue ? "Female" : "All",
+      currentTabValue
+    );
+  };
+
   const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
   const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
 
@@ -34,6 +45,7 @@ const TouchPoints = () => {
     fetchAgeGroups,
     getNarratives,
     setToast,
+    currentTabValue,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -144,7 +156,6 @@ const TouchPoints = () => {
           .split("<br />")[1];
         const catg = activeKey.name;
 
-        console.log(activeKey.id);
         if (!activeKey.id)
           tempContent = content.data.filter((item) =>
             JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
@@ -167,7 +178,6 @@ const TouchPoints = () => {
           tempContent = tempContent.filter(
             (item) => item.female_oriented === (isAllSelected ? 1 : 0)
           );
-        console.log(tempContent);
 
         tempContent.map((item) => {
           try {
@@ -183,10 +193,11 @@ const TouchPoints = () => {
         });
       } else {
         let tempContent = [];
-        tempContent = content.data.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
-
+        if (isAllSelected)
+          tempContent = content.data.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+        else tempContent = content.data;
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -215,13 +226,12 @@ const TouchPoints = () => {
     }
   };
 
-  const filterContents = () => {
+  const filterContents = async () => {
     if (content) {
       if (isAllSelected) {
         const contentList = [];
         content.data.forEach((element) => {
           if (element.female_oriented === 0) return;
-
           for (let i = 0; i < selectedTag.length; i++) {
             if (
               ![
@@ -356,8 +366,18 @@ const TouchPoints = () => {
     if (e.key === "Backspace") setSearchBackspace(true);
     else setSearchBackspace(false);
     if (e.key === "Enter") {
+      if (searchText.length <= 3)
+        setToast({
+          type: "danger",
+          title: "Error",
+          message: "Please enter at least three characters to search",
+          show: true,
+        });
       e.preventDefault();
       handleSearchClick();
+        if (searchText.length >= 3 || selectedTag.length != 0) {
+             trackingUserAction("content_searched", { searchText, selectedTag: selectedTag },currentTabValue);
+          }
     }
   };
 
@@ -421,7 +441,11 @@ const TouchPoints = () => {
                   ></Category>
                 </div>
                 <div className="touchpoint-box-content">
-                  <div className="touchpoint-box-inner">
+                  <div  key={activeJourney.id || 0} className="touchpoint-box-inner" style={{
+                    animation: `slideUpper 0.8s linear both`,
+                  }}>
+                    {/* <div className="touchpoint-box-inner">  */}
+                {/* }}> */}
                     <ActiveNarration
                       isInfoVisible={isInfoVisible}
                       expandNarrative={expandNarrative}
@@ -478,7 +502,14 @@ const TouchPoints = () => {
                             variant="outline-success"
                             onClick={(e) => {
                               handleSearchClick(e);
-                              if (searchText.length <= 3)
+                              if (searchText.length >= 3 || selectedTag.length != 0) {
+                                  trackingUserAction(
+                                    "content_searched",
+                                    { searchText, selectedTag: selectedTag },
+                                    currentTabValue
+                                  );
+                                }
+                              if (e.target.value.length <= 3)
                                 setToast({
                                   type: "danger",
                                   title: "Error",
@@ -574,7 +605,14 @@ const TouchPoints = () => {
                                       userSelect: "none",
                                     }}
                                     key={idx}
-                                    onClick={() => setContentCategory(cat)}
+                                    onClick={() => {
+                                      trackingUserAction(
+                                        "category_clicked",
+                                        cat,
+                                        currentTabValue
+                                      );
+                                      setContentCategory(cat);
+                                    }}
                                   >
                                     <img
                                       src={
@@ -625,23 +663,9 @@ const TouchPoints = () => {
                           ) : filteredContents &&
                             filteredContents.length > 0 ? (
                             <FixedSizeList
-                              itemCount={filteredContents.length}
-                              itemSize={3}
-                              renderItem={(index) => {
-                                const section = filteredContents[index];
-
-                                if (!section) return null;
-                                return (
-                                  <React.Fragment key={section.id}>
-                                    <Content
-                                      section={section}
-                                      idx={section.id}
-                                      key={index}
-                                      favTab={isHcp}
-                                    />
-                                  </React.Fragment>
-                                );
-                              }}
+                              items={filteredContents}
+                              itemCount={9}
+                              favTab={isHcp}
                             />
                           ) : (
                             <div className="no-data">

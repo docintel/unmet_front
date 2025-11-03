@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState } from "react";
 import { ContentContext } from "../../../../../context/ContentContext";
 import { Button } from "react-bootstrap";
+import { trackingUserAction } from "../../../../../helper/helper";
 
 const Category = ({
   activeKey,
@@ -10,7 +11,7 @@ const Category = ({
 }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
-  const { filterCategory } = useContext(ContentContext);
+  const { filterCategory,currentTabValue } = useContext(ContentContext);
   const [hoverImage, setHoverImage] = useState({ id: -1, image: "" });
   const isTabDisabled = useCallback(
     (cat_id) => {
@@ -50,7 +51,8 @@ const Category = ({
           return (
             <Button
               key={cat.id}
-              onClick={() => {
+              onClick={async() => {
+               trackingUserAction("associated_touchpoint_clicked",cat.name,currentTabValue)
                 if (activeKey.id !== cat.id)
                   setActiveKey({ id: cat.id, name: cat.name });
                 else setActiveKey({ id: null, name: "" });
