@@ -925,7 +925,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleShareClick}
                     onClick={async () => {
                       handleShareClick();
-                       trackingUserAction(
+                      trackingUserAction(
                         "share_clicked",
                         { title: section?.title, pdf_id: section?.id },
                         currentTabValue
@@ -954,7 +954,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleDownloadClick}
                     onClick={async () => {
                       handleDownloadClick();
-                       trackingUserAction(
+                      trackingUserAction(
                         "download_clicked",
                         { title: section?.title, pdf_id: section?.id },
                         currentTabValue
@@ -1016,9 +1016,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             ),
           ]
             .sort((a, b) =>
-              b
+              a
                 .replace("prefix_", "")
-                .localeCompare(a.replace("prefix_", ""), undefined, {
+                .localeCompare(b.replace("prefix_", ""), undefined, {
                   sensitivity: "base",
                 })
             )
@@ -1065,7 +1065,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             // onClick={(e) => setReadContent(!readContent)}
             onClick={async (e) => {
               if (!readContent) {
-                 trackingUserAction(
+                trackingUserAction(
                   "view_clicked",
                   { title: section?.title, pdf_id: section?.id },
                   currentTabValue
