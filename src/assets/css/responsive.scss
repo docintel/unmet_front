@@ -1055,6 +1055,7 @@
 
     .touchpoints-section {
         padding: 0px;
+        height: 100%;
         .touchpoint-data{
             .narrative-block{
                 &.collapsed{
@@ -1097,6 +1098,7 @@ height: auto;
             }
         }
         .touchpoint-box {
+            height: 100%;
             .touchpoints-header {
                 padding: 0px 12px;
             }
@@ -1105,6 +1107,24 @@ height: auto;
                 flex-direction: column;
                 margin-bottom: 35px;
             }
+            .touchpoint-box-content{
+                padding:0;
+                overflow: unset;
+            }
+            .touchpoint-box-inner{
+                overflow: unset;
+            }
+            &.resource-container{
+                .content-count-box{
+                    .content-count{
+                        padding: 12px 12px;
+                 }
+                 .touchpoint-data-boxes{
+                        padding: 0 12px;
+                 }
+                } 
+            }
+
         }
 
         .switch {
@@ -1188,6 +1208,17 @@ height: auto;
             line-height: 20px;
         }
     }
+    [data-bs-theme=dark]{
+    body {
+    background: linear-gradient(
+90deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+}
+.header{
+    &.sticky{
+         background: linear-gradient(80deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+    }
+}
+    } 
 }
 
 @media (max-width: $layout-breakpoint-extraSmall) {
