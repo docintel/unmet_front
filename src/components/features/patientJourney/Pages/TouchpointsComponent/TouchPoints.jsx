@@ -143,6 +143,7 @@ const TouchPoints = () => {
           .replace("&gt;", ">")
           .split("<br />")[1];
         const catg = activeKey.name;
+
         if (!activeKey.id)
           tempContent = content.data.filter((item) =>
             JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
@@ -160,9 +161,12 @@ const TouchPoints = () => {
               JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
           );
         }
-        tempContent = tempContent.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
+
+        if (isAllSelected)
+          tempContent = tempContent.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -177,10 +181,11 @@ const TouchPoints = () => {
         });
       } else {
         let tempContent = [];
-        tempContent = content.data.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
-
+        if (isAllSelected)
+          tempContent = content.data.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+        else tempContent = content.data;
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -476,7 +481,7 @@ const TouchPoints = () => {
                             variant="outline-success"
                             onClick={(e) => {
                               handleSearchClick(e);
-                              if (!e.target.value || e.target.value.length <= 3)
+                              if (searchText.length <= 3)
                                 setToast({
                                   type: "danger",
                                   title: "Error",
@@ -623,23 +628,9 @@ const TouchPoints = () => {
                           ) : filteredContents &&
                             filteredContents.length > 0 ? (
                             <FixedSizeList
-                              itemCount={filteredContents.length}
-                              itemSize={3}
-                              renderItem={(index) => {
-                                const section = filteredContents[index];
-
-                                if (!section) return null;
-                                return (
-                                  <React.Fragment key={section.id}>
-                                    <Content
-                                      section={section}
-                                      idx={section.id}
-                                      key={index}
-                                      favTab={isHcp}
-                                    />
-                                  </React.Fragment>
-                                );
-                              }}
+                              items={filteredContents}
+                              itemCount={9}
+                              favTab={isHcp}
                             />
                           ) : (
                             <div className="no-data">

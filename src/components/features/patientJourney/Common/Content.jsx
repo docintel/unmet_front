@@ -290,6 +290,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    emptyFormField();
   };
 
   const handleSubmitClick = async (e) => {
@@ -356,7 +357,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setToast
       );
       toast.success("Content shared via email successfully");
-      handleCloseModal();
+      setShowModal(false);
       setShowConfirmationModal({
         existingMember: false,
         newMember: true,
@@ -412,13 +413,20 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     });
   };
 
-  const handleCloseConfirmationModal = () => {
+  const emptyFormField = () => {
+    setError({
+      name: { error: false, message: "" },
+      email: { error: false, message: "" },
+      country: { error: false, message: "" },
+      consent: { error: false, message: "" },
+      global: { error: true, message: "" },
+    });
     setEmail("");
     setName("");
     setCountry("");
     setCheckboxChecked({
       checkbox3: false,
-      checkbox4: true,
+      checkbox4: false,
       checkbox5: false,
       checkbox6: false,
     });
@@ -796,7 +804,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         newMember: false,
                         open: true,
                       });
-                      handleCloseModal();
+                      setShowModal(false);
                     }}
                   >
                     Done
@@ -812,7 +820,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       <div className="pop_up">
         <Modal
           show={showConfirmationModal.open}
-          onHide={handleCloseConfirmationModal}
+          onHide={handleCloseModal}
           backdrop="static"
           keyboard={false}
           centered
@@ -841,7 +849,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <Button
                     type="button"
                     className="btn done"
-                    onClick={handleCloseConfirmationModal}
+                    onClick={handleCloseModal}
                   >
                     Done
                   </Button>
@@ -866,7 +874,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <Button
                     type="button"
                     className="btn done"
-                    onClick={handleCloseConfirmationModal}
+                    onClick={handleCloseModal}
                   >
                     Done
                   </Button>
