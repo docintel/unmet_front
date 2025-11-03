@@ -59,12 +59,10 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
-
+  const [searchBackspace, setSearchBackspace] = useState(false);
   useEffect(() => {
     filterContents();
     filterTags();
-
-    // setTags(filterTag.filter((tg) => !selectedTag.includes(tg)));
   }, [selectedTag]);
 
   useEffect(() => {
@@ -132,12 +130,14 @@ const TouchPoints = () => {
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
-    if (searchText.length == 0) handleSearchClick();
+    if (searchText.length == 0) {
+      if (!searchBackspace) setSelectedTag([]);
+      handleSearchClick();
+    }
   }, [searchText]);
 
   useEffect(() => {
-    setContents(content);
-    filterContents();
+    setContents(content.data);
     if (!content.pending && !content.error) {
       getCategoryTags(content.data);
       filterContents();
@@ -155,6 +155,7 @@ const TouchPoints = () => {
           .replace("&gt;", ">")
           .split("<br />")[1];
         const catg = activeKey.name;
+
         if (!activeKey.id)
           tempContent = content.data.filter((item) =>
             JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
@@ -172,9 +173,12 @@ const TouchPoints = () => {
               JSON.parse(item.age_groups ? item.age_groups : "[]").includes(age)
           );
         }
-        tempContent = tempContent.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
+
+        if (isAllSelected)
+          tempContent = tempContent.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -189,10 +193,11 @@ const TouchPoints = () => {
         });
       } else {
         let tempContent = [];
-        tempContent = content.data.filter(
-          (item) => item.female_oriented === (isAllSelected ? 1 : 0)
-        );
-
+        if (isAllSelected)
+          tempContent = content.data.filter(
+            (item) => item.female_oriented === (isAllSelected ? 1 : 0)
+          );
+        else tempContent = content.data;
         tempContent.map((item) => {
           try {
             if (item.tags !== "")
@@ -358,6 +363,8 @@ const TouchPoints = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Backspace") setSearchBackspace(true);
+    else setSearchBackspace(false);
     if (e.key === "Enter") {
       if (searchText.length <= 3)
         setToast({
@@ -434,7 +441,11 @@ const TouchPoints = () => {
                   ></Category>
                 </div>
                 <div className="touchpoint-box-content">
-                  <div className="touchpoint-box-inner">
+                  <div  key={activeJourney.id || 0} className="touchpoint-box-inner" style={{
+                    animation: `slideUpper 0.8s linear both`,
+                  }}>
+                    {/* <div className="touchpoint-box-inner">  */}
+                {/* }}> */}
                     <ActiveNarration
                       isInfoVisible={isInfoVisible}
                       expandNarrative={expandNarrative}
@@ -652,23 +663,9 @@ const TouchPoints = () => {
                           ) : filteredContents &&
                             filteredContents.length > 0 ? (
                             <FixedSizeList
-                              itemCount={filteredContents.length}
-                              itemSize={3}
-                              renderItem={(index) => {
-                                const section = filteredContents[index];
-
-                                if (!section) return null;
-                                return (
-                                  <React.Fragment key={section.id}>
-                                    <Content
-                                      section={section}
-                                      idx={section.id}
-                                      key={index}
-                                      favTab={isHcp}
-                                    />
-                                  </React.Fragment>
-                                );
-                              }}
+                              items={filteredContents}
+                              itemCount={9}
+                              favTab={isHcp}
                             />
                           ) : (
                             <div className="no-data">

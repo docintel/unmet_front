@@ -64,6 +64,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     error: false,
     data: "",
   });
+  const [ratingFocus, setRatingFocus] = useState(false);
   const circumference = 2 * Math.PI * 45;
 
   useEffect(() => {
@@ -301,15 +302,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setEmail("");
-    setName("");
-    setCountry("");
-    setCheckboxChecked({
-      checkbox3: false,
-      checkbox4: true,
-      checkbox5: false,
-      checkbox6: false,
-    });
+    emptyFormField();
   };
 
   const handleSubmitClick = async (e) => {
@@ -376,7 +369,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setToast
       );
       toast.success("Content shared via email successfully");
-      handleCloseModal();
+      setShowModal(false);
       setShowConfirmationModal({
         existingMember: false,
         newMember: true,
@@ -432,7 +425,23 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     });
   };
 
-  const handleCloseConfirmationModal = () => {
+  const emptyFormField = () => {
+    setError({
+      name: { error: false, message: "" },
+      email: { error: false, message: "" },
+      country: { error: false, message: "" },
+      consent: { error: false, message: "" },
+      global: { error: true, message: "" },
+    });
+    setEmail("");
+    setName("");
+    setCountry("");
+    setCheckboxChecked({
+      checkbox3: false,
+      checkbox4: false,
+      checkbox5: false,
+      checkbox6: false,
+    });
     setShowConfirmationModal({
       existingMember: false,
       newMember: false,
@@ -769,9 +778,18 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <div className="qr-section">
                     <span>Scan to open the content</span>
                     {qrCodeUrl.loading ? (
-                      <>Loading...</>
-                    ) : qrCodeUrl.error ? (
-                      <>Failed to generate the QR code</>
+                      <div className="qr-skeleton">
+                        <div className="skeleton-box"></div>
+                        {/* <p>Generating your QR code...</p> */}
+                      </div>
+                    ) : qrCodeUrl.error || !qrCodeUrl.data ? (
+                      <div className="qr-status error">
+                        <img src={path_image + "error-alert.svg"} alt="error" />
+                        <p>
+                          Failed to generate
+                          <br /> the QR code
+                        </p>
+                      </div>
                     ) : (
                       <div className="qr-box">
                         <QRCode
@@ -798,7 +816,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         newMember: false,
                         open: true,
                       });
-                      handleCloseModal();
+                      setShowModal(false);
                     }}
                   >
                     Done
@@ -814,7 +832,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
       <div className="pop_up">
         <Modal
           show={showConfirmationModal.open}
-          onHide={handleCloseConfirmationModal}
+          onHide={handleCloseModal}
           backdrop="static"
           keyboard={false}
           centered
@@ -824,26 +842,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           <Modal.Body>
             <div className="confirmation-card">
               <div className="check-icon">
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 36 36"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z"
-                    fill="#3CAC8E"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z"
-                    fill="#3CAC8E"
-                  />
-                </svg>
+                <img src={path_image + "check-icon-img.png"} alt="success" />
               </div>
 
               <h2 className="title">You&apos;re All Done — Content Shared</h2>
@@ -862,7 +861,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <Button
                     type="button"
                     className="btn done"
-                    onClick={handleCloseConfirmationModal}
+                    onClick={handleCloseModal}
                   >
                     Done
                   </Button>
@@ -874,7 +873,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     The HCP has been successfully registered, and the content
                     has been sent to:
                     <br />
-                    <span className="email"> Example@gmail.com</span>
+                    <span className="email"> {email}</span>
                   </p>
 
                   <p className="note">
@@ -887,7 +886,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   <Button
                     type="button"
                     className="btn done"
-                    onClick={handleCloseConfirmationModal}
+                    onClick={handleCloseModal}
                   >
                     Done
                   </Button>
@@ -1038,16 +1037,25 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             {favTab ? null : (
               <img
                 src={
-                  isStarHovered
-                    ? path_image + "star-hover.svg"
-                    : path_image +
-                      (section.self_rate ? "star-filled.svg" : "star-img.svg")
+                  path_image +
+                  (ratingFocus
+                    ? "star-focus.svg"
+                    : isStarHovered
+                    ? "star-hover.svg"
+                    : section.self_rate
+                    ? "star-filled.svg"
+                    : "star-img.svg")
                 }
+                onMouseDown={() => setRatingFocus(true)}
+                onMouseUp={() => setRatingFocus(false)}
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
                 onMouseEnter={() => setIsStarHovered(true)}
-                onMouseLeave={() => setIsStarHovered(false)}
+                onMouseLeave={() => {
+                  setIsStarHovered(false);
+                  setRatingFocus(false);
+                }}
               />
             )}
             {favTab ? null : section.rating}

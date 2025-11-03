@@ -84,7 +84,6 @@ const LoginWithSSO = () => {
       else navigate("/touchpoints");
     }
 
-
     // clearLocalStorage();
     // localStorage.setItem("user_id", userDetails?.userToken);
     // localStorage.setItem("name", userDetails?.name);

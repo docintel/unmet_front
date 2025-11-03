@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Container, Form, Row, Button, Col } from "react-bootstrap";
 import Select from "react-select";
 import { countryRegionArray } from "../../../../constants/countryRegion";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
 const Login = ({ userDetails, setLoader,isHcp }) => {
@@ -27,6 +27,18 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
     ],
     []
   );
+
+  useEffect(() => {
+    if (selectedRole) setErrors({ ...errors, role: "" });
+  }, [selectedRole]);
+
+  useEffect(() => {
+    if (selectedCountry) setErrors({ ...errors, country: "", region: "" });
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (selectedRegion) setErrors({ ...errors, region: "" });
+  }, [selectedRegion]);
 
   // const regionOptions = useMemo(() => {
   //   const uniqueRegions = [...new Set(Object.values(countryRegionArray))];
@@ -87,12 +99,19 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
   const validateForm = useCallback(() => {
     const newErrors = {};
     if (!selectedRole) newErrors.role = "Role is required.";
+    else newErrors.role = "";
     if (!selectedRegion)
       newErrors.region = "Oops! Pick at least a region or a country.";
+    else newErrors.region = "";
     if (!selectedCountry)
       newErrors.country = "Oops! Pick at least a region or a country.";
+    else newErrors.country = "";
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+
+    let valid = false;
+
+    if (selectedRole && selectedRegion) valid = true;
+    return valid;
   }, [selectedRole, selectedRegion, selectedCountry]);
 
   // Handlers
@@ -165,10 +184,18 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                 <div className="vwd-logo">
                   <img src={path_image + "vwd-logo.svg"} alt="" />
                 </div>
-                <h6>
-                  Welcome to the VWD Journey- with a Focus on wilate®{" "}
-                </h6>
-                <p><span>The VWD Journey Tool</span> is an interactive, centralized digital resource  designed to support you in leading meaningful, personalized conversations with healthcare professionals (HCPs), centered on the patient journey and the role wilate® can play in improving care outcomes. This toolbox as a strategic engagement and learning hub for von Willebrand Disease (VWD), enabling tailored discussions diagnosis, treatment decisions, and long-term management, while highlighting wilate®'s value across the full patient journey.</p>
+                <h6>Welcome to the VWD Journey- with a Focus on wilate® </h6>
+                <p>
+                  <span>The VWD Journey Tool</span> is an interactive,
+                  centralized digital resource designed to support you in
+                  leading meaningful, personalized conversations with healthcare
+                  professionals (HCPs), centered on the patient journey and the
+                  role wilate® can play in improving care outcomes. This toolbox
+                  as a strategic engagement and learning hub for von Willebrand
+                  Disease (VWD), enabling tailored discussions diagnosis,
+                  treatment decisions, and long-term management, while
+                  highlighting wilate®'s value across the full patient journey.
+                </p>
               </div>
               <div></div>
             </div>
@@ -185,7 +212,10 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                     {/* {userDetails?.name || ""} 
                   </h3> */}
                 </div>
-                <h5>Tell us a bit about you to tailor your <br />experience</h5>
+                <h5>
+                  Tell us a bit about you to tailor your <br />
+                  experience
+                </h5>
               </div>
 
               <div className="login-form">
@@ -266,7 +296,7 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                   {/* Region */}
                   <Form.Group className="form-group">
                     <Form.Label>
-                      Region {selectedCountry ? "" : <span>(Required)</span>}
+                      Region <span>(Required)</span>
                     </Form.Label>
                     <div
                       onMouseEnter={(e) =>
@@ -281,8 +311,9 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                       }
                     >
                       <Select
-                        className={`split-button ${errors.region ? "error" : ""
-                          }`}
+                        className={`split-button ${
+                          errors.region ? "error" : ""
+                        }`}
                         value={selectedRegion}
                         onChange={handleRegionChange}
                         placeholder="Select your region"
@@ -332,7 +363,7 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                   {/* Country */}
                   <Form.Group className="form-group">
                     <Form.Label>
-                      Country {selectedRegion ? "" : <span>(Required)</span>}
+                      Country <span>(Required)</span>
                     </Form.Label>
                     <div
                       onMouseEnter={(e) =>
@@ -347,14 +378,15 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                       }
                     >
                       <Select
-                        className={`split-button ${errors.country ? "error" : ""
-                          }`}
+                        className={`split-button ${
+                          errors.country && errors.region ? "error" : ""
+                        }`}
                         value={selectedCountry}
                         onChange={setSelectedCountry}
                         placeholder="Select your country"
                         options={countryList}
                         isClearable
-                      // isDisabled={!selectedRegion}
+                        // isDisabled={!selectedRegion}
                       />
                       <span>
                         <svg
@@ -395,9 +427,9 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                     </div>
                   </Form.Group>
 
-
                   <Button variant="primary" type="submit">
-                    Continue <img src={path_image + "continue-arrow.svg"} alt="" />
+                    Continue{" "}
+                    <img src={path_image + "continue-arrow.svg"} alt="" />
                   </Button>
                 </form>
               </div>

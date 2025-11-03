@@ -19,6 +19,7 @@ const Resources = () => {
     categoryList,
     currentTabValue,
     filterCategory,
+    setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
@@ -153,11 +154,19 @@ const Resources = () => {
     }
 
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
-    else toast("Please enter at least three characters to search");
+    else
+      setToast({
+        type: "danger",
+        title: "Error",
+        message: "Please enter at least three characters to search",
+        show: true,
+      });
   };
 
   const handleSearchTextKeyUp = (e) => {
     if (e.key === "Enter") {
+      if (searchText.length < 3) filterContents();
+
       e.preventDefault();
       handleSearchClick();
       if(searchText.length >= 3 || filters.length != 0){
@@ -272,7 +281,21 @@ const Resources = () => {
                       onKeyUp={handleSearchTextKeyUp}
                     />
                   </div>
-                  <Button variant="outline-success" onClick={handleSearchClick}>
+                  <Button
+                    variant="outline-success"
+                    onClick={(e) => {
+                      handleSearchClick(e);
+                      if (searchText.length < 3) {
+                        setToast({
+                          type: "danger",
+                          title: "Error",
+                          message:
+                            "Please enter at least three characters to search",
+                          show: true,
+                        });
+                      }
+                    }}
+                  >
                     <img src={path_image + "search-icon.svg"} alt="Search" />
                   </Button>
                 </Form>
@@ -305,20 +328,6 @@ const Resources = () => {
               <div className="tags d-flex">
                 <div className="tag-title">Topics:</div>
                 {content.loading ? (
-                  // <Placeholder
-                  //   as="p"
-                  //   animation="wave"
-                  //   xs={10}
-                  //   style={{ display: "flex", gap: "6px" }}
-                  // >
-                  //   {[1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-                  //     <Placeholder
-                  //       key={index}
-                  //       xs={1}
-                  //       style={{ height: "20px", borderRadius: "6px" }}
-                  //     />
-                  //   ))}
-                  // </Placeholder>
                   <></>
                 ) : content.error ? (
                   <></>
@@ -446,23 +455,9 @@ const Resources = () => {
                       </div>
                     ) : filteredContents && filteredContents.length > 0 ? (
                       <FixedSizeList
-                        itemCount={filteredContents.length}
-                        itemSize={3}
-                        renderItem={(index) => {
-                          const section = filteredContents[index];
-
-                          if (!section) return null;
-                          return (
-                            <React.Fragment key={section.id}>
-                              <Content
-                                section={section}
-                                idx={section.id}
-                                key={index}
-                                favTab={isHcp}
-                              />
-                            </React.Fragment>
-                          );
-                        }}
+                        items={filteredContents}
+                        itemCount={9}
+                        favTab={isHcp}
                       />
                     ) : (
                       <div className="no-data">
