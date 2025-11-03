@@ -59,6 +59,8 @@ const TouchPoints = () => {
   const [isInfoVisible, setIsInfoVisible] = useState(true);
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [expandNarrative, setExapandNarrative] = useState(false);
+  const [expandNarrativeTitle, setExpandNarrativeTitle] = useState(false);
+  const [expandContributionTitle, setExpandContributionTitle] = useState(false);
   const [searchBackspace, setSearchBackspace] = useState(false);
   useEffect(() => {
     filterContents();
@@ -127,6 +129,8 @@ const TouchPoints = () => {
     } else setActiveNarration(null);
     setSearchText("");
     setExapandNarrative(false);
+    setExpandNarrativeTitle(false);
+    setExpandContributionTitle(false);
   }, [activeKey, activeJourney]);
 
   useEffect(() => {
@@ -375,9 +379,13 @@ const TouchPoints = () => {
         });
       e.preventDefault();
       handleSearchClick();
-        if (searchText.length >= 3 || selectedTag.length != 0) {
-             trackingUserAction("content_searched", { searchText, selectedTag: selectedTag },currentTabValue);
-          }
+      if (searchText.length >= 3 || selectedTag.length != 0) {
+        trackingUserAction(
+          "content_searched",
+          { searchText, selectedTag: selectedTag },
+          currentTabValue
+        );
+      }
     }
   };
 
@@ -441,17 +449,25 @@ const TouchPoints = () => {
                   ></Category>
                 </div>
                 <div className="touchpoint-box-content">
-                  <div  key={activeJourney.id || 0} className="touchpoint-box-inner" style={{
-                    animation: `slideUpper 0.8s linear both`,
-                  }}>
+                  <div
+                    key={activeJourney.id || 0}
+                    className="touchpoint-box-inner"
+                    style={{
+                      animation: `slideUpper 0.8s linear both`,
+                    }}
+                  >
                     {/* <div className="touchpoint-box-inner">  */}
-                {/* }}> */}
+                    {/* }}> */}
                     <ActiveNarration
                       isInfoVisible={isInfoVisible}
                       expandNarrative={expandNarrative}
                       activeNarration={activeNarration}
                       isHcp={isHcp}
+                      expandNarrativeTitle={expandNarrativeTitle}
+                      expandContributionTitle={expandContributionTitle}
                       setExapandNarrative={setExapandNarrative}
+                      setExpandNarrativeTitle={setExpandNarrativeTitle}
+                      setExpandContributionTitle={setExpandContributionTitle}
                       setIsInfoVisible={setIsInfoVisible}
                     ></ActiveNarration>
                     <div className="box-inner">
@@ -502,13 +518,16 @@ const TouchPoints = () => {
                             variant="outline-success"
                             onClick={(e) => {
                               handleSearchClick(e);
-                              if (searchText.length >= 3 || selectedTag.length != 0) {
-                                  trackingUserAction(
-                                    "content_searched",
-                                    { searchText, selectedTag: selectedTag },
-                                    currentTabValue
-                                  );
-                                }
+                              if (
+                                searchText.length >= 3 ||
+                                selectedTag.length != 0
+                              ) {
+                                trackingUserAction(
+                                  "content_searched",
+                                  { searchText, selectedTag: selectedTag },
+                                  currentTabValue
+                                );
+                              }
                               if (e.target.value.length <= 3)
                                 setToast({
                                   type: "danger",
