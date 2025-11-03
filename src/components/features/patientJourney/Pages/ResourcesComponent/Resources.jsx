@@ -31,6 +31,7 @@ const Resources = () => {
   const [filters, setFilters] = useState([]);
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+  const [searchBackspace, setSearchBackspace] = useState(false);
 
   useEffect(() => {
     if (filterAges.data)
@@ -75,7 +76,21 @@ const Resources = () => {
   }, []);
 
   useEffect(() => {
-    if (searchText.length === 0) filterContents();
+    if (searchText.length === 0) {
+      if (!searchBackspace) {
+        setFilters([]);
+        if (filterAges.data)
+          setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
+        if (filterTag) setTag([...filterTag]);
+        if (filterCategory.data)
+          setCategory(
+            [...filterCategory.data].sort((a, b) =>
+              b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
+            )
+          );
+      }
+      filterContents();
+    }
   }, [searchText]);
 
   const getCategoryTags = (content) => {
@@ -149,8 +164,12 @@ const Resources = () => {
   const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
 
-    if(searchText.length >= 3 || filters.length != 0){
-   trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
+    if (searchText.length >= 3 || filters.length != 0) {
+      trackingUserAction(
+        "content_searched",
+        { searchText, selectedTag: filters },
+        currentTabValue
+      );
     }
 
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
@@ -164,14 +183,20 @@ const Resources = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Backspace") setSearchBackspace(true);
+    else setSearchBackspace(false);
     if (e.key === "Enter") {
       if (searchText.length < 3) filterContents();
 
       e.preventDefault();
       handleSearchClick();
-      if(searchText.length >= 3 || filters.length != 0){
-        trackingUserAction("content_searched",{searchText,selectedTag:filters},currentTabValue);
-     }
+      if (searchText.length >= 3 || filters.length != 0) {
+        trackingUserAction(
+          "content_searched",
+          { searchText, selectedTag: filters },
+          currentTabValue
+        );
+      }
     }
   };
 
@@ -407,7 +432,14 @@ const Resources = () => {
                               }`}
                               style={{ cursor: "pointer", userSelect: "none" }}
                               key={idx}
-                               onClick={() =>{ trackingUserAction("category_clicked",cat,currentTabValue); setContentCategory(cat)}}
+                              onClick={() => {
+                                trackingUserAction(
+                                  "category_clicked",
+                                  cat,
+                                  currentTabValue
+                                );
+                                setContentCategory(cat);
+                              }}
                             >
                               <img
                                 src={
