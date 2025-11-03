@@ -1607,18 +1607,26 @@ transition: none;
       padding: 0 0px;
       filter: none;
       height: 100%;
+      .resources-box-outer{
+        width:100%;
+        flex: 0 0 auto;
+      }
       .content-count-box-outer{
-        height: calc(100% - 188px);
-        @media (max-width:$layout-breakpoint-xextraLarge) {
-           height: calc(100% - 188px);
-        }
+        // height: calc(100% - 188px);
+        // @media (max-width:$layout-breakpoint-xextraLarge) {
+        //    height: calc(100% - 188px);
+        // }
+        margin: 30px 0 0;
+    overflow-y: auto;
+    height: 100%;
+    flex:1;
       }
       .content-count-box {
-        margin: 30px 0 0;
-        overflow-y: auto;
+        margin: 0px 0 0;
+        // overflow-y: auto;
         // max-height: 73.2vh;
         // max-height: 72.5vh;
-        height: 100%;
+        // height: 100%;
 
         .content-count {
           margin-left: 0;
@@ -2681,17 +2689,22 @@ input[type="search"]::-webkit-search-results-decoration:hover {
   text-align: center;
 }
 
+
 .iframe-custom-modal {
   .custom-modal-header {
-    @include flex-middle;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: var(--primary-color);
-    padding: 11px 115px 11px 24px;
+    padding: 12px 24px;
     border: 0;
+    position: relative;
+    color: var(--white);
 
     .back-btn {
-      @include flex-align-center;
-      gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background: var(--green);
       color: var(--white);
       font-size: 14px;
@@ -2701,8 +2714,7 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       padding: 5px 16px;
       line-height: 22px;
       cursor: pointer;
-      margin-right: 0;
-      max-width: 88px;
+      flex-shrink: 0;
 
       img {
         width: 14px;
@@ -2714,8 +2726,24 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       }
     }
 
+    .modal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.4;
+      margin: 0 32px;
+      white-space: normal;
+      word-wrap: break-word;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
     .modal-logo {
-      margin: 0 auto;
+      flex-shrink: 0;
 
       img {
         height: 40px;
@@ -2726,16 +2754,43 @@ input[type="search"]::-webkit-search-results-decoration:hover {
 
   .custom-modal-body {
     background: var(--primary-color);
-    padding: 0px 24px 0px;
+    padding: 0 24px;
 
-    .content-data {
-      iframe {
-        min-height: calc(100vh - 70px) !important;
-        border-radius: 15px;
-      }
+    .content-data iframe {
+      min-height: calc(100vh - 70px) !important;
+      border-radius: 15px;
     }
   }
+
+    @media (max-width: $layout-breakpoint-medium) {
+   .custom-modal-header{
+    display: flex;
+    flex-wrap: wrap;
+
+   .modal-title{
+    flex: 0 0 100%;
+    margin: 10px 10px;
+    order: 3;
+   } 
+   }
+  }
+    @media (max-width:$layout-breakpoint-small){
+    .custom-modal-header{
+          padding: 11px 82px 11px 12px;
+          .back-btn {
+    font-size: 12px;
+    padding: 4px 11px;
+    max-width: 80px;
+        gap: 5px;
 }
+    }
+    .custom-modal-body {
+      padding: 0px 4px 0px;
+  }
+  }
+}
+
+
 
 .btn-check:checked+.btn:focus-visible,
 .btn.active:focus-visible,
@@ -2891,6 +2946,12 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       .toastTitle {
         color: #3CAC8E;
       }
+    }
+  }
+  @media (max-width:$layout-breakpoint-small){
+        right: 12px;
+    .alert-toast{
+      width:90vw;
     }
   }
 }
@@ -3514,9 +3575,22 @@ label {
 }
 } 
 } 
+.message{
+  padding: 8px 8px;
+}
 } 
 } 
     }
+}
+.existing-member {
+    gap: 30px;
+    .qr-section{
+      .qr-box{
+       padding: 18px;
+
+    }
+    } 
+   
 }
   }
 }
@@ -3999,7 +4073,10 @@ input:-webkit-autofill:focus {
         // padding: 0 0px 12px;
         margin-top: 14px;
             height: calc(100% - 14px);
-
+            padding-right: 8px;
+        .resources-box-outer{
+          width: calc(100% + 8px);
+        }
         .search-bar {
           margin-top: 18px;
           padding: 0 24px;
@@ -4010,7 +4087,7 @@ input:-webkit-autofill:focus {
         }
 
         .content-count-box-outer {
-          padding-right: 8px;
+          padding-right: 0px;
           width: 100%;
               height: calc(100% - 177px);
         }

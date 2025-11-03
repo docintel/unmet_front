@@ -925,7 +925,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleShareClick}
                     onClick={async () => {
                       handleShareClick();
-                       trackingUserAction(
+                      trackingUserAction(
                         "share_clicked",
                         { title: section?.title, pdf_id: section?.id },
                         currentTabValue
@@ -954,7 +954,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     // onClick={handleDownloadClick}
                     onClick={async () => {
                       handleDownloadClick();
-                       trackingUserAction(
+                      trackingUserAction(
                         "download_clicked",
                         { title: section?.title, pdf_id: section?.id },
                         currentTabValue
@@ -1016,9 +1016,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             ),
           ]
             .sort((a, b) =>
-              b
+              a
                 .replace("prefix_", "")
-                .localeCompare(a.replace("prefix_", ""), undefined, {
+                .localeCompare(b.replace("prefix_", ""), undefined, {
                   sensitivity: "base",
                 })
             )
@@ -1065,7 +1065,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             // onClick={(e) => setReadContent(!readContent)}
             onClick={async (e) => {
               if (!readContent) {
-                 trackingUserAction(
+                trackingUserAction(
                   "view_clicked",
                   { title: section?.title, pdf_id: section?.id },
                   currentTabValue
@@ -1088,7 +1088,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           fullscreen
           dialogClassName="iframe-custom-modal"
         >
-          <Modal.Header className="custom-modal-header">
+          {/* <Modal.Header className="custom-modal-header">
             <button className="back-btn" onClick={() => setReadContent(false)}>
               <img src={path_image + "left-white-arrow.svg"} alt="" />
               <span>Back</span>
@@ -1096,7 +1096,25 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             <div className="modal-logo">
               <img src={path_image + "vwd-journey-logo.svg"} alt="" />
             </div>
+          </Modal.Header> */}
+          <Modal.Header className="custom-modal-header">
+            <button className="back-btn" onClick={() => setReadContent(false)}>
+              <img src={path_image + "left-white-arrow.svg"} alt="Back" />
+              <span>Back</span>
+            </button>
+
+            <div className="modal-title">
+              {
+                section?.title
+               }
+            </div>
+
+            <div className="modal-logo">
+              <img src={path_image + "vwd-journey-logo.svg"} alt="Logo" />
+            </div>
           </Modal.Header>
+
+
 
           <Modal.Body className="custom-modal-body">
             <div className="content-data" ref={iframeRef}>

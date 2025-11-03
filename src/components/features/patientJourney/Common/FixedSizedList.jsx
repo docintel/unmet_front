@@ -28,7 +28,7 @@ const FixedSizeList = ({ items, itemCount, favTab }) => {
     observer.observe(containerRef.current.lastElementChild);
 
     return () => observer.disconnect();
-  }, [itemsToShow]);
+  }, [items, itemsToShow]);
 
   return (
     <div
