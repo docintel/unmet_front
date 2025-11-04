@@ -104,8 +104,9 @@ const TouchPoints = () => {
   }, [isAllSelected]);
 
   useEffect(() => {
+    setSelectedTag([]);
     filterTags();
-  }, [activeKey, activeJourney, isAllSelected]);
+  }, [activeKey, activeJourney, isAllSelected, isHcp]);
 
   useEffect(() => {
     filterContents();
@@ -547,15 +548,15 @@ const TouchPoints = () => {
                           </Button>
                         </Form>
                       </div>
-                      {content.loading ? (
-                        <></>
-                      ) : content.error ? (
-                        <></>
-                      ) : (
-                        tags &&
-                        tags.length > 0 && (
-                          <div className="tags d-flex">
-                            <div className="tag-title">Topics:</div>
+                      <div className="tags d-flex">
+                        <div className="tag-title">Topics:</div>
+                        {content.loading ? (
+                          <></>
+                        ) : content.error ? (
+                          <></>
+                        ) : (
+                          tags &&
+                          tags.length > 0 && (
                             <div className="tag-list d-flex">
                               {tags &&
                                 (tagShowAllClicked
@@ -601,9 +602,9 @@ const TouchPoints = () => {
                                 </Button>
                               )}
                             </div>
-                          </div>
-                        )
-                      )}
+                          )
+                        )}{" "}
+                      </div>
                       <div className="content-count-box">
                         <div className="content-count">
                           {content.loading ? (
