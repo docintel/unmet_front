@@ -106,7 +106,7 @@ const TouchPoints = () => {
           setActiveKey({ id: null, name: "" });
       }
 
-      setActiveNarration(null);
+      filterActiveNarrative();
       setSearchText("");
     })();
     filterContents();
@@ -119,24 +119,7 @@ const TouchPoints = () => {
 
   useEffect(() => {
     filterContents();
-    if (activeKey.id && activeJourney.id) {
-      const activeNarrative = narrative.find(
-        (narration) =>
-          narration.category_id == activeKey.id &&
-          narration.age_group_id == activeJourney.id
-      );
-      if (activeNarrative) setActiveNarration(activeNarrative);
-      else setActiveNarration(null);
-    } else if (activeKey.id || activeJourney.id) {
-      setIsInfoVisible(false);
-      const activeNarrative = activeKey.id
-        ? narrative.filter((narration) => narration.category_id == activeKey.id)
-        : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney.id
-          );
-      if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
-      else setActiveNarration(null);
-    } else setActiveNarration(null);
+    filterActiveNarrative();
     setSearchText("");
     setExapandNarrative(false);
     setExpandNarrativeTitle(false);
@@ -158,6 +141,27 @@ const TouchPoints = () => {
       filterTags();
     }
   }, [content]);
+
+  const filterActiveNarrative = () => {
+    if (activeKey.id && activeJourney.id) {
+      const activeNarrative = narrative.find(
+        (narration) =>
+          narration.category_id == activeKey.id &&
+          narration.age_group_id == activeJourney.id
+      );
+      if (activeNarrative) setActiveNarration(activeNarrative);
+      else setActiveNarration(null);
+    } else if (activeKey.id || activeJourney.id) {
+      setIsInfoVisible(false);
+      const activeNarrative = activeKey.id
+        ? narrative.filter((narration) => narration.category_id == activeKey.id)
+        : narrative.filter(
+            (narration) => narration.age_group_id == activeJourney.id
+          );
+      if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
+      else setActiveNarration(null);
+    } else setActiveNarration(null);
+  };
 
   const filterTags = () => {
     if (content) {
