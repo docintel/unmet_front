@@ -1326,14 +1326,14 @@ a {
             // box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
             fill: rgba(255, 255, 255, 0.02);
 
-            filter: drop-shadow(0 0 8px rgba(76, 198, 207, 0.80));
+            filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80));
           }
         }
 
         &.active {
           &:hover {
             .user-category {
-              filter: drop-shadow(0 0 8px rgba(76, 198, 207, 0.80)) !important;
+              filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80)) !important;
             }
           }
         }
@@ -1342,7 +1342,7 @@ a {
 
     .touchpoint-box {
       fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(76, 198, 207, 0.80));
+      filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80));
     }
   }
 
@@ -1361,7 +1361,7 @@ a {
           .user-category {
             color: #7DB8A8;
             fill: rgba(255, 255, 255, 0.02);
-            filter: drop-shadow(0 0 8px rgba(125, 184, 168, 0.80));
+            filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80));
           }
         }
 
@@ -1369,7 +1369,7 @@ a {
           &:hover {
             .user-category {
               color: #7DB8A8;
-              filter: drop-shadow(0 0 8px rgba(125, 184, 168, 0.80)) !important;
+              filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80)) !important;
             }
           }
         }
@@ -1378,7 +1378,7 @@ a {
 
     .touchpoint-box {
       fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(125, 184, 168, 0.80));
+      filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80));
     }
   }
 
@@ -1397,14 +1397,14 @@ a {
           .user-category {
             color: var(--gradient-orange);
             fill: rgba(255, 255, 255, 0.02);
-            filter: drop-shadow(0 0 8px rgba(247, 149, 72, 0.80));
+            filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80));
           }
         }
 
         &.active {
           &:hover {
             .user-category {
-              filter: drop-shadow(0 0 8px rgba(247, 149, 72, 0.80)) !important;
+              filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80)) !important;
             }
           }
         }
@@ -1413,7 +1413,7 @@ a {
 
     .touchpoint-box {
       fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(247, 149, 72, 0.80));
+      filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80));
     }
   }
 
@@ -1432,14 +1432,14 @@ a {
           .user-category {
             color: #F37B50;
             fill: rgba(255, 255, 255, 0.02);
-            filter: drop-shadow(0 0 8px rgba(243, 123, 80, 0.80));
+            filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80));
           }
         }
 
         &.active {
           &:hover {
             .user-category {
-              filter: drop-shadow(0 0 8px rgba(243, 123, 80, 0.80)) !important;
+              filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80)) !important;
             }
           }
         }
@@ -1448,7 +1448,7 @@ a {
 
     .touchpoint-box {
       fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(243, 123, 80, 0.80));
+      filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80));
     }
   }
 
@@ -1467,14 +1467,14 @@ a {
           .user-category {
             color: var(--gradient-pink);
             fill: rgba(255, 255, 255, 0.02);
-            filter: drop-shadow(0 0 8px rgba(233, 66, 98, 0.80));
+            filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80));
           }
         }
 
         &.active {
           &:hover {
             .user-category {
-              filter: drop-shadow(0 0 8px rgba(233, 66, 98, 0.80)) !important;
+              filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80)) !important;
             }
           }
         }
@@ -1483,7 +1483,7 @@ a {
 
     .touchpoint-box {
       fill: rgba(255, 255, 255, 0.02);
-      filter: drop-shadow(0 0 8px rgba(233, 66, 98, 0.80));
+      filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80));
       border-radius: 20px 0 0px 0px;
     }
   }
