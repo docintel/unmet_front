@@ -93,11 +93,19 @@ const TouchPoints = () => {
   }, [contentCategory]);
 
   useEffect(() => {
-    setActiveAgeClass("");
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
-      setActiveKey({ id: null, name: "" });
-      setActiveJourney({ id: null, label: "" });
+      if (isAllSelected) {
+        if (activeKey.id === 3) setActiveKey({ id: null, name: "" });
+        if ([2, 3].includes(activeJourney.id)) {
+          setActiveAgeClass("");
+          setActiveJourney({ id: null, label: "" });
+        }
+      } else {
+        if ([2, 3].includes(activeJourney.id) && [5, 6].includes(activeKey.id))
+          setActiveKey({ id: null, name: "" });
+      }
+
       setActiveNarration(null);
       setSearchText("");
     })();
