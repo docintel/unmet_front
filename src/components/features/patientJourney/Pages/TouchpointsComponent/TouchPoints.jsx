@@ -95,38 +95,31 @@ const TouchPoints = () => {
   useEffect(() => {
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
-      setActiveKey({ id: null, name: "" });
-      setActiveJourney({ id: null, label: "" });
-      setActiveNarration(null);
+      if (isAllSelected) {
+        if (activeKey.id === 3) setActiveKey({ id: null, name: "" });
+        if ([2, 3].includes(activeJourney.id)) {
+          setActiveAgeClass("");
+          setActiveJourney({ id: null, label: "" });
+        }
+      } else {
+        if ([2, 3].includes(activeJourney.id) && [5, 6].includes(activeKey.id))
+          setActiveKey({ id: null, name: "" });
+      }
+
+      filterActiveNarrative();
       setSearchText("");
     })();
     filterContents();
   }, [isAllSelected]);
 
   useEffect(() => {
+    setSelectedTag([]);
     filterTags();
-  }, [activeKey, activeJourney, isAllSelected]);
+  }, [activeKey, activeJourney, isAllSelected, isHcp]);
 
   useEffect(() => {
     filterContents();
-    if (activeKey.id && activeJourney.id) {
-      const activeNarrative = narrative.find(
-        (narration) =>
-          narration.category_id == activeKey.id &&
-          narration.age_group_id == activeJourney.id
-      );
-      if (activeNarrative) setActiveNarration(activeNarrative);
-      else setActiveNarration(null);
-    } else if (activeKey.id || activeJourney.id) {
-      setIsInfoVisible(false);
-      const activeNarrative = activeKey.id
-        ? narrative.filter((narration) => narration.category_id == activeKey.id)
-        : narrative.filter(
-            (narration) => narration.age_group_id == activeJourney.id
-          );
-      if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
-      else setActiveNarration(null);
-    } else setActiveNarration(null);
+    filterActiveNarrative();
     setSearchText("");
     setExapandNarrative(false);
     setExpandNarrativeTitle(false);
@@ -148,6 +141,27 @@ const TouchPoints = () => {
       filterTags();
     }
   }, [content]);
+
+  const filterActiveNarrative = () => {
+    if (activeKey.id && activeJourney.id) {
+      const activeNarrative = narrative.find(
+        (narration) =>
+          narration.category_id == activeKey.id &&
+          narration.age_group_id == activeJourney.id
+      );
+      if (activeNarrative) setActiveNarration(activeNarrative);
+      else setActiveNarration(null);
+    } else if (activeKey.id || activeJourney.id) {
+      setIsInfoVisible(false);
+      const activeNarrative = activeKey.id
+        ? narrative.filter((narration) => narration.category_id == activeKey.id)
+        : narrative.filter(
+            (narration) => narration.age_group_id == activeJourney.id
+          );
+      if (activeNarrative.length > 0) setActiveNarration(activeNarrative[0]);
+      else setActiveNarration(null);
+    } else setActiveNarration(null);
+  };
 
   const filterTags = () => {
     if (content) {
@@ -453,7 +467,7 @@ const TouchPoints = () => {
                     key={activeJourney.id || 0}
                     className="touchpoint-box-inner"
                     style={{
-                      animation: `slideUpper 0.8s linear both`,
+                      animation: `slideUpper 1s linear both`,
                     }}
                   >
                     {/* <div className="touchpoint-box-inner">  */}
@@ -510,7 +524,9 @@ const TouchPoints = () => {
                               aria-label="Search"
                               placeholder={"Search by tag or content title"}
                               value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
+                              onChange={(e) =>
+                                setSearchText(e.target.value.trim())
+                              }
                               onKeyUp={handleSearchTextKeyUp}
                             />
                           </div>
@@ -545,15 +561,15 @@ const TouchPoints = () => {
                           </Button>
                         </Form>
                       </div>
-                      {content.loading ? (
-                        <></>
-                      ) : content.error ? (
-                        <></>
-                      ) : (
-                        tags &&
-                        tags.length > 0 && (
-                          <div className="tags d-flex">
-                            <div className="tag-title">Topics:</div>
+                      <div className="tags d-flex">
+                        <div className="tag-title">Topics:</div>
+                        {content.loading ? (
+                          <></>
+                        ) : content.error ? (
+                          <></>
+                        ) : (
+                          tags &&
+                          tags.length > 0 && (
                             <div className="tag-list d-flex">
                               {tags &&
                                 (tagShowAllClicked
@@ -599,9 +615,9 @@ const TouchPoints = () => {
                                 </Button>
                               )}
                             </div>
-                          </div>
-                        )
-                      )}
+                          )
+                        )}{" "}
+                      </div>
                       <div className="content-count-box">
                         <div className="content-count">
                           {content.loading ? (

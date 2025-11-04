@@ -41,18 +41,25 @@ const FixedSizeList = ({ items, itemCount, favTab }) => {
     >
       {items &&
         items.length > 0 &&
-        items.slice(0, itemsToShow).map((item) => {
-          return (
-            <React.Fragment key={item.id}>
-              <Content
-                section={item}
-                idx={item.id}
-                key={item.id}
-                favTab={favTab}
-              />
-            </React.Fragment>
-          );
-        })}{" "}
+        items
+          .sort(
+            (a, b) =>
+              new Date(b.creation_date.replaceAll(".", " ")) -
+              new Date(a.creation_date.replaceAll(".", " "))
+          )
+          .slice(0, itemsToShow)
+          .map((item) => {
+            return (
+              <React.Fragment key={item.id}>
+                <Content
+                  section={item}
+                  idx={item.id}
+                  key={item.id}
+                  favTab={favTab}
+                />
+              </React.Fragment>
+            );
+          })}{" "}
     </div>
   );
 };
