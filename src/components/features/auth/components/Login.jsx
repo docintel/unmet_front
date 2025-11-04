@@ -5,7 +5,7 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import { useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
-const Login = ({ userDetails, setLoader,isHcp }) => {
+const Login = ({ userDetails, setLoader, isHcp }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
 
@@ -243,6 +243,17 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                         onChange={setSelectedRole}
                         placeholder="Select your role"
                         options={roleOptions}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#4CAF50" // background for selected option
+                              : state.isFocused
+                              ? "#E8F5E9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "white" : "black",
+                          }),
+                        }}
                       />
                       <span>
                         <svg
@@ -318,6 +329,17 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                         onChange={handleRegionChange}
                         placeholder="Select your region"
                         options={regionList}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#4CAF50" // background for selected option
+                              : state.isFocused
+                              ? "#E8F5E9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "white" : "black",
+                          }),
+                        }}
                         isClearable
                       />
                       <span>
@@ -385,6 +407,17 @@ const Login = ({ userDetails, setLoader,isHcp }) => {
                         onChange={setSelectedCountry}
                         placeholder="Select your country"
                         options={countryList}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#4CAF50" // background for selected option
+                              : state.isFocused
+                              ? "#E8F5E9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "white" : "black",
+                          }),
+                        }}
                         isClearable
                         // isDisabled={!selectedRegion}
                       />

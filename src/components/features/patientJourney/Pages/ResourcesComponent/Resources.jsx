@@ -304,7 +304,7 @@ const Resources = () => {
                         value={searchText}
                         name="search"
                         id="search"
-                        onChange={(e) => setSearchText(e.target.value)}
+                        onChange={(e) => setSearchText(e.target.value.trim())}
                         onKeyUp={handleSearchTextKeyUp}
                       />
                     </div>

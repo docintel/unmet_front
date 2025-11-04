@@ -510,7 +510,9 @@ const TouchPoints = () => {
                               aria-label="Search"
                               placeholder={"Search by tag or content title"}
                               value={searchText}
-                              onChange={(e) => setSearchText(e.target.value)}
+                              onChange={(e) =>
+                                setSearchText(e.target.value.trim())
+                              }
                               onKeyUp={handleSearchTextKeyUp}
                             />
                           </div>
