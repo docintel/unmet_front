@@ -633,7 +633,19 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           }
                           placeholder="Select your country"
                           options={countryList}
+                          styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#E6F7F8" // background for selected option
+                              : state.isFocused
+                              ? "#F4F6F9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                          }),
+                        }}
                           isClearable
+                          
                         />
                         <span>
                           <svg

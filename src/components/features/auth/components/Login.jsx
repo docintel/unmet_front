@@ -247,11 +247,11 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           option: (provided, state) => ({
                             ...provided,
                             backgroundColor: state.isSelected
-                              ? "#4CAF50" // background for selected option
+                              ? "#E6F7F8" // background for selected option
                               : state.isFocused
-                              ? "#E8F5E9" // background on hover
+                              ? "#F4F6F9" // background on hover
                               : "white",
-                            color: state.isSelected ? "white" : "black",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
                           }),
                         }}
                       />
@@ -333,11 +333,11 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           option: (provided, state) => ({
                             ...provided,
                             backgroundColor: state.isSelected
-                              ? "#4CAF50" // background for selected option
+                              ? "#E6F7F8" // background for selected option
                               : state.isFocused
-                              ? "#E8F5E9" // background on hover
+                              ? "#F4F6F9" // background on hover
                               : "white",
-                            color: state.isSelected ? "white" : "black",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
                           }),
                         }}
                         isClearable
@@ -411,11 +411,11 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           option: (provided, state) => ({
                             ...provided,
                             backgroundColor: state.isSelected
-                              ? "#4CAF50" // background for selected option
+                              ? "#E6F7F8" // background for selected option
                               : state.isFocused
-                              ? "#E8F5E9" // background on hover
+                              ? "#F4F6F9" // background on hover
                               : "white",
-                            color: state.isSelected ? "white" : "black",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
                           }),
                         }}
                         isClearable

@@ -453,7 +453,7 @@ const TouchPoints = () => {
                     key={activeJourney.id || 0}
                     className="touchpoint-box-inner"
                     style={{
-                      animation: `slideUpper 0.8s linear both`,
+                      animation: `slideUpper 1s linear both`,
                     }}
                   >
                     {/* <div className="touchpoint-box-inner">  */}
