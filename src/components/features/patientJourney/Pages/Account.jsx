@@ -8,6 +8,7 @@ import { getData } from "../../../../services/axios/apiHelper";
 import endPoint from "../../../../services/axios/apiEndpoint";
 import AskIBU from "../Sections/AskIBU";
 import { ContentContext } from "../../../../context/ContentContext";
+import FixedSizeList from "../Common/FixedSizedList";
 
 const Account = () => {
   const [favorite, setFavorite] = useState([]);
@@ -80,17 +81,23 @@ const Account = () => {
                   </div>
                   <div className="touchpoint-data-boxes">
                     {recentContent.length > 0 ? (
-                      recentContent &&
-                      recentContent.map((section) => (
-                        <React.Fragment key={section.id}>
-                          <Content
-                            section={section}
-                            idx={section.id}
-                            favTab={false}
-                          />
-                        </React.Fragment>
-                      ))
+                      recentContent && (
+                        <FixedSizeList
+                          items={recentContent}
+                          itemCount={9}
+                          favTab={false}
+                        />
+                      )
                     ) : (
+                      // recentContent.map((section) => (
+                      //   <React.Fragment key={section.id}>
+                      //     <Content
+                      //       section={section}
+                      //       idx={section.id}
+                      //       favTab={false}
+                      //     />
+                      //   </React.Fragment>
+                      // ))
                       <div className="no_data_found">No data Found</div>
                     )}
                   </div>
@@ -98,17 +105,23 @@ const Account = () => {
                 <Tab eventKey="favorite" title="Favourite">
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
-                      favorite &&
-                      favorite.map((section) => (
-                        <React.Fragment key={section.id}>
-                          <Content
-                            section={section}
-                            idx={section.id}
-                            favTab={true}
-                          />
-                        </React.Fragment>
-                      ))
+                      favorite && (
+                        <FixedSizeList
+                          items={favorite}
+                          itemCount={9}
+                          favTab={true}
+                        />
+                      )
                     ) : (
+                      // favorite.map((section) => (
+                      //   <React.Fragment key={section.id}>
+                      //     <Content
+                      //       section={section}
+                      //       idx={section.id}
+                      //       favTab={true}
+                      //     />
+                      //   </React.Fragment>
+                      // ))
                       <div className="no_data_found">No data Found</div>
                     )}
                   </div>

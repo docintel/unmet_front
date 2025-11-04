@@ -62,15 +62,18 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
   const filterRegions = () => {
     const uniqueRegions = [
       ...new Set(
-        Object.entries(countryRegionArray).map(([, region]) => region)
+        Object.entries(countryRegionArray)
+          .map(([, region]) => region)
+          .filter((region) => region !== "Other")
       ),
     ]
+
       .map((region) => ({ value: region, label: region }))
       .sort((a, b) =>
         a.label.toLowerCase().localeCompare(b.label.toLowerCase())
       );
 
-    setRegionList(uniqueRegions);
+    setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
   };
 
   const filterCountries = () => {

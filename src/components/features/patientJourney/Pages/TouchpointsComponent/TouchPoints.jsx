@@ -93,6 +93,7 @@ const TouchPoints = () => {
   }, [contentCategory]);
 
   useEffect(() => {
+    setActiveAgeClass("");
     (async () => {
       await getNarratives(isAllSelected ? 2 : 1);
       setActiveKey({ id: null, name: "" });
