@@ -1059,14 +1059,18 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     : "star-img.svg")
                 }
                 onMouseDown={() => setRatingFocus(true)}
-                onMouseUp={() => setRatingFocus(false)}
+                onMouseUp={() => setTimeout(() => {
+                  setRatingFocus(false)
+                }, 1000)}
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
                 onMouseEnter={() => setIsStarHovered(true)}
                 onMouseLeave={() => {
                   setIsStarHovered(false);
-                  setRatingFocus(false);
+                  setTimeout(() => {
+                    setRatingFocus(false)
+                  }, 1000);
                 }}
               />
             )}
