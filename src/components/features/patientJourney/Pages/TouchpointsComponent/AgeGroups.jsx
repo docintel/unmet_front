@@ -168,6 +168,7 @@ const AgeGroups = ({
           opacity: 0,
           pointerEvents: "none",
           zIndex: 5,
+          borderRadius: "27px 27px 0 0"
         }}
       ></div>
     </div>
