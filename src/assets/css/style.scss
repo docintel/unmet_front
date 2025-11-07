@@ -2210,6 +2210,7 @@ a {
             line-height: 20px;
             color: var(--gray300) !important;
             font-size: 16px !important;
+            margin-bottom: 5px;
 
             span {
               color: var(--gray300) !important;
@@ -2228,7 +2229,7 @@ a {
           margin-left: 0px !important;
           text-indent: 0 !important;
           line-height: 20px;
-
+          margin-bottom: 10px;
           a {
             color: var(--green);
           }
@@ -3936,7 +3937,6 @@ input:-webkit-autofill:focus {
     background: rgba(0, 0, 0, 0.38);
   }
 }
-
 
 // .age0 .touchpoint-box .touchpoint-box-inner,
 // .age6 .touchpoint-box .touchpoint-box-inner,
