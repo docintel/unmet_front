@@ -1,56 +1,34 @@
 import React, { useRef, useState, useEffect } from "react";
+import Content from "./Content";
 
-const FixedSizeList = ({
-  itemCount,
-  itemSize,
-  renderItem,
-  overscanCount = 5,
-}) => {
+const FixedSizeList = ({ items, itemCount, favTab }) => {
   const containerRef = useRef(null);
-  const [containerHeight, setContainerHeight] = useState(0);
-  const [scrollOffset, setScrollOffset] = useState(0);
-
-  const totalHeight = itemCount * itemSize;
-
-  const handleScroll = () => {
-    if (containerRef.current) {
-      setScrollOffset(containerRef.current.scrollTop);
-    }
-  };
-
-  // ResizeObserver to get dynamic height
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      setContainerHeight(entry.contentRect.height);
-    });
-
-    resizeObserver.observe(container);
-
-    return () => resizeObserver.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const startIndex = Math.floor(scrollOffset / itemSize);
-  const visibleCount = Math.ceil(containerHeight / itemSize);
-  const endIndex = Math.min(
-    itemCount,
-    startIndex + visibleCount + overscanCount
+  const [itemsToShow, setItemsToShow] = useState(
+    Math.min(itemCount, items.length)
   );
 
-  const items = [];
-  for (let i = Math.max(0, startIndex - overscanCount); i < endIndex; i++) {
-    items.push(renderItem(i, {}));
-  }
+  useEffect(() => {
+    setItemsToShow((prev) => Math.min(itemCount, items.length));
+  }, [items]);
+
+  useEffect(() => {
+    if (!containerRef) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.intersectionRatio === 1) {
+          setItemsToShow((prev) => Math.min(prev + itemCount, items.length));
+        }
+      },
+      {
+        threshold: 1.0,
+        root: null,
+      }
+    );
+    observer.observe(containerRef.current.lastElementChild);
+
+    return () => observer.disconnect();
+  }, [items, itemsToShow]);
 
   return (
     <div
@@ -61,7 +39,27 @@ const FixedSizeList = ({
         width: "100%",
       }}
     >
-      {items}
+      {items &&
+        items.length > 0 &&
+        items
+          .sort(
+            (a, b) =>
+              new Date(b.creation_date.replaceAll(".", " ")) -
+              new Date(a.creation_date.replaceAll(".", " "))
+          )
+          .slice(0, itemsToShow)
+          .map((item) => {
+            return (
+              <React.Fragment key={item.id}>
+                <Content
+                  section={item}
+                  idx={item.id}
+                  key={item.id}
+                  favTab={favTab}
+                />
+              </React.Fragment>
+            );
+          })}{" "}
     </div>
   );
 };

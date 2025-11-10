@@ -5,6 +5,7 @@ import { ContentContext } from "../../../../../context/ContentContext";
 import { toast } from "react-toastify";
 import { iconMapping } from "../../../../../constants/iconMapping";
 import FixedSizeList from "../../Common/FixedSizedList";
+import { trackingUserAction } from "../../../../../helper/helper";
 const Content = lazy(() => import("../../Common/Content"));
 
 const Resources = () => {
@@ -16,21 +17,21 @@ const Resources = () => {
     filterAges,
     filterTag,
     categoryList,
+    currentTabValue,
     filterCategory,
     setToast,
   } = useContext(ContentContext);
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
-
   const [searchText, setSearchText] = useState("");
   const [categoryTags, setCategoryTags] = useState();
   const [tag, setTag] = useState([]);
   const [category, setCategory] = useState([]);
   const [ageGroup, setAgeGroup] = useState([]);
   const [filters, setFilters] = useState([]);
-
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
+  const [searchBackspace, setSearchBackspace] = useState(false);
 
   useEffect(() => {
     if (filterAges.data)
@@ -75,7 +76,21 @@ const Resources = () => {
   }, []);
 
   useEffect(() => {
-    if (searchText.length === 0) filterContents();
+    if (searchText.length === 0) {
+      if (!searchBackspace) {
+        setFilters([]);
+        if (filterAges.data)
+          setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
+        if (filterTag) setTag([...filterTag]);
+        if (filterCategory.data)
+          setCategory(
+            [...filterCategory.data].sort((a, b) =>
+              b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
+            )
+          );
+      }
+      filterContents();
+    }
   }, [searchText]);
 
   const getCategoryTags = (content) => {
@@ -146,8 +161,17 @@ const Resources = () => {
     }
   };
 
-  const handleSearchClick = (e) => {
+  const handleSearchClick = async (e) => {
     if (e) e.preventDefault();
+
+    if (searchText.length >= 3 || filters.length != 0) {
+      trackingUserAction(
+        "content_searched",
+        { searchText, selectedTag: filters },
+        currentTabValue
+      );
+    }
+
     if (searchText.length >= 3 || searchText.length === 0) filterContents();
     else
       setToast({
@@ -159,11 +183,21 @@ const Resources = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
+    if (e.key === "Backspace") setSearchBackspace(true);
+    else setSearchBackspace(false);
+
     if (e.key === "Enter") {
       if (searchText.length < 3) filterContents();
 
       e.preventDefault();
       handleSearchClick();
+      if (searchText.length >= 3 || filters.length != 0) {
+        trackingUserAction(
+          "content_searched",
+          { searchText, selectedTag: filters },
+          currentTabValue
+        );
+      }
     }
   };
 
@@ -227,157 +261,161 @@ const Resources = () => {
           {" "}
           <div className="touchpoints-section">
             <div className="touchpoint-box resource-container">
-              <div className="search-bar">
-                {" "}
-                <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-                  <div className="inner-search d-flex align-items-center">
-                    {filters && filters.length > 0 && (
-                      <div className="tag-list d-flex">
-                        {filters.map((fltr, idx) => (
-                          <span
-                            key={idx}
-                            className={
-                              "tag-item " +
-                              (fltr.txt.startsWith("prefix_") ? "f-tag" : "")
-                            }
-                          >
-                            {fltr.typ === "age"
-                              ? fltr.txt.split("<br />")[1]
-                              : fltr.typ === "tag"
-                              ? fltr.txt.replace("prefix_", "")
-                              : fltr.txt}{" "}
-                            <button
-                              className="cross-btn"
-                              type="button"
-                              onClick={() =>
-                                removeFilters(fltr.txt, fltr.id, fltr.typ)
+              <div className="resources-box-outer">
+                <div className="search-bar">
+                  {" "}
+                  <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+                    <div className="inner-search d-flex align-items-center">
+                      {filters && filters.length > 0 && (
+                        <div className="tag-list d-flex">
+                          {filters.map((fltr, idx) => (
+                            <span
+                              key={idx}
+                              className={
+                                "tag-item " +
+                                (fltr.txt.startsWith("prefix_") ? "f-tag" : "")
                               }
                             >
-                              <img
-                                src={path_image + "cross-arrow.svg"}
-                                alt=""
-                              />
-                            </button>
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    <Form.Control
-                      type="search"
-                      aria-label="Search"
-                      placeholder={"Search by tag or content title"}
-                      value={searchText}
-                      name="search"
-                      id="search"
-                      onChange={(e) => setSearchText(e.target.value)}
-                      onKeyUp={handleSearchTextKeyUp}
-                    />
-                  </div>
-                  <Button
-                    variant="outline-success"
-                    onClick={(e) => {
-                      handleSearchClick(e);
-                      if (!e.target.value || e.target.value.length < 3) {
-                        setToast({
-                          type: "danger",
-                          title: "Error",
-                          message:
-                            "Please enter at least three characters to search",
-                          show: true,
-                        });
-                      }
-                    }}
-                  >
-                    <img src={path_image + "search-icon.svg"} alt="Search" />
-                  </Button>
-                </Form>
-              </div>
+                              {fltr.typ === "age"
+                                ? fltr.txt.split("<br />")[1]
+                                : fltr.typ === "tag"
+                                ? fltr.txt.replace("prefix_", "")
+                                : fltr.txt}{" "}
+                              <button
+                                className="cross-btn"
+                                type="button"
+                                onClick={() =>
+                                  removeFilters(fltr.txt, fltr.id, fltr.typ)
+                                }
+                              >
+                                <img
+                                  src={path_image + "cross-arrow.svg"}
+                                  alt=""
+                                />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <Form.Control
+                        type="search"
+                        aria-label="Search"
+                        placeholder={"Search by tag or content title"}
+                        value={searchText}
+                        name="search"
+                        id="search"
+                        onChange={(e) => setSearchText(e.target.value.trim())}
+                        onKeyUp={handleSearchTextKeyUp}
+                      />
+                    </div>
+                    <Button
+                      variant="outline-success"
+                      onClick={(e) => {
+                        handleSearchClick(e);
+                        if (searchText.length < 3) {
+                          setToast({
+                            type: "danger",
+                            title: "Error",
+                            message:
+                              "Please enter at least three characters to search",
+                            show: true,
+                          });
+                        }
+                      }}
+                    >
+                      <img src={path_image + "search-icon.svg"} alt="Search" />
+                    </Button>
+                  </Form>
+                </div>
 
-              <div className="tags d-flex">
-                <div className="tag-title">Touchpoints:</div>
-                <div className="tag-list d-flex">
-                  {" "}
-                  {filterCategory.loading ? (
+                <div className="tags d-flex">
+                  <div className="tag-title">Touchpoints:</div>
+                  <div className="tag-list d-flex">
+                    {" "}
+                    {filterCategory.loading ? (
+                      <></>
+                    ) : filterCategory.error ? (
+                      <></>
+                    ) : (
+                      category &&
+                      category.length > 0 &&
+                      category.map((cat) => (
+                        <div
+                          className="tag-item"
+                          key={cat.id}
+                          style={{ cursor: "pointer" }}
+                          onClick={() => selectFilters(cat.name, cat.id, "cat")}
+                        >
+                          {cat.name}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+                <div className="tags d-flex">
+                  <div className="tag-title">Topics:</div>
+                  {content.loading ? (
                     <></>
-                  ) : filterCategory.error ? (
+                  ) : content.error ? (
                     <></>
                   ) : (
-                    category &&
-                    category.length > 0 &&
-                    category.map((cat) => (
-                      <div
-                        className="tag-item"
-                        key={cat.id}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => selectFilters(cat.name, cat.id, "cat")}
-                      >
-                        {cat.name}
+                    tag &&
+                    tag.length > 0 && (
+                      <div className="tag-list d-flex">
+                        {tag &&
+                          (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                            (tags, idx) => (
+                              <div
+                                className={
+                                  "tag-item" +
+                                  " " +
+                                  (tags.startsWith("prefix_")
+                                    ? "f-tag"
+                                    : "n-tag")
+                                }
+                                key={idx}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  try {
+                                    selectFilters(tags, 0, "tag");
+                                  } catch (error) {
+                                    console.log(
+                                      "Error selecting tag filter:",
+                                      error
+                                    );
+                                  }
+                                }}
+                              >
+                                {tags.replace("prefix_", "")}
+                              </div>
+                            )
+                          )}{" "}
+                        {tag && tag.length > 10 && (
+                          <Button
+                            className={
+                              tagShowAllClicked
+                                ? "show-less-btn"
+                                : "show-more-btn"
+                            }
+                            // Add class "show-less-btn" show less tags
+                            onClick={() =>
+                              setTagShowAllClicked(!tagShowAllClicked)
+                            }
+                          >
+                            <span>
+                              {tagShowAllClicked ? "Show less" : "Show more"}
+                            </span>
+                            <img
+                              src={`${path_image}right-arrow.svg`}
+                              alt="Show more"
+                              className="arrow-icon"
+                            />
+                          </Button>
+                        )}
                       </div>
-                    ))
+                    )
                   )}
                 </div>
-              </div>
-              <div className="tags d-flex">
-                <div className="tag-title">Topics:</div>
-                {content.loading ? (
-                  <></>
-                ) : content.error ? (
-                  <></>
-                ) : (
-                  tag &&
-                  tag.length > 0 && (
-                    <div className="tag-list d-flex">
-                      {tag &&
-                        (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
-                          (tags, idx) => (
-                            <div
-                              className={
-                                "tag-item" +
-                                " " +
-                                (tags.startsWith("prefix_") ? "f-tag" : "n-tag")
-                              }
-                              key={idx}
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                try {
-                                  selectFilters(tags, 0, "tag");
-                                } catch (error) {
-                                  console.log(
-                                    "Error selecting tag filter:",
-                                    error
-                                  );
-                                }
-                              }}
-                            >
-                              {tags.replace("prefix_", "")}
-                            </div>
-                          )
-                        )}{" "}
-                      {tag && tag.length > 10 && (
-                        <Button
-                          className={
-                            tagShowAllClicked
-                              ? "show-less-btn"
-                              : "show-more-btn"
-                          }
-                          // Add class "show-less-btn" show less tags
-                          onClick={() =>
-                            setTagShowAllClicked(!tagShowAllClicked)
-                          }
-                        >
-                          <span>
-                            {tagShowAllClicked ? "Show less" : "Show more"}
-                          </span>
-                          <img
-                            src={`${path_image}right-arrow.svg`}
-                            alt="Show more"
-                            className="arrow-icon"
-                          />
-                        </Button>
-                      )}
-                    </div>
-                  )
-                )}
               </div>
               <div className="content-count-box-outer">
                 <div className="content-count-box">
@@ -399,7 +437,14 @@ const Resources = () => {
                               }`}
                               style={{ cursor: "pointer", userSelect: "none" }}
                               key={idx}
-                              onClick={() => setContentCategory(cat)}
+                              onClick={() => {
+                                trackingUserAction(
+                                  "category_clicked",
+                                  cat,
+                                  currentTabValue
+                                );
+                                setContentCategory(cat);
+                              }}
                             >
                               <img
                                 src={
@@ -447,23 +492,9 @@ const Resources = () => {
                       </div>
                     ) : filteredContents && filteredContents.length > 0 ? (
                       <FixedSizeList
-                        itemCount={filteredContents.length}
-                        itemSize={3}
-                        renderItem={(index) => {
-                          const section = filteredContents[index];
-
-                          if (!section) return null;
-                          return (
-                            <React.Fragment key={section.id}>
-                              <Content
-                                section={section}
-                                idx={section.id}
-                                key={index}
-                                favTab={isHcp}
-                              />
-                            </React.Fragment>
-                          );
-                        }}
+                        items={filteredContents}
+                        itemCount={9}
+                        favTab={isHcp}
                       />
                     ) : (
                       <div className="no-data">

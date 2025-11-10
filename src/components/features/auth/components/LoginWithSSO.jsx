@@ -5,7 +5,7 @@ import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { clearLocalStorage } from "../../../../helper/helper";
+import { clearLocalStorage, trackingUserAction } from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
 import { useSearchParams } from "react-router-dom";
 
@@ -37,14 +37,16 @@ const LoginWithSSO = () => {
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
-    const { jwtToken, userRegistered, name, userToken } = res?.data?.data || {};
+    const { jwtToken, userRegistered, name, userToken,sessionId } = res?.data?.data || {};
     if (!userRegistered) {
       setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken });
+      setUserDetails({ name, jwtToken, userToken,sessionId });
     } else {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      localStorage.setItem("sessionId", sessionId);
+      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");
       if (!isHcp) navigate("/touchpoints");
@@ -64,16 +66,18 @@ const LoginWithSSO = () => {
     const mail = "Meznah.a.k@docintel.app";
     setLoader(true);
     const res = await postData("/auth/login", { mail });
-    const { jwtToken, userRegistered, name, userToken } = res?.data?.data;
+    const { jwtToken, userRegistered, name, userToken ,sessionId} = res?.data?.data;
 
     if (!userRegistered) {
       setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken });
+      setUserDetails({ name, jwtToken, userToken,sessionId });
     } else {
       clearLocalStorage();
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
+      localStorage.setItem("sessionId", sessionId);
+      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
       // if (!isHcp) navigate("/home");
       // else navigate("/touchpoints");
       if (!isHcp) navigate("/touchpoints");
@@ -273,7 +277,7 @@ const LoginWithSSO = () => {
         //   </div>
       )}
       {userVerified && (
-        <Login userDetails={userDetails} setLoader={setLoader} />
+        <Login userDetails={userDetails} setLoader={setLoader} isHcp={isHcp} />
       )}
       {loader && (
         <div style={{ display: loader ? "block" : "none" }}>

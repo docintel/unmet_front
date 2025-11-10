@@ -1,17 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, Row, Offcanvas } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { clearLocalStorage } from "../../../../helper/helper";
+import {
+  clearLocalStorage,
+  trackingUserAction,
+} from "../../../../helper/helper";
 import { ContentContext } from "../../../../context/ContentContext";
 
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { isHcp, setIsHcp } = useContext(ContentContext);
+  const { isHcp, setIsHcp, setCurrentTabValue, currentTabValue, setIsLoading } =
+    useContext(ContentContext);
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 991);
-
+  const location = useLocation();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -27,6 +32,11 @@ const Header = () => {
     setIsHcp((prev) => {
       const newValue = !prev;
       document.cookie = `isHcp=${newValue}; 1; path=/`;
+      trackingUserAction(
+        "view_mode_clicked",
+        newValue === true ? "HCP" : "Octapharma",
+        currentTabValue
+      );
 
       // If switching to HCP and not already on touchpoints/resources → redirect to /touchpoints
       if (
@@ -42,9 +52,12 @@ const Header = () => {
   };
   const navigate = useNavigate();
 
-  const logout = () => {
+  const logout = async () => {
+    setIsLoading(true);
+    await trackingUserAction("logout_clicked", "Logout", currentTabValue);
     clearLocalStorage();
     document.documentElement.setAttribute("data-bs-theme", "light");
+    setIsLoading(false);
     navigate("/");
   };
   const [theme, setTheme] = useState(() => {
@@ -53,11 +66,16 @@ const Header = () => {
     return savedTheme || "light";
   });
 
-  const toggleTheme = () => {
+  const toggleTheme = async () => {
     const newTheme = theme === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-bs-theme", newTheme);
     localStorage.setItem("theme", newTheme);
     setTheme(newTheme);
+    //   trackingUserAction(
+    //   "view_mode_clicked",
+    //   newTheme === "dark" ? "HCP" : "Octapharma",
+    //   currentTabValue
+    // );
   };
 
   const handleHomeRedirection = () => {
@@ -70,6 +88,14 @@ const Header = () => {
     if (isHcp) navigate("/touchpoints");
     else navigate("/touchpoints");
   };
+
+  useEffect(() => {
+    if (location.pathname.includes("/touchpoints")) {
+      setCurrentTabValue("touchpoints");
+    } else if (location.pathname.includes("/resources")) {
+      setCurrentTabValue("resources");
+    }
+  }, [location.pathname, setCurrentTabValue]);
 
   // Ensure theme is set on initial render
   useState(() => {
@@ -157,8 +183,14 @@ const Header = () => {
                   <span>
                     <Link
                       to="/"
-                      onClick={(e) => {
+                      // onClick={(e) => {
+                      //   e.preventDefault(); // stop default link navigation
+                      //   logout();
+                      // }}
+
+                      onClick={async (e) => {
                         e.preventDefault(); // stop default link navigation
+
                         logout();
                       }}
                     >
@@ -189,10 +221,7 @@ const Header = () => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title>
-                    <img
-                      src={path_image + "vwd-journey-logo.svg"}
-                      alt="logo"
-                    />
+                    <img src={path_image + "vwd-journey-logo.svg"} alt="logo" />
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -239,45 +268,48 @@ const Header = () => {
                     )} */}
                   </Nav>
                   <div className="header-account d-flex align-items-center">
-                <div className="switch">
-                  <label className="switch-light">
-                    <input
-                      type="checkbox"
-                      checked={isHcp}
-                      onChange={toggleUserType}
-                      onClick={toggleTheme}
-                      style={{ margin: 0 }}
-                    />
-                    <span>
-                      <span className={`switch-btn ${!isHcp ? "active" : ""}`}>
-                        Octapharma
-                      </span>
-                      <span className={`switch-btn ${isHcp ? "active" : ""}`}>
-                        HCP
-                      </span>
-                    </span>
-                    <a className="btn"></a>
-                  </label>
-                </div>
+                    <div className="switch">
+                      <label className="switch-light">
+                        <input
+                          type="checkbox"
+                          checked={isHcp}
+                          onChange={toggleUserType}
+                          onClick={toggleTheme}
+                          style={{ margin: 0 }}
+                        />
+                        <span>
+                          <span
+                            className={`switch-btn ${!isHcp ? "active" : ""}`}
+                          >
+                            Octapharma
+                          </span>
+                          <span
+                            className={`switch-btn ${isHcp ? "active" : ""}`}
+                          >
+                            HCP
+                          </span>
+                        </span>
+                        <a className="btn"></a>
+                      </label>
+                    </div>
 
-                <div className="logout">
-                  <span>
-                    <Link
-                      to="/"
-                      onClick={(e) => {
-                        e.preventDefault(); // stop default link navigation
-                        logout();
-                      }}
-                    >
-                      Log out
-                      <div className="logout-icon">
-                        <img src={path_image + "logout.svg"} alt="user" />
-                      </div>
-                    </Link>
-                  </span>
-                </div>
-
-              </div>
+                    <div className="logout">
+                      <span>
+                        <Link
+                          to="/"
+                          onClick={(e) => {
+                            e.preventDefault(); // stop default link navigation
+                            logout();
+                          }}
+                        >
+                          Log out
+                          <div className="logout-icon">
+                            <img src={path_image + "logout.svg"} alt="user" />
+                          </div>
+                        </Link>
+                      </span>
+                    </div>
+                  </div>
                 </Offcanvas.Body>
               </Offcanvas>
             )}

@@ -5,7 +5,7 @@ import { countryRegionArray } from "../../../../constants/countryRegion";
 import { useNavigate } from "react-router-dom";
 import { handleSubmit } from "../../../../services/authService";
 
-const Login = ({ userDetails, setLoader }) => {
+const Login = ({ userDetails, setLoader, isHcp }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
 
@@ -62,15 +62,18 @@ const Login = ({ userDetails, setLoader }) => {
   const filterRegions = () => {
     const uniqueRegions = [
       ...new Set(
-        Object.entries(countryRegionArray).map(([, region]) => region)
+        Object.entries(countryRegionArray)
+          .map(([, region]) => region)
+          .filter((region) => region !== "Other")
       ),
     ]
+
       .map((region) => ({ value: region, label: region }))
       .sort((a, b) =>
         a.label.toLowerCase().localeCompare(b.label.toLowerCase())
       );
 
-    setRegionList(uniqueRegions);
+    setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
   };
 
   const filterCountries = () => {
@@ -130,7 +133,8 @@ const Login = ({ userDetails, setLoader }) => {
         validateForm,
         navigate,
         userDetails,
-        setLoader
+        setLoader,
+        isHcp
       );
     },
     [
@@ -242,6 +246,17 @@ const Login = ({ userDetails, setLoader }) => {
                         onChange={setSelectedRole}
                         placeholder="Select your role"
                         options={roleOptions}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#E6F7F8" // background for selected option
+                              : state.isFocused
+                              ? "#F4F6F9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                          }),
+                        }}
                       />
                       <span>
                         <svg
@@ -317,6 +332,17 @@ const Login = ({ userDetails, setLoader }) => {
                         onChange={handleRegionChange}
                         placeholder="Select your region"
                         options={regionList}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#E6F7F8" // background for selected option
+                              : state.isFocused
+                              ? "#F4F6F9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                          }),
+                        }}
                         isClearable
                       />
                       <span>
@@ -384,6 +410,17 @@ const Login = ({ userDetails, setLoader }) => {
                         onChange={setSelectedCountry}
                         placeholder="Select your country"
                         options={countryList}
+                        styles={{
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected
+                              ? "#E6F7F8" // background for selected option
+                              : state.isFocused
+                              ? "#F4F6F9" // background on hover
+                              : "white",
+                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                          }),
+                        }}
                         isClearable
                         // isDisabled={!selectedRegion}
                       />
