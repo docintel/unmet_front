@@ -522,7 +522,7 @@ const TouchPoints = () => {
                             <Form.Control
                               type="search"
                               aria-label="Search"
-                              placeholder={"Search by tag or content title"}
+                              placeholder={selectedTag.length === 0 ? "Search by tag or content title":""}
                               value={searchText}
                               onChange={(e) =>
                                 setSearchText(e.target.value.trim())

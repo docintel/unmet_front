@@ -42,10 +42,17 @@ export const fetchAgeGroupCategories = async (
         femaleImage: item.female_tab_thumb,
       };
     });
+    const catArr= ["Diagnosis","Surgery","Pregnancy & Childbirth","HMB","Joint & Bone Health","WIL-PROPHY","Personalized Prophylaxis","On-demand"];
+    let catItem = [];
+    catArr.forEach((item)=>{
+      data?.data?.data?.categories.forEach((cat)=>{
+        if(cat.name === item) catItem = [...catItem,cat]
+      })
+    })
     setFilterCategory({
       loading: false,
       error: false,
-      data: data?.data?.data?.categories,
+      data: catItem,
     });
     setFilterAges({
       loading: false,
