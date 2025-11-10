@@ -300,7 +300,7 @@ const Resources = () => {
                       <Form.Control
                         type="search"
                         aria-label="Search"
-                        placeholder={"Search by tag or content title"}
+                        placeholder={filters.length === 0 ? "Search by tag or content title":""}
                         value={searchText}
                         name="search"
                         id="search"
