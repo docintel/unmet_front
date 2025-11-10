@@ -147,7 +147,7 @@
     }
 
     &.age12 {
-      background: #f79548;
+      background: var(--gradient-orange);
       position: relative;
       z-index: 3;
     }
@@ -310,7 +310,7 @@
         padding: 1px 8px;
         &.f-tag {
         background: rgba(247, 149, 72, 0.2);
-        color: #F79548;
+        color: var(--gradient-orange);
        }
       }
     }
