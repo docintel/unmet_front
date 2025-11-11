@@ -356,24 +356,24 @@ a {
               }
             }
 
-            a {
-              &.btn {
-                position: absolute;
-                right: 36%;
-                top: 0px;
-                z-index: 4;
-                display: block;
-                width: 116px;
-                padding: 16px 20px;
-                border: 0;
-                color: var(--white);
-                transition: all 0.3s ease-in-out;
-                background: var(--green);
-                box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
-                border-radius: 30px;
-                margin: 0 auto;
-              }
-            }
+            // a {
+            //   &.btn {
+            //     position: absolute;
+            //     right: 36%;
+            //     top: 0px;
+            //     z-index: 4;
+            //     display: block;
+            //     width: 116px;
+            //     padding: 16px 20px;
+            //     border: 0;
+            //     color: var(--white);
+            //     transition: all 0.3s ease-in-out;
+            //     background: var(--green);
+            //     box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
+            //     border-radius: 30px;
+            //     margin: 0 auto;
+            //   }
+            // }
           }
         }
       }
@@ -529,7 +529,19 @@ a {
               width: 50% !important;
             }
           }
+          a{
+            &.btn{
+              right: 50%;
+    width: 50%;
+    padding: 12px;
+            }
+          }
+
         }
+        input[type=checkbox]:checked ~ a.btn {
+    right: 0;
+    width: 50%;
+}
       }
 
       .logout {
@@ -666,6 +678,28 @@ a {
       @include switch;
       margin-right: 16px;
       position: relative;
+      .switch-light{
+
+        a{
+            &.btn{
+              padding:12px;
+              right: 37%;
+              width: 115px;
+            }
+          }
+      }
+      input{
+        &[type=checkbox]{
+          &:checked{
+            ~ a{
+              &.btn {
+    width: 70px;
+}
+            }
+            }
+          } 
+        }
+                
 
       &:after {
         content: "";
@@ -1055,6 +1089,7 @@ a {
   gap: 16px;
   margin: 45px 0;
   width: 100%;
+
 
   .journey-link {
     color: var(--gray);
@@ -1535,6 +1570,17 @@ a {
   .patient-journey {
     gap: 28px;
     margin: 0;
+      .switch{
+    .switch-light{
+      a{
+        &.btn{
+          padding: 12px;
+          width:68px;
+          right: 54%;
+        }
+      }
+    }
+  }
   }
 
   .journey-link-list {

@@ -438,18 +438,13 @@
       display: flex;
 
       span {
-        
+        z-index: 5;
         &.active
-        // &:hover 
         {
           color: var(--white);
           border-radius: 40px;
-          background: var(--green);
+          // background: var(--green);
         }
-        // &:hover{
-        //   background: linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%), #4CC6CF;
-        // }
-
         font-size: 14px;
         font-weight: 400;
         color: var(--green);
@@ -458,6 +453,7 @@
         padding: 1px;
         cursor: pointer;
         line-height: 22px;
+
 
         &:first-child {
           width: 116px;
@@ -468,11 +464,37 @@
         }
       }
     }
-
-    a.btn {
-      display: none;
+    a{
+      &.btn{
+         position: absolute;
+    right: 36%;
+    top: 0px;
+    z-index: 4;
+    display: block;
+    width: 116px;
+    padding: 16px;
+    border: 0;
+    color: var(--white);
+    transition: all 0.3s ease-in-out;
+    background: var(--green);
+    box-shadow: 0px 0px 4px rgba(0, 102, 190, 0.2);
+    border-radius: 30px;
+    margin: 0 auto;
+      }
     }
+
   }
+    input[type=checkbox]{
+      &:checked{
+        ~a{
+          &.btn{
+            right:0;
+            left: auto;
+            width:79px;
+          }
+        }
+      }
+    }
   @media (max-width: $layout-breakpoint-medium) {
     width: 160px;
 
