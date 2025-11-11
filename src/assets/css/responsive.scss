@@ -1243,36 +1243,41 @@
                 }
 
                 &.active {
-                    &.age0{
-                        .user-category{
+                    &.age0 {
+                        .user-category {
                             // fill: rgba(255, 255, 255, 0.02);
-                            filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80))!important;
+                            filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80)) !important;
                         }
                     }
-                    &.age6{
-                        .user-category{
+
+                    &.age6 {
+                        .user-category {
                             // fill: rgba(255, 255, 255, 0.02);
-                            filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80))!important;
+                            filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80)) !important;
                         }
                     }
-                    &.age12{
-                        .user-category{
+
+                    &.age12 {
+                        .user-category {
                             // fill: rgba(255, 255, 255, 0.02);
-                            filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80))!important;
+                            filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80)) !important;
                         }
                     }
-                    &.age18{
-                        .user-category{
+
+                    &.age18 {
+                        .user-category {
                             // fill: rgba(255, 255, 255, 0.02);
-                            filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80))!important;
+                            filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80)) !important;
                         }
                     }
-                    &.age26{
-                        .user-category{
+
+                    &.age26 {
+                        .user-category {
                             // fill: rgba(255, 255, 255, 0.02);
-                            filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80))!important;
+                            filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80)) !important;
                         }
                     }
+
                     .user-category {
                         fill: rgba(255, 255, 255, 0.02);
                         filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.8));
@@ -1358,107 +1363,114 @@
                 background: linear-gradient(80deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
             }
         }
-         .touchpoints-section{
-            .journey-link-list{
-                    .journey-link{
-                        &.active{
-                            .user-category {
+
+        .touchpoints-section {
+            .journey-link-list {
+                .journey-link {
+                    &.active {
+                        .user-category {
                             background: rgba(255, 255, 255, 0.70);
-                              &:before {
-                    width: 20px;
-                    height: 21px;
-                    left: -20px;
-                    border-radius: 0;
-                    opacity: 0.7;
-                    background: url(../assets/images/light-left1.svg) no-repeat;
-                    background-size: cover;
-                  }
-    
-                  &:after {
-                    background: url(../assets/images/light-right1.svg) no-repeat;
-                    width: 20px;
-                    height: 20px;
-                    right: -20px;
-                    background-size: cover;
-                    border-radius: 0;
-                    opacity: 0.7;
-                  }
-                         }
+
+                            &:before {
+                                width: 20px;
+                                height: 21px;
+                                left: -20px;
+                                border-radius: 0;
+                                opacity: 0.7;
+                                background: url(../assets/images/light-left1.svg) no-repeat;
+                                background-size: cover;
+                            }
+
+                            &:after {
+                                background: url(../assets/images/light-right1.svg) no-repeat;
+                                width: 20px;
+                                height: 20px;
+                                right: -20px;
+                                background-size: cover;
+                                border-radius: 0;
+                                opacity: 0.7;
+                            }
                         }
                     }
                 }
-            &.age0{
-                .journey-link-list{
-                    .journey-link{
-                        &.active{
-                            .user-category {
-                            box-shadow: 0 0 8px rgba(76, 198, 207, 0.3);
-                        }
-                        }
-                    }
-                } 
-            } 
-            &.age6{
-                .journey-link-list{
-                    .journey-link{
-                        &.active{
-                            .user-category {
-                            box-shadow: 0 0 8px rgba(125, 184, 168, 0.4);
-                        }
-                        }
-                    }
-                } 
             }
-            &.age12{
-                .journey-link-list{
-                    .journey-link{
-                        &.active{
+
+            &.age0 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
                             .user-category {
-                            box-shadow: 0 0 8px rgba(247, 149, 72, 0.4);
-                        }
+                                box-shadow: 0 0 8px rgba(76, 198, 207, 0.3);
+                            }
                         }
                     }
-                } 
+                }
             }
-            &.age18{
-                .journey-link-list{
-                    .journey-link{
-                        &.active{
+
+            &.age6 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
                             .user-category {
-                            box-shadow: 0 0 8px rgba(243, 123, 80, 0.4);
-                        }
+                                box-shadow: 0 0 8px rgba(125, 184, 168, 0.4);
+                            }
                         }
                     }
-                } 
+                }
             }
-            &.age26{
-                .journey-link-list{
-                    .journey-link{
-                        &.active{
+
+            &.age12 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
                             .user-category {
-                            box-shadow: 0 0 8px rgba(233, 66, 98, 0.4);
-                        }
+                                box-shadow: 0 0 8px rgba(247, 149, 72, 0.4);
+                            }
                         }
                     }
-                } 
+                }
             }
-         }
-        .touchpoint-section{
-            .journey-link-list{
-                .journey-link{
-                    &.active{
-                        &.age0{
-                            .user-category{
+
+            &.age18 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(243, 123, 80, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age26 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(233, 66, 98, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .touchpoint-section {
+            .journey-link-list {
+                .journey-link {
+                    &.active {
+                        &.age0 {
+                            .user-category {
                                 filter: none;
                                 box-shadow: 0 0 8px rgba(76, 198, 207, 0.3);
                             }
-                        } 
-                        .user-category{
-                          
                         }
+
+                        .user-category {}
                     }
                 }
-            } 
+            }
         }
     }
 }
