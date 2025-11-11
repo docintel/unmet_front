@@ -3,7 +3,7 @@
 
 
 @media (max-width: $layout-breakpoint-xextraLarge) {
-    
+
     .login-left {
         background-size: 550px;
 
@@ -271,6 +271,8 @@
 
     .touchpoints-section {
         .touchpoint-box {
+            height: calc(100% - 121px);
+
             .touchpoints-header {
                 padding: 0px 16px;
 
@@ -376,9 +378,10 @@
         padding: 4px 16px;
         min-width: 75px;
     }
-    .dark-progress{
-        top:16px!important;
-        bottom:2px!important;
+
+    .dark-progress {
+        top: 16px !important;
+        bottom: 2px !important;
     }
 
 }
@@ -410,9 +413,10 @@
     }
 
     .header {
-        .header-inner{
+        .header-inner {
             padding: 0;
         }
+
         .nav {
             .navbar-nav {
                 flex-direction: row;
@@ -455,8 +459,11 @@
         padding: 0px;
 
         .touchpoint-box {
+            height: calc(100% - 106px);
+
             .touchpoints-header {
-                        padding: 0px 12px;
+                padding: 0px 12px;
+
                 .touchpoint-links {
                     gap: 12px;
                     flex-wrap: nowrap;
@@ -497,6 +504,23 @@
                     padding: 10px 4px 12px;
                 }
             }
+
+            .journey-link-box {
+                height: 52px !important;
+                border-radius: 18px 18px 0px 0px !important;
+
+                &:before {
+                    left: -34px;
+                    width: 34px;
+                    height: 34px;
+                }
+
+                &:after {
+                    right: -34px;
+                    width: 34px;
+                    height: 34px;
+                }
+            }
         }
 
         .patient-journey {
@@ -523,7 +547,7 @@
             gap: 30px;
             white-space: nowrap;
             margin: 0 -12px 36px -12px;
-            padding:12px 30px 12px 12px;
+            padding: 12px 30px 12px 12px;
         }
 
         .touchpoint-data-boxes {
@@ -639,21 +663,23 @@
                         font-size: 14px;
                         margin: 0 0 7px;
                     }
+
                     .switch {
                         .switch-light {
-                            a{
-                                &.btn{
-                                    width:95px;
+                            a {
+                                &.btn {
+                                    width: 95px;
                                     right: 37%;
                                 }
                             }
+
                             input[type="checkbox"]:checked {
-                &~a {
-                  &.btn {
-                    width:57px;
-                  }
-                }
-              }
+                                &~a {
+                                    &.btn {
+                                        width: 57px;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -741,6 +767,33 @@
         }
 
         .touchpoints-section {
+
+            &.age0,
+            &.age6,
+            &.age12,
+            &.age18,
+            &.age26 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            ~.journey-link-box {
+                                &:before {
+                                    width: 20px;
+                                    height: 21px;
+                                    left: -20px;
+                                }
+
+                                &:after {
+                                    width: 20px;
+                                    height: 20px;
+                                    right: -20px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             .touchpoint-box {
                 &.resource-container {
                     margin-top: 8px;
@@ -765,6 +818,7 @@
             }
         }
     }
+
 }
 
 @media (max-width: $layout-breakpoint-small) {
@@ -899,20 +953,22 @@
                                     padding: 1px 1px;
                                 }
                             }
-                             a{
-                                &.btn{
-                                    width:116px;
+
+                            a {
+                                &.btn {
+                                    width: 116px;
                                     right: 34%;
-                                    padding:12px;
+                                    padding: 12px;
                                 }
                             }
+
                             input[type="checkbox"]:checked {
-                &~a {
-                  &.btn {
-                    width:60px;
-                  }
-                }
-              }
+                                &~a {
+                                    &.btn {
+                                        width: 60px;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -1056,49 +1112,61 @@
     .touchpoints-section {
         padding: 0px;
         height: 100%;
-        .touchpoint-data{
-            .narrative-block{
-                &.collapsed{
+
+        .touchpoint-data {
+            .narrative-block {
+                &.collapsed {
                     max-height: initial;
                 }
-                .content{
-                        height: 128px;
-                                min-height: 128px;
-                                overflow: unset;
-                                margin-bottom: 40px;
-                                div{
-                                    height: 120px;
-                                    overflow: hidden;
-                                }
-                    .read-less-btn, .read-more-btn{
-height: auto;
+
+                .content {
+                    height: 128px;
+                    min-height: 128px;
+                    overflow: unset;
+                    margin-bottom: 40px;
+
+                    div {
+                        height: 120px;
+                        overflow: hidden;
                     }
-                    &.expanded{
-                        div{
+
+                    .read-less-btn,
+                    .read-more-btn {
+                        height: auto;
+                    }
+
+                    &.expanded {
+                        div {
                             height: auto;
                         }
-                        &:after{
+
+                        &:after {
                             height: 0;
                         }
                     }
                 }
             }
-            .read-less-btn, .read-more-btn{
-                    position: absolute;
-    z-index: 9;
-    left: 0;
-    right: 0;
-    bottom: -30px;
-    height: auto;
+
+            .read-less-btn,
+            .read-more-btn {
+                position: absolute;
+                z-index: 9;
+                left: 0;
+                right: 0;
+                bottom: -30px;
+                height: auto;
             }
-        } 
-        &.age26{
-            .touchpoint-box{
+        }
+
+        &.age26 {
+            .touchpoint-box {
                 border-radius: 20px 20px 0 0;
             }
         }
+
         .touchpoint-box {
             height: 100%;
+
             .touchpoints-header {
                 padding: 0px 12px;
             }
@@ -1107,22 +1175,26 @@ height: auto;
                 flex-direction: column;
                 margin-bottom: 35px;
             }
-            .touchpoint-box-content{
-                padding:0;
+
+            .touchpoint-box-content {
+                padding: 0;
                 overflow: unset;
             }
-            .touchpoint-box-inner{
+
+            .touchpoint-box-inner {
                 overflow: unset;
             }
-            &.resource-container{
-                .content-count-box{
-                    .content-count{
+
+            &.resource-container {
+                .content-count-box {
+                    .content-count {
                         padding: 12px 12px;
-                 }
-                 .touchpoint-data-boxes{
+                    }
+
+                    .touchpoint-data-boxes {
                         padding: 0 12px;
-                 }
-                } 
+                    }
+                }
             }
 
         }
@@ -1152,27 +1224,99 @@ height: auto;
             width: calc(100% - 32px) !important;
             padding: 8px 34px 0px 34px;
             margin: 0 auto;
+
             .journey-link {
-                &:last-child{
-                    &.active{
-                        .user-category{
-                            &:after{
-                                    bottom: 0px;
-                                    right: -42px;
-    width: 42px;
-    height: 42px;
-    background: transparent;
-    border-radius: 50%;
-    box-shadow: -21px 21px 0 var(--primary-color);
+                &:last-child {
+                    &.active {
+                        .user-category {
+                            &:after {
+                                bottom: 0px;
+                                right: -42px;
+                                width: 42px;
+                                height: 42px;
+                                background: transparent;
+                                border-radius: 50%;
+                                box-shadow: -21px 21px 0 var(--primary-color);
                             }
                         }
                     }
                 }
+
+                &.active {
+                    &.age0 {
+                        .user-category {
+                            // fill: rgba(255, 255, 255, 0.02);
+                            filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.80)) !important;
+                        }
+                    }
+
+                    &.age6 {
+                        .user-category {
+                            // fill: rgba(255, 255, 255, 0.02);
+                            filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.80)) !important;
+                        }
+                    }
+
+                    &.age12 {
+                        .user-category {
+                            // fill: rgba(255, 255, 255, 0.02);
+                            filter: drop-shadow(0 0 6px rgba(247, 149, 72, 0.80)) !important;
+                        }
+                    }
+
+                    &.age18 {
+                        .user-category {
+                            // fill: rgba(255, 255, 255, 0.02);
+                            filter: drop-shadow(0 0 6px rgba(243, 123, 80, 0.80)) !important;
+                        }
+                    }
+
+                    &.age26 {
+                        .user-category {
+                            // fill: rgba(255, 255, 255, 0.02);
+                            filter: drop-shadow(0 0 6px rgba(233, 66, 98, 0.80)) !important;
+                        }
+                    }
+
+                    .user-category {
+                        fill: rgba(255, 255, 255, 0.02);
+                        filter: drop-shadow(0 0 6px rgba(76, 198, 207, 0.8));
+                        background: var(--primary-color);
+                        border-radius: 18px 18px 0 0;
+                        position: relative;
+
+                        &:before {
+                            content: "";
+                            position: absolute;
+                            bottom: 0px;
+                            left: -42px;
+                            width: 42px;
+                            height: 42px;
+                            background: transparent;
+                            border-radius: 50%;
+                            box-shadow: 21px 21px 0 var(--primary-color);
+                        }
+
+                        &:after {
+                            content: "";
+                            position: absolute;
+                            bottom: 0px;
+                            left: auto;
+                            right: -42px;
+                            width: 42px;
+                            height: 42px;
+                            background: transparent;
+                            border-radius: 50%;
+                            box-shadow: -21px 21px 0 var(--primary-color);
+                        }
+                    }
+                }
+
                 .user-category {
                     min-width: 120px;
                 }
             }
-        
+
         }
 
         .patient-journey {
@@ -1208,17 +1352,127 @@ height: auto;
             line-height: 20px;
         }
     }
-    [data-bs-theme=dark]{
-    body {
-    background: linear-gradient(
-90deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
-}
-.header{
-    &.sticky{
-         background: linear-gradient(80deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+
+    [data-bs-theme=dark] {
+        body {
+            background: linear-gradient(90deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+        }
+
+        .header {
+            &.sticky {
+                background: linear-gradient(80deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+            }
+        }
+
+        .touchpoints-section {
+            .journey-link-list {
+                .journey-link {
+                    &.active {
+                        .user-category {
+                            background: rgba(255, 255, 255, 0.70);
+
+                            &:before {
+                                width: 20px;
+                                height: 21px;
+                                left: -20px;
+                                border-radius: 0;
+                                opacity: 0.7;
+                                background: url(../assets/images/light-left1.svg) no-repeat;
+                                background-size: cover;
+                            }
+
+                            &:after {
+                                background: url(../assets/images/light-right1.svg) no-repeat;
+                                width: 20px;
+                                height: 20px;
+                                right: -20px;
+                                background-size: cover;
+                                border-radius: 0;
+                                opacity: 0.7;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age0 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(76, 198, 207, 0.3);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age6 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(125, 184, 168, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age12 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(247, 149, 72, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age18 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(243, 123, 80, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.age26 {
+                .journey-link-list {
+                    .journey-link {
+                        &.active {
+                            .user-category {
+                                box-shadow: 0 0 8px rgba(233, 66, 98, 0.4);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .touchpoint-section {
+            .journey-link-list {
+                .journey-link {
+                    &.active {
+                        &.age0 {
+                            .user-category {
+                                filter: none;
+                                box-shadow: 0 0 8px rgba(76, 198, 207, 0.3);
+                            }
+                        }
+
+                        .user-category {}
+                    }
+                }
+            }
+        }
     }
-}
-    } 
 }
 
 @media (max-width: $layout-breakpoint-extraSmall) {
