@@ -10,15 +10,18 @@ import AskIBU from "../Sections/AskIBU";
 import { ContentContext } from "../../../../context/ContentContext";
 import FixedSizeList from "../Common/FixedSizedList";
 
-const Account = () => {
+const Account = () =>
+{
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
 
   const { setIsLoading } = useContext(ContentContext);
-
-  useEffect(() => {
-    const fetchAllData = async () => {
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
+  useEffect(() =>
+  {
+    const fetchAllData = async () =>
+    {
       setIsLoading(true);
       try {
         const [favoriteRes, recentRes, userRes] = await Promise.all([
@@ -45,40 +48,46 @@ const Account = () => {
       <div className="custom-container">
         <Row>
           <div className="account-section">
-            <div className="profile">
-              <div className="profile-img">
-                <img
-                  src={
-                    "https://api.dicebear.com/5.x/initials/svg?seed=" +
-                    userData?.name
-                  }
-                  alt="profile"
-                />
+            <div className="account-header">
+              <div className="profile">
+                <div className="profile-img">
+                  <img
+                    src={
+                      "https://api.dicebear.com/5.x/initials/svg?seed=" +
+                      userData?.name
+                    }
+                    alt="profile"
+                  />
+                </div>
+                <div className="profile-content">
+                  <h4>{userData?.name}</h4>
+                  <p><img src={path_image + "role-icon.svg"} alt="" />{userData?.role ? userData?.role : "N/A"}</p>
+                  <p><img src={path_image + "region-icon.svg"} alt="" />{userData?.region ? userData?.region : "N/A"}</p>
+                </div>
               </div>
-              <div className="profile-content">
-                <h4>{userData?.name}</h4>
-                <p>{userData?.role ? userData?.role : "N/A"}</p>
-                <p>{userData?.region ? userData?.region : "N/A"}</p>
-              </div>
-            </div>
-            <div className="content-download">
-              <div className="download">
-                <h4>Content Download</h4>
-                <p>
-                  {userData?.total_download ? userData?.total_download : "00"}
-                </p>
-              </div>
-              <div className="shared">
-                <h4>Content Shared</h4>
-                <p>{userData?.total_shared ? userData?.total_shared : "00"}</p>
+              <div className="content-download">
+                <div className="download">
+                  <div className="label">
+                    <img src={path_image + "download-img.svg"} alt="Download" />
+                    <h4>Content Downloaded</h4>
+                  </div>
+                  <span>{userData?.total_download ?? "00"}</span>
+                </div>
+                <div className="shared">
+                  <div className="label">
+                    <img src={path_image + "share-img.svg"} alt="Shared" />
+                    <h4>Content Shared</h4>
+                  </div>
+                  <span>{userData?.total_shared ?? "00"}</span>
+                </div>
               </div>
             </div>
             <div className="account-tabs w-100">
               <Tabs defaultActiveKey="recent-view" className="account-tab-data">
                 <Tab eventKey="recent-view" title="Recently viewed">
-                  <div className="account-tabs-content">
+                  {/* <div className="account-tabs-content">
                     <h6>Recently viewed</h6>
-                  </div>
+                  </div> */}
                   <div className="touchpoint-data-boxes">
                     {recentContent.length > 0 ? (
                       recentContent && (

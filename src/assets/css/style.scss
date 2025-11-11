@@ -743,9 +743,10 @@ a {
   @include flex-wrap;
 
   .journey-boxes {
-    gap: 24px;
+    gap: 39px;
     width: 100%;
     @include flex-wrap;
+    min-height: 90vh;
   }
 
   .explore-journey {
@@ -781,26 +782,34 @@ a {
   }
 
   .explore-box {
-    border-radius: 10px;
+    border-radius: 24px;
     @include box-shadow;
     padding: 24px;
     min-height: 200px;
-    @include vertical-list;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     cursor: pointer;
+     
+  .explore-title{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 12px;
 
+    // img{
+    //   width: 28px;
+    // }
     h6 {
-      color: var(--gray);
-      text-align: center;
+      color: var(--white);
       font-size: 20px;
-      font-weight: 700;
-      margin: 0 0 10px;
+      font-weight: 600;
       font-family: var(--font-family);
+      padding-top: 6px;
     }
-
+  }
     p {
-      color: rgba(148, 167, 191, 0.50);
-      text-align: center;
+      color: var(--gray);
       font-size: 14px;
       font-weight: 400;
       text-transform: capitalize;
@@ -822,7 +831,7 @@ a {
       transform: translateY(2200px);
       opacity: 0;
       animation: slideUp 0.8s normal forwards;
-      height: calc(39% - 16px);
+      height: calc(36% - 16px);
 
       &:nth-child(1) {
         animation-delay: 0s;
@@ -842,7 +851,7 @@ a {
       }
 
       &.explore {
-        height: calc(22% - 16px);
+        height: calc(28% - 16px);
 
         .explore-box {
           min-height: initial;
@@ -860,16 +869,17 @@ a {
       animation: scale-up-hor-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
       width: 100%;
       transition: 2s width linear;
-      min-height: 80vh;
+      height: 100%;
+      // min-height: 90vh;
+      // min-height: 80vh;
     }
   }
 
   .right-side {
     flex: 1 1;
     border-radius: 10px;
-    background: var(--white);
-    box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-    padding: 24px;
+    @include box-shadow;
+    padding: 16px 24px 0px 24px;
     text-align: left;
     gap: 0px;
     min-height: 735px;
@@ -880,13 +890,20 @@ a {
     transition: 2s width linear;
 
     .box-top {
+      margin: 0 0 24px;
+      .latest-content-title{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+
       h6 {
-        font-size: 16px;
-        color: var(--text-color);
-        margin: 0 0 10px;
+        font-size: 20px;
+        color: var(--white);
         font-weight: 700;
         font-family: var(--font-family);
       }
+    }
 
       p {
         font-size: 14px;
@@ -903,9 +920,24 @@ a {
     }
 
     .data-box {
-      max-height: 73.8vh;
+      // max-height: 73.8vh;
+      // max-height: 80vh;
       overflow-y: auto;
       padding-right: 5px;
+
+      .touchpoint-data-boxes{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        row-gap: 72px;
+
+        .detail-data-box{
+        flex: 1 1 411px; 
+        max-width: calc(50% - 2rem); 
+        box-sizing: border-box;
+        margin: 0;
+        }
+      }
 
       .filter-section {
         display: flex;
@@ -994,6 +1026,9 @@ a {
 
       .content-box {
         @include content-box;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 18px);
       }
     }
 
@@ -1196,13 +1231,38 @@ a {
 .touchpoints-section {
 
   .journey-link-list {
-    .journey-link-box{
-      fill: rgba(255, 255, 255, 0.02);
-    filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.8));
-    background: var(--primary-color);
-    box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
-    border-radius: 27px 27px 0 0;
-    }
+  .journey-link-box {
+  position: relative;
+  fill: rgba(255, 255, 255, 0.02);
+  filter: drop-shadow(0 0 6px rgba(125, 184, 168, 0.8));
+  background: var(--primary-color);
+  box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.12);
+  border-radius: 27px 27px 0 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: -42px;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 21px 21px 0 var(--primary-color);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: -42px;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: -21px 21px 0 var(--primary-color);
+  }
+}
     .journey-link {
 
       &.active,
@@ -2445,42 +2505,64 @@ a {
   gap: 16px;
   margin: 0 0 15px;
 
-  .profile,
-  .content-download {
-    border-radius: 10px;
+  .profile{
+    border-radius: 24px;
     background: var(--secondary-color);
-    width: 100%;
+    width: 60%;
+    padding: 16px;
+    @include box-shadow;
+  }
+  .content-download {
+    border-radius: 24px;
+    background: var(--secondary-color);
+    width: 40%;
     padding: 16px;
     @include box-shadow;
   }
 
+  .account-header{
+    display: flex;
+    display: flex;
+    width: 100%;
+    gap: 24px;
+  }
   .profile {
     @include flex-align-center;
-    padding: 29px 16px;
-    gap: 24px;
+    padding: 16px 24px 16px 16px;
+    gap: 16px;
 
     .profile-img {
       img {
-        width: 109px;
-        height: 109px;
+        width: 64px;
+        height: 64px;
         border-radius: 50%;
       }
     }
 
     .profile-content {
+      display: flex;
+      gap: 24px;
+
       h4 {
-        color: var(--primary-color);
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0 0 7px;
-        color: var(--white);
+        color: var(--green);
+        font-size: 24px;
+        font-weight: 600;
       }
 
       p {
-        color: var(--text-color);
+        color: var(--gray);
         font-size: 16px;
-        font-weight: 500;
-        margin: 0 0 7px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+
+          img {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+        }
 
         &:last-child {
           margin: 0;
@@ -2491,28 +2573,44 @@ a {
 
   .content-download {
     @include flex-center;
-    gap: 16px;
+    gap: 24px;
 
     .download,
     .shared {
-      flex: 1 1;
-      border-radius: 10px;
-      background: var(--white);
-      text-align: center;
-      padding: 26px 16px;
+      @include box-shadow;
+      flex: 1 1 200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
+      padding: 16px;
+      min-width: 220px;
 
-      h4,
-      p {
-        color: var(--text-color);
-        font-size: 20px;
-        font-weight: 500;
+   .label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      h4 {
+        color: var(--gray);
+        font-size: 16px;
+        font-weight: 400;
         margin: 0;
       }
+    }
 
-      p {
-        font-weight: 700;
-        line-height: 1;
-      }
+    span {
+      color: #ff6a4a;
+      font-size: 18px;
+      font-weight: 700;
+    }
     }
   }
 
@@ -2545,7 +2643,19 @@ a {
         color: var(--white);
       }
     }
+     .touchpoint-data-boxes {
+      gap: 2.6rem 4rem;
+      display: flex;
+      flex-wrap: wrap;
 
+      .detail-data-box{
+      min-width: 300px;
+      width: calc(33.33% - 2.7rem);
+      animation: slideFade 0.6s normal forwards;
+      opacity: 0;
+      margin-bottom: 12px;
+      }
+     }
     .tab-content {
       border-radius: 10px;
       background: var(--primary-color);
@@ -2554,8 +2664,8 @@ a {
       @include box-shadow;
 
       .detail-data-box {
-        margin: 0 0 30px;
-        width: 100%;
+        // margin: 0 0 30px;
+        // width: 100%;
 
         .age-format {
           @include age-format;
@@ -2566,6 +2676,9 @@ a {
           background: var(--white);
           position: relative;
           z-index: 9;
+          display: flex;
+          flex-direction: column;
+          height: calc(100% - 18px);
         }
 
         &:last-child {

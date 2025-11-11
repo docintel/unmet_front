@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Form, FormGroup, Dropdown } from "react-bootstrap";
-import {
+import
+{
   fetchQuestions,
   handleSubmit,
   fetchTags,
@@ -10,7 +11,8 @@ import {
 import { useLocation } from "react-router-dom";
 import { ContentContext } from "../../../../context/ContentContext";
 
-const AskIBU = () => {
+const AskIBU = () =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
   const [askIbu, setAskIbu] = useState([]);
@@ -27,9 +29,11 @@ const AskIBU = () => {
   const location = useLocation();
 
   // Fetch questions
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (location.pathname === "/account") return;
-    const fetchData = async () => {
+    const fetchData = async () =>
+    {
       const data = await fetchQuestions(setIsLoading);
       if (data) {
         setAskIbu(data);
@@ -40,9 +44,11 @@ const AskIBU = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (location.pathname === "/home") return;
-    const fetchData = async () => {
+    const fetchData = async () =>
+    {
       const data = await fetchYourQuestions(setIsLoading);
       if (data) {
         setYourQuestion(data);
@@ -53,9 +59,11 @@ const AskIBU = () => {
   }, []);
 
   // Fetch tags
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (location.pathname === "/account") return;
-    const loadTags = async () => {
+    const loadTags = async () =>
+    {
       const data = await fetchTags(setIsLoading);
       if (data) setTags(data);
       setIsLoading(false);
@@ -64,7 +72,8 @@ const AskIBU = () => {
   }, []);
 
   // Toggle tag selection
-  const toggleTag = (tag) => {
+  const toggleTag = (tag) =>
+  {
     if (selectedTags.includes(tag)) {
       setSelectedTags(selectedTags.filter((t) => t !== tag));
     } else {
@@ -73,7 +82,8 @@ const AskIBU = () => {
   };
 
   // Apply filter
-  const applyFilter = () => {
+  const applyFilter = () =>
+  {
     if (selectedTags.length > 0) {
       setAppliedFilters(selectedTags);
       setFilteredQuestions(filterQuestionsByTags(askIbu, selectedTags));
@@ -85,13 +95,15 @@ const AskIBU = () => {
   };
 
   // Cancel filter
-  const cancelFilter = () => {
+  const cancelFilter = () =>
+  {
     setSelectedTags([]);
     setShowFilterBox(false);
   };
 
   // Remove single filter
-  const removeFilter = (tag) => {
+  const removeFilter = (tag) =>
+  {
     const updated = appliedFilters.filter((t) => t !== tag);
     setAppliedFilters(updated);
     setFilteredQuestions(filterQuestionsByTags(askIbu, updated));
@@ -99,7 +111,8 @@ const AskIBU = () => {
   };
 
   // Remove all filters
-  const clearAllFilters = () => {
+  const clearAllFilters = () =>
+  {
     setAppliedFilters([]);
     setSelectedTags([]);
     setFilteredQuestions(askIbu);
@@ -114,17 +127,17 @@ const AskIBU = () => {
       {location.pathname !== "/account" && (
         <div className="filter-section">
           {dataToMap.length > 0 || appliedFilters.length > 0 ? <div className="filter-container">
-              <button
-                className="btn btn-link filter-btn"
-                onClick={() => setShowFilterBox(!showFilterBox)}
-              >
-                {showFilterBox ? (
-                  <img src={path_image + "close-arrow.svg"} alt="Filter Icon" />
-                ) : (
-                  <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />
-                )}
-              </button>
-            </div> : null}
+            <button
+              className="btn btn-link filter-btn"
+              onClick={() => setShowFilterBox(!showFilterBox)}
+            >
+              {showFilterBox ? (
+                <img src={path_image + "close-arrow.svg"} alt="Filter Icon" />
+              ) : (
+                <img src={path_image + "filter-icon.svg"} alt="Filter Icon" />
+              )}
+            </button>
+          </div> : null}
           {/* Filter dropdown */}
           {showFilterBox && (
             <div className="filter-box" style={{ zIndex: 1000 }}>
@@ -205,7 +218,7 @@ const AskIBU = () => {
 
       {/* Questions list */}
       <div className="scroll-list">
-        {dataToMap.length > 0 ? (
+        {/* {dataToMap.length > 0 ? (
           dataToMap.map((item) => (
             <div className="detail-data-box" key={item.id}>
               <div className="content-box">
@@ -226,7 +239,49 @@ const AskIBU = () => {
           ))
         ) : (
           <div className="no_data_found">No data Found</div>
-        )}
+        )} */}
+        <div className="detail-data-box" key="">
+          <div className="content-box">
+            <div className="heading">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </div>
+            <div className="region">India</div>
+            <div className="tags">
+              <div key="">good health</div>
+            </div>
+            <div className="answer">
+              <span>Answer:</span>
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+            </div>
+            <div className="date">10/11/2025</div>
+          </div>
+        </div>
+        <div className="detail-data-box" key="">
+          <div className="content-box">
+            <div className="heading">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </div>
+            <div className="region">India</div>
+            <div className="tags">
+              <div key="">good health</div>
+            </div>
+            <div className="answer">
+              <span>Answer:</span>
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+            </div>
+            <div className="date">10/11/2025</div>
+          </div>
+        </div>
+        <div className="detail-data-box" key="">
+          <div className="content-box">
+            <div className="heading">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </div>
+            <div className="region">India</div>
+            <div className="tags">
+              <div key="">good health</div>
+            </div>
+            <div className="answer">
+              <span>Answer:</span>
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+            </div>
+            <div className="date">10/11/2025</div>
+          </div>
+        </div>
       </div>
 
       {/* Ask question form */}
