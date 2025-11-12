@@ -295,7 +295,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         title: "Error",
         message: "Failed to download the content.",
       });
-      setDownloading(false)
+      setDownloading(false);
     } finally {
       setProgress(0);
     }
@@ -635,18 +635,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           placeholder="Select your country"
                           options={countryList}
                           styles={{
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
-                              : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
-                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                          }),
-                        }}
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? "#E6F7F8" // background for selected option
+                                : state.isFocused
+                                ? "#F4F6F9" // background on hover
+                                : "white",
+                              color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                            }),
+                          }}
                           isClearable
-                          
                         />
                         <span>
                           <svg
@@ -1060,9 +1059,11 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                     : "star-img.svg")
                 }
                 onMouseDown={() => setRatingFocus(true)}
-                onMouseUp={() => setTimeout(() => {
-                  setRatingFocus(false)
-                }, 1000)}
+                onMouseUp={() =>
+                  setTimeout(() => {
+                    setRatingFocus(false);
+                  }, 1000)
+                }
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
@@ -1070,7 +1071,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 onMouseLeave={() => {
                   setIsStarHovered(false);
                   setTimeout(() => {
-                    setRatingFocus(false)
+                    setRatingFocus(false);
                   }, 1000);
                 }}
               />
@@ -1120,18 +1121,12 @@ const Content = ({ section: initialSection, idx, favTab }) => {
               <span>Back</span>
             </button>
 
-            <div className="modal-title">
-              {
-                section?.title
-               }
-            </div>
+            <div className="modal-title">{section?.title}</div>
 
             <div className="modal-logo">
               <img src={path_image + "vwd-journey-logo.svg"} alt="Logo" />
             </div>
           </Modal.Header>
-
-
 
           <Modal.Body className="custom-modal-body">
             <div className="content-data" ref={iframeRef}>
