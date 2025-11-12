@@ -16,12 +16,27 @@ export const fetchQuestions = async (setIsLoading,setQuestList) => {
   }
 };
 
-export const fetchYourQuestions = async (setIsLoading) => {
+export const fetchYourQuestions = async (setIsLoading,setQuestionList) => {
   setIsLoading(true);
   try {
+    setQuestionList({
+      loading: true,
+      error: false,
+      questions: [],
+    })
     const response = await getData(endPoint.YOUR_QUESTION);
-    return response?.data?.data;
+    const data =  response?.data?.data;
+    setQuestionList({
+      loading: false,
+      error: false,
+      questions: data,
+    })
   } catch (error) {
+    setQuestionList({
+      loading: false,
+      error: true,
+      questions: [],
+    })
     console.error("Error fetching Ask IBU questions:", error);
   } finally {
     setIsLoading(false);
