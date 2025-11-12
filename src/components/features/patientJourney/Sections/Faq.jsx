@@ -19,7 +19,7 @@ const Faq = () => {
   return (
     <>
       {faqContent.length > 0 ? (
-        <FaqAndLatestContent content={faqContent} isFaq={true} />
+        <FaqAndLatestContent content={faqContent} isFaq={true} itemSize={9} />
       ) : (
         <div className="no_data_found">No data Found</div>
       )}
