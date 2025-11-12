@@ -1,19 +1,13 @@
-import React, { useState } from "react";
-import Content from "../Common/Content";
 import FixedSizeList from "../Common/FixedSizedList";
 
-const FaqAndLatestContent = ({ content, isFaq }) => {
-  // const [currentReadClick, setCurrentReadClick] = useState({
-  //   previewArticle: null,
-  //   id: null,
-  // });
+const FaqAndLatestContent = ({ content, isFaq,itemSize }) => {
 
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   return (
     <div className="touchpoint-data-boxes">
       {content ? (
         content && (
-          <FixedSizeList items={content} itemCount={9} favTab={false} />
+          <FixedSizeList items={content} itemCount={itemSize} favTab={false} />
         )
       ) : (
         // content.map((section, idx) => (
