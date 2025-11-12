@@ -295,6 +295,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         title: "Error",
         message: "Failed to download the content.",
       });
+      setDownloading(false)
     } finally {
       setProgress(0);
     }
