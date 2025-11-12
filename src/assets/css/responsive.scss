@@ -525,6 +525,16 @@
 
         .patient-journey {
             gap: 10px;
+            .switch{
+                .switch-light{
+                    a{
+                    &.btn{
+                            width: 48px;
+                            right: 54px;
+                    }
+                }
+                }
+            }
         }
 
         .switch {
@@ -534,6 +544,17 @@
                 >span {
                     span {
                         font-size: 12px;
+
+                    }
+                }
+                
+            }
+            input[type="checkbox"]{
+                &:checked{
+                    ~a{
+                        &.btn{
+                            width:55px;
+                        }
                     }
                 }
             }
@@ -1215,6 +1236,16 @@
                         }
                     }
                 }
+                
+            }
+            input[type=checkbox]{
+                &:checked {
+                    ~ a{
+                        &.btn {
+        width: 50%;
+                        }
+    }
+                    }
             }
         }
 
@@ -1320,6 +1351,17 @@
         }
 
         .patient-journey {
+            .switch{
+                .switch-light{
+                    a{
+                    &.btn{
+                        width:50%;
+                        right:50%;
+                    }
+                }
+                }
+            }
+            
             .line {
                 border-top: 1px dashed var(--gray);
                 border-left: 0;
