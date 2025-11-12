@@ -942,8 +942,8 @@ a {
       }
 
       .filter-section {
-        @include flex-column;
-        align-items: flex-end;
+        @include flex-justify-between;
+        // align-items: flex-end;
         position: relative;
         padding: 0 0px 16px 24px;
 

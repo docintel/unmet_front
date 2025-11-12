@@ -743,18 +743,25 @@
     }
      
     @mixin ask-ibu-question{
-      .question-header {
+    .question-header {
       background: linear-gradient(97deg, #4CC6CF 0%, #F79548 51.44%, #E94262 100%);
       box-shadow: -5px 0 6px 0 rgba(0, 0, 0, 0.20);
       color: #fff;
       font-size: 10px;
       font-weight: 400;
-      padding: 6px 6px 6px 12px;
+      padding: 2px 16px 6px 16px;
       border-radius: 12px 12px 0 0;
       margin-bottom: -5px;
+      display: flex;
+      justify-content: space-between;
 
       .question-label {
         display: inline-block;
+      }
+      .answer-status{
+        display: flex;
+        gap: 4px;
+        align-items: center;
       }
     }
     .content-box{

@@ -2,12 +2,21 @@ import { useState } from "react";
 
 const QuestionCard = ({ question, account }) =>
 {
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
+
   const [isEditing, setIsEditing] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   return (
     <>
       <div className="detail-data-box ask-ibu-question" key="">
         <div className="question-header">
           <span className="question-label">Question</span>
+          {account &&
+            < div className="answer-status" >
+              <img src={path_image + (waiting ? "timer-icon.svg" : "checked-icon.svg")} alt="" />
+              <span className="info-message">{waiting ? "Waiting for IBU’s answer..." : "Answered by IBU"}</span>
+            </div>
+          }
         </div>
         <div className="content-box">
           <div className="heading">
@@ -40,12 +49,16 @@ const QuestionCard = ({ question, account }) =>
                   {!isEditing ? (
                     <>
                       <button
+                        className="icon-btn delete">
+                        <img src={path_image + "delete-icon.svg"} alt="" />
+                      </button>
+                      <button
                         className="icon-btn edit"
                         onClick={() => setIsEditing(true)}
                       >
-                        ✏️
+                        <img src={path_image + "edit-icon.svg"} alt="" />
                       </button>
-                      <button className="icon-btn delete">🗑️</button>
+
                     </>
                   ) : (
                     <>
