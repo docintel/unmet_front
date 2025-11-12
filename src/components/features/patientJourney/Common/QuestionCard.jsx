@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-const QuestionCard = ({ question, account }) =>
-{
+const QuestionCard = ({ question, account }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -11,45 +10,47 @@ const QuestionCard = ({ question, account }) =>
       <div className="detail-data-box ask-ibu-question" key="">
         <div className="question-header">
           <span className="question-label">Question</span>
-          {account &&
-            < div className="answer-status" >
-              <img src={path_image + (waiting ? "timer-icon.svg" : "checked-icon.svg")} alt="" />
-              <span className="info-message">{waiting ? "Waiting for IBU’s answer..." : "Answered by IBU"}</span>
+          {account && (
+            <div className="answer-status">
+              <img
+                src={
+                  path_image + (waiting ? "timer-icon.svg" : "checked-icon.svg")
+                }
+                alt=""
+              />
+              <span className="info-message">
+                {waiting ? "Waiting for IBU’s answer..." : "Answered by IBU"}
+              </span>
             </div>
-          }
+          )}
         </div>
         <div className="content-box">
-          <div className="heading">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's{" "}
-          </div>
+          <div className="heading">{question.question}</div>
           {account && (
             <textarea
               className="edit-input"
               placeholder="Edit your question..."
             ></textarea>
           )}
-          <div className="region">Region, Country</div>
+          <div className="region">{question.region}, {question.country}</div>
           {/* <hr className="divider" /> */}
           <div className="answer-section">
             <span className="answer-label">Answer</span>
-            <div className="answer">
-              Answer lorem ipsum dolor sit amet consectetur. Odio erat sed vitae
-              pulvinar
-            </div>
-            <div className="q-tags">
-              <div className="f-tag">Tag...</div>
-              <div>Tag...</div>
-              <div>Tag...</div>
-            </div>
+            <div className="answer">{question.answer}</div>
+            {question.topics && question.topics.length > 0 && (
+              <div className="q-tags">
+                {question.topics.map((item) => (
+                  <div className="">{item}</div>
+                ))}
+              </div>
+            )}
             <div className="footer">
-              <div className="date">29.July.2025</div>
+              <div className="date">{question.created}</div>
               {account && (
                 <div className="q-actions">
                   {!isEditing ? (
                     <>
-                      <button
-                        className="icon-btn delete">
+                      <button className="icon-btn delete">
                         <img src={path_image + "delete-icon.svg"} alt="" />
                       </button>
                       <button
@@ -58,7 +59,6 @@ const QuestionCard = ({ question, account }) =>
                       >
                         <img src={path_image + "edit-icon.svg"} alt="" />
                       </button>
-
                     </>
                   ) : (
                     <>
@@ -171,4 +171,3 @@ export default QuestionCard;
 // };
 
 // export default QuestionCard;
-

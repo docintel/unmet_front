@@ -1,13 +1,16 @@
 import { postData, getData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
-export const fetchQuestions = async (setIsLoading) => {
+export const fetchQuestions = async (setIsLoading,setQuestList) => {
   setIsLoading(true);
   try {
+    setQuestList({loading:true,error:false,questions:[]})
     const response = await getData(endPoint.ASK_IBU_QUESTIONS);
-    return response?.data?.data;
+    const data =  response?.data?.data;
+    setQuestList({loading:false,error:false,questions:data})
   } catch (error) {
     console.error("Error fetching Ask IBU questions:", error);
+    setQuestList({loading:false,error:true,questions:[]})
   } finally {
     setIsLoading(false);
   }
