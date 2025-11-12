@@ -10,11 +10,11 @@ const PatientJourneyLanding = lazy(() =>
 );
 
 export const privateRoutes = [
-  { path: "/home", element: <PatientJourneyLanding /> },
+  // { path: "/home", element: <PatientJourneyLanding /> },
   { path: "/touchpoints", element: <TouchPoints /> },
   { path: "/resources", element: <Resources /> },
   { path: "/logout", element: <Logout /> },
-  { path: "/account", element: <Account /> },
+  // { path: "/account", element: <Account /> },
 ];
 
 export const publicRoutes = [
