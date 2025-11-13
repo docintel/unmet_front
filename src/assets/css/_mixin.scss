@@ -876,6 +876,9 @@
   .content-box {
     padding: 12px 16px;
 
+    .question-section{
+      border-bottom: 1px solid #D4DCE5;
+
     .heading {
       font-weight: 600;
       font-size: 14px;
@@ -913,12 +916,11 @@
         box-shadow: 0 0 0 2px rgba(247, 149, 72, 0.3);
       }
     }
-
+  }
     .footer{
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid #D4DCE5;
       padding-top: 12px;
 
     .q-actions {
@@ -995,7 +997,6 @@
 
  /* Existing Answer Section */
  .answer-section {
-  border-top: 1px solid #D4DCE5;
   padding-top: 12px;
 
   .answer-label {

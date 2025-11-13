@@ -1,12 +1,14 @@
 import { useState } from "react";
 
-const QuestionCard = ({ question, account }) => {
+const QuestionCard = ({ question, account }) =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
 
-  const handleEditSubmission = () => {
+  const handleEditSubmission = () =>
+  {
     setIsEditing(false);
   };
   return (
@@ -36,19 +38,20 @@ const QuestionCard = ({ question, account }) => {
           )}
         </div>
         <div className="content-box">
-          {!isEditing && <div className="heading">{questionText}</div>}
-          {account && isEditing && (
-            <textarea
-              className="edit-input"
-              placeholder="Edit your question..."
-              value={questionText}
-              onChange={(e) => setQuestionText(e.target.value)}
-            ></textarea>
-          )}
-          <div className="region">
-            {question.region}, {question.country}
+          <div className="question-section">
+            {!isEditing && <div className="heading">{questionText}</div>}
+            {account && isEditing && (
+              <textarea
+                className="edit-input"
+                placeholder="Edit your question..."
+                value={questionText}
+                onChange={(e) => setQuestionText(e.target.value)}
+              ></textarea>
+            )}
+            <div className="region">
+              {question.region}, {question.country}
+            </div>
           </div>
-          {/* <hr className="divider" /> */}
           {question.visibility_status !== "Not Answer" && (
             <div className="answer-section">
               <span className="answer-label">Answer</span>
@@ -84,7 +87,8 @@ const QuestionCard = ({ question, account }) => {
                     <>
                       <button
                         className="cancel-btn"
-                        onClick={() => {
+                        onClick={() =>
+                        {
                           setQuestionText(question.question);
                           setIsEditing(false);
                         }}
