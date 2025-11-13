@@ -12,11 +12,17 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [inputError,setInputError] = useState("")
 
   const handleEditSubmission = async () => {
     try {
-      await updateIbuQuestion(question.id, questionText, setIsLoading);
-      updateDeleteQuestion(question.id, questionText, true);
+      if(!questionText || !questionText.trim()){
+        setInputError("Question is required.")
+        return;
+      }
+      await updateIbuQuestion(question.id, questionText.trim(), setIsLoading);
+      updateDeleteQuestion(question.id, questionText.trim(), true);
+      setQuestionText(questionText.trim())
       setIsEditing(false);
       setToast({
         show: true,
@@ -24,6 +30,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
         title: "Edited",
         message: "Question updated successfully.",
       });
+      setInputError("")
     } catch (ex) {
       setToast({
         show: true,
@@ -31,6 +38,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
         title: "Failed",
         message: "Failed to update the question.",
       });
+      setInputError("")
     }
   };
 
@@ -82,12 +90,16 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
         <div className="question-section">
           {!isEditing && <div className="heading">{questionText}</div>}
           {account && isEditing && (
-            <textarea
-              className="edit-input"
-              placeholder="Edit your question..."
-              value={questionText}
-              onChange={(e) => setQuestionText(e.target.value)}
-            ></textarea>
+            <div className={inputError ? "error" : ""}>
+              {" "}
+              <textarea
+                className="edit-input"
+                placeholder="Edit your question..."
+                value={questionText}
+                onChange={(e) => setQuestionText(e.target.value)}
+              ></textarea>
+              {inputError && <span>{inputError}</span>}
+            </div>
           )}
           <div className="region">
             {question.region}, {question.country}
@@ -136,6 +148,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
                     onClick={() => {
                       setQuestionText(question.question);
                       setIsEditing(false);
+                      setInputError("")
                     }}
                   >
                     Cancel

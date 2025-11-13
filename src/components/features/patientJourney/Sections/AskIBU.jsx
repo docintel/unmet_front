@@ -278,7 +278,7 @@ const AskIBU = () => {
               <span className="filter-count">
                 {selectedCountries.length +
                   selectedRegions.length +
-                  selectedTopics.length}
+                  selectedTopics.length || null}
               </span>
               {showFilterBox ? (
                 <img src={path_image + "cross-btn.svg"} alt="Filter Icon" />
@@ -568,7 +568,7 @@ const AskIBU = () => {
       {/* Ask question form */}
       {
         <Form className="ask-ibu-form">
-          <FormGroup className="form-group">
+          <FormGroup className={"form-group " + (error ? "error" : "")}>
             <Form.Label className="question-label">Your Question</Form.Label>
             <Form.Control
               id="question"
@@ -588,7 +588,14 @@ const AskIBU = () => {
             <button
               type="button"
               className="submit-btn"
-              onClick={() => setShowConfirmationModal(true)}
+              onClick={() => {
+                if (!question || !question.trim()) {
+                  setError("Question is required");
+                  setQuestion(question.trim());
+                  return;
+                }
+                setShowConfirmationModal(true);
+              }}
             >
               Submit <img src={path_image + "send-icon.svg"} alt="send" />
             </button>
@@ -609,7 +616,6 @@ const AskIBU = () => {
                   >
                     close
                   </button>
-
                   <div className="modal-title">this is modal title</div>
                 </Modal.Header>
 
