@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { ContentContext } from "../../../../../context/ContentContext";
 import AskIbuScroll from "../../Common/AskIbuScroll";
 
-const AskIbu = () => {
+const AskIbu = ({setQuestionCount}) => {
   const { setIsLoading } = useContext(ContentContext);
   const [questionData, setQuestionData] = useState([]);
   const [questionList, setQuestionList] = useState({
@@ -25,28 +25,28 @@ const AskIbu = () => {
       questionList.questions &&
       questionList.questions.length > 0
     ) {
-      setQuestionData(questionList.questions);
+      setQuestionData(
+        [...questionList.questions].sort(
+          (a, b) =>
+            new Date(b.created.replaceAll(".", " ")) -
+            new Date(a.created.replaceAll(".", " "))
+        )
+      );
+      setQuestionCount(questionList.questions.length);
     }
   }, [questionList]);
 
   return (
     <>
       {questionList.loading ? (
-        <>Loading...</>
+        <></>
       ) : questionList.error ? (
-        <>Error...</>
+        <></>
       ) : !questionData || questionData.length === 0 ? (
         <>No data</>
       ) : (
         <AskIbuScroll items={questionData} itemCount={6} account={true} />
       )}
-      {/* {questionData.map((question, index) => {
-        return (
-          <div key={index}>
-            <QuestionCard question={question} account={true} />
-          </div>
-        );
-      })} */}
     </>
   );
 };

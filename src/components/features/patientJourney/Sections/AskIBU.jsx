@@ -1,19 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Form, FormGroup, Dropdown } from "react-bootstrap";
-import
-{
-  fetchQuestions,
-  handleSubmit,
-  fetchTags,
-  filterQuestionsByTags,
-  fetchYourQuestions,
-} from "../../../../services/homeService";
+import { useEffect, useState, useContext } from "react";
+import { Form, FormGroup } from "react-bootstrap";
+import { fetchQuestions, handleSubmit } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
-import { countryRegionArray } from "../../../../constants/countryRegion";
 import AskIbuScroll from "../Common/AskIbuScroll";
 
-const AskIBU = () =>
-{
+const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
   const { setIsLoading } = useContext(ContentContext);
@@ -32,76 +23,88 @@ const AskIBU = () =>
     error: false,
     questions: [],
   });
-  const [questionData, setQuestionData] = useState([])
+  const [questionData, setQuestionData] = useState([]);
 
   // Fetch questions
-  useEffect(() =>
-  {
-    let regionArr = [];
-    Object.values(countryRegionArray)
-      .filter((item) => item.toLowerCase !== "other")
-      .forEach((element) =>
-      {
-        if (!regionArr.includes(element)) regionArr = [...regionArr, element];
-      });
-    setRegions([...regionArr, "Other"]);
-    setCountries(Object.keys(countryRegionArray));
-    setTopics(["Tag1", "Tag2", "Tag3", "Tag4", "Tag5", "Tag6"]);
-    (async () =>
-    {
-      const ibuQuestions = await fetchQuestions(setIsLoading, setQuestList);
-      console.log(ibuQuestions)
-    })()
+  useEffect(() => {
+    (async () => {
+      await fetchQuestions(setIsLoading, setQuestList);
+    })();
   }, []);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (
       !questionList.loading &&
       !questionList.error &&
       questionList.questions &&
       questionList.questions.length > 0
     ) {
-      setQuestionData(questionList.questions);
+      setQuestionData(
+        [...questionList.questions].sort(
+          (a, b) =>
+            new Date(b.created.replaceAll(".", " ")) -
+            new Date(a.created.replaceAll(".", " "))
+        )
+      );
       let regionArr = [],
         countryArr = [],
         topicsArr = [];
 
-
-      questionList.questions.forEach((item) =>
-      {
+      questionList.questions.forEach((item) => {
         regionArr.push(item.region);
         countryArr.push(item.country);
         topicsArr.push(...item.topics);
       });
 
-      regionArr = [...new Set(regionArr)];
-      countryArr = [...new Set(countryArr)];
-      topicsArr = [...new Set(topicsArr)];
+      regionArr = [...new Set(regionArr)].filter((item) => item.trim() !== "");
+      countryArr = [...new Set(countryArr)].filter(
+        (item) => item.trim() !== ""
+      );
+      topicsArr = [...new Set(topicsArr)].filter((item) => item.trim() !== "");
       if (regionArr.includes("Other")) {
-        regionArr = regionArr
-          .filter((item) => item !== "Other")
-          .push("Other");
+        regionArr = regionArr.filter((item) => item !== "Other").push("Other");
       }
 
-      setRegions(regionArr)
-      setCountries(countryArr)
-      setTopics(topicsArr)
+      setRegions(regionArr);
+      setCountries(countryArr);
+      setTopics(topicsArr);
     }
   }, [questionList]);
 
-  useEffect(() =>
-  {
-    let data = [...questionList.questions];
+  useEffect(() => {
+    if (
+      selectedRegions.length ||
+      selectedCountries.length ||
+      selectedTopics.length
+    )
+      filterQuestions();
+    else
+      setQuestionData(
+        [...questionList.questions].sort(
+          (a, b) =>
+            new Date(b.created.replaceAll(".", " ")) -
+            new Date(a.created.replaceAll(".", " "))
+        )
+      );
+  }, [selectedRegions, selectedCountries, selectedTopics]);
+
+  const filterQuestions = () => {
+    const questionDataList = [...questionList.questions];
+    let tempList = [];
     if (selectedCountries.length > 0) {
-      data = data.filter((item) => selectedCountries.includes(item.country));
+      const data = questionDataList.filter((item) =>
+        selectedCountries.includes(item.country)
+      );
+      tempList = [...tempList, ...data];
     }
     if (selectedRegions.length > 0) {
-      data = data.filter((item) => selectedRegions.includes(item.region));
+      const data = questionDataList.filter((item) =>
+        selectedRegions.includes(item.region)
+      );
+      tempList = [...tempList, ...data];
     }
     if (selectedTopics.length > 0) {
-      data = data.filter((item) =>
-      {
+      const data = questionDataList.filter((item) => {
         if (item.topics) {
           for (let i = 0; i < item.topics.length; i++) {
             if (selectedTopics.includes(item.topics[i])) return true;
@@ -109,12 +112,45 @@ const AskIBU = () =>
           return false;
         } else return false;
       });
+      tempList = [...tempList, ...data];
     }
-    setQuestionData(data);
-  }, [selectedRegions, selectedCountries, selectedTopics]);
 
-  const toggleRegion = (region) =>
-  {
+    const uniqueQuestionList = {};
+    tempList.forEach((item) => {
+      uniqueQuestionList[item.id] = item;
+    });
+
+    tempList = Object.values(uniqueQuestionList);
+
+    let countObj = {};
+    tempList.forEach((item) => {
+      let count = 0;
+      if (selectedCountries.includes(item.country)) count++;
+      if (selectedRegions.includes(item.region)) count++;
+      item.topics.forEach((element) => {
+        if (selectedTopics.includes(element)) count++;
+      });
+      countObj[item.id] = count;
+    });
+
+    let sortedKeys = Object.keys(countObj).sort(
+      (a, b) => countObj[b] - countObj[a]
+    );
+    for (let i = 0; i < sortedKeys.length; i++) {
+      sortedKeys[i] = parseInt(sortedKeys[i]);
+    }
+
+    let filteredItem = [];
+    sortedKeys.forEach((itemId) => {
+      tempList.forEach((quest) => {
+        if (quest.id === itemId) filteredItem.push(quest);
+      });
+    });
+
+    setQuestionData(filteredItem);
+  };
+
+  const toggleRegion = (region) => {
     if (selectedRegions.includes(region)) {
       const data = selectedRegions.filter((item) => item !== region);
       setSelectedRegions(data);
@@ -123,8 +159,7 @@ const AskIBU = () =>
     }
   };
 
-  const toggleCountry = (country) =>
-  {
+  const toggleCountry = (country) => {
     if (selectedCountries.includes(country)) {
       const data = selectedCountries.filter((item) => item !== country);
       setSelectedCountries(data);
@@ -133,8 +168,7 @@ const AskIBU = () =>
     }
   };
 
-  const toggleTopic = (topic) =>
-  {
+  const toggleTopic = (topic) => {
     if (selectedTopics.includes(topic)) {
       const data = selectedTopics.filter((item) => item !== topic);
       setSelectedTopics(data);
@@ -144,8 +178,7 @@ const AskIBU = () =>
   };
 
   // Remove all filters
-  const clearAllFilters = () =>
-  {
+  const clearAllFilters = () => {
     setSelectedRegions([]);
     setSelectedCountries([]);
     setSelectedTopics([]);
@@ -157,66 +190,83 @@ const AskIBU = () =>
       <div className="ask-ibu-filter">
         {/* Applied filters */}
         <div className="filter-section">
-          {(selectedRegions.length > 0 || selectedCountries.length > 0 || selectedTopics.length > 0) && <div className="filter-list">
-            <p className="label">Result ( {questionData.length} ) :</p>
-            {selectedRegions.length > 0 && (
-              selectedRegions.map((region, index) => (
-                <span key={index} className="tag-item ">
-                  {region}{" "}
-                  <button
-                    className="cross-btn"
-                    onClick={() => toggleRegion(region)}
-                  >
-                    <img
-                      src={path_image + "cross-arrow.svg"}
-                      alt="delete"
-                    />
-                  </button>
-                </span>
-              ))
-            )}
-            {selectedCountries.length > 0 && (
-              selectedCountries.map((country, index) => (
-                <span key={index} className="tag-item ">
-                  {country}{" "}
-                  <button
-                    className="cross-btn"
-                    onClick={() => toggleCountry(country)}
-                  >
-                    <img
-                      src={path_image + "cross-arrow.svg"}
-                      alt="delete"
-                    />
-                  </button>
-                </span>
-              ))
-            )}
-            {selectedTopics.length > 0 && (
-
-              selectedTopics.map((topic, index) => (
-                <span key={index} className="tag-item ">
-                  {topic}{" "}
-                  <button
-                    className="cross-btn"
-                    onClick={() => toggleTopic(topic)}
-                  >
-                    <img
-                      src={path_image + "cross-arrow.svg"}
-                      alt="delete"
-                    />
-                  </button>
-                </span>
-              ))
-
-            )}
-            <button
-              className="clear-all-btn btn btn-primary"
-              onClick={clearAllFilters}
-            >
-              Clear All
-            </button>
-          </div>
-          }
+          {(selectedRegions.length > 0 ||
+            selectedCountries.length > 0 ||
+            selectedTopics.length > 0) && (
+            <div className="filter-list">
+              <p className="label">Result ( {questionData.length} ) :</p>
+              {selectedRegions.length > 0 &&
+                selectedRegions.map((region, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.region === region) count++;
+                  });
+                  //questionData
+                  return (
+                    <span key={index} className="tag-item ">
+                      {region} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleRegion(region)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              {selectedCountries.length > 0 &&
+                selectedCountries.map((country, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.country === country) count++;
+                  });
+                  return (
+                    <span key={index} className="tag-item ">
+                      {country} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleCountry(country)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              {selectedTopics.length > 0 &&
+                selectedTopics.map((topic, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.topics.includes(topic)) count++;
+                  });
+                  return (
+                    <span key={index} className="tag-item ">
+                      {topic} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleTopic(topic)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              <button
+                className="clear-all-btn btn btn-primary"
+                onClick={clearAllFilters}
+              >
+                Clear All
+              </button>
+            </div>
+          )}
           <div className="filter-container">
             <button
               className="btn btn-link filter-btn"
@@ -224,7 +274,11 @@ const AskIBU = () =>
             >
               {" "}
               Filter
-              {/* <span className="filter-count">3</span> */}
+              <span className="filter-count">
+                {selectedCountries.length +
+                  selectedRegions.length +
+                  selectedTopics.length}
+              </span>
               {showFilterBox ? (
                 <img src={path_image + "cross-btn.svg"} alt="Filter Icon" />
               ) : (
@@ -240,7 +294,6 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Regions</label>
                   <div
-
                     className="dropdown-toggle"
                     onClick={() =>
                       setShowTagsDropdown(
@@ -248,12 +301,10 @@ const AskIBU = () =>
                       )
                     }
                     onMouseEnter={(e) =>
-                      e.currentTarget
-                        .classList.add("active")
+                      e.currentTarget.classList.add("active")
                     }
                     onMouseLeave={(e) =>
-                      e.currentTarget
-                        .classList.remove("active")
+                      e.currentTarget.classList.remove("active")
                     }
                   >
                     <span>
@@ -288,13 +339,16 @@ const AskIBU = () =>
                           strokeLinejoin="round"
                         />
                       </svg>
-                      Select region
+                      {selectedRegions.length
+                        ? selectedRegions.join(", ")
+                        : "Select region"}
                     </span>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "regions" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "regions" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -303,8 +357,9 @@ const AskIBU = () =>
                       {regions.map((region, index) => (
                         <div
                           key={index}
-                          className={`dropdown-option ${selectedRegions.includes(region) ? "selected" : ""
-                            }`}
+                          className={`dropdown-option ${
+                            selectedRegions.includes(region) ? "selected" : ""
+                          }`}
                           onClick={() => toggleRegion(region)}
                         >
                           <input
@@ -330,12 +385,10 @@ const AskIBU = () =>
                       )
                     }
                     onMouseEnter={(e) =>
-                      e.currentTarget
-                        .classList.add("active")
+                      e.currentTarget.classList.add("active")
                     }
                     onMouseLeave={(e) =>
-                      e.currentTarget
-                        .classList.remove("active")
+                      e.currentTarget.classList.remove("active")
                     }
                   >
                     <span>
@@ -370,13 +423,16 @@ const AskIBU = () =>
                           strokeWidth="1.5"
                         />
                       </svg>
-                      Select country
+                      {selectedCountries.length
+                        ? selectedCountries.join(", ")
+                        : "Select country"}
                     </span>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "countries" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "countries" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -385,10 +441,11 @@ const AskIBU = () =>
                       {countries.map((country, index) => (
                         <div
                           key={index}
-                          className={`dropdown-option ${selectedCountries.includes(country)
-                            ? "selected"
-                            : ""
-                            }`}
+                          className={`dropdown-option ${
+                            selectedCountries.includes(country)
+                              ? "selected"
+                              : ""
+                          }`}
                           onClick={() => toggleCountry(country)}
                         >
                           <input
@@ -414,27 +471,45 @@ const AskIBU = () =>
                       )
                     }
                     onMouseEnter={(e) =>
-                      e.currentTarget
-                        .classList.add("active")
+                      e.currentTarget.classList.add("active")
                     }
                     onMouseLeave={(e) =>
-                      e.currentTarget
-                        .classList.remove("active")
+                      e.currentTarget.classList.remove("active")
                     }
                   >
                     <span>
-                      <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.95833 5.625C9.41857 5.625 9.79167 5.9981 9.79167 6.45833C9.79167 6.91857 9.41857 7.29167 8.95833 7.29167H3.95833C3.4981 7.29167 3.125 6.91857 3.125 6.45833C3.125 5.9981 3.4981 5.625 3.95833 5.625H8.95833Z" fill="#94A7BF" />
-                        <path d="M13.9583 5.625C14.4186 5.625 14.7917 5.9981 14.7917 6.45833C14.7917 6.91857 14.4186 7.29167 13.9583 7.29167H12.2917C11.8314 7.29167 11.4583 6.91857 11.4583 6.45833C11.4583 5.9981 11.8314 5.625 12.2917 5.625H13.9583Z" fill="#94A7BF" />
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.125 0C15.7714 0 17.9167 2.1453 17.9167 4.79167V8.125C17.9167 10.7714 15.7714 12.9167 13.125 12.9167H4.79167C2.1453 12.9167 5.3688e-08 10.7714 0 8.125V4.79167C5.36898e-08 2.1453 2.1453 0 4.79167 0H13.125ZM4.79167 1.25C2.83566 1.25 1.25 2.83566 1.25 4.79167V8.125C1.25 10.081 2.83566 11.6667 4.79167 11.6667H13.125C15.081 11.6667 16.6667 10.081 16.6667 8.125V4.79167C16.6667 2.83566 15.081 1.25 13.125 1.25H4.79167Z" fill="#94A7BF" />
+                      <svg
+                        width="18"
+                        height="13"
+                        viewBox="0 0 18 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.95833 5.625C9.41857 5.625 9.79167 5.9981 9.79167 6.45833C9.79167 6.91857 9.41857 7.29167 8.95833 7.29167H3.95833C3.4981 7.29167 3.125 6.91857 3.125 6.45833C3.125 5.9981 3.4981 5.625 3.95833 5.625H8.95833Z"
+                          fill="#94A7BF"
+                        />
+                        <path
+                          d="M13.9583 5.625C14.4186 5.625 14.7917 5.9981 14.7917 6.45833C14.7917 6.91857 14.4186 7.29167 13.9583 7.29167H12.2917C11.8314 7.29167 11.4583 6.91857 11.4583 6.45833C11.4583 5.9981 11.8314 5.625 12.2917 5.625H13.9583Z"
+                          fill="#94A7BF"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M13.125 0C15.7714 0 17.9167 2.1453 17.9167 4.79167V8.125C17.9167 10.7714 15.7714 12.9167 13.125 12.9167H4.79167C2.1453 12.9167 5.3688e-08 10.7714 0 8.125V4.79167C5.36898e-08 2.1453 2.1453 0 4.79167 0H13.125ZM4.79167 1.25C2.83566 1.25 1.25 2.83566 1.25 4.79167V8.125C1.25 10.081 2.83566 11.6667 4.79167 11.6667H13.125C15.081 11.6667 16.6667 10.081 16.6667 8.125V4.79167C16.6667 2.83566 15.081 1.25 13.125 1.25H4.79167Z"
+                          fill="#94A7BF"
+                        />
                       </svg>
-                      Select topic
+                      {selectedTopics.length
+                        ? selectedTopics.join(", ")
+                        : "Select topic"}
                     </span>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "topics" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "topics" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -443,8 +518,9 @@ const AskIBU = () =>
                       {topics.map((topic, index) => (
                         <div
                           key={index}
-                          className={`dropdown-option ${selectedTopics.includes(topic) ? "selected" : ""
-                            }`}
+                          className={`dropdown-option ${
+                            selectedTopics.includes(topic) ? "selected" : ""
+                          }`}
                           onClick={() => toggleTopic(topic)}
                         >
                           <input
@@ -466,9 +542,9 @@ const AskIBU = () =>
         {/* Questions list */}
         <div className="scroll-list">
           {questionList.loading ? (
-            <>Loading...</>
+            <></>
           ) : questionList.error ? (
-            <>Error...</>
+            <></>
           ) : !questionData || questionData.length === 0 ? (
             <>No data</>
           ) : (

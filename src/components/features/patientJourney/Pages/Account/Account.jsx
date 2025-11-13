@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
-import { Row, Button } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
+import { useEffect, useState, useContext } from "react";
+import { Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Content from "../../Common/Content";
 import { getData } from "../../../../../services/axios/apiHelper";
 import endPoint from "../../../../../services/axios/apiEndpoint";
-import AskIBU from "../../Sections/AskIBU";
 import { ContentContext } from "../../../../../context/ContentContext";
 import FixedSizeList from "../../Common/FixedSizedList";
-import QuestionCard from "../../Common/QuestionCard";
 import AskIbu from "./AskIbu";
 
 const Account = () => {
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -89,7 +86,15 @@ const Account = () => {
             </div>
             <div className="account-tabs w-100">
               <Tabs defaultActiveKey="recent-view" className="account-tab-data">
-                <Tab eventKey="recent-view" title="Recently viewed">
+                <Tab
+                  eventKey="recent-view"
+                  title={
+                    <div>
+                      <span>Recently viewed</span>
+                      <span>{recentContent.length}</span>
+                    </div>
+                  }
+                >
                   {/* <div className="account-tabs-content">
                     <h6>Recently viewed</h6>
                   </div> */}
@@ -116,7 +121,15 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="favorite" title="Favourite">
+                <Tab
+                  eventKey="favorite"
+                  title={
+                    <div>
+                      <span>Favourite</span>
+                      <span>{favorite.length}</span>
+                    </div>
+                  }
+                >
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
                       favorite && (
@@ -140,8 +153,16 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="question" title="Your questions">
-                  <AskIbu/>
+                <Tab
+                  eventKey="question"
+                  title={
+                    <div>
+                      <span>Your questions</span>
+                      <span>{questionCount}</span>
+                    </div>
+                  }
+                >
+                  <AskIbu setQuestionCount={setQuestionCount} />
                 </Tab>
               </Tabs>
             </div>
