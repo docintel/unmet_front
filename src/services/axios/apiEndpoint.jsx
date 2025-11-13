@@ -16,6 +16,8 @@ const endPoint = {
   GET_RECENT_CONTENT: "/content/get-recent-content",
   GET_USER_DATA: "/auth/details",
   GENERATE_QRCODE_URL: "/content/create-qr-url",
+  UPDATE_IBU_QUESTION:"/questions/update-question",
+  DELETE_IBU_QUESTION:"/questions/delete-question",
   Tracking : "/activity/tracking"
 };
 

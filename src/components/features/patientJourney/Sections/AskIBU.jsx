@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Form, FormGroup } from "react-bootstrap";
+import { Form, FormGroup, Modal } from "react-bootstrap";
 import { fetchQuestions, handleSubmit } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
 import AskIbuScroll from "../Common/AskIbuScroll";
@@ -24,6 +24,7 @@ const AskIBU = () => {
     questions: [],
   });
   const [questionData, setQuestionData] = useState([]);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   // Fetch questions
   useEffect(() => {
@@ -277,7 +278,7 @@ const AskIBU = () => {
               <span className="filter-count">
                 {selectedCountries.length +
                   selectedRegions.length +
-                  selectedTopics.length}
+                  selectedTopics.length || null}
               </span>
               {showFilterBox ? (
                 <img src={path_image + "cross-btn.svg"} alt="Filter Icon" />
@@ -536,27 +537,20 @@ const AskIBU = () => {
           ) : !questionData || questionData.length === 0 ? (
             <>No data</>
           ) : (
-            <AskIbuScroll items={questionData} itemCount={6} account={false} />
+            <AskIbuScroll
+              items={questionData}
+              itemCount={6}
+              account={false}
+              updateDeleteQuestion={() => {}}
+            />
           )}
         </div>
       </div>
 
       {/* Ask question form */}
       {
-        <Form
-          className="ask-ibu-form"
-          onSubmit={(e) =>
-            handleSubmit(
-              e,
-              setError,
-              question,
-              setQuestion,
-              setIsLoading,
-              setToast
-            )
-          }
-        >
-          <FormGroup className="form-group">
+        <Form className="ask-ibu-form">
+          <FormGroup className={"form-group " + (error ? "error" : "")}>
             <Form.Label className="question-label">Your Question</Form.Label>
             <Form.Control
               id="question"
@@ -570,12 +564,64 @@ const AskIBU = () => {
           </FormGroup>
           <div className="disclaimer-box">
             <p className="disclaimer">
-              Please don’t include any personal or confidential information in
-              your question.
+              Please don&apos;t include any personal or confidential information
+              in your question.
             </p>
-            <button type="submit" className="submit-btn">
+            <button
+              type="button"
+              className="submit-btn"
+              onClick={() => {
+                if (!question || !question.trim()) {
+                  setError("Question is required");
+                  setQuestion(question.trim());
+                  return;
+                }
+                setShowConfirmationModal(true);
+              }}
+            >
               Submit <img src={path_image + "send-icon.svg"} alt="send" />
             </button>
+            <div className="pop_up">
+              <Modal
+                show={showConfirmationModal}
+                onHide={() => setShowConfirmationModal((prev) => !prev)}
+                backdrop="static"
+                keyboard={false}
+                centered
+                fullscreen
+                dialogClassName="iframe-custom-modal"
+              >
+                <Modal.Header className="custom-modal-header">
+                  <button
+                    className="back-btn"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    close
+                  </button>
+                  <div className="modal-title">this is modal title</div>
+                </Modal.Header>
+
+                <Modal.Body className="custom-modal-body">
+                  this ismodal body
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      handleSubmit(
+                        e,
+                        setError,
+                        question,
+                        setQuestion,
+                        setIsLoading,
+                        setToast
+                      );
+                      setShowConfirmationModal(false);
+                    }}
+                  >
+                    Ok
+                  </button>
+                </Modal.Body>
+              </Modal>
+            </div>
           </div>
         </Form>
       }

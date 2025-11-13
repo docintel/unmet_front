@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import QuestionCard from "./QuestionCard";
 
-const AskIbuScroll = ({ items, itemCount, account }) => {
+const AskIbuScroll = ({ items, itemCount, account,updateDeleteQuestion }) => {
   const containerRef = useRef(null);
   const [itemsToShow, setItemsToShow] = useState(
     Math.min(itemCount, items.length)
@@ -46,7 +46,7 @@ const AskIbuScroll = ({ items, itemCount, account }) => {
           .map((item) => {
             return (
               <React.Fragment key={item.id}>
-                <QuestionCard question={item} account={account} />
+                <QuestionCard question={item} account={account} updateDeleteQuestion={updateDeleteQuestion}/>
               </React.Fragment>
             );
           })}{" "}
