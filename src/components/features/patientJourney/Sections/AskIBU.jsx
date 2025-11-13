@@ -554,7 +554,7 @@ const AskIBU = () => {
           ) : !questionData || questionData.length === 0 ? (
             <>No data</>
           ) : (
-            <AskIbuScroll items={questionData} itemCount={6} account={false} />
+            <AskIbuScroll items={questionData} itemCount={6} account={false} updateDeleteQuestion={()=>{}}/>
           )}
         </div>
       </div>

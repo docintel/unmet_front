@@ -1,16 +1,60 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
+import {
+  deleteIbuQuestion,
+  updateIbuQuestion,
+} from "../../../../services/homeService";
+import { ContentContext } from "../../../../context/ContentContext";
 
-const QuestionCard = ({ question, account }) =>
-{
+const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-
+  const { setIsLoading, setToast } = useContext(ContentContext);
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const handleEditSubmission = () => {
-    setIsEditing(false);
+
+  const handleEditSubmission = async () => {
+    try {
+      await updateIbuQuestion(question.id, questionText, setIsLoading);
+      updateDeleteQuestion(question.id, questionText, true);
+      setIsEditing(false);
+      setToast({
+        show: true,
+        type: "success",
+        title: "Edited",
+        message: "Question updated successfully.",
+      });
+    } catch (ex) {
+      setToast({
+        show: true,
+        type: "danger",
+        title: "Failed",
+        message: "Failed to update the question.",
+      });
+    }
   };
+
+  const handleDeleteQuestion = async () => {
+    try {
+      await deleteIbuQuestion(question.id, setIsLoading);
+      updateDeleteQuestion(question.id, "", false);
+      setShowDeleteModal(false);
+      setToast({
+        show: true,
+        type: "success",
+        title: "Deleted",
+        message: "Question deleted successfully.",
+      });
+    } catch (ex) {
+      setToast({
+        show: true,
+        type: "danger",
+        title: "Failed",
+        message: "Failed to remove the question.",
+      });
+    }
+  };
+
   return (
     <div className="detail-data-box ask-ibu-question">
       <div className="question-header">
@@ -35,20 +79,19 @@ const QuestionCard = ({ question, account }) =>
         )}
       </div>
       <div className="content-box">
-      <div className="question-section">
-
-        {!isEditing && <div className="heading">{questionText}</div>}
-        {account && isEditing && (
-          <textarea
-            className="edit-input"
-            placeholder="Edit your question..."
-            value={questionText}
-            onChange={(e) => setQuestionText(e.target.value)}
-          ></textarea>
-        )}
-        <div className="region">
-          {question.region}, {question.country}
-        </div>
+        <div className="question-section">
+          {!isEditing && <div className="heading">{questionText}</div>}
+          {account && isEditing && (
+            <textarea
+              className="edit-input"
+              placeholder="Edit your question..."
+              value={questionText}
+              onChange={(e) => setQuestionText(e.target.value)}
+            ></textarea>
+          )}
+          <div className="region">
+            {question.region}, {question.country}
+          </div>
         </div>
         {question.visibility_status !== "Not Answer" && (
           <div className="answer-section">
@@ -130,6 +173,9 @@ const QuestionCard = ({ question, account }) =>
 
           <Modal.Body className="custom-modal-body">
             this ismodal body
+            <button type="button" onClick={handleDeleteQuestion}>
+              Ok
+            </button>
           </Modal.Body>
         </Modal>
       </div>

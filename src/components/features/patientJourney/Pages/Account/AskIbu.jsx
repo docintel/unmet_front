@@ -36,6 +36,25 @@ const AskIbu = ({setQuestionCount}) => {
     }
   }, [questionList]);
 
+  const updateDeleteQuestion = (qId, questionText, isUpdate) => {
+    if (isUpdate) {
+      const updatedData = [];
+      questionList.questions.forEach((item) => {
+        if (item.id === qId) {
+          let updatedObj = { ...item };
+          updatedObj.question = questionText;
+          updatedData.push(updatedObj);
+        } else updatedData.push(item);
+      });
+      setQuestionList({ ...questionList, questions: updatedData });
+    } else {
+      const updatedData = questionList.questions.filter(
+        (item) => item.id !== qId
+      );
+      setQuestionList({ ...questionList, questions: updatedData });
+    }
+  };
+
   return (
     <>
       {questionList.loading ? (
@@ -45,7 +64,7 @@ const AskIbu = ({setQuestionCount}) => {
       ) : !questionData || questionData.length === 0 ? (
         <>No data</>
       ) : (
-        <AskIbuScroll items={questionData} itemCount={6} account={true} />
+        <AskIbuScroll items={questionData} itemCount={6} account={true} updateDeleteQuestion={updateDeleteQuestion}/>
       )}
     </>
   );

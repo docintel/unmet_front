@@ -1,4 +1,4 @@
-import { postData, getData } from "./axios/apiHelper";
+import { postData, getData, putData, deleteData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
 export const fetchQuestions = async (setIsLoading,setQuestList) => {
@@ -101,4 +101,31 @@ export const filterQuestionsByTags = (questions, appliedTags) => {
   return questions.filter((q) =>
     appliedTags.every((tag) => q.topics?.includes(tag))
   );
+};
+
+export const updateIbuQuestion = async (qId, questionText, setIsLoading) => {
+  try {
+    setIsLoading(true);
+    const data = { question_id: qId.toString(), question: questionText.trim() };
+    await putData(endPoint.UPDATE_IBU_QUESTION, data);
+  } catch (ex) {
+    setIsLoading(false);
+    console.log("exception while question update : ", ex);
+    throw new Error("Failed to update the question")
+  }finally{
+    setIsLoading(false);
+  }
+};
+
+export const deleteIbuQuestion = async (qId, setIsLoading) => {
+  try {
+    setIsLoading(true);
+    await deleteData(endPoint.DELETE_IBU_QUESTION+"/"+qId.toString());
+  } catch (ex) {
+    setIsLoading(false);
+    console.log("exception while deleting question : ", ex);
+    throw new Error("Failed to delete the question")
+  }finally{
+    setIsLoading(false);
+  }
 };
