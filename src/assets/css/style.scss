@@ -4943,6 +4943,7 @@ input:-webkit-autofill:focus {
       width:100%;
       left:0px;
       border-radius: 0 0 24px 24px;
+      z-index: 1;
     }
     .explore-journey-block-inner {
       position: relative;
