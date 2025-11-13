@@ -47,7 +47,31 @@ const PatientJourneyLanding = () => {
                       </defs>
                     </svg>
                     <div className="age-filter-block">
-                        <div className="block age0">
+                    {filterAges.loading ? (
+                      <></>
+                    ) : filterAges.error ? (
+                      <></>
+                    ) : (
+                      filterAges.data &&
+                      filterAges.data.length > 0 &&
+                      filterAges.data.map((age, idx) => {
+                        const ageName = age.label.split("<br />")[0]
+                        const ageGroup = age.label.split("Age ")[1].replace("&lt;","<").replace("&gt;",">")
+                        const ageClassName = "age"+(age.label.split("Age ")[1].replace("&lt;","0-").replace("&gt;","")).split("-")[0]
+                        console.log(age)
+                        return (<div key={age.id} className={"block "+ageClassName}>
+                          <p>{ageName}</p>
+                          <div className="line"></div>
+                          <div className="age-group-circle">
+                            <img src={path_image + "ages/"+age.allImage} alt=""/>
+                          </div>
+                          <div className="age-gap">
+                            {ageGroup}
+                          </div>
+                        </div>)}
+                      )
+                    )}
+                        {/* <div className="block age0">
                           <p>Early Childhood</p>
                           <div className="line"></div>
                           <div className="age-group-circle">
@@ -96,7 +120,7 @@ const PatientJourneyLanding = () => {
                           <div className="age-gap">
                             &#62; 26
                           </div>
-                        </div>
+                        </div> */}
                     </div>
                     </div>
                     <div className="explore-btn">
