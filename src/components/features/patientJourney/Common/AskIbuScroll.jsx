@@ -42,11 +42,6 @@ const AskIbuScroll = ({ items, itemCount, account }) => {
       {items &&
         items.length > 0 &&
         items
-          .sort(
-            (a, b) =>
-              new Date(b.created.replaceAll(".", " ")) -
-              new Date(a.created.replaceAll(".", " "))
-          )
           .slice(0, itemsToShow)
           .map((item) => {
             return (

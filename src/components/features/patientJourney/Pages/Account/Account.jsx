@@ -1,21 +1,18 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
-import { Row, Button } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
+import { useEffect, useState, useContext } from "react";
+import { Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import Content from "../../Common/Content";
 import { getData } from "../../../../../services/axios/apiHelper";
 import endPoint from "../../../../../services/axios/apiEndpoint";
-import AskIBU from "../../Sections/AskIBU";
 import { ContentContext } from "../../../../../context/ContentContext";
 import FixedSizeList from "../../Common/FixedSizedList";
-import QuestionCard from "../../Common/QuestionCard";
 import AskIbu from "./AskIbu";
 
 const Account = () => {
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [questionCount, setQuestionCount] = useState(0);
 
   const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -95,7 +92,7 @@ const Account = () => {
                     alt="Recently viewed"
                     className="tab-icon"
                   /> Recently viewed
-                    <div className="viewed-number"><span>8</span></div></div>
+                    <div className="viewed-number"><span>{recentContent.length}</span></div></div>
                 }>
                   {/* <div className="account-tabs-content">
                     <h6>Recently viewed</h6>
@@ -127,7 +124,7 @@ const Account = () => {
                   src={path_image + "like.svg"}
                   alt="Recently viewed"
                   className="tab-icon"
-                />Likes<div className="viewed-number"><span>8</span></div></div>
+                />Likes<div className="viewed-number"><span>{recentContent.length}</span></div></div>
                 }>
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
@@ -156,9 +153,9 @@ const Account = () => {
                   src={path_image + "question.svg"}
                   alt="Recently viewed"
                   className="tab-icon"
-                /> Your questions<div className="viewed-number"><span>8</span></div></div>
+                /> Your questions<div className="viewed-number"><span>{questionCount}</span></div></div>
                 }>
-                  <AskIbu />
+                  <AskIbu setQuestionCount={setQuestionCount} />
                 </Tab>
               </Tabs>
             </div>

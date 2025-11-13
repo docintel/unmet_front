@@ -676,7 +676,7 @@ a {
 
   .header-account {
     gap: 16px;
-    @include flex-space-between;
+    @include flex-center;
 
     .switch {
       @include switch;
@@ -721,7 +721,7 @@ a {
     .logout {
       gap: 8px;
       min-width: 72px;
-      @include flex-space-between;
+      @include flex-center;
 
 
       span {
@@ -1079,8 +1079,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       padding-right: 5px;
 
       .touchpoint-data-boxes {
-        display: flex;
-        flex-wrap: wrap;
+        @include flex-wrap ;
         justify-content: space-between;
         row-gap: 72px;
 
@@ -1220,7 +1219,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       align-items: center;
 
       h6 {
-        color: #fff;
+        color: var(--white);
         font-size: 15px;
         font-weight: 600;
       }
@@ -1228,7 +1227,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       .close-btn {
         background: transparent;
         border: none;
-        color: #fff;
+        color: var(--white);
         font-size: 18px;
         cursor: pointer;
         transition: opacity 0.2s;
@@ -1251,7 +1250,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       }
 
       .dropdown-toggle {
-        background: #fff;
+        background: var(--white);
         border-radius: 40px;
         display: flex;
         align-items: center;
@@ -1260,7 +1259,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         cursor: pointer;
         transition: all 0.3s ease;
 
-         &.active {
+         &.active, &:hover {
          svg path {
          stroke: var(--green);
        }
@@ -1271,12 +1270,20 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         }
 
         span {
-          display: flex;
-          align-items: center;
           gap: 8px;
           font-size: 12px;
           font-weight: 400;
           color: #B5C2D3;
+          width: 210px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          svg{
+            margin-right: 8px;
+            width:18px;
+            height:auto;
+          }
         }
 
         img {
@@ -1290,7 +1297,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       }
 
       .dropdown-list {
-        background: #fff;
+        background: var(--white);
         border-radius: 12px;
         margin-top: 4px;
         padding: 8px 16px 8px 4px;
@@ -1315,6 +1322,12 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
           border-radius: 40px;
           cursor: pointer;
           margin-bottom: 2px;
+          &:hover{
+            input[type="checkbox"] {
+              border-color: var(--green);
+              box-shadow: 0 0 10px #4CC6CF;
+            }
+          }
 
           span {
             font-size: 12px;
@@ -1331,7 +1344,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
             place-content: center;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
-            background: #fff;
+            background: var(--white);
 
             &:checked {
               border-color: var(--green);
@@ -1408,7 +1421,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
     }
 
     textarea {
-      background: #ffffff;
+      background: var(--white);
       border: 1px solid rgba(24, 59, 77, 0.5);
       resize: none;
       padding: 12px 14px;
@@ -1418,7 +1431,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       outline: none;
       transition: all 0.2s ease-in-out;
       border-radius: 16px;
-      background: var(--secondary-white, #fff);
+      background: var(--secondary-white, var(--white));
       box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.5);
 
       &::placeholder {
@@ -1465,7 +1478,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       border-radius: 40px;
       font-size: 14px;
       font-weight: 500;
-      color: #fff;
+      color: var(--white);
       background: linear-gradient(90deg, #f79548 0%, #e94262 100%);
       cursor: pointer;
 
@@ -2929,6 +2942,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
   border-radius: 2px;
   gap: 16px;
   margin: 0 0 15px;
+  height: calc(100vh - 78px);
 
   .profile {
     border-radius: 24px;
@@ -3059,7 +3073,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
 
   .account-tabs {
     margin: 4px 0 0;
-
+    height: calc(100% - 165px);
     ul {
       border: 0;
       gap: 40px;
@@ -3136,7 +3150,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
     }
 
     .touchpoint-data-boxes {
-      gap: 2.6rem 4rem;
+      gap: 4.7rem 4rem;
       display: flex;
       flex-wrap: wrap;
 
@@ -3155,10 +3169,15 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
       padding: 16px;
       @include box-shadow;
       background: none;
+      height:100%;
+      overflow-y: auto;
 
       .detail-data-box {
-        // margin: 0 0 30px;
+        margin: 0 0 0px;
         // width: 100%;
+        &.ask-ibu-question{
+          margin:0 0 28px;
+        }
 
         .age-format {
           @include age-format;
@@ -3166,13 +3185,15 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
 
         .content-box {
           @include content-box;
-          background: var(--white);
           position: relative;
           z-index: 9;
           display: flex;
           flex-direction: column;
           height: calc(100% - 18px);
-          margin: 0 0 28px;
+          margin: 0 0px;
+          border-radius: 8px 8px 16px 16px;
+          background:  #FDFEFF;
+          box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         }
 
         &:last-child {
@@ -3670,7 +3691,7 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       padding: 0 40px 24px;
 
       .nav-tabs {
-        @include flex-space-between;
+        @include flex-center;
         gap: 40px;
         border: 0;
 

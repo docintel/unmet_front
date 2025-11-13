@@ -58,7 +58,6 @@ const PatientJourneyLanding = () => {
                         const ageName = age.label.split("<br />")[0]
                         const ageGroup = age.label.split("Age ")[1].replace("&lt;","<").replace("&gt;",">")
                         const ageClassName = "age"+(age.label.split("Age ")[1].replace("&lt;","0-").replace("&gt;","")).split("-")[0]
-                        console.log(age)
                         return (<div key={age.id} className={"block "+ageClassName}>
                           <p>{ageName}</p>
                           <div className="line"></div>
