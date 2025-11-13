@@ -300,21 +300,23 @@ const AskIBU = () =>
 
                   {showTagsDropdown === "regions" && (
                     <div className="dropdown-list">
-                      {regions.map((region, index) => (
-                        <div
-                          key={index}
-                          className={`dropdown-option ${selectedRegions.includes(region) ? "selected" : ""
-                            }`}
-                          onClick={() => toggleRegion(region)}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedRegions.includes(region)}
-                            readOnly
-                          />
-                          <span>{region}</span>
-                        </div>
-                      ))}
+                      <div className="inner-scroll">
+                        {regions.map((region, index) => (
+                          <div
+                            key={index}
+                            className={`dropdown-option ${selectedRegions.includes(region) ? "selected" : ""
+                              }`}
+                            onClick={() => toggleRegion(region)}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedRegions.includes(region)}
+                              readOnly
+                            />
+                            <span>{region}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -382,23 +384,25 @@ const AskIBU = () =>
 
                   {showTagsDropdown === "countries" && (
                     <div className="dropdown-list">
-                      {countries.map((country, index) => (
-                        <div
-                          key={index}
-                          className={`dropdown-option ${selectedCountries.includes(country)
-                            ? "selected"
-                            : ""
-                            }`}
-                          onClick={() => toggleCountry(country)}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedCountries.includes(country)}
-                            readOnly
-                          />
-                          <span>{country}</span>
-                        </div>
-                      ))}
+                      <div className="inner-scroll">
+                        {countries.map((country, index) => (
+                          <div
+                            key={index}
+                            className={`dropdown-option ${selectedCountries.includes(country)
+                              ? "selected"
+                              : ""
+                              }`}
+                            onClick={() => toggleCountry(country)}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedCountries.includes(country)}
+                              readOnly
+                            />
+                            <span>{country}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -440,21 +444,23 @@ const AskIBU = () =>
 
                   {showTagsDropdown === "topics" && (
                     <div className="dropdown-list">
-                      {topics.map((topic, index) => (
-                        <div
-                          key={index}
-                          className={`dropdown-option ${selectedTopics.includes(topic) ? "selected" : ""
-                            }`}
-                          onClick={() => toggleTopic(topic)}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedTopics.includes(topic)}
-                            readOnly
-                          />
-                          <span>{topic}</span>
-                        </div>
-                      ))}
+                      <div className="inner-scroll">
+                        {topics.map((topic, index) => (
+                          <div
+                            key={index}
+                            className={`dropdown-option ${selectedTopics.includes(topic) ? "selected" : ""
+                              }`}
+                            onClick={() => toggleTopic(topic)}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedTopics.includes(topic)}
+                              readOnly
+                            />
+                            <span>{topic}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
