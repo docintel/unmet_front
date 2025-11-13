@@ -12,7 +12,8 @@ import { ContentContext } from "../../../../context/ContentContext";
 import { countryRegionArray } from "../../../../constants/countryRegion";
 import AskIbuScroll from "../Common/AskIbuScroll";
 
-const AskIBU = () => {
+const AskIBU = () =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
   const { setIsLoading } = useContext(ContentContext);
@@ -31,7 +32,7 @@ const AskIBU = () => {
     error: false,
     questions: [],
   });
-  const [questionData,setQuestionData] = useState([])
+  const [questionData, setQuestionData] = useState([])
 
   // Fetch questions
   useEffect(() =>
@@ -46,13 +47,15 @@ const AskIBU = () => {
     setRegions([...regionArr, "Other"]);
     setCountries(Object.keys(countryRegionArray));
     setTopics(["Tag1", "Tag2", "Tag3", "Tag4", "Tag5", "Tag6"]);
-    (async()=>{
-      const ibuQuestions = await fetchQuestions(setIsLoading,setQuestList);
+    (async () =>
+    {
+      const ibuQuestions = await fetchQuestions(setIsLoading, setQuestList);
       console.log(ibuQuestions)
     })()
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (
       !questionList.loading &&
       !questionList.error &&
@@ -63,9 +66,10 @@ const AskIBU = () => {
       let regionArr = [],
         countryArr = [],
         topicsArr = [];
-      
 
-      questionList.questions.forEach((item) => {
+
+      questionList.questions.forEach((item) =>
+      {
         regionArr.push(item.region);
         countryArr.push(item.country);
         topicsArr.push(...item.topics);
@@ -86,7 +90,8 @@ const AskIBU = () => {
     }
   }, [questionList]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     let data = [...questionList.questions];
     if (selectedCountries.length > 0) {
       data = data.filter((item) => selectedCountries.includes(item.country));
@@ -95,7 +100,8 @@ const AskIBU = () => {
       data = data.filter((item) => selectedRegions.includes(item.region));
     }
     if (selectedTopics.length > 0) {
-      data = data.filter((item) => {
+      data = data.filter((item) =>
+      {
         if (item.topics) {
           for (let i = 0; i < item.topics.length; i++) {
             if (selectedTopics.includes(item.topics[i])) return true;
@@ -107,7 +113,8 @@ const AskIBU = () => {
     setQuestionData(data);
   }, [selectedRegions, selectedCountries, selectedTopics]);
 
-  const toggleRegion = (region) => {
+  const toggleRegion = (region) =>
+  {
     if (selectedRegions.includes(region)) {
       const data = selectedRegions.filter((item) => item !== region);
       setSelectedRegions(data);
@@ -233,15 +240,54 @@ const AskIBU = () => {
                 <div className="filter-group">
                   <label className="filter-label">Regions</label>
                   <div
+
                     className="dropdown-toggle"
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "regions" ? "" : "regions"
                       )
                     }
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .classList.remove("active")
+                    }
                   >
                     <span>
-                      <img src={path_image + "region-icon.svg"} alt="" />
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M21 11.2565C21 5.73362 16.5228 1.25647 11 1.25647C5.47715 1.25647 1 5.73362 1 11.2565C1 16.7793 5.47715 21.2565 11 21.2565C16.5228 21.2565 21 16.7793 21 11.2565Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M19 4.95546C18.0653 5.02283 16.8681 5.38471 16.0379 6.45924C14.5385 8.40008 13.039 8.56203 12.0394 7.91508C10.5399 6.94467 11.8 5.37283 10.0401 4.51862C8.89313 3.96189 8.73321 2.44692 9.37158 1.25647"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M1 10.2565C1.7625 10.9186 2.83046 11.5247 4.08874 11.5247C6.68843 11.5247 7.20837 12.0214 7.20837 14.0083C7.20837 15.9951 7.20837 15.9951 7.72831 17.4853C8.06651 18.4546 8.18472 19.4239 7.5106 20.2565"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M21 12.7088C20.1129 12.1976 19 11.9873 17.8734 12.7969C15.7177 14.3463 14.2314 13.0625 13.5619 14.3454C12.5765 16.234 16.0957 16.8276 13 21.2565"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                       Select region
                     </span>
                     <img
@@ -283,9 +329,47 @@ const AskIBU = () => {
                         showTagsDropdown === "countries" ? "" : "countries"
                       )
                     }
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .classList.remove("active")
+                    }
                   >
                     <span>
-                      <img src={path_image + "country-icon.svg"} alt="" />
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
                       Select country
                     </span>
                     <img
@@ -329,9 +413,21 @@ const AskIBU = () => {
                         showTagsDropdown === "topics" ? "" : "topics"
                       )
                     }
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .classList.remove("active")
+                    }
                   >
                     <span>
-                      <img src={path_image + "topics-icon.svg"} alt="" />
+                      <svg width="18" height="13" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.95833 5.625C9.41857 5.625 9.79167 5.9981 9.79167 6.45833C9.79167 6.91857 9.41857 7.29167 8.95833 7.29167H3.95833C3.4981 7.29167 3.125 6.91857 3.125 6.45833C3.125 5.9981 3.4981 5.625 3.95833 5.625H8.95833Z" fill="#94A7BF" />
+                        <path d="M13.9583 5.625C14.4186 5.625 14.7917 5.9981 14.7917 6.45833C14.7917 6.91857 14.4186 7.29167 13.9583 7.29167H12.2917C11.8314 7.29167 11.4583 6.91857 11.4583 6.45833C11.4583 5.9981 11.8314 5.625 12.2917 5.625H13.9583Z" fill="#94A7BF" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.125 0C15.7714 0 17.9167 2.1453 17.9167 4.79167V8.125C17.9167 10.7714 15.7714 12.9167 13.125 12.9167H4.79167C2.1453 12.9167 5.3688e-08 10.7714 0 8.125V4.79167C5.36898e-08 2.1453 2.1453 0 4.79167 0H13.125ZM4.79167 1.25C2.83566 1.25 1.25 2.83566 1.25 4.79167V8.125C1.25 10.081 2.83566 11.6667 4.79167 11.6667H13.125C15.081 11.6667 16.6667 10.081 16.6667 8.125V4.79167C16.6667 2.83566 15.081 1.25 13.125 1.25H4.79167Z" fill="#94A7BF" />
+                      </svg>
                       Select topic
                     </span>
                     <img
@@ -376,7 +472,7 @@ const AskIBU = () => {
           ) : !questionData || questionData.length === 0 ? (
             <>No data</>
           ) : (
-            <AskIbuScroll items={questionData} itemCount={6} account={false}/>
+            <AskIbuScroll items={questionData} itemCount={6} account={false} />
           )}
         </div>
       </div>

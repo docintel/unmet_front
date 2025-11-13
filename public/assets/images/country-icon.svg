@@ -6,11 +6,3 @@
 </svg>
 
 
-    border-radius: 8px 12px 12px 8px;
-    border-left: 5px solid var(--green);
-    background: rgba(148, 167, 191, 0.06);
-    padding: 8px 30px 8px 8px;
-    display: flex
-;
-    align-items: flex-start;
-    gap: 10px;
