@@ -19,16 +19,18 @@ const QuestionCard = ({ question, account }) => {
               <img
                 src={
                   path_image +
-                  (question.visibility_status !== "Not Answer"
-                    ? "checked-icon.svg"
-                    : "timer-icon.svg")
+                  (question.visibility_status === "Not Answer"
+                    ? "timer-icon.svg"
+                    : "checked-icon.svg")
                 }
                 alt=""
               />
               <span className="info-message">
-                {question.visibility_status !== "Not Answer"
+                {question.visibility_status === "Not Answer"
+                  ? "Waiting for IBU's answer..."
+                  : question.visibility_status === "Private"
                   ? "Answered by IBU"
-                  : "Waiting for IBU's answer..."}
+                  : "Published by IBU"}
               </span>
             </div>
           )}

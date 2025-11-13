@@ -158,7 +158,7 @@ const AskIBU = () =>
         {/* Applied filters */}
         <div className="filter-section">
           {(selectedRegions.length > 0 || selectedCountries.length > 0 || selectedTopics.length > 0) && <div className="filter-list">
-            <p className="label">Result ( 17 ) :</p>
+            <p className="label">Result ( {questionData.length} ) :</p>
             {selectedRegions.length > 0 && (
               selectedRegions.map((region, index) => (
                 <span key={index} className="tag-item ">
