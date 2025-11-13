@@ -31,7 +31,7 @@ export default function JourneySectionDetail({ onSectionClick, section })
               onSectionClick(null);
             }}
           >
-            <img src={path_image + "close-arrow.svg"} alt="" />
+            <img src={path_image + "cross-btn.svg"} alt="" />
           </span>
         </div>
         <div className="data-box">

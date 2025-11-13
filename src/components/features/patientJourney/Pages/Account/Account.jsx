@@ -74,16 +74,16 @@ const Account = () => {
                 <div className="download">
                   <div className="label">
                     <img src={path_image + "download-img.svg"} alt="Download" />
-                    <h4>Content Downloaded</h4>
+                    <h6>Content Downloaded</h6>
                   </div>
-                  <span>{userData?.total_download ?? "00"}</span>
+                  <h5>{userData?.total_download ?? "00"}</h5>
                 </div>
                 <div className="shared">
                   <div className="label">
                     <img src={path_image + "share-img.svg"} alt="Shared" />
-                    <h4>Content Shared</h4>
+                    <h6>Content Shared</h6>
                   </div>
-                  <span>{userData?.total_shared ?? "00"}</span>
+                  <h5>{userData?.total_shared ?? "00"}</h5>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="favorite" title="Favourite">
+                <Tab eventKey="favorite" title="Likes">
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
                       favorite && (
