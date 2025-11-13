@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-const QuestionCard = ({ question, account }) => {
+const QuestionCard = ({ question, account }) =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -34,6 +35,8 @@ const QuestionCard = ({ question, account }) => {
         )}
       </div>
       <div className="content-box">
+      <div className="question-section">
+
         {!isEditing && <div className="heading">{questionText}</div>}
         {account && isEditing && (
           <textarea
@@ -46,7 +49,7 @@ const QuestionCard = ({ question, account }) => {
         <div className="region">
           {question.region}, {question.country}
         </div>
-        {/* <hr className="divider" /> */}
+        </div>
         {question.visibility_status !== "Not Answer" && (
           <div className="answer-section">
             <span className="answer-label">Answer</span>
