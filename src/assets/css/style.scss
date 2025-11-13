@@ -1019,8 +1019,9 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
 
   .right-side {
     flex: 1 1;
-    border-radius: 10px;
-    @include box-shadow;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
     padding: 16px 24px 0px 24px;
     text-align: left;
     gap: 0px;
@@ -1186,7 +1187,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
    .filter-box-overlay {
     position: absolute;
     top: 40px;
-    right: 0px;
+    right: 4px;
     z-index: 1100;
     display: flex;
     justify-content: flex-end;
@@ -1195,7 +1196,7 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
   .filter-box {
     border-radius: 16px;
     padding: 24px;
-    width: 279px;
+    width: 327px;
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -1243,12 +1244,12 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
     .filter-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
 
       .filter-label {
-        color: #fff;
+        color: var(--gray);
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .dropdown-toggle {
@@ -1261,6 +1262,19 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         cursor: pointer;
         transition: all 0.3s ease;
 
+          .active {
+                +span {
+                  svg {
+                    path {
+                      stroke: var(--green);
+                    }
+                  }
+                }
+              }
+
+        &::after{
+          display: none;
+        }
         span {
           display: flex;
           align-items: center;
@@ -1270,13 +1284,8 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         }
 
         img {
-          width: 14px;
-          height: 14px;
+          width: 20px;
           transition: transform 0.3s ease;
-
-          &.arrow.open {
-            transform: rotate(180deg);
-          }
         }
 
         &:hover {
@@ -1288,11 +1297,11 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
         background: #fff;
         border-radius: 12px;
         margin-top: 8px;
-        padding: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        padding: 8px 16px 8px 4px;
+        box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 2px;
         max-height: 200px;
         overflow-y: auto;
 
@@ -1300,8 +1309,8 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
           display: flex;
           align-items: center;
           gap: 8px;
-          padding: 8px 12px;
-          border-radius: 8px;
+          padding: 10px 24px 10px 18px;
+          border-radius: 40px;
           cursor: pointer;
           transition: background 0.2s ease;
 
@@ -1309,30 +1318,47 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
             font-size: 14px;
             color: #0f2f44;
           }
+           input[type="checkbox"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #B5C2D3;
+            border-radius: 50%;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background: #fff;
 
-          input {
-            accent-color: #36b59f;
+            &:checked {
+              border-color: #36b59f;
+              background: #36b59f
+                url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 20 20%27%3e%3cpath fill=%27none%27 stroke=%27%23fff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%273%27 d=%27m6 10 3 3 6-6%27/%3e%3c/svg%3e")
+                no-repeat center;
+              background-size: 12px;
+            }
           }
 
           &:hover {
-            background: rgba(0, 39, 59, 0.05);
+            background: #F4F6F9;
           }
 
           &.selected {
-            background: rgba(54, 181, 159, 0.15);
+            background: #E6F7F8;
             span {
               color: #007b7f;
               font-weight: 500;
+             }
             }
           }
         }
       }
     }
   }
-}
+  
 
-      }
-    }
+}
+}
 
     .detail-data-box {
       margin: 0 0 28px;
