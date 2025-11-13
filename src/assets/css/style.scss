@@ -1092,12 +1092,65 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
 
       .filter-section {
         @include flex-justify-between;
-        // align-items: flex-end;
+        align-items: center;
         position: relative;
-        padding: 0 0px 16px 24px;
+        padding: 0 0px 16px 0px;
+
+        .label{
+          color: var(--gray300);
+          font-size: 14px;
+          font-weight: 400;
+          margin: 0;
+        }
+
+        .filter-list{
+        display: flex;
+        align-items: center; 
+        justify-content: center; 
+        flex-wrap: wrap; 
+        gap: 8px; 
+        text-align: center;
+
+        .tag-item {
+         @include flex-align-center;
+          background: rgba(76, 198, 207, 0.2);
+          color: var(--green);
+          font-size: 12px;
+          padding: 3px 4px 3px 8px;
+          border-radius: 40px;
+        
+        .cross-btn {
+            background: var(--green);
+            border: none;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            @include flex-middle;
+            font-size: 8px;
+            color: var(--white);
+            margin-left: 6px;
+            cursor: pointer;
+            padding: 1px;
+            line-height: 1;
+         }
+        }
+        .clear-all-btn{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        border: none;
+        border-radius: 40px;
+        padding: 0px 0px 0 16px;
+        font-size: 14px;
+       color: var(--gray);
+       cursor: pointer;
+       white-space: nowrap;
+        } 
+      }
 
         .filter-container {
-          // text-align: right;
+          margin-left: auto;
 
           button {
             display: flex;
@@ -1130,70 +1183,14 @@ box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
           }
         }
 
-        // .filter-box {
-        //   width: 300px;
-        //   border-radius: 10px;
-        //   background: var(--white);
-        //   box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-        //   padding: 12px;
-        //   position: absolute;
-        //   top: 40px;
-        //   margin-bottom: 10px;
-
-        //   h6 {
-        //     font-size: 16px;
-        //   }
-
-        //   >.btn {
-        //     background: var(--white);
-        //     box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-        //     border-radius: 19px;
-        //     border: 0;
-        //   }
-
-        //   .tags-options {
-        //     background: var(--white);
-        //     box-shadow: 0 1px 5.8px 0 rgba(0, 0, 0, 0.12);
-        //     border-radius: 19px;
-        //     padding: 38px 10px 10px;
-        //     margin-top: -30px;
-
-        //     .tags-list {
-        //       max-height: 55px;
-        //       overflow-y: auto;
-        //     }
-
-        //     .form-check {
-        //       label {
-        //         font-size: 12px;
-        //         font-weight: 500;
-        //         color: var(--text-color);
-        //       }
-        //     }
-        //   }
-
-        //   .btn {
-        //     font-size: 12px;
-        //   }
-
-        //   .btn-bordered {
-        //     border: 1px solid var(--gradient-orange);
-        //     color: var(--gradient-orange);
-
-        //     &:hover {
-        //       background: linear-gradient(97deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
-        //       color: $white;
-        //     }
-        //   }
-        // }
-.filter-box-overlay {
-  position: absolute;
-  top: 40px;
-  right: 0px;
-  z-index: 1100;
-  display: flex;
-  justify-content: flex-end;
-  width: auto;
+   .filter-box-overlay {
+    position: absolute;
+    top: 40px;
+    right: 0px;
+    z-index: 1100;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
 
   .filter-box {
     border-radius: 16px;
