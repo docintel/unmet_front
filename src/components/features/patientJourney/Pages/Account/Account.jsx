@@ -86,15 +86,14 @@ const Account = () => {
             </div>
             <div className="account-tabs w-100">
               <Tabs defaultActiveKey="recent-view" className="account-tab-data">
-                <Tab
-                  eventKey="recent-view"
-                  title={
-                    <div>
-                      <span>Recently viewed</span>
-                      <span>{recentContent.length}</span>
-                    </div>
-                  }
-                >
+                <Tab eventKey="recent-view" title={
+                  <div className="d-flex align-items-center"><img
+                    src={path_image + "recent.svg"}
+                    alt="Recently viewed"
+                    className="tab-icon"
+                  /> Recently viewed
+                    <div className="viewed-number"><span>{recentContent.length}</span></div></div>
+                }>
                   {/* <div className="account-tabs-content">
                     <h6>Recently viewed</h6>
                   </div> */}
@@ -121,15 +120,12 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab
-                  eventKey="favorite"
-                  title={
-                    <div>
-                      <span>Favourite</span>
-                      <span>{favorite.length}</span>
-                    </div>
-                  }
-                >
+                <Tab eventKey="favorite" title={<div className="d-flex align-items-center"><img
+                  src={path_image + "like.svg"}
+                  alt="Recently viewed"
+                  className="tab-icon"
+                />Likes<div className="viewed-number"><span>{recentContent.length}</span></div></div>
+                }>
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
                       favorite && (
@@ -153,15 +149,12 @@ const Account = () => {
                     )}
                   </div>
                 </Tab>
-                <Tab
-                  eventKey="question"
-                  title={
-                    <div>
-                      <span>Your questions</span>
-                      <span>{questionCount}</span>
-                    </div>
-                  }
-                >
+                <Tab eventKey="question" title={<div className="d-flex align-items-center"><img
+                  src={path_image + "question.svg"}
+                  alt="Recently viewed"
+                  className="tab-icon"
+                /> Your questions<div className="viewed-number"><span>{questionCount}</span></div></div>
+                }>
                   <AskIbu setQuestionCount={setQuestionCount} />
                 </Tab>
               </Tabs>
