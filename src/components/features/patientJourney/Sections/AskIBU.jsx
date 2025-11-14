@@ -211,80 +211,86 @@ const AskIBU = () =>
           {(selectedRegions.length > 0 ||
             selectedCountries.length > 0 ||
             selectedTopics.length > 0) && (
-            <div className="filter-list">
-              <p className="label">Result:</p>
-              {selectedRegions.length > 0 &&
-                selectedRegions.map((region, index) => {
-                  let count = 0;
-                  questionData.forEach((item) => {
-                    if (item.region === region) count++;
-                  });
-                  //questionData
-                  return (
-                    <span key={index} className="tag-item ">
-                      {region} | <span>{count}</span>
-                      <button
-                        className="cross-btn"
-                        onClick={() => toggleRegion(region)}
-                      >
-                        <img
-                          src={path_image + "cross-arrow.svg"}
-                          alt="delete"
-                        />
-                      </button>
-                    </span>
-                  );
-                })}
-              {selectedCountries.length > 0 &&
-                selectedCountries.map((country, index) => {
-                  let count = 0;
-                  questionData.forEach((item) => {
-                    if (item.country === country) count++;
-                  });
-                  return (
-                    <span key={index} className="tag-item ">
-                      {country} | <span>{count}</span>
-                      <button
-                        className="cross-btn"
-                        onClick={() => toggleCountry(country)}
-                      >
-                        <img
-                          src={path_image + "cross-arrow.svg"}
-                          alt="delete"
-                        />
-                      </button>
-                    </span>
-                  );
-                })}
-              {selectedTopics.length > 0 &&
-                selectedTopics.map((topic, index) => {
-                  let count = 0;
-                  questionData.forEach((item) => {
-                    if (item.topics.includes(topic)) count++;
-                  });
-                  return (
-                    <span key={index} className="tag-item ">
-                      {topic} | <span>{count}</span>
-                      <button
-                        className="cross-btn"
-                        onClick={() => toggleTopic(topic)}
-                      >
-                        <img
-                          src={path_image + "cross-arrow.svg"}
-                          alt="delete"
-                        />
-                      </button>
-                    </span>
-                  );
-                })}
-              <button
-                className="clear-all-btn btn btn-primary"
-                onClick={clearAllFilters}
-              >
-                Clear All
-              </button>
-            </div>
-          )}
+              <div className="filter-list">
+                <p className="label">Result:</p>
+                {selectedRegions.length > 0 &&
+                  selectedRegions.map((region, index) =>
+                  {
+                    let count = 0;
+                    questionData.forEach((item) =>
+                    {
+                      if (item.region === region) count++;
+                    });
+                    //questionData
+                    return (
+                      <span key={index} className="tag-item ">
+                        {region} | <span>{count}</span>
+                        <button
+                          className="cross-btn"
+                          onClick={() => toggleRegion(region)}
+                        >
+                          <img
+                            src={path_image + "cross-arrow.svg"}
+                            alt="delete"
+                          />
+                        </button>
+                      </span>
+                    );
+                  })}
+                {selectedCountries.length > 0 &&
+                  selectedCountries.map((country, index) =>
+                  {
+                    let count = 0;
+                    questionData.forEach((item) =>
+                    {
+                      if (item.country === country) count++;
+                    });
+                    return (
+                      <span key={index} className="tag-item ">
+                        {country} | <span>{count}</span>
+                        <button
+                          className="cross-btn"
+                          onClick={() => toggleCountry(country)}
+                        >
+                          <img
+                            src={path_image + "cross-arrow.svg"}
+                            alt="delete"
+                          />
+                        </button>
+                      </span>
+                    );
+                  })}
+                {selectedTopics.length > 0 &&
+                  selectedTopics.map((topic, index) =>
+                  {
+                    let count = 0;
+                    questionData.forEach((item) =>
+                    {
+                      if (item.topics.includes(topic)) count++;
+                    });
+                    return (
+                      <span key={index} className="tag-item ">
+                        {topic} | <span>{count}</span>
+                        <button
+                          className="cross-btn"
+                          onClick={() => toggleTopic(topic)}
+                        >
+                          <img
+                            src={path_image + "cross-arrow.svg"}
+                            alt="delete"
+                          />
+                        </button>
+                      </span>
+                    );
+                  })}
+                <button
+                  className="clear-all-btn btn btn-primary"
+                  onClick={clearAllFilters}
+                >
+                  Clear All
+                </button>
+              </div>
+            )}
           <div className="filter-container">
             <button
               className="btn btn-link filter-btn"
@@ -293,8 +299,8 @@ const AskIBU = () =>
               {" "}
               Filter
               {selectedCountries.length +
-              selectedRegions.length +
-              selectedTopics.length ? (
+                selectedRegions.length +
+                selectedTopics.length ? (
                 <span className="filter-count">
                   {selectedCountries.length +
                     selectedRegions.length +
@@ -316,19 +322,12 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Regions</label>
                   <div
-                    className={`dropdown-toggle ${
-                      showTagsDropdown === "regions" ? "active" : ""
-                    }`}
+                    className={`dropdown-toggle ${showTagsDropdown === "regions" ? "active" : ""
+                      }`}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "regions" ? "" : "regions"
                       )
-                    }
-                    onMouseEnter={(e) =>
-                      e.currentTarget.classList.add("active")
-                    }
-                    onMouseLeave={(e) =>
-                      e.currentTarget.classList.remove("active")
                     }
                   >
                     <span>
@@ -370,9 +369,8 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${
-                        showTagsDropdown === "regions" ? "open" : ""
-                      }`}
+                      className={`arrow ${showTagsDropdown === "regions" ? "open" : ""
+                        }`}
                     />
                   </div>
 
@@ -382,9 +380,8 @@ const AskIBU = () =>
                         {regions.map((region, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${
-                              selectedRegions.includes(region) ? "selected" : ""
-                            }`}
+                            className={`dropdown-option ${selectedRegions.includes(region) ? "selected" : ""
+                              }`}
                             onClick={() => toggleRegion(region)}
                           >
                             <input
@@ -404,9 +401,8 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Countries</label>
                   <div
-                    className={`dropdown-toggle ${
-                      showTagsDropdown === "countries" ? "active" : ""
-                    }`}
+                    className={`dropdown-toggle ${showTagsDropdown === "countries" ? "active" : ""
+                      }`}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "countries" ? "" : "countries"
@@ -452,9 +448,8 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${
-                        showTagsDropdown === "countries" ? "open" : ""
-                      }`}
+                      className={`arrow ${showTagsDropdown === "countries" ? "open" : ""
+                        }`}
                     />
                   </div>
 
@@ -464,11 +459,10 @@ const AskIBU = () =>
                         {countries.map((country, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${
-                              selectedCountries.includes(country)
-                                ? "selected"
-                                : ""
-                            }`}
+                            className={`dropdown-option ${selectedCountries.includes(country)
+                              ? "selected"
+                              : ""
+                              }`}
                             onClick={() => toggleCountry(country)}
                           >
                             <input
@@ -488,9 +482,8 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Topics</label>
                   <div
-                    className={`dropdown-toggle ${
-                      showTagsDropdown === "topics" ? "active" : ""
-                    }`}
+                    className={`dropdown-toggle ${showTagsDropdown === "topics" ? "active" : ""
+                      }`}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "topics" ? "" : "topics"
@@ -527,9 +520,8 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${
-                        showTagsDropdown === "topics" ? "open" : ""
-                      }`}
+                      className={`arrow ${showTagsDropdown === "topics" ? "open" : ""
+                        }`}
                     />
                   </div>
 
@@ -539,9 +531,8 @@ const AskIBU = () =>
                         {topics.map((topic, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${
-                              selectedTopics.includes(topic) ? "selected" : ""
-                            }`}
+                            className={`dropdown-option ${selectedTopics.includes(topic) ? "selected" : ""
+                              }`}
                             onClick={() => toggleTopic(topic)}
                           >
                             <input
@@ -575,7 +566,7 @@ const AskIBU = () =>
                 items={questionData}
                 itemCount={6}
                 account={false}
-                updateDeleteQuestion={() => {}}
+                updateDeleteQuestion={() => { }}
               />
             )}
           </div>
@@ -605,7 +596,8 @@ const AskIBU = () =>
             <button
               type="button"
               className="submit-btn"
-              onClick={() => {
+              onClick={() =>
+              {
                 if (!question || !question.trim()) {
                   setError("Question is required");
                   setQuestion(question.trim());
@@ -616,107 +608,65 @@ const AskIBU = () =>
             >
               Submit <img src={path_image + "send-icon.svg"} alt="send" />
             </button>
-            {/* <div className="pop_up">
-              <Modal
-                show={showConfirmationModal}
-                onHide={() => setShowConfirmationModal((prev) => !prev)}
-                backdrop="static"
-                keyboard={false}
-                centered
-                fullscreen
-                dialogClassName="iframe-custom-modal"
-              >
-                <Modal.Header className="custom-modal-header">
-                  <button
-                    className="back-btn"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    close
-                  </button>
-                  <div className="modal-title">this is modal title</div>
-                </Modal.Header>
-
-                <Modal.Body className="custom-modal-body">
-                  this ismodal body
-                  <button
-                    type="button"
-                    onClick={(e) =>
-                    {
-                      handleSubmit(
-                        e,
-                        setError,
-                        question,
-                        setQuestion,
-                        setIsLoading,
-                        setToast
-                      );
-                      setShowConfirmationModal(false);
-                    }}
-                  >
-                    Ok
-                  </button>
-                </Modal.Body>
-              </Modal>
-            </div> */}
-
           </div>
         </Form>
       }
-            <div className="pop_up">
-              <Modal
-                show={showConfirmationModal}
-                onHide={() => setShowConfirmationModal((prev) => !prev)}
-                backdrop="static"
-                keyboard={false}
-                centered
-                className="confirmation"
-          
-              >
-                <Modal.Body>
-                  <div className="confirmation-card">
-                    <div className="check-icon">
-                      <img
-                        src={path_image + "check-icon-img.png"}
-                        alt="success"
-                      />
-                    </div>
+      <div className="pop_up">
+        <Modal
+          show={showConfirmationModal}
+          onHide={() => setShowConfirmationModal((prev) => !prev)}
+          backdrop="static"
+          keyboard={false}
+          centered
+          className="confirmation"
 
-                    <h2 className="title">Question Sent</h2>
-                    <div className="description-box">
-                      <p className="description">
-                        Your question has been successfully submitted!
-                        <br />
-                        You&apos;ll receive an email once IBU replies to your
-                        question.
-                      </p>
+        >
+          <Modal.Body>
+            <div className="confirmation-card">
+              <div className="check-icon">
+                <img
+                  src={path_image + "check-icon-img.png"}
+                  alt="success"
+                />
+              </div>
 
-                      <p className="note">
-                        You can also find all your submitted questions anytime
-                        in your My Account page.
-                      </p>
+              <h2 className="title">Question Sent</h2>
+              <div className="description-box">
+                <p className="description">
+                  Your question has been successfully submitted!
+                  <br />
+                  You&apos;ll receive an email once IBU replies to your
+                  question.
+                </p>
 
-                      <Button
-                        className="btn done"
-                        type="button"
-                        onClick={(e) => {
-                          handleSubmit(
-                            e,
-                            setError,
-                            question,
-                            setQuestion,
-                            setIsLoading,
-                            setToast
-                          );
-                          setShowConfirmationModal(false);
-                        }}
-                      >
-                        Done
-                      </Button>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
+                <p className="note">
+                  You can also find all your submitted questions anytime
+                  in your My Account page.
+                </p>
+
+                <Button
+                  className="btn done"
+                  type="button"
+                  onClick={(e) =>
+                  {
+                    handleSubmit(
+                      e,
+                      setError,
+                      question,
+                      setQuestion,
+                      setIsLoading,
+                      setToast
+                    );
+                    setShowConfirmationModal(false);
+                  }}
+                >
+                  Done
+                </Button>
+              </div>
             </div>
+          </Modal.Body>
+        </Modal>
+      </div>
     </>
   );
 };

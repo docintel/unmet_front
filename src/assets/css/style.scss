@@ -3331,6 +3331,31 @@ input[type="search"]::-webkit-search-results-decoration:hover {
   svg {
     width: 35px;
   }
+  button{
+    display: flex;
+    padding: 7px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 40px;
+    background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+    color: var(--white);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+
+    img{
+    width: 16px;
+    height: 16px;
+    padding: 3.5px 5.638px 3.5px 5.5px;
+    }
+
+    &:hover{
+      background: linear-gradient(97deg, #E94262 0%, #F79548  100%);
+    }
+  }
 }
 
 .loader-overlay {

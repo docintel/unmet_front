@@ -7,8 +7,11 @@ import endPoint from "../../../../../services/axios/apiEndpoint";
 import { ContentContext } from "../../../../../context/ContentContext";
 import FixedSizeList from "../../Common/FixedSizedList";
 import AskIbu from "./AskIbu";
+import NoData from "../../Common/NoData";
+import { useNavigate } from "react-router-dom";
 
-const Account = () => {
+const Account = () =>
+{
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -16,8 +19,11 @@ const Account = () => {
 
   const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  useEffect(() => {
-    const fetchAllData = async () => {
+  const navigate = useNavigate();
+  useEffect(() =>
+  {
+    const fetchAllData = async () =>
+    {
       setIsLoading(true);
       try {
         const [favoriteRes, recentRes, userRes] = await Promise.all([
@@ -94,9 +100,6 @@ const Account = () => {
                   /> Recently viewed
                     <div className="viewed-number"><span>{recentContent.length}</span></div></div>
                 }>
-                  {/* <div className="account-tabs-content">
-                    <h6>Recently viewed</h6>
-                  </div> */}
                   <div className="touchpoint-data-boxes">
                     {recentContent.length > 0 ? (
                       recentContent && (
@@ -107,16 +110,13 @@ const Account = () => {
                         />
                       )
                     ) : (
-                      // recentContent.map((section) => (
-                      //   <React.Fragment key={section.id}>
-                      //     <Content
-                      //       section={section}
-                      //       idx={section.id}
-                      //       favTab={false}
-                      //     />
-                      //   </React.Fragment>
-                      // ))
-                      <div className="no_data_found">No data Found</div>
+                      <NoData
+                        image="clock.svg"
+                        title="You haven&apos;t viewed anything yet."
+                        description="Explore the touchpoints to get started."
+                        buttonText="Start Exploring"
+                        onClick={() => navigate("/")}
+                      />
                     )}
                   </div>
                 </Tab>
@@ -136,16 +136,13 @@ const Account = () => {
                         />
                       )
                     ) : (
-                      // favorite.map((section) => (
-                      //   <React.Fragment key={section.id}>
-                      //     <Content
-                      //       section={section}
-                      //       idx={section.id}
-                      //       favTab={true}
-                      //     />
-                      //   </React.Fragment>
-                      // ))
-                      <div className="no_data_found">No data Found</div>
+                      <NoData
+                        image="thumbs-up.svg"
+                        title="You haven&apos;t liked anything yet."
+                        description="Explore the touchpoints to get started."
+                        buttonText="Start Exploring"
+                        onClick={() => navigate("/")}
+                      />
                     )}
                   </div>
                 </Tab>
