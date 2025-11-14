@@ -652,6 +652,9 @@ const AskIBU = () =>
               </Modal>
             </div> */}
 
+          </div>
+        </Form>
+      }
             <div className="pop_up">
               <Modal
                 show={showConfirmationModal}
@@ -692,9 +695,6 @@ const AskIBU = () =>
                 </Modal.Body>
               </Modal>
             </div>
-          </div>
-        </Form>
-      }
     </>
   );
 };
