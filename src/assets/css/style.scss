@@ -1334,7 +1334,7 @@ a {
         background: var(--white);
         border-radius: 12px;
         margin-top: 4px;
-        padding: 8px 16px 8px 4px;
+        padding: 8px 6px 8px 4px;
         box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.40);
         display: flex;
         flex-direction: column;
@@ -1343,6 +1343,7 @@ a {
  
         .inner-scroll{
           overflow-y: auto;
+          padding-right: 5px;
 
           &::-webkit-scrollbar-track{
             background: #F4F6F9;
@@ -1396,8 +1397,7 @@ a {
           &.selected {
             background: #E6F7F8;
             span {
-              color: var(--green);
-              font-weight: 500;
+              font-weight: 400;
              }
             }
           }
@@ -1406,8 +1406,6 @@ a {
       }
     }
   }
-  
-
 }
 }
 
