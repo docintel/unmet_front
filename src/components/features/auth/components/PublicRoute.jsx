@@ -5,8 +5,8 @@ import { clearLocalStorage } from "../../../../helper/helper";
 const PublicRoute = () => {
   const isAuthenticated = !!localStorage.getItem("decrypted_token");
   if (isAuthenticated) {
-    // return <Navigate to="/home" replace />;
-    return <Navigate to="/touchpoints" replace />;
+    return <Navigate to="/home" replace />;
+    // return <Navigate to="/touchpoints" replace />;
   }
   clearLocalStorage();
   return <Outlet />;
