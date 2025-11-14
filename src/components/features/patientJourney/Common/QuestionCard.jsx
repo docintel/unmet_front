@@ -1,22 +1,25 @@
 import { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
-import {
+import
+{
   deleteIbuQuestion,
   updateIbuQuestion,
 } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
 
-const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
+const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
+{
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setIsLoading, setToast } = useContext(ContentContext);
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [inputError,setInputError] = useState("")
+  const [inputError, setInputError] = useState("")
 
-  const handleEditSubmission = async () => {
+  const handleEditSubmission = async () =>
+  {
     try {
-      if(!questionText || !questionText.trim()){
+      if (!questionText || !questionText.trim()) {
         setInputError("Question is required.")
         return;
       }
@@ -42,7 +45,8 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
     }
   };
 
-  const handleDeleteQuestion = async () => {
+  const handleDeleteQuestion = async () =>
+  {
     try {
       await deleteIbuQuestion(question.id, setIsLoading);
       updateDeleteQuestion(question.id, "", false);
@@ -128,7 +132,8 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
                 <>
                   <button
                     className="icon-btn delete"
-                    onClick={() => {
+                    onClick={() =>
+                    {
                       setShowDeleteModal(true);
                     }}
                   >
@@ -145,7 +150,8 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
                 <>
                   <button
                     className="cancel-btn"
-                    onClick={() => {
+                    onClick={() =>
+                    {
                       setQuestionText(question.question);
                       setIsEditing(false);
                       setInputError("")
@@ -170,25 +176,45 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
           backdrop="static"
           keyboard={false}
           centered
-          fullscreen
-          dialogClassName="iframe-custom-modal"
+          className="confirmation"
         >
-          <Modal.Header className="custom-modal-header">
-            <button
-              className="back-btn"
-              onClick={() => setShowDeleteModal(false)}
-            >
-              close
-            </button>
+          <Modal.Body>
+            <div className="confirmation-card delete">
+              <div className="check-icon">
+                <img
+                  src={path_image + "alert-icon.svg"}
+                  alt="success"
+                />
+              </div>
 
-            <div className="modal-title">this is modal title</div>
-          </Modal.Header>
+              <h2 className="title">Delete this question?</h2>
+              <div className="description-box">
+                <p className="description">
+                  Your question is still awaiting IBU&apos;s answer. If you delete it, you won&apos;t receive a reply and it will be removed from My Account.
+                </p>
 
-          <Modal.Body className="custom-modal-body">
-            this ismodal body
-            <button type="button" onClick={handleDeleteQuestion}>
-              Ok
-            </button>
+                <p className="note">
+                  This action can&apos;t be undone.
+                </p>
+
+                <div className="confirmation-btn">
+                  <button
+                    className="cencel"
+                    type="button"
+                    onClick={handleDeleteQuestion}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="done"
+                    type="button"
+                    onClick={handleDeleteQuestion}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            </div>
           </Modal.Body>
         </Modal>
       </div>

@@ -1434,7 +1434,7 @@ a {
   bottom: 0;
   width: 100%;
   border-radius: 24px;
-  padding: 16px 20px;
+  padding: 16px;
   background: rgba(255, 255, 255, 0.02);
   box-shadow: 0 -1px 10px 0 rgba(0, 39, 59, 0.6);
   display: flex;
@@ -1493,7 +1493,6 @@ a {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap; 
-    gap: 10px;
 
     .disclaimer {
       font-size: 12px;
@@ -1501,6 +1500,7 @@ a {
       font-weight: 300;
       flex: 1;
       line-height: 1.4;
+      margin: 0;
     }
 
     .submit-btn {
@@ -4316,8 +4316,6 @@ input[type="search"]::-webkit-search-results-decoration:hover {
 }
 
 //------ Share comfirmation popup-------//
-
-
 .modal-backdrop.show {
   opacity: 1;
   background: rgba(0, 0, 0, 0.32);
@@ -4367,6 +4365,10 @@ input[type="search"]::-webkit-search-results-decoration:hover {
 
     .description-box {
       padding: 32px 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
 
       .description {
         font-size: 16px;
@@ -4393,11 +4395,47 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       }
 
       .btn {
-        &.done {
+        &.done,&.cencel{
           margin-top: 32px;
           font-size: 15px;
           font-weight: 500;
           padding: 8px 32px;
+        }
+      }
+    }
+       &.delete{
+      border-top: 8px solid var(--gradient-pink);
+
+      .confirmation-btn{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 32px;
+        width: 408px;
+
+        button{
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        width: 162px;
+        border-radius: 40px;
+
+         &.cencel{
+         @include cancel;
+          
+         &:hover{
+          border: none;
+         }
+         }
+         &.done{
+          background: var(--gradient-pink);
+          color: var(--white);
+          
+          &:hover{
+          border-color: var(--gradient-pink);
+          opacity: 0.9;
+         }
+         }
         }
       }
     }
@@ -4455,8 +4493,6 @@ input[type="search"]::-webkit-search-results-decoration:hover {
   color: var(--gray100);
   opacity: 1;
 }
-
-
 
 /**Share modal End**/
 
