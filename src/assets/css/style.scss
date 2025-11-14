@@ -925,14 +925,12 @@ a {
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.02);
     box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
-    // border-radius: 24px;
-    // @include box-shadow;
     padding: 40px;
     min-height: 200px;
     height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
     cursor: pointer;
 
     .explore-title {
@@ -975,7 +973,7 @@ a {
       transform: translateY(2200px);
       opacity: 0;
       animation: slideUp 0.8s normal forwards;
-      height: calc(36% - 16px);
+      height: calc(35% - 16px);
 
       &:nth-child(1) {
         animation-delay: 0s;
@@ -995,7 +993,7 @@ a {
       }
 
       &.explore {
-        height: calc(28% - 16px);
+        height: calc(30% - 16px);
 
         .explore-box {
           min-height: initial;
@@ -1013,9 +1011,12 @@ a {
       animation: scale-up-hor-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
       width: 100%;
       transition: 2s width linear;
-      height: 100%;
-      // min-height: 90vh;
-      // min-height: 80vh;
+      // height: 100%;
+      height: calc(100vh - 80px);
+      .data-box{
+            height: calc(100% - 70px);
+            max-height: 100%;
+      }
     }
   }
 
