@@ -616,6 +616,52 @@ const AskIBU = () =>
             >
               Submit <img src={path_image + "send-icon.svg"} alt="send" />
             </button>
+            {/* <div className="pop_up">
+              <Modal
+                show={showConfirmationModal}
+                onHide={() => setShowConfirmationModal((prev) => !prev)}
+                backdrop="static"
+                keyboard={false}
+                centered
+                fullscreen
+                dialogClassName="iframe-custom-modal"
+              >
+                <Modal.Header className="custom-modal-header">
+                  <button
+                    className="back-btn"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    close
+                  </button>
+                  <div className="modal-title">this is modal title</div>
+                </Modal.Header>
+
+                <Modal.Body className="custom-modal-body">
+                  this ismodal body
+                  <button
+                    type="button"
+                    onClick={(e) =>
+                    {
+                      handleSubmit(
+                        e,
+                        setError,
+                        question,
+                        setQuestion,
+                        setIsLoading,
+                        setToast
+                      );
+                      setShowConfirmationModal(false);
+                    }}
+                  >
+                    Ok
+                  </button>
+                </Modal.Body>
+              </Modal>
+            </div> */}
+
+          </div>
+        </Form>
+      }
             <div className="pop_up">
               <Modal
                 show={showConfirmationModal}
@@ -671,9 +717,6 @@ const AskIBU = () =>
                 </Modal.Body>
               </Modal>
             </div>
-          </div>
-        </Form>
-      }
     </>
   );
 };
