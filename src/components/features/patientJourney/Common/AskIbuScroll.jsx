@@ -32,7 +32,7 @@ const AskIbuScroll = ({ items, itemCount, account,updateDeleteQuestion }) => {
 
   return (
     <div
-      className=""
+      className="scroll-list-inner"
       ref={containerRef}
       style={{
         height: "100%",

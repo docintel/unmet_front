@@ -9,9 +9,7 @@ export default function JourneySectionList({ onSectionClick, section })
   const data = [
     {
       class: "explore",
-      title: "Explore your patient's Journey",
-      // subtitle:
-      //   "Lorem ipsum dolor sit amet consectetur. Odio erat sed vitae pulvinar fcilisis rhoncus vel morbi ullamcorper.",
+      title: "Explore your",
     },
     {
       class: "faq",
@@ -41,7 +39,7 @@ export default function JourneySectionList({ onSectionClick, section })
     return (
       <Col key={index} className={item.class}>
         <div
-          className="explore-box"
+          className={"explore-box " + item.class}
           onClick={
             onSectionClick
               ? () =>
@@ -56,7 +54,7 @@ export default function JourneySectionList({ onSectionClick, section })
         >
           <div className="explore-title">
             <img src={path_image + item.class + ".svg"} alt="" />
-            <h6>{item.title}</h6>
+            {item.class === "explore" ? <h6 className="heading">{item.title}&nbsp;<span >patient&apos;s Journey</span></h6> : <h6>{item.title}</h6>}
           </div>
           <p>{item.subtitle}</p>
         </div>

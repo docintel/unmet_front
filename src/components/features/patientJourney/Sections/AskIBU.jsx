@@ -554,22 +554,20 @@ const AskIBU = () =>
 
         {/* Questions list */}
         <div className="scroll-list">
-          <div className="scroll-list-inner">
-            {questionList.loading ? (
-              <></>
-            ) : questionList.error ? (
-              <></>
-            ) : !questionData || questionData.length === 0 ? (
-              <>No data</>
-            ) : (
-              <AskIbuScroll
-                items={questionData}
-                itemCount={6}
-                account={false}
-                updateDeleteQuestion={() => { }}
-              />
-            )}
-          </div>
+          {questionList.loading ? (
+            <></>
+          ) : questionList.error ? (
+            <></>
+          ) : !questionData || questionData.length === 0 ? (
+            <>No data</>
+          ) : (
+            <AskIbuScroll
+              items={questionData}
+              itemCount={6}
+              account={false}
+              updateDeleteQuestion={() => { }}
+            />
+          )}
         </div>
       </div>
 
