@@ -103,7 +103,7 @@ const Header = () => {
   });
   return (
     <header className="header sticky">
-      <div className="custom-container">
+      <div className="header-custom-container">
         <Row>
           <div className="header-inner d-flex align-items-center justify-content-between w-100">
             <Navbar

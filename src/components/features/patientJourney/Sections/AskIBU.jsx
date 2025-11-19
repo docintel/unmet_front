@@ -330,7 +330,9 @@ const AskIBU = () =>
                       )
                     }
                   >
-                    <span>
+                    <span className={`${selectedRegions.length
+                      ? "selected"
+                      : ""}`}>
                       <svg
                         width="22"
                         height="22"
@@ -409,7 +411,9 @@ const AskIBU = () =>
                       )
                     }
                   >
-                    <span>
+                    <span className={`${selectedCountries.length
+                      ? "selected"
+                      : ""}`}>
                       <svg
                         width="22"
                         height="22"
@@ -482,15 +486,17 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Topics</label>
                   <div
-                    className={`dropdown-toggle ${showTagsDropdown === "topics" ? "active" : ""
-                      }`}
+                    className={`dropdown-toggle topic ${showTagsDropdown === "topics" ? "active" : ""
+                      } `}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "topics" ? "" : "topics"
                       )
                     }
                   >
-                    <span>
+                    <span className={`${selectedTopics.length
+                      ? "selected"
+                      : ""}`}>
                       <svg
                         width="18"
                         height="13"

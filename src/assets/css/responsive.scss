@@ -27,6 +27,16 @@
     .journey-box-right{
         width: 100%;
         flex-direction: row;
+        opacity: 0;
+        transform: translateY(40px);
+        animation: colslideUp 1.1s ease-out forwards;
+
+       @keyframes colslideUp {
+      to {
+       opacity: 1;
+       transform: translateY(0px);
+        }
+      }
     }
     .journey-boxes{
         height: 100%;
@@ -58,6 +68,12 @@
 }
 
  @media (max-width: $layout-breakpoint-xxlarge) {
+    .header{
+        padding: 0 !important;
+    }
+    .main-page{
+        padding: 0 !important;
+    }
     .journey-box {
      flex-direction: row;
      gap: 24px;
@@ -86,6 +102,12 @@
         gap: 24px;
         flex-direction: column;
     }
+    .explore-journey{
+    .filter-age{
+        h3{
+            top: 65px;
+        }
+    }
      .age-filter-block {
      .age-group-circle {
       width: 80px;
@@ -100,10 +122,10 @@
 
   .block {
     font-size: 14px;
-    margin: -41px 0 0;
+    margin: -23px 0 0;
 
     &:nth-child(even) {
-      margin: 0px 0 -24px;
+      margin: 31px 0 -24px;
 
       .age-group-circle {
         margin: 15px 0 0px;
@@ -124,9 +146,10 @@
     }
     .age-gap {
       font-size: 10px;
-    }
+       }
+     }
+   }
   }
-}
 }
 }
 @media (max-width: $layout-breakpoint-extraLarge) {
@@ -240,7 +263,7 @@
     }
 
     .main-page {
-        padding: 0 12px;
+        // padding: 0 12px;
     }
 
     .touchpoints-section {
@@ -457,7 +480,18 @@
             }
         }
     }
+.account-section{
+     .account-tabs{
+       .touchpoint-data-boxes{
+            gap: 4.7rem 2rem;
 
+         .detail-data-box {
+         min-width: initial;
+         width: calc(33.33% - 1.4rem);
+        }   
+       } 
+     }
+}
     .header {
         .header-inner {
             .navbar-brand {

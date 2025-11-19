@@ -201,7 +201,10 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
                   <button
                     className="cencel"
                     type="button"
-                    onClick={handleDeleteQuestion}
+                    onClick={() =>
+                    {
+                      setShowDeleteModal(false);
+                    }}
                   >
                     Cancel
                   </button>
