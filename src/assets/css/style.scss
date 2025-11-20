@@ -787,6 +787,7 @@ a {
   width: 100%;
   @include flex-wrap;
   min-height: calc(100vh - 65px);
+  overflow: hidden;
 
   .journey-boxes {
     gap: 39px;
@@ -802,45 +803,6 @@ a {
     border-radius: 24px;
     overflow: hidden;
     position: relative;
-    // &:before{
-    //   content: "";
-    //   position: absolute;
-    //   height:25%;
-    //   background: #1d3f50;
-    //   top:calc(0px + 2px);
-    //   width:calc(100% - 4px);
-    //   z-index: 1;
-    //   left:2px;
-    //   border-radius: 24px 24px 0 0;
-    // }
-    // &:after{
-    //   content: "";
-    //   position: absolute;
-    //   height:25%;
-    //   background: #1d3f50;
-    //   bottom:calc(0px + 2px);
-    //   width:calc(100% - 4px);
-    //   left:2px;
-    //   border-radius: 0 0 24px 24px;
-    // }
-    // &::before {
-    //     content: "";
-    //     position: absolute;
-    //     inset: 0;
-    //     background: linear-gradient(97deg, var(--green) 0%, var(--gradient-orange) 50%, var(--gradient-pink) 100%);
-    //     transform-origin: left center;
-    //     transform: scaleX(0);
-    //     transition: none;
-    //     will-change: transform;
-    //     animation: revealGradient 2s ease-out forwards;
-    //     animation-delay: 1s;
-    //     z-index: -1;
-    //     // height:315px;
-    //     // top: 50%;
-    //     // transform: translateY(-50%);
-    //     transition: 2s ease width;
-    //     // width:0;
-    //   }
 
     .filter-age {
       width: 100%;
@@ -1032,7 +994,7 @@ a {
 
       &.explore{
       position: relative;
-      background: #214353;
+      background: #1d3f50;
       border-radius: 22px;
       padding: 24px;
       z-index: 1; 
@@ -1045,6 +1007,9 @@ a {
         span{
            font-weight: 600;
         }
+      }
+      img{
+        display: none;
       }
       }
     }
@@ -1078,7 +1043,7 @@ a {
     padding: 16px 24px 0px 24px;
     text-align: left;
     gap: 0px;
-    min-height: 735px;
+    min-height: 720px;
     @include flex-column;
     animation: scale-up-hor-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
     width: 100%;
@@ -1123,7 +1088,7 @@ a {
      border-radius: 24px;
      padding: 16px;
       // background: rgba(255, 255, 255, 0.02);
-     background: #214353;
+     background: #1d3f50;
      box-shadow: 0 -1px 10px 0 rgba(0, 39, 59, 0.6);
      display: flex;
      flex-direction: column;
@@ -1252,10 +1217,20 @@ a {
         font-weight: 500;
       }
 
-      span {
-        img {
-          cursor: pointer;
-        }
+      .cross-icon{
+        @include flex-middle ;
+         width: 30px;
+         height: 30px;
+         border-radius: 50%;
+         margin: 8px;
+               
+         &:hover {
+           background: rgba(148, 167, 191, 0.05);
+         }
+
+      &:active {
+         background: rgba(148, 167, 191, 0.10);
+         }
       }
     }
 
@@ -5394,11 +5369,23 @@ input:-webkit-autofill:focus {
   width: 440px;
   gap: 40px;
   @include flex-column;
-  
+  opacity: 0;
+  transform: translateX(120px);
+  animation: slideLeft 1.8s ease-out forwards;
+
+  @keyframes slideLeft {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
   .col {
     height: 100%;
     width: 100%;
   }
+  .ask-ibu { order: 1; }
+  .latest-content { order: 2; }
+  .faq { order: 3; }
 }
 
 .explore-btn {
@@ -5418,47 +5405,3 @@ input:-webkit-autofill:focus {
     }
   }
 }
-
-// @media (min-width:1441px){
-//   .journey-box{
-//     display: grid; 
-
-//    grid-template-rows: 1fr 1fr 1fr;
-//    grid-template-columns: 1fr 1fr 1fr 1fr;
-
-//    gap: 0px;
-//    height: 100%;
-//    gap:41px;
-//    .explore-journey{
-//     grid-row-start: 1;
-//    grid-column-start: 1;
-
-//    grid-row-end: 4;
-//    grid-column-end: 4;
-//    }
-//    .col{
-//     width: 440px;
-//    }
-//    .faq{
-//     grid-row-start: 1;
-//    grid-column-start: 4;
-
-//    grid-row-end: 2;
-//    grid-column-end: 5;
-//    }
-//    .latest-content{
-//     grid-row-start: 2;
-//    grid-column-start: 4;
-
-//    grid-row-end: 3;
-//    grid-column-end: 5;
-//    }
-//    .ask-ibu{
-//     grid-row-start: 3;
-//    grid-column-start: 4;
-
-//    grid-row-end: 4;
-//    grid-column-end: 5;
-//    }
-//   }
-// }

@@ -19,19 +19,15 @@ export default function JourneySectionDetail({ onSectionClick, section })
           <div className="latest-content-title">
             <img src={path_image + section.class + ".svg"} alt="" />
             <h6>{section.title}</h6>
-            {/* <p>
-              Lorem ipsum dolor sit amet consectetur. Odio erat sed vitae
-              pulvinar fcilisis rhoncus vel morbi ullamcorper.{" "}
-            </p> */}
           </div>
-          <span
+          <div className="cross-icon"
             onClick={() =>
             {
               onSectionClick(null);
             }}
           >
             <img src={path_image + "cross-btn.svg"} alt="" />
-          </span>
+          </div>
         </div>
         <div className="data-box">
           {section.class === "ask-ibu" ? (
