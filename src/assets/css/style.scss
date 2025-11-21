@@ -1043,7 +1043,7 @@ a {
     padding: 16px 24px 0px 24px;
     text-align: left;
     gap: 0px;
-    min-height: 720px;
+    // min-height: 720px;
     @include flex-column;
     animation: scale-up-hor-right 1s cubic-bezier(0.39, 0.575, 0.565, 1) 0s 1 normal both;
     width: 100%;
