@@ -70,6 +70,7 @@
 
       .explore-box {
         padding: 24px;
+        height: 240px;
       }
 
       .faq { order: 1; }
@@ -198,6 +199,10 @@
       .ask-ibu { order: 1; }
       .latest-content { order: 2; }
       .faq { order: 3; }
+
+      .explore-box{
+        height:100%;
+      }
 }
     .explore-journey{
     .filter-age{
