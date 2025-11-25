@@ -2834,11 +2834,9 @@ input[type="search"]::-webkit-search-results-decoration:hover {
 
 .iframe-custom-modal {
   .custom-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex-center;
     background-color: var(--primary-color);
-    padding: 12px 24px;
+    padding: 12px 24px 8px 24px;
     border: 0;
     position: relative;
     color: var(--white);
