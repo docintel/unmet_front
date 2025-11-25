@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { ContentContext } from "../../../../context/ContentContext";
 
-const IframeComponent = ({ previewArticle /* setCurrentReadClick */ }) =>
+const IframeComponent = ({ previewArticle }) =>
 {
   if (!previewArticle) return null;
 

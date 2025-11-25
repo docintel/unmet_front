@@ -87,7 +87,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     if (key === "existing-member") {
       try {
         if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
-      } catch (ex) {}
+      } catch (ex) { }
     }
   };
 
@@ -128,7 +128,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   const getAgeGroup = () => {
@@ -258,9 +258,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -269,9 +268,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -625,9 +623,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         }
                       >
                         <Select
-                          className={`split-button ${
-                            error.country.error ? "error" : ""
-                          }`}
+                          className={`split-button ${error.country.error ? "error" : ""
+                            }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -640,8 +637,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                               backgroundColor: state.isSelected
                                 ? "#E6F7F8" // background for selected option
                                 : state.isFocused
-                                ? "#F4F6F9" // background on hover
-                                : "white",
+                                  ? "#F4F6F9" // background on hover
+                                  : "white",
                               color: state.isSelected ? "#4CC6CF" : "#5E7683",
                             }),
                           }}
@@ -1053,10 +1050,10 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   (ratingFocus
                     ? "star-focus.svg"
                     : isStarHovered
-                    ? "star-hover.svg"
-                    : section.self_rate
-                    ? "star-filled.svg"
-                    : "star-img.svg")
+                      ? "star-hover.svg"
+                      : section.self_rate
+                        ? "star-filled.svg"
+                        : "star-img.svg")
                 }
                 onMouseDown={() => setRatingFocus(true)}
                 onMouseUp={() =>
@@ -1095,6 +1092,70 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             {readContent ? "Close" : "View"}
           </Button>
         </div>
+        {/* Transparent overlay with circular progress */}
+        {downloading && (
+          <div
+            className="dark-progress"
+            style={{
+              position: "absolute",
+              top: "0px",
+              left: 0,
+              right: 0,
+              bottom: "0px",
+              background: "rgba(24, 59, 77, 0.50)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "8px 8px 16px 16px",
+              zIndex: 1000,
+              backdropFilter: "blur(2px)",
+            }}
+          >
+            <div style={{ position: "relative", width: 120, height: 120 }}>
+              <svg
+                width="120"
+                height="120"
+                style={{ transform: "rotate(-90deg)" }}
+              >
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="45"
+                  stroke="#ffffff"
+                  strokeWidth="10"
+                  fill="none"
+                />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="45"
+                  stroke="#4CC6CF"
+                  strokeWidth="10"
+                  fill="none"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={
+                    circumference - (progress / 100) * circumference
+                  }
+                  strokeLinecap="round"
+                  style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                />
+              </svg>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  color: "#ffffff",
+                }}
+              >
+                {progress}%
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className="pop_up">
         <Modal
@@ -1135,70 +1196,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           </Modal.Body>
         </Modal>
       </div>
-      {/* Transparent overlay with circular progress */}
-      {downloading && (
-        <div
-          className="dark-progress"
-          style={{
-            position: "absolute",
-            top: "21px",
-            left: 0,
-            right: 0,
-            bottom: "-3px",
-            background: "rgba(24, 59, 77, 0.50)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "8px 8px 16px 16px",
-            zIndex: 1000,
-            backdropFilter: "blur(2px)",
-          }}
-        >
-          <div style={{ position: "relative", width: 120, height: 120 }}>
-            <svg
-              width="120"
-              height="120"
-              style={{ transform: "rotate(-90deg)" }}
-            >
-              <circle
-                cx="60"
-                cy="60"
-                r="45"
-                stroke="#ffffff"
-                strokeWidth="10"
-                fill="none"
-              />
-              <circle
-                cx="60"
-                cy="60"
-                r="45"
-                stroke="#4CC6CF"
-                strokeWidth="10"
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={
-                  circumference - (progress / 100) * circumference
-                }
-                strokeLinecap="round"
-                style={{ transition: "stroke-dashoffset 0.3s ease" }}
-              />
-            </svg>
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                fontWeight: "600",
-                fontSize: "16px",
-                color: "#ffffff",
-              }}
-            >
-              {progress}%
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 };
