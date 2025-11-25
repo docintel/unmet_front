@@ -47,10 +47,10 @@ const LoginWithSSO = () => {
       localStorage.setItem("decrypted_token", jwtToken);
       localStorage.setItem("sessionId", sessionId);
       trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
-      // if (!isHcp) navigate("/home");
-      // else navigate("/touchpoints");
-      if (!isHcp) navigate("/touchpoints");
+      if (!isHcp) navigate("/home");
       else navigate("/touchpoints");
+      // if (!isHcp) navigate("/touchpoints");
+      // else navigate("/touchpoints");
     }
     setLoader(false);
   };
@@ -78,10 +78,10 @@ const LoginWithSSO = () => {
       localStorage.setItem("decrypted_token", jwtToken);
       localStorage.setItem("sessionId", sessionId);
       trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
-      // if (!isHcp) navigate("/home");
-      // else navigate("/touchpoints");
-      if (!isHcp) navigate("/touchpoints");
+      if (!isHcp) navigate("/home");
       else navigate("/touchpoints");
+      // if (!isHcp) navigate("/touchpoints");
+      // else navigate("/touchpoints");
     }
 
     // clearLocalStorage();

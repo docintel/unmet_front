@@ -2,3 +2,126 @@
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 0C27.8118 0 35.8333 8.02156 35.8333 17.9167C35.8333 27.8118 27.8118 35.8333 17.9167 35.8333C8.02156 35.8333 0 27.8118 0 17.9167C0 8.02156 8.02156 0 17.9167 0ZM17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5Z" fill="#3CAC8E"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.9167 2.5C9.40228 2.5 2.5 9.40228 2.5 17.9167C2.5 26.4311 9.40228 33.3333 17.9167 33.3333C26.4311 33.3333 33.3333 26.4311 33.3333 17.9167C33.3333 9.40228 26.4311 2.5 17.9167 2.5ZM25.6803 10.651C25.3493 10.0457 24.5899 9.82257 23.9844 10.153C21.032 11.7676 18.5576 14.9095 16.8701 17.4935C16.111 18.6559 15.4879 19.7439 15.0277 20.5957C14.5161 20.054 13.9882 19.5912 13.5254 19.2253C13.0745 18.8688 12.6684 18.5871 12.373 18.3936C12.2252 18.2967 12.1029 18.2215 12.0166 18.1689C11.9736 18.1428 11.9389 18.1217 11.9141 18.1071C11.902 18.1 11.8922 18.0935 11.8848 18.0892L11.8685 18.0811C11.2689 17.7395 10.5063 17.9488 10.1644 18.5482C9.82281 19.1477 10.0322 19.9103 10.6315 20.2523C10.6315 20.2523 10.639 20.2579 10.6462 20.262C10.661 20.2708 10.6857 20.2848 10.7178 20.3044C10.7825 20.3437 10.8802 20.4048 11.0026 20.485C11.2488 20.6463 11.5925 20.8847 11.9743 21.1865C12.7545 21.8034 13.6231 22.6301 14.1781 23.5579C14.4165 23.9563 14.8555 24.1906 15.319 24.165C15.7824 24.1393 16.1937 23.8579 16.3867 23.4359L16.3883 23.4326L16.3949 23.418C16.4015 23.4037 16.4117 23.381 16.4258 23.3512C16.4541 23.2913 16.4988 23.2013 16.556 23.0843C16.6706 22.85 16.8416 22.508 17.0638 22.0882C17.509 21.2472 18.156 20.0968 18.9632 18.8607C20.6088 16.3408 22.8018 13.6492 25.1823 12.347C25.7875 12.0159 26.0108 11.2565 25.6803 10.651Z" fill="#3CAC8E"/>
 </svg>
+
+
+    background: linear-gradient(277deg, var(--gradient-orange) 0%, var(--gradient-pink) 100%);
+
+
+22-octuber-2025
+1)Fix preview & licenced page header ui
+2)Add Topic Modal new changes in informed
+3)fix willprophy account library-content Artical responsiveness
+
+23-octuber-2025
+1)change many elements design using Clinical & functional class(Page: library-content,library-one-source-create,library-create-user,content detail page)
+2)Add new VWD toggle box design
+3)working on unmet_front desktop view responsivness
+
+24-octuber-2025
+day off
+
+
+.input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+    margin-left: calc(-1 * var(--bs-border-width));
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 138px;
+    flex: 0 0 138px;
+}
+
+width: 138px;
+ flex: 0 0 138px;
+
+  background: #FFFFFF url(https://docintel.app/img/pdfview/dropdown-list-arrow.svg);
+
+pdfview/dropdown-list-arrow.svg
+
+filter: brightness(0) invert(1);
+
+background: rgba(253, 254, 255, 0.08);
+
+
+background: rgba(253, 254, 255, 0.08);
+    box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.5);
+
+
+
+background: rgba(253, 254, 255, 0.08);
+    box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.5);
+
+
+-------------------------
+.iframe-custom-modal .custom-modal-body .content-data iframe {
+    min-height: calc(100vh - 70px) !important;
+    border-radius: 15px;
+
+
+
+------------------------
+  .code-octa .leftSidebar-pages .leftSidebar-pages-inside {
+        top:90px;
+    }
+---------------------------------------------------------
+.code-hcp #toolbar-popup-peer .peer_shared-content::after {
+    background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+}
+    padding: 16px 10px 16px 16px;
+
+----------------------------
+#toolbar-rating .peer_shared-content::after
+----------------------------------------------
+.code-hcp #toolbar-popup-peer .peer_shared-content::after,
+.code-hcp #toolbar-rating .peer_shared-content::after,
+.code-hcp #toolbar-popup-chat .peer_shared-content:after{
+    background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+}
+.code-hcp #toolbar-popup-peer .peer_shared-content .toolbar-content button.toolbar-send-btn,
+.code-hcp #toolbar-rating #allow_rating_popup .footer button.toolbar-send-btn,
+.code-hcp #toolbar-popup-chat .peer_shared-content .toolbar-content button.toolbar-send-btn{
+    color: #F79548;
+}
+ .code-hcp #toolbar-popup-peer .peer_shared-content .toolbar-content button.toolbar-send-btn:hover,
+ .code-hcp #toolbar-rating #allow_rating_popup .footer button.toolbar-send-btn:hover,
+ .code-hcp #toolbar-popup-chat .peer_shared-content .toolbar-content button.toolbar-send-btn:hover{
+  background: linear-gradient(97deg, #F79548 0%, #E94262 100%);
+  color: #fff;
+ }
+
+.code-hcp #toolbarViewerCenter pdf-page-number input#pageNumber,
+.code-hcp .video-playing #toolbarViewerCenter .pdf-paging-area input#pageNumber,
+.code-octa #toolbarViewerCenter pdf-page-number input#pageNumber,
+.code-octa .video-playing #toolbarViewerCenter .pdf-paging-area input#pageNumber {
+  padding: 7px 0px !important;
+  font-size: 16px;
+  color: #5e7683 !important;
+  min-width: 58px;
+}
+-------------------------------------------------------------
+.code-hcp #toolbarViewerCenter pdf-page-number input#pageNumber,
+.code-hcp .video-playing #toolbarViewerCenter .pdf-paging-area input#pageNumber,
+.code-octa #toolbarViewerCenter pdf-page-number input#pageNumber,
+.code-octa .video-playing #toolbarViewerCenter .pdf-paging-area input#pageNumber {
+  padding: 0px 0px !important;
+  font-size: 14px;
+  min-width: 58px;
+}
+------------------------------------------------------------
+ .code-octa #outerContainer.sidebarOpen #sidebarContainer.move-up,
+    .code-hcp #outerContainer.sidebarOpen #sidebarContainer.move-up,
+    html[dir=ltr] .code-octa ngx-extended-pdf-viewer #outerContainer.sidebarOpen #sidebarContainer.move-up,
+    html[dir=ltr] .code-hcp ngx-extended-pdf-viewer #outerContainer.sidebarOpen #sidebarContainer.move-up {
+        top: 70px !important;
+    }
+    .code-octa .leftSidebar-pages .leftSidebar-pages-inside,
+    .code-hcp .leftSidebar-pages .leftSidebar-pages-inside,
+    html[dir=ltr] .code-octa ngx-extended-pdf-viewer #outerContainer.sidebarOpen #sidebarContainer,
+    html[dir=ltr] .code-hcp ngx-extended-pdf-viewer #outerContainer.sidebarOpen #sidebarContainer{
+        top: 185px !important;
+    }-----------------
+rgba(255, 255, 255, 0.7)
+
+----------------------------
+html[dir=ltr] ngx-extended-pdf-viewer #outerContainer.sidebarOpen #sidebarContainer,
+.leftSidebar-pages .leftSidebar-pages-inside{
+top: 195px
+}

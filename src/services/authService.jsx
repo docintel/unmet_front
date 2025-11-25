@@ -64,8 +64,8 @@ export const handleSubmit = async (
   localStorage.setItem("sessionId", userDetails?.sessionId);
   setLoader(false);
   trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
-  navigate("/touchpoints");
-  // navigate("/home");
+  // navigate("/touchpoints");
+  navigate("/home");
 };
 
 export const getUserDetails = async (userId) => {
