@@ -911,7 +911,7 @@ a {
         font-size: 20px;
         font-weight: 600;
         font-family: var(--font-family);
-        padding-top: 6px;
+        margin: 0;
       }
     }
 
@@ -1068,7 +1068,8 @@ a {
       .scroll-list-inner {
       // max-height: 482px;
       // max-height: 517px;
-       max-height: calc(100vh - 330px);
+      //  max-height: calc(100vh - 330px);
+      max-height: calc(100vh - 409px);
       overflow-y: auto;
       width: 100%;
       padding-right: 12px;
@@ -1130,8 +1131,7 @@ a {
       }
 
       &:focus {
-        border-color: #f79548;
-        box-shadow: 0 0 0 2px rgba(247, 149, 72, 0.3);
+        border-color: transparent !important;
       }
      }
 
@@ -1205,8 +1205,9 @@ a {
         h6 {
           font-size: 20px;
           color: var(--white);
-          font-weight: 700;
+          font-weight: 600;
           font-family: var(--font-family);
+          margin: 0;
         }
       }
 
@@ -1270,10 +1271,13 @@ a {
         .filter-list{
         display: flex;
         align-items: center; 
-        justify-content: center; 
-        flex-wrap: wrap; 
+        // justify-content: center; 
         gap: 8px; 
         text-align: center;
+        overflow-x: scroll;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        max-width: 1199px;
 
         .tag-item {
          @include flex-align-center;
@@ -1282,6 +1286,7 @@ a {
           font-size: 12px;
           padding: 3px 4px 3px 8px;
           border-radius: 40px;
+          white-space: nowrap;
           span{
             margin-left: 2px;
           }
