@@ -69,7 +69,16 @@ const Account = () =>
                   </p>
                   <p>
                     <img src={path_image + "region-icon.svg"} alt="" />
-                    {userData?.region ? userData?.region : "N/A"}
+                    {!userData?.country && !userData?.region ? (
+                      "N/A"
+                    ) : (
+                      <>
+                        {[userData?.region || " ", userData?.country || " "]
+                          .join(", ")
+                          .replace(" ,", "")
+                          .replace(",  ", "")}
+                      </>
+                    )}{" "}
                   </p>
                 </div>
               </div>
@@ -92,14 +101,22 @@ const Account = () =>
             </div>
             <div className="account-tabs w-100">
               <Tabs defaultActiveKey="recent-view" className="account-tab-data">
-                <Tab eventKey="recent-view" title={
-                  <div className="d-flex align-items-center"><img
-                    src={path_image + "recent.svg"}
-                    alt="Recently viewed"
-                    className="tab-icon"
-                  /> Recently viewed
-                    <div className="viewed-number"><span>{recentContent.length}</span></div></div>
-                }>
+                <Tab
+                  eventKey="recent-view"
+                  title={
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={path_image + "recent.svg"}
+                        alt="Recently viewed"
+                        className="tab-icon"
+                      />{" "}
+                      Recently viewed
+                      <div className="viewed-number">
+                        <span>{recentContent.length}</span>
+                      </div>
+                    </div>
+                  }
+                >
                   <div className="touchpoint-data-boxes">
                     {recentContent.length > 0 ? (
                       recentContent && (
@@ -112,7 +129,7 @@ const Account = () =>
                     ) : (
                       <NoData
                         image="clock.svg"
-                        title="You haven&apos;t viewed anything yet."
+                        title="You haven't viewed anything yet."
                         description="Explore the touchpoints to get started."
                         buttonText="Start Exploring"
                         onClick={() => navigate("/")}
@@ -120,12 +137,22 @@ const Account = () =>
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="favorite" title={<div className="d-flex align-items-center"><img
-                  src={path_image + "like.svg"}
-                  alt="Recently viewed"
-                  className="tab-icon"
-                />Likes<div className="viewed-number"><span>{recentContent.length}</span></div></div>
-                }>
+                <Tab
+                  eventKey="favorite"
+                  title={
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={path_image + "like.svg"}
+                        alt="Recently viewed"
+                        className="tab-icon"
+                      />
+                      Likes
+                      <div className="viewed-number">
+                        <span>{favorite.length}</span>
+                      </div>
+                    </div>
+                  }
+                >
                   <div className="touchpoint-data-boxes">
                     {favorite.length > 0 ? (
                       favorite && (
@@ -138,7 +165,7 @@ const Account = () =>
                     ) : (
                       <NoData
                         image="thumbs-up.svg"
-                        title="You haven&apos;t liked anything yet."
+                        title="You haven't liked anything yet."
                         description="Explore the touchpoints to get started."
                         buttonText="Start Exploring"
                         onClick={() => navigate("/")}
@@ -146,12 +173,22 @@ const Account = () =>
                     )}
                   </div>
                 </Tab>
-                <Tab eventKey="question" title={<div className="d-flex align-items-center"><img
-                  src={path_image + "question.svg"}
-                  alt="Recently viewed"
-                  className="tab-icon"
-                /> Your questions<div className="viewed-number"><span>{questionCount}</span></div></div>
-                }>
+                <Tab
+                  eventKey="question"
+                  title={
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={path_image + "question.svg"}
+                        alt="Recently viewed"
+                        className="tab-icon"
+                      />{" "}
+                      Your questions
+                      <div className="viewed-number">
+                        <span>{questionCount}</span>
+                      </div>
+                    </div>
+                  }
+                >
                   <AskIbu setQuestionCount={setQuestionCount} />
                 </Tab>
               </Tabs>
