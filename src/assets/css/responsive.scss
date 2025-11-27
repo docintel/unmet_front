@@ -46,6 +46,15 @@
         }
       }
     }
+.right-side {
+  .data-box {
+    .filter-section {
+      .filter-list {
+        max-width: 800px;
+       }
+    }
+  }
+}
   }
 }
 
@@ -96,6 +105,14 @@
             }
           }
         }
+        
+  .data-box {
+    .filter-section {
+      .filter-list {
+        max-width: 600px;
+       }
+    }
+  }
       }
 
       .left-side {
@@ -179,6 +196,13 @@
         }
       }
     }
+      .data-box {
+      .filter-section {
+      .filter-list {
+        max-width: 600px;
+       }
+    }
+  }
   }
      }
 
@@ -649,6 +673,7 @@
         .left-side{
            width: 395px;
            flex: 0 0 395px;
+           display: none;
         }
      }
 
@@ -2317,7 +2342,8 @@
           width: 100%;
 
           button{
-            width: 128px;
+            width: 131px;
+            padding: 8px 18px;
           }
         }
     }
