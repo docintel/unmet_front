@@ -49,7 +49,8 @@ export const handleSubmit = async (
   question,
   setQuestion,
   setIsLoading,
-  setToast
+  setToast,
+  setShowConfirmationModal
 ) => {
   e.preventDefault();
 
@@ -64,12 +65,7 @@ export const handleSubmit = async (
     const response = await postData(endPoint.ADD_QUESTIONS, {
       question: question,
     });
-    setToast({
-      type: "success",
-      title: "Success",
-      message: "Quesion submitted successfully",
-      show: true,
-    });
+    setShowConfirmationModal(true)
     setQuestion("");
   } catch (error) {
     console.error("Error submitting question:", error);

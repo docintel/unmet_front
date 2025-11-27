@@ -4,8 +4,7 @@ import { fetchQuestions, handleSubmit } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
 import AskIbuScroll from "../Common/AskIbuScroll";
 
-const AskIBU = () =>
-{
+const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
   const { setIsLoading } = useContext(ContentContext);
@@ -28,16 +27,13 @@ const AskIBU = () =>
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   // Fetch questions
-  useEffect(() =>
-  {
-    (async () =>
-    {
+  useEffect(() => {
+    (async () => {
       await fetchQuestions(setIsLoading, setQuestList);
     })();
   }, []);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (
       !questionList.loading &&
       !questionList.error &&
@@ -55,8 +51,7 @@ const AskIBU = () =>
         countryArr = [],
         topicsArr = [];
 
-      questionList.questions.forEach((item) =>
-      {
+      questionList.questions.forEach((item) => {
         regionArr.push(item.region);
         countryArr.push(item.country);
         topicsArr.push(...item.topics);
@@ -77,8 +72,7 @@ const AskIBU = () =>
     }
   }, [questionList]);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (
       selectedRegions.length ||
       selectedCountries.length ||
@@ -95,8 +89,7 @@ const AskIBU = () =>
       );
   }, [selectedRegions, selectedCountries, selectedTopics]);
 
-  const filterQuestions = () =>
-  {
+  const filterQuestions = () => {
     const questionDataList = [...questionList.questions];
     let tempList = [];
     if (selectedCountries.length > 0) {
@@ -112,8 +105,7 @@ const AskIBU = () =>
       tempList = [...tempList, ...data];
     }
     if (selectedTopics.length > 0) {
-      const data = questionDataList.filter((item) =>
-      {
+      const data = questionDataList.filter((item) => {
         if (item.topics) {
           for (let i = 0; i < item.topics.length; i++) {
             if (selectedTopics.includes(item.topics[i])) return true;
@@ -125,21 +117,18 @@ const AskIBU = () =>
     }
 
     const uniqueQuestionList = {};
-    tempList.forEach((item) =>
-    {
+    tempList.forEach((item) => {
       uniqueQuestionList[item.id] = item;
     });
 
     tempList = Object.values(uniqueQuestionList);
 
     let countObj = {};
-    tempList.forEach((item) =>
-    {
+    tempList.forEach((item) => {
       let count = 0;
       if (selectedCountries.includes(item.country)) count++;
       if (selectedRegions.includes(item.region)) count++;
-      item.topics.forEach((element) =>
-      {
+      item.topics.forEach((element) => {
         if (selectedTopics.includes(element)) count++;
       });
       countObj[item.id] = count;
@@ -153,10 +142,8 @@ const AskIBU = () =>
     }
 
     let filteredItem = [];
-    sortedKeys.forEach((itemId) =>
-    {
-      tempList.forEach((quest) =>
-      {
+    sortedKeys.forEach((itemId) => {
+      tempList.forEach((quest) => {
         if (quest.id === itemId) filteredItem.push(quest);
       });
     });
@@ -164,8 +151,7 @@ const AskIBU = () =>
     setQuestionData(filteredItem);
   };
 
-  const toggleRegion = (region) =>
-  {
+  const toggleRegion = (region) => {
     if (selectedRegions.includes(region)) {
       const data = selectedRegions.filter((item) => item !== region);
       setSelectedRegions(data);
@@ -174,8 +160,7 @@ const AskIBU = () =>
     }
   };
 
-  const toggleCountry = (country) =>
-  {
+  const toggleCountry = (country) => {
     if (selectedCountries.includes(country)) {
       const data = selectedCountries.filter((item) => item !== country);
       setSelectedCountries(data);
@@ -184,8 +169,7 @@ const AskIBU = () =>
     }
   };
 
-  const toggleTopic = (topic) =>
-  {
+  const toggleTopic = (topic) => {
     if (selectedTopics.includes(topic)) {
       const data = selectedTopics.filter((item) => item !== topic);
       setSelectedTopics(data);
@@ -195,8 +179,7 @@ const AskIBU = () =>
   };
 
   // Remove all filters
-  const clearAllFilters = () =>
-  {
+  const clearAllFilters = () => {
     setSelectedRegions([]);
     setSelectedCountries([]);
     setSelectedTopics([]);
@@ -211,108 +194,106 @@ const AskIBU = () =>
           {(selectedRegions.length > 0 ||
             selectedCountries.length > 0 ||
             selectedTopics.length > 0) && (
-              <div className="filter-list">
-                <p className="label">Result:</p>
-                {selectedRegions.length > 0 &&
-                  selectedRegions.map((region, index) =>
-                  {
-                    let count = 0;
-                    questionData.forEach((item) =>
-                    {
-                      if (item.region === region) count++;
-                    });
-                    //questionData
-                    return (
-                      <span key={index} className="tag-item ">
-                        {region} | <span>{count}</span>
-                        <button
-                          className="cross-btn"
-                          onClick={() => toggleRegion(region)}
-                        >
-                          <img
-                            src={path_image + "cross-arrow.svg"}
-                            alt="delete"
-                          />
-                        </button>
-                      </span>
-                    );
-                  })}
-                {selectedCountries.length > 0 &&
-                  selectedCountries.map((country, index) =>
-                  {
-                    let count = 0;
-                    questionData.forEach((item) =>
-                    {
-                      if (item.country === country) count++;
-                    });
-                    return (
-                      <span key={index} className="tag-item ">
-                        {country} | <span>{count}</span>
-                        <button
-                          className="cross-btn"
-                          onClick={() => toggleCountry(country)}
-                        >
-                          <img
-                            src={path_image + "cross-arrow.svg"}
-                            alt="delete"
-                          />
-                        </button>
-                      </span>
-                    );
-                  })}
-                {selectedTopics.length > 0 &&
-                  selectedTopics.map((topic, index) =>
-                  {
-                    let count = 0;
-                    questionData.forEach((item) =>
-                    {
-                      if (item.topics.includes(topic)) count++;
-                    });
-                    return (
-                      <span key={index} className="tag-item ">
-                        {topic} | <span>{count}</span>
-                        <button
-                          className="cross-btn"
-                          onClick={() => toggleTopic(topic)}
-                        >
-                          <img
-                            src={path_image + "cross-arrow.svg"}
-                            alt="delete"
-                          />
-                        </button>
-                      </span>
-                    );
-                  })}
-                <button
-                  className="clear-all-btn btn btn-primary"
-                  onClick={clearAllFilters}
-                >
-                  Clear All
-                </button>
-              </div>
-            )}
+            <div className="filter-list">
+              <p className="label">Result:</p>
+              {selectedRegions.length > 0 &&
+                selectedRegions.map((region, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.region === region) count++;
+                  });
+                  //questionData
+                  return (
+                    <span key={index} className="tag-item ">
+                      {region} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleRegion(region)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              {selectedCountries.length > 0 &&
+                selectedCountries.map((country, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.country === country) count++;
+                  });
+                  return (
+                    <span key={index} className="tag-item ">
+                      {country} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleCountry(country)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              {selectedTopics.length > 0 &&
+                selectedTopics.map((topic, index) => {
+                  let count = 0;
+                  questionData.forEach((item) => {
+                    if (item.topics.includes(topic)) count++;
+                  });
+                  return (
+                    <span key={index} className="tag-item ">
+                      {topic} | <span>{count}</span>
+                      <button
+                        className="cross-btn"
+                        onClick={() => toggleTopic(topic)}
+                      >
+                        <img
+                          src={path_image + "cross-arrow.svg"}
+                          alt="delete"
+                        />
+                      </button>
+                    </span>
+                  );
+                })}
+              <button
+                className="clear-all-btn btn btn-primary"
+                onClick={clearAllFilters}
+              >
+                Clear All
+              </button>
+            </div>
+          )}
           <div className="filter-container">
-            <button
-              className="btn btn-link filter-btn"
-              onClick={() => setShowFilterBox(!showFilterBox)}
-            >
-              {" "}
-              Filter
-              {selectedCountries.length +
+            {(regions.length > 0 ||
+              countries.length > 0 ||
+              topics.length > 0) && (
+              <button
+                className="btn btn-link filter-btn"
+                onClick={() => setShowFilterBox(!showFilterBox)}
+              >
+                {" "}
+                Filter
+                {selectedCountries.length +
                 selectedRegions.length +
                 selectedTopics.length ? (
-                <span className="filter-count">
-                  {selectedCountries.length +
-                    selectedRegions.length +
-                    selectedTopics.length}{" "}
-                </span>
-              ) : null}
-              {showFilterBox ? (
-                <img src={path_image + "cross-btn.svg"} alt="Filter Icon" />
-              ) : (
-                <img src={path_image + "filter.svg"} alt="Filter Icon" />
-              )}
-            </button>
+                  <span className="filter-count">
+                    {selectedCountries.length +
+                      selectedRegions.length +
+                      selectedTopics.length}{" "}
+                  </span>
+                ) : null}
+                {showFilterBox ? (
+                  <img src={path_image + "cross-btn.svg"} alt="Filter Icon" />
+                ) : (
+                  <img src={path_image + "filter.svg"} alt="Filter Icon" />
+                )}
+              </button>
+            )}
           </div>
           {/* Filter dropdown */}
           {showFilterBox && (
@@ -322,17 +303,18 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Regions</label>
                   <div
-                    className={`dropdown-toggle ${showTagsDropdown === "regions" ? "active" : ""
-                      }`}
+                    className={`dropdown-toggle ${
+                      showTagsDropdown === "regions" ? "active" : ""
+                    }`}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "regions" ? "" : "regions"
                       )
                     }
                   >
-                    <span className={`${selectedRegions.length
-                      ? "selected"
-                      : ""}`}>
+                    <span
+                      className={`${selectedRegions.length ? "selected" : ""}`}
+                    >
                       <svg
                         width="22"
                         height="22"
@@ -371,8 +353,9 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "regions" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "regions" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -382,8 +365,9 @@ const AskIBU = () =>
                         {regions.map((region, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${selectedRegions.includes(region) ? "selected" : ""
-                              }`}
+                            className={`dropdown-option ${
+                              selectedRegions.includes(region) ? "selected" : ""
+                            }`}
                             onClick={() => toggleRegion(region)}
                           >
                             <input
@@ -403,17 +387,20 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Countries</label>
                   <div
-                    className={`dropdown-toggle ${showTagsDropdown === "countries" ? "active" : ""
-                      }`}
+                    className={`dropdown-toggle ${
+                      showTagsDropdown === "countries" ? "active" : ""
+                    }`}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "countries" ? "" : "countries"
                       )
                     }
                   >
-                    <span className={`${selectedCountries.length
-                      ? "selected"
-                      : ""}`}>
+                    <span
+                      className={`${
+                        selectedCountries.length ? "selected" : ""
+                      }`}
+                    >
                       <svg
                         width="22"
                         height="22"
@@ -452,8 +439,9 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "countries" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "countries" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -463,10 +451,11 @@ const AskIBU = () =>
                         {countries.map((country, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${selectedCountries.includes(country)
-                              ? "selected"
-                              : ""
-                              }`}
+                            className={`dropdown-option ${
+                              selectedCountries.includes(country)
+                                ? "selected"
+                                : ""
+                            }`}
                             onClick={() => toggleCountry(country)}
                           >
                             <input
@@ -486,17 +475,18 @@ const AskIBU = () =>
                 <div className="filter-group">
                   <label className="filter-label">Topics</label>
                   <div
-                    className={`dropdown-toggle topic ${showTagsDropdown === "topics" ? "active" : ""
-                      } `}
+                    className={`dropdown-toggle topic ${
+                      showTagsDropdown === "topics" ? "active" : ""
+                    } `}
                     onClick={() =>
                       setShowTagsDropdown(
                         showTagsDropdown === "topics" ? "" : "topics"
                       )
                     }
                   >
-                    <span className={`${selectedTopics.length
-                      ? "selected"
-                      : ""}`}>
+                    <span
+                      className={`${selectedTopics.length ? "selected" : ""}`}
+                    >
                       <svg
                         width="18"
                         height="13"
@@ -526,8 +516,9 @@ const AskIBU = () =>
                     <img
                       src={path_image + "arrow-down.svg"}
                       alt="toggle"
-                      className={`arrow ${showTagsDropdown === "topics" ? "open" : ""
-                        }`}
+                      className={`arrow ${
+                        showTagsDropdown === "topics" ? "open" : ""
+                      }`}
                     />
                   </div>
 
@@ -537,8 +528,9 @@ const AskIBU = () =>
                         {topics.map((topic, index) => (
                           <div
                             key={index}
-                            className={`dropdown-option ${selectedTopics.includes(topic) ? "selected" : ""
-                              }`}
+                            className={`dropdown-option ${
+                              selectedTopics.includes(topic) ? "selected" : ""
+                            }`}
                             onClick={() => toggleTopic(topic)}
                           >
                             <input
@@ -565,13 +557,13 @@ const AskIBU = () =>
           ) : questionList.error ? (
             <></>
           ) : !questionData || questionData.length === 0 ? (
-            <>No data</>
+            <div className="no_data_found">No data Found</div>
           ) : (
             <AskIbuScroll
               items={questionData}
               itemCount={6}
               account={false}
-              updateDeleteQuestion={() => { }}
+              updateDeleteQuestion={() => {}}
             />
           )}
         </div>
@@ -602,14 +594,21 @@ const AskIBU = () =>
             <button
               type="button"
               className="submit-btn"
-              onClick={() =>
-              {
+              onClick={(e) => {
                 if (!question || !question.trim()) {
                   setError("Question is required");
                   setQuestion(question.trim());
                   return;
                 }
-                setShowConfirmationModal(true);
+                handleSubmit(
+                  e,
+                  setError,
+                  question,
+                  setQuestion,
+                  setIsLoading,
+                  setToast,
+                  setShowConfirmationModal
+                );
               }}
             >
               Submit <img src={path_image + "send-icon.svg"} alt="send" />
@@ -625,15 +624,11 @@ const AskIBU = () =>
           keyboard={false}
           centered
           className="confirmation"
-
         >
           <Modal.Body>
             <div className="confirmation-card">
               <div className="check-icon">
-                <img
-                  src={path_image + "check-icon-img.png"}
-                  alt="success"
-                />
+                <img src={path_image + "check-icon-img.png"} alt="success" />
               </div>
 
               <h2 className="title">Question Sent</h2>
@@ -646,23 +641,14 @@ const AskIBU = () =>
                 </p>
 
                 <p className="note">
-                  You can also find all your submitted questions anytime
-                  in your My Account page.
+                  You can also find all your submitted questions anytime in your
+                  My Account page.
                 </p>
 
                 <Button
                   className="btn done"
                   type="button"
-                  onClick={(e) =>
-                  {
-                    handleSubmit(
-                      e,
-                      setError,
-                      question,
-                      setQuestion,
-                      setIsLoading,
-                      setToast
-                    );
+                  onClick={(e) => {
                     setShowConfirmationModal(false);
                   }}
                 >

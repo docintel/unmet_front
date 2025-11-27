@@ -106,7 +106,16 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
             </div>
           )}
           <div className="region">
-            {question.region}, {question.country}
+            {!question.region && !question.country ? (
+              "N/A"
+            ) : (
+              <>
+                {[question.region || " ", question.country || " "]
+                  .join(", ")
+                  .replace(" ,", "")
+                  .replace(",  ", "")}
+              </>
+            )}{" "}
           </div>
         </div>
         {question.visibility_status !== "Not Answer" && (
@@ -132,8 +141,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
                 <>
                   <button
                     className="icon-btn delete"
-                    onClick={() =>
-                    {
+                    onClick={() => {
                       setShowDeleteModal(true);
                     }}
                   >
@@ -150,11 +158,10 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
                 <>
                   <button
                     className="cancel-btn"
-                    onClick={() =>
-                    {
+                    onClick={() => {
                       setQuestionText(question.question);
                       setIsEditing(false);
-                      setInputError("")
+                      setInputError("");
                     }}
                   >
                     Cancel
@@ -181,28 +188,24 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
           <Modal.Body>
             <div className="confirmation-card delete">
               <div className="check-icon">
-                <img
-                  src={path_image + "alert-icon.svg"}
-                  alt="success"
-                />
+                <img src={path_image + "alert-icon.svg"} alt="success" />
               </div>
 
               <h2 className="title">Delete this question?</h2>
               <div className="description-box">
                 <p className="description">
-                  Your question is still awaiting IBU&apos;s answer. If you delete it, you won&apos;t receive a reply and it will be removed from My Account.
+                  Your question is still awaiting IBU&apos;s answer. If you
+                  delete it, you won&apos;t receive a reply and it will be
+                  removed from My Account.
                 </p>
 
-                <p className="note">
-                  This action can&apos;t be undone.
-                </p>
+                <p className="note">This action can&apos;t be undone.</p>
 
                 <div className="confirmation-btn">
                   <button
                     className="cencel"
                     type="button"
-                    onClick={() =>
-                    {
+                    onClick={() => {
                       setShowDeleteModal(false);
                     }}
                   >
