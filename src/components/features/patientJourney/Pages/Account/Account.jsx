@@ -9,6 +9,7 @@ import FixedSizeList from "../../Common/FixedSizedList";
 import AskIbu from "./AskIbu";
 import NoData from "../../Common/NoData";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Account = () =>
 {
@@ -16,6 +17,8 @@ const Account = () =>
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
   const [questionCount, setQuestionCount] = useState(0);
+  const location = useLocation();
+  const cameFromSsi = location.state?.fromSsi;
 
   const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -31,7 +34,6 @@ const Account = () =>
           getData(endPoint.GET_RECENT_CONTENT),
           getData(endPoint.USER_DETAILS),
         ]);
-
         setFavorite(favoriteRes?.data?.data || []);
         setRecentContent(recentRes?.data?.data || []);
         setUserData(userRes?.data?.data?.[0] || {});
@@ -44,6 +46,8 @@ const Account = () =>
 
     fetchAllData();
   }, []);
+
+
 
   return (
     <div className="main-page">
@@ -104,7 +108,7 @@ const Account = () =>
               </div>
             </div>
             <div className="account-tabs w-100">
-              <Tabs defaultActiveKey="recent-view" className="account-tab-data">
+              <Tabs defaultActiveKey={`${cameFromSsi ? "question" : "recent-view"}`} className="account-tab-data">
                 <Tab
                   eventKey="recent-view"
                   title={
