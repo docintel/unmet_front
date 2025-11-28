@@ -20,9 +20,8 @@ import QRCode from "react-qr-code";
 import { trackingUserAction } from "../../../../helper/helper";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
-  const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
     filterCategory,
@@ -30,6 +29,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setIsLoading,
     setToast,
     currentTabValue,
+    updateDownload,
+    updateContentShared,
   } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -87,7 +88,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     if (key === "existing-member") {
       try {
         if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
-      } catch (ex) { }
+      } catch (ex) {}
     }
   };
 
@@ -97,6 +98,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleStarClick = async () => {
     try {
+      const selfRate = section.self_rate === 1 ? 0 : 1;
       trackingUserAction(
         "content_like_clicked",
         { title: section?.title, pdf_id: section?.id },
@@ -107,13 +109,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
-      updateRating(section.id, response.response);
-      setSection({
-        ...section,
-        self_rate: section.self_rate === 1 ? 0 : 1,
-        rating: response.response,
-      });
-      if (section.self_rate !== 1) {
+      updateRating(section.id, response.response, selfRate);
+      if (selfRate === 1) {
         setToast({
           show: true,
           type: "success",
@@ -128,7 +125,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
   const getAgeGroup = () => {
@@ -197,13 +194,6 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         section.file_type.toLowerCase() === "video"
       ) {
         const downloadUrl = `${staticUrl}/${section.file_type}/${section.folder_name}/${section.pdf_files}`;
-        // const link = document.createElement("a");
-        // link.href = downloadUrl;
-        // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // link.download = `${section.title}.${extenstion}`;
-        // document.body.appendChild(link);
-        // link.click();
-        // link.remove();
         await getContentSize(downloadUrl);
         const blob = await downloadFileChuck(downloadUrl);
         const extenstion = downloadUrl.split("/").pop().split(".").pop();
@@ -211,13 +201,6 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setDownloading(false);
       } else if (section.file_type.toLowerCase() === "iframe") {
         const downloadUrl = section.pdf_files.split("=")[1];
-        // const link = document.createElement("a");
-        // link.href = downloadUrl;
-        // const extenstion = downloadUrl.split("/").pop().split(".").pop();
-        // link.download = section.title + "." + extenstion;
-        // document.body.appendChild(link);
-        // link.click();
-        // link.remove();
         await getContentSize(downloadUrl);
         const blob = await downloadFileChuck(downloadUrl);
 
@@ -228,38 +211,10 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setDownloading(true);
         const zip = new JSZip();
         const fileLinks = section.pdf_files.split(",");
-        // for (let i = 0; i < fileLinks.length; i++) {
-        //   const file = fileLinks[i];
-        //   try {
-        //     const url = `${staticUrl}/${
-        //       fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-        //     }/${section.folder_name}/${fileLinks[i]}`;
-        //     const response = await fetch(url);
-        //     if (!response.ok) throw new Error("Failed to fetch " + file.url);
-
-        //     const blob = await response.blob();
-        //     zip.file(file.name, blob);
-        //   } catch (err) {
-        //     console.error(`Error fetching ${file.name}:`, err);
-        //   }
-        // }
-
-        // const content = await zip.generateAsync({ type: "blob" });
-        // const url = URL.createObjectURL(content);
-
-        // // Create a temporary <a> tag and click it to trigger browser download
-        // const link = document.createElement("a");
-        // link.href = url;
-        // link.download = section.title + ".zip";
-        // document.body.appendChild(link);
-        // link.click();
-        // link.remove();
-
-        // Release the object URL
-        // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -268,8 +223,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-            }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${
+            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+          }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -283,7 +239,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         saveAs(content, section.title.replaceAll(" ", "_") + ".zip");
       }
       setDownloading(false);
-
+      updateDownload();
       await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
       console.log(ex);
@@ -367,6 +323,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
+      updateContentShared();
       toast.success("Content shared via email successfully");
       setShowModal(false);
       setShowConfirmationModal({
@@ -623,8 +580,9 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         }
                       >
                         <Select
-                          className={`split-button ${error.country.error ? "error" : ""
-                            }`}
+                          className={`split-button ${
+                            error.country.error ? "error" : ""
+                          }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -637,8 +595,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                               backgroundColor: state.isSelected
                                 ? "#E6F7F8" // background for selected option
                                 : state.isFocused
-                                  ? "#F4F6F9" // background on hover
-                                  : "white",
+                                ? "#F4F6F9" // background on hover
+                                : "white",
                               color: state.isSelected ? "#4CC6CF" : "#5E7683",
                             }),
                           }}
@@ -1050,10 +1008,10 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   (ratingFocus
                     ? "star-focus.svg"
                     : isStarHovered
-                      ? "star-hover.svg"
-                      : section.self_rate
-                        ? "star-filled.svg"
-                        : "star-img.svg")
+                    ? "star-hover.svg"
+                    : section.self_rate
+                    ? "star-filled.svg"
+                    : "star-img.svg")
                 }
                 onMouseDown={() => setRatingFocus(true)}
                 onMouseUp={() =>
@@ -1196,7 +1154,6 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           </Modal.Body>
         </Modal>
       </div>
-
     </div>
   );
 };

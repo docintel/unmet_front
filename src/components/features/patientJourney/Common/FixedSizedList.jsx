@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Content from "./Content";
 
-const FixedSizeList = ({ items, itemCount, favTab }) => {
+const FixedSizeList = ({ items, itemCount, favTab, sortingAllowed }) => {
   const containerRef = useRef(null);
   const [itemsToShow, setItemsToShow] = useState(
     Math.min(itemCount, items.length)
@@ -30,6 +30,16 @@ const FixedSizeList = ({ items, itemCount, favTab }) => {
     return () => observer.disconnect();
   }, [items, itemsToShow]);
 
+  const handleSort = () => {
+    if (sortingAllowed)
+      return items.sort(
+        (a, b) =>
+          new Date(b.creation_date.replaceAll(".", " ")) -
+          new Date(a.creation_date.replaceAll(".", " "))
+      );
+    else return items;
+  };
+
   return (
     <div
       className="touchpoint-data-boxes"
@@ -41,12 +51,7 @@ const FixedSizeList = ({ items, itemCount, favTab }) => {
     >
       {items &&
         items.length > 0 &&
-        items
-          .sort(
-            (a, b) =>
-              new Date(b.creation_date.replaceAll(".", " ")) -
-              new Date(a.creation_date.replaceAll(".", " "))
-          )
+        handleSort()
           .slice(0, itemsToShow)
           .map((item) => {
             return (

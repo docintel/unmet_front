@@ -7,7 +7,12 @@ const FaqAndLatestContent = ({ content, isFaq,itemSize }) => {
     <div className="touchpoint-data-boxes">
       {content ? (
         content && (
-          <FixedSizeList items={content} itemCount={itemSize} favTab={false} />
+          <FixedSizeList
+            items={content}
+            itemCount={itemSize}
+            favTab={false}
+            sortingAllowed={true}
+          />
         )
       ) : (
         // content.map((section, idx) => (
