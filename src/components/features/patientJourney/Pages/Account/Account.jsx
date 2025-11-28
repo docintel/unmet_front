@@ -19,7 +19,9 @@ const Account = () =>
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
 
-  useEffect(() => async () => await getAccountData(), []);
+  useEffect(() => {
+    (async () => await getAccountData())()
+  }, []);
 
   return (
     <div className="main-page">
