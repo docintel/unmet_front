@@ -12,38 +12,41 @@ import { useNavigate } from "react-router-dom";
 
 const Account = () =>
 {
-  const [favorite, setFavorite] = useState([]);
-  const [recentContent, setRecentContent] = useState([]);
-  const [userData, setUserData] = useState([]);
+  const { favorite, recentContent, userData, getAccountData } =
+    useContext(ContentContext);
+  // const [favorite, setFavorite] = useState([]);
+  // const [recentContent, setRecentContent] = useState([]);
+  // const [userData, setUserData] = useState([]);
   const [questionCount, setQuestionCount] = useState(0);
-
-  const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
+
   useEffect(() =>
   {
-    const fetchAllData = async () =>
-    {
-      setIsLoading(true);
-      try {
-        const [favoriteRes, recentRes, userRes] = await Promise.all([
-          getData(endPoint.FAVORITE),
-          getData(endPoint.GET_RECENT_CONTENT),
-          getData(endPoint.USER_DETAILS),
-        ]);
+    // const fetchAllData = async () =>
+    // {
+    //   setIsLoading(true);
+    //   try {
+    //     const [favoriteRes, recentRes, userRes] = await Promise.all([
+    //       getData(endPoint.FAVORITE),
+    //       getData(endPoint.GET_RECENT_CONTENT),
+    //       getData(endPoint.USER_DETAILS),
+    //     ]);
 
-        setFavorite(favoriteRes?.data?.data || []);
-        setRecentContent(recentRes?.data?.data || []);
-        setUserData(userRes?.data?.data?.[0] || {});
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    //     setFavorite(favoriteRes?.data?.data || []);
+    //     setRecentContent(recentRes?.data?.data || []);
+    //     setUserData(userRes?.data?.data?.[0] || {});
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   } finally {
+    //     setIsLoading(false);
+    //   }
+    // };
 
-    fetchAllData();
+    // fetchAllData();
+    getAccountData();
   }, []);
+  
 
   return (
     <div className="main-page">
@@ -118,12 +121,13 @@ const Account = () =>
                   }
                 >
                   <div className="touchpoint-data-boxes">
-                    {recentContent.length > 0 ? (
-                      recentContent && (
+                    {recentContent && recentContent.length > 0 ? (
+                       (
                         <FixedSizeList
                           items={recentContent}
                           itemCount={9}
                           favTab={false}
+                          sortingAllowed={false}
                         />
                       )
                     ) : (
@@ -154,12 +158,13 @@ const Account = () =>
                   }
                 >
                   <div className="touchpoint-data-boxes">
-                    {favorite.length > 0 ? (
-                      favorite && (
+                    {favorite && favorite.length > 0 ? (
+                       (
                         <FixedSizeList
                           items={favorite}
                           itemCount={9}
-                          favTab={true}
+                          favTab={false}
+                          sortingAllowed={false}
                         />
                       )
                     ) : (

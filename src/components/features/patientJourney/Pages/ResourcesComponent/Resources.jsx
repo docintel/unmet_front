@@ -495,6 +495,7 @@ const Resources = () => {
                         items={filteredContents}
                         itemCount={9}
                         favTab={isHcp}
+                        sortingAllowed={true}
                       />
                     ) : (
                       <div className="no-data">

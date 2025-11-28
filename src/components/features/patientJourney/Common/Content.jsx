@@ -20,9 +20,8 @@ import QRCode from "react-qr-code";
 import { trackingUserAction } from "../../../../helper/helper";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
-  const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
     filterCategory,
@@ -30,6 +29,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setIsLoading,
     setToast,
     currentTabValue,
+    updateDownload,
+    updateContentShared
   } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -97,6 +98,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleStarClick = async () => {
     try {
+      const selfRate = section.self_rate === 1 ? 0 : 1;
       trackingUserAction(
         "content_like_clicked",
         { title: section?.title, pdf_id: section?.id },
@@ -107,13 +109,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
-      updateRating(section.id, response.response);
-      setSection({
-        ...section,
-        self_rate: section.self_rate === 1 ? 0 : 1,
-        rating: response.response,
-      });
-      if (section.self_rate !== 1) {
+      updateRating(section.id, response.response,selfRate);
+      if (selfRate === 1) {
         setToast({
           show: true,
           type: "success",
@@ -283,7 +280,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         saveAs(content, section.title.replaceAll(" ", "_") + ".zip");
       }
       setDownloading(false);
-
+      updateDownload();
       await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
       console.log(ex);
@@ -367,6 +364,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
+      updateContentShared();
       toast.success("Content shared via email successfully");
       setShowModal(false);
       setShowConfirmationModal({
