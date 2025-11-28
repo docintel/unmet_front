@@ -6,6 +6,8 @@ import {
 } from "../services/touchPointServices";
 
 import Loader from "../components/features/patientJourney/Common/Loader";
+import endPoint from "../services/axios/apiEndpoint";
+import { getData } from "../services/axios/apiHelper";
 
 export const ContentContext = createContext();
 
@@ -42,6 +44,9 @@ export const ContentProvider = ({ children }) => {
     show: false,
   });
   const [currentTabValue, setCurrentTabValue] = useState("");
+  const [favorite, setFavorite] = useState([]);
+  const [recentContent, setRecentContent] = useState([]);
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     document.cookie.split(";").forEach((item) => {
@@ -106,6 +111,25 @@ export const ContentProvider = ({ children }) => {
     );
   }, [isHcp]);
 
+  const getAccountData = async () => {
+    setIsLoading(true);
+    try {
+      const [favoriteRes, recentRes, userRes] = await Promise.all([
+        getData(endPoint.FAVORITE),
+        getData(endPoint.GET_RECENT_CONTENT),
+        getData(endPoint.USER_DETAILS),
+      ]);
+
+      setFavorite(favoriteRes?.data?.data || []);
+      setRecentContent(recentRes?.data?.data || []);
+      setUserData(userRes?.data?.data?.[0] || {});
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const fetchAgeGroups = async () => {
     if (
       filterAges.data.length == 0 &&
@@ -133,7 +157,7 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
-  const updateRating = (id, rating) => {
+  const updateRating = (id, rating, self_rate) => {
     setContent((prevContent) => {
       return {
         loading: false,
@@ -142,13 +166,58 @@ export const ContentProvider = ({ children }) => {
           if (cntnt.id === id) {
             return {
               ...cntnt,
-              ...{ self_rate: cntnt.self_rate === 1 ? 0 : 1, rating: rating },
+              ...{ self_rate: self_rate, rating: rating },
             };
           } else return cntnt;
         }),
       };
     });
+
+    if (recentContent.length > 0) {
+      setRecentContent((prev) => {
+        const filteredArr = prev.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              self_rate: self_rate,
+              rating: rating,
+            };
+          } else return item;
+        });
+        return filteredArr;
+      });
+    }
+
+    let exists = false;
+    favorite.map((item) => {
+      if (item.id === id) exists = true;
+    });
+    if (exists) {
+      setFavorite((prev) => prev.filter((item) => item.id !== id));
+    } else {
+      const cntnt = content.data.filter((item) => item.id === id);
+      setFavorite((prev) => [
+        {
+          ...cntnt[0],
+          self_rate: self_rate,
+          rating: rating,
+        },
+        ...prev,
+      ]);
+    }
   };
+
+  const updateDownload = () => {
+    setUserData((prev) => {
+      return { ...prev, total_download: prev.total_download + 1 };
+    });
+  };
+
+  const updateContentShared = ()=>{
+    setUserData((prev) => {
+      return { ...prev, total_shared: prev.total_shared + 1 };
+    });
+  }
 
   return (
     <ContentContext.Provider
@@ -162,6 +231,9 @@ export const ContentProvider = ({ children }) => {
         categoryList,
         toast,
         currentTabValue,
+        favorite,
+        recentContent,
+        userData,
         setCurrentTabValue,
         updateRating,
         setIsLoading,
@@ -169,6 +241,9 @@ export const ContentProvider = ({ children }) => {
         getNarratives,
         setIsHcp,
         setToast,
+        getAccountData,
+        updateDownload,
+        updateContentShared
       }}
     >
       {" "}

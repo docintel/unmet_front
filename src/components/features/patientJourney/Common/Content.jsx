@@ -20,9 +20,8 @@ import QRCode from "react-qr-code";
 import { trackingUserAction } from "../../../../helper/helper";
 // import Select from "react-select/base";
 
-const Content = ({ section: initialSection, idx, favTab }) => {
+const Content = ({ section, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
-  const [section, setSection] = useState(initialSection);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
     filterCategory,
@@ -30,6 +29,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     setIsLoading,
     setToast,
     currentTabValue,
+    updateDownload,
+    updateContentShared
   } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
@@ -87,7 +88,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
     if (key === "existing-member") {
       try {
         if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
-      } catch (ex) {}
+      } catch (ex) { }
     }
   };
 
@@ -97,6 +98,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
 
   const handleStarClick = async () => {
     try {
+      const selfRate = section.self_rate === 1 ? 0 : 1;
       trackingUserAction(
         "content_like_clicked",
         { title: section?.title, pdf_id: section?.id },
@@ -107,13 +109,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
-      updateRating(section.id, response.response);
-      setSection({
-        ...section,
-        self_rate: section.self_rate === 1 ? 0 : 1,
-        rating: response.response,
-      });
-      if (section.self_rate !== 1) {
+      updateRating(section.id, response.response,selfRate);
+      if (selfRate === 1) {
         setToast({
           show: true,
           type: "success",
@@ -128,7 +125,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           message: "Rating removed successfully",
         });
       }
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   const getAgeGroup = () => {
@@ -258,9 +255,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         // Release the object URL
         // URL.revokeObjectURL(url);
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             await getContentSize(url);
           } catch (err) {
@@ -269,9 +265,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         }
 
         for (let i = 0; i < fileLinks.length; i++) {
-          const url = `${staticUrl}/${
-            fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
-          }/${section.folder_name}/${fileLinks[i]}`;
+          const url = `${staticUrl}/${fileLinks[i].split(".").pop() !== "pdf" ? "video" : "ebook"
+            }/${section.folder_name}/${fileLinks[i]}`;
           try {
             const blob = await downloadFileChuck(url);
 
@@ -285,7 +280,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         saveAs(content, section.title.replaceAll(" ", "_") + ".zip");
       }
       setDownloading(false);
-
+      updateDownload();
       await TrackDownloads(section.id, setIsLoading, setToast);
     } catch (ex) {
       console.log(ex);
@@ -295,6 +290,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         title: "Error",
         message: "Failed to download the content.",
       });
+      setDownloading(false);
     } finally {
       setProgress(0);
     }
@@ -368,6 +364,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
         setIsLoading,
         setToast
       );
+      updateContentShared();
       toast.success("Content shared via email successfully");
       setShowModal(false);
       setShowConfirmationModal({
@@ -624,9 +621,8 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                         }
                       >
                         <Select
-                          className={`split-button ${
-                            error.country.error ? "error" : ""
-                          }`}
+                          className={`split-button ${error.country.error ? "error" : ""
+                            }`}
                           value={country}
                           onChange={(selectedOption) =>
                             setCountry(selectedOption)
@@ -634,18 +630,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                           placeholder="Select your country"
                           options={countryList}
                           styles={{
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
-                              : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
-                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                          }),
-                        }}
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? "#E6F7F8" // background for selected option
+                                : state.isFocused
+                                  ? "#F4F6F9" // background on hover
+                                  : "white",
+                              color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                            }),
+                          }}
                           isClearable
-                          
                         />
                         <span>
                           <svg
@@ -1053,15 +1048,17 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                   (ratingFocus
                     ? "star-focus.svg"
                     : isStarHovered
-                    ? "star-hover.svg"
-                    : section.self_rate
-                    ? "star-filled.svg"
-                    : "star-img.svg")
+                      ? "star-hover.svg"
+                      : section.self_rate
+                        ? "star-filled.svg"
+                        : "star-img.svg")
                 }
                 onMouseDown={() => setRatingFocus(true)}
-                onMouseUp={() => setTimeout(() => {
-                  setRatingFocus(false)
-                }, 1000)}
+                onMouseUp={() =>
+                  setTimeout(() => {
+                    setRatingFocus(false);
+                  }, 1000)
+                }
                 alt=""
                 style={{ cursor: "pointer" }}
                 onClick={handleStarClick}
@@ -1069,7 +1066,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
                 onMouseLeave={() => {
                   setIsStarHovered(false);
                   setTimeout(() => {
-                    setRatingFocus(false)
+                    setRatingFocus(false);
                   }, 1000);
                 }}
               />
@@ -1093,6 +1090,70 @@ const Content = ({ section: initialSection, idx, favTab }) => {
             {readContent ? "Close" : "View"}
           </Button>
         </div>
+        {/* Transparent overlay with circular progress */}
+        {downloading && (
+          <div
+            className="dark-progress"
+            style={{
+              position: "absolute",
+              top: "0px",
+              left: 0,
+              right: 0,
+              bottom: "0px",
+              background: "rgba(24, 59, 77, 0.50)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "8px 8px 16px 16px",
+              zIndex: 1000,
+              backdropFilter: "blur(2px)",
+            }}
+          >
+            <div style={{ position: "relative", width: 120, height: 120 }}>
+              <svg
+                width="120"
+                height="120"
+                style={{ transform: "rotate(-90deg)" }}
+              >
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="45"
+                  stroke="#ffffff"
+                  strokeWidth="10"
+                  fill="none"
+                />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="45"
+                  stroke="#4CC6CF"
+                  strokeWidth="10"
+                  fill="none"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={
+                    circumference - (progress / 100) * circumference
+                  }
+                  strokeLinecap="round"
+                  style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                />
+              </svg>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  color: "#ffffff",
+                }}
+              >
+                {progress}%
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className="pop_up">
         <Modal
@@ -1119,18 +1180,12 @@ const Content = ({ section: initialSection, idx, favTab }) => {
               <span>Back</span>
             </button>
 
-            <div className="modal-title">
-              {
-                section?.title
-               }
-            </div>
+            <div className="modal-title">{section?.title}</div>
 
             <div className="modal-logo">
               <img src={path_image + "vwd-journey-logo.svg"} alt="Logo" />
             </div>
           </Modal.Header>
-
-
 
           <Modal.Body className="custom-modal-body">
             <div className="content-data" ref={iframeRef}>
@@ -1139,70 +1194,7 @@ const Content = ({ section: initialSection, idx, favTab }) => {
           </Modal.Body>
         </Modal>
       </div>
-      {/* Transparent overlay with circular progress */}
-      {downloading && (
-        <div
-          className="dark-progress"
-          style={{
-            position: "absolute",
-            top: "21px",
-            left: 0,
-            right: 0,
-            bottom: "-3px",
-            background: "rgba(24, 59, 77, 0.50)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "8px 8px 16px 16px",
-            zIndex: 1000,
-            backdropFilter: "blur(2px)",
-          }}
-        >
-          <div style={{ position: "relative", width: 120, height: 120 }}>
-            <svg
-              width="120"
-              height="120"
-              style={{ transform: "rotate(-90deg)" }}
-            >
-              <circle
-                cx="60"
-                cy="60"
-                r="45"
-                stroke="#ffffff"
-                strokeWidth="10"
-                fill="none"
-              />
-              <circle
-                cx="60"
-                cy="60"
-                r="45"
-                stroke="#4CC6CF"
-                strokeWidth="10"
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={
-                  circumference - (progress / 100) * circumference
-                }
-                strokeLinecap="round"
-                style={{ transition: "stroke-dashoffset 0.3s ease" }}
-              />
-            </svg>
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                fontWeight: "600",
-                fontSize: "16px",
-                color: "#ffffff",
-              }}
-            >
-              {progress}%
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 };

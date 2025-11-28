@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import Content from "./Content";
+import QuestionCard from "./QuestionCard";
 
-const FixedSizeList = ({ items, itemCount, favTab, sortingAllowed }) => {
+const AskIbuScroll = ({ items, itemCount, account,updateDeleteQuestion }) => {
   const containerRef = useRef(null);
   const [itemsToShow, setItemsToShow] = useState(
     Math.min(itemCount, items.length)
@@ -30,19 +30,9 @@ const FixedSizeList = ({ items, itemCount, favTab, sortingAllowed }) => {
     return () => observer.disconnect();
   }, [items, itemsToShow]);
 
-  const handleSort = () => {
-    if (sortingAllowed)
-      return items.sort(
-        (a, b) =>
-          new Date(b.creation_date.replaceAll(".", " ")) -
-          new Date(a.creation_date.replaceAll(".", " "))
-      );
-    else return items;
-  };
-
   return (
     <div
-      className="touchpoint-data-boxes"
+      className="scroll-list-inner"
       ref={containerRef}
       style={{
         height: "100%",
@@ -51,17 +41,12 @@ const FixedSizeList = ({ items, itemCount, favTab, sortingAllowed }) => {
     >
       {items &&
         items.length > 0 &&
-        handleSort()
+        items
           .slice(0, itemsToShow)
           .map((item) => {
             return (
               <React.Fragment key={item.id}>
-                <Content
-                  section={item}
-                  idx={item.id}
-                  key={item.id}
-                  favTab={favTab}
-                />
+                <QuestionCard question={item} account={account} updateDeleteQuestion={updateDeleteQuestion}/>
               </React.Fragment>
             );
           })}{" "}
@@ -69,4 +54,4 @@ const FixedSizeList = ({ items, itemCount, favTab, sortingAllowed }) => {
   );
 };
 
-export default FixedSizeList;
+export default AskIbuScroll;

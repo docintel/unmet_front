@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { ContentContext } from "../../../../context/ContentContext";
 
-const IframeComponent = ({ previewArticle /* setCurrentReadClick */ }) => {
+const IframeComponent = ({ previewArticle }) =>
+{
   if (!previewArticle) return null;
 
   const { isHcp } = useContext(ContentContext);
@@ -15,7 +16,7 @@ const IframeComponent = ({ previewArticle /* setCurrentReadClick */ }) => {
         height="100%"
         style={{
           border: "none",
-          minHeight: "85vh",
+          minHeight: "100vh",
         }}
       ></iframe>
     </div>

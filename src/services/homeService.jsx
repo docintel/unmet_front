@@ -1,24 +1,42 @@
-import { postData, getData } from "./axios/apiHelper";
+import { postData, getData, putData, deleteData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
-export const fetchQuestions = async (setIsLoading) => {
+export const fetchQuestions = async (setIsLoading,setQuestList) => {
   setIsLoading(true);
   try {
+    setQuestList({loading:true,error:false,questions:[]})
     const response = await getData(endPoint.ASK_IBU_QUESTIONS);
-    return response?.data?.data;
+    const data =  response?.data?.data;
+    setQuestList({loading:false,error:false,questions:data})
   } catch (error) {
     console.error("Error fetching Ask IBU questions:", error);
+    setQuestList({loading:false,error:true,questions:[]})
   } finally {
     setIsLoading(false);
   }
 };
 
-export const fetchYourQuestions = async (setIsLoading) => {
+export const fetchYourQuestions = async (setIsLoading,setQuestionList) => {
   setIsLoading(true);
   try {
+    setQuestionList({
+      loading: true,
+      error: false,
+      questions: [],
+    })
     const response = await getData(endPoint.YOUR_QUESTION);
-    return response?.data?.data;
+    const data =  response?.data?.data;
+    setQuestionList({
+      loading: false,
+      error: false,
+      questions: data,
+    })
   } catch (error) {
+    setQuestionList({
+      loading: false,
+      error: true,
+      questions: [],
+    })
     console.error("Error fetching Ask IBU questions:", error);
   } finally {
     setIsLoading(false);
@@ -31,7 +49,8 @@ export const handleSubmit = async (
   question,
   setQuestion,
   setIsLoading,
-  setToast
+  setToast,
+  setShowConfirmationModal
 ) => {
   e.preventDefault();
 
@@ -46,12 +65,7 @@ export const handleSubmit = async (
     const response = await postData(endPoint.ADD_QUESTIONS, {
       question: question,
     });
-    setToast({
-      type: "success",
-      title: "Success",
-      message: "Quesion submitted successfully",
-      show: true,
-    });
+    setShowConfirmationModal(true)
     setQuestion("");
   } catch (error) {
     console.error("Error submitting question:", error);
@@ -83,4 +97,31 @@ export const filterQuestionsByTags = (questions, appliedTags) => {
   return questions.filter((q) =>
     appliedTags.every((tag) => q.topics?.includes(tag))
   );
+};
+
+export const updateIbuQuestion = async (qId, questionText, setIsLoading) => {
+  try {
+    setIsLoading(true);
+    const data = { question_id: qId.toString(), question: questionText.trim() };
+    await putData(endPoint.UPDATE_IBU_QUESTION, data);
+  } catch (ex) {
+    setIsLoading(false);
+    console.log("exception while question update : ", ex);
+    throw new Error("Failed to update the question")
+  }finally{
+    setIsLoading(false);
+  }
+};
+
+export const deleteIbuQuestion = async (qId, setIsLoading) => {
+  try {
+    setIsLoading(true);
+    await deleteData(endPoint.DELETE_IBU_QUESTION+"/"+qId.toString());
+  } catch (ex) {
+    setIsLoading(false);
+    console.log("exception while deleting question : ", ex);
+    throw new Error("Failed to delete the question")
+  }finally{
+    setIsLoading(false);
+  }
 };
