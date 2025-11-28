@@ -20,7 +20,6 @@
         }
     }
 }
-// ---------------home-page ui----------------
 @media (max-width: 1680px) {
   .journey-box {
     flex-direction: row;
@@ -57,8 +56,34 @@
 }
   }
 }
+@media (max-width: 1536px) {
+  .journey-box {
+    .explore-journey {
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            .block {
+              &.age0,
+              &.age12, 
+              &.age26 {
+                margin: -3px 0 0;
+              }
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 64px 0 0;
+                }
 
-// ---------- Large-screen: 1440X1024---------------------
+                &.age18 {
+                  margin: 64px 0 0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media (max-width: $layout-breakpoint-xlarge) {
   .journey-box {
     flex-direction: column;
@@ -137,162 +162,24 @@
       }
 
       .age-filter-block {
-        
-        .block {
-           margin: -20px 0 0;
-
-          &:nth-child(even) {
-          margin: -7px 0 -24px;
-          }
-        }
+         .block {
+              &.age0,
+              &.age12,
+              &.age26 {
+                margin: 0;
+              }
+              &:nth-child(even) {
+                &.age6,
+                &.age18 {
+                  margin: 9px 0 0 !important;
+                }
+              }
+            }
       }
     }
   }
 }
 
-// ---------- Standard Laptop Srceen: 1366X768---------------------
-@media (max-width: 1366px) {
-  .journey-box {
-
-    .explore-journey {
-      .age-filter-block {
-        
-        .block {
-      margin: -26px 0 0;
-
-          &:nth-child(even) {
-            margin: -1px 0 -24px;
-          }
-        }
-      }
-    }
-  }
-}
-// ----------Small laptop Screen: 1280X720-----------------------
- @media (max-width: $layout-breakpoint-xxlarge) {
-    .header{
-        padding: 0 !important;
-    }
-    .main-page{
-        padding: 0 !important;
-    }
-    .journey-box {
-     flex-direction: row;
-     gap: 24px;
-
-     .journey-boxes{
-        .left-side{
-           width: 395px;
-           flex: 0 0 395px;
-        }
-      .right-side {
-        &.latest-content{
-        .data-box .touchpoint-data-boxes {
-         gap: 3.6rem 2rem;
-
-        .detail-data-box {
-         max-width: calc(50.3% - 2rem);
-         min-width: 280px;
-        }
-      }
-    }
-      .data-box {
-      .filter-section {
-      .filter-list {
-        max-width: 600px;
-       }
-    }
-  }
-  }
-     }
-
-    .journey-box-right{
-        width: 395px;
-        gap: 24px;
-        flex-direction: column;
-        opacity: 0;
-        transform: translateX(120px);
-        animation: slideLeft 1.8s ease-out forwards;
-
-        @keyframes slideLeft {
-       to {
-         opacity: 1;
-         transform: translateX(0);
-         }
-        }
-      .ask-ibu { order: 1; }
-      .latest-content { order: 2; }
-      .faq { order: 3; }
-
-      .explore-box{
-        height: 100%;
-      }
-}
-    .explore-journey{
-    .filter-age{
-        h3{
-            top: 65px;
-            font-size: 24px;
-        }
-    }
-     .age-filter-block {
-     .age-group-circle {
-      width: 80px;
-      height: 80px;
-      padding: 6px;
-      margin: 0px 0 15px;
-
-     img {
-      width: 68px;
-     }
-   }
-
-  .block {
-    font-size: 14px;
-    margin: -23px 0 0;
-
-    &:nth-child(even) {
-      margin: 31px 0 -24px;
-
-      .age-group-circle {
-        margin: 15px 0 0px;
-      }
-
-      .line {
-        margin-bottom: 0;
-        margin-top: -8px;
-
-        &:after {
-          bottom: 0;
-        }
-      }
-
-      p {
-        margin: 14px 0 0;
-      }
-    }
-    .age-gap {
-      font-size: 10px;
-       }
-     }
-   }
-   .explore-btn a {
-    font-size: 14px;
-   }
-  }
-  .explore-box{
-    img{
-        width: 24px;
-    }
-    h6{
-        font-size: 16px !important;
-    }
-     p {
-    font-size: 14px;
-  }
-  }
-}
-}
 @media (max-width: $layout-breakpoint-extraLarge) {
     .login-left {
         background-size: 448px;
@@ -414,7 +301,6 @@
         }
     }
 }
-
 @media (max-width: 1365px) {
     .content-count-box {
         .content-count {
@@ -429,7 +315,6 @@
             }
         }
     }
-
     .touchpoints-section {
         .touchpoint-box {
             .touchpoints-header {
@@ -441,8 +326,164 @@
             }
         }
     }
-}
+      .journey-box {
 
+    .explore-journey {
+      .age-filter-block {
+      .block {
+              &.age0,
+              &.age12,
+              &.age26 {
+                margin: -2px 0 0 !important;
+              }
+              &:nth-child(even) {
+                &.age6,
+                &.age18 {
+                  margin: 21px 0 0 !important;
+                }
+              }
+            }
+      }
+    }
+  }
+}
+ @media (max-width: $layout-breakpoint-xxlarge) {
+    .header{
+        padding: 0 !important;
+    }
+    .main-page{
+        padding: 0 !important;
+    }
+    .journey-box {
+     flex-direction: row;
+     gap: 24px;
+
+     .journey-boxes{
+        .left-side{
+           width: 395px;
+           flex: 0 0 395px;
+        }
+      .right-side {
+        &.latest-content{
+        .data-box .touchpoint-data-boxes {
+         gap: 3.6rem 2rem;
+
+        .detail-data-box {
+         max-width: calc(50.3% - 2rem);
+         min-width: 280px;
+        }
+      }
+    }
+      .data-box {
+      .filter-section {
+      .filter-list {
+        max-width: 600px;
+       }
+    }
+  }
+  }
+     }
+
+    .journey-box-right{
+        width: 395px;
+        gap: 24px;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateX(120px);
+        animation: slideLeft 1.8s ease-out forwards;
+
+        @keyframes slideLeft {
+       to {
+         opacity: 1;
+         transform: translateX(0);
+         }
+        }
+      .ask-ibu { order: 1; }
+      .latest-content { order: 2; }
+      .faq { order: 3; }
+
+      .explore-box{
+        height: 100%;
+      }
+}
+    .explore-journey{
+    .filter-age{
+        h3{
+            top: 65px;
+            font-size: 24px;
+        }
+    }
+     .age-filter-block {
+     .age-group-circle {
+      width: 80px;
+      height: 80px;
+      padding: 6px;
+      margin: 0px 0 15px;
+
+     img {
+      width: 68px;
+     }
+   }
+  .block {
+    font-size: 14px;
+      &.age0 {
+                margin: -23px 0 0 -4px !important;
+              }
+              &.age12 {
+                margin: -23px 0 0 19px !important;
+              }
+
+              &.age26 {
+                margin: -23px 6px 0 0 !important;
+              }
+    &:nth-child(even) {
+        &.age6 {
+                  margin: 31px 0 -24px 4px !important;
+                }
+
+                &.age18 {
+                  margin: 31px 0 -24px !important;
+                }
+
+      .age-group-circle {
+        margin: 15px 0 0px;
+      }
+
+      .line {
+        margin-bottom: 0;
+        margin-top: -8px;
+
+        &:after {
+          bottom: 0;
+        }
+      }
+
+      p {
+        margin: 14px 0 0;
+      }
+    }
+    .age-gap {
+      font-size: 12px;
+       }
+     }
+   }
+   .explore-btn a {
+    font-size: 14px;
+   }
+  }
+  .explore-box{
+    img{
+        width: 24px;
+    }
+    h6{
+        font-size: 16px !important;
+    }
+     p {
+    font-size: 14px;
+  }
+  }
+}
+}
 @media (max-width: $layout-breakpoint-large) {
     .login-left {
         background-size: 350px;
@@ -739,7 +780,7 @@
       }
     }
     .age-gap {
-      font-size: 10px;
+      font-size: 12px;
        }
      }
    }
@@ -760,7 +801,6 @@
   }
 }
 }
-
 @media (max-width: 991px) {
     .header {
         .nav {
@@ -770,7 +810,6 @@
         }
     }
 }
-
 @media (max-width: $layout-breakpoint-medium) {
 
     .login {
@@ -1246,7 +1285,73 @@
       }
    }
 }
+@media (max-width: 1024px) {
+  .journey-box {
+    .explore-journey {
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            .block {
+              &.age0 {
+                margin: 0 !important;
+              }
+              &.age12 {
+                margin: 0 0 0 10px !important;
+              }
 
+              &.age26 {
+                margin: 0 6px 0 0 !important;
+              }
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 29px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 29px 0 0 !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 834px) {
+  .journey-box {
+    .explore-journey {
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+
+            .block {
+
+              &.age0 {
+                margin: -23px 0 0 -2px !important;
+              }
+
+              &.age12 {
+                margin: -23px 0 0 15px !important;
+              }
+
+              &.age26 {
+                margin: -23px 6px 0 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6,
+                 &.age18  {
+                  margin: 34px -6px -24px 0 !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media (max-width: $layout-breakpoint-small) {
     .login {
         padding: 20px 15px;
@@ -1507,7 +1612,12 @@
         flex-direction: column;
         gap: 15px;
 
-    .journey-boxes{
+       .journey-box-right {
+        width: 100%;
+        flex-direction: column;
+       }
+
+       .journey-boxes{
         .left-side {
         width: 350px;
         flex: 0 0 350px;
@@ -1570,37 +1680,64 @@
           }
         }
       }
-   }
-
-        // .journey-box-right{
-        //     // width: 100%;
-        // }
-
+        }
         .explore-journey {
             .start-btn {
-                font-size: 14px;
-                min-width: 100px;
-                padding: 6px 24px;
+              font-size: 14px;
+              min-width: 100px;
+              padding: 6px 24px;
             }
-    //         .explore-journey-block{
-    //             &::before, &::after {
-    //                     // height: 0%;
-    //             }
-                
-    //         .explore-journey-block-inner{
-    //         .age-filter-block{
-    //             // display: none;
-    //         }
-    //     }
-    // }
-}
+            .filter-age{
+              h3{
+                top: 30px;
+              }
+            }
+          .explore-journey-block {
+          .explore-journey-block-inner {
+          .age-filter-block {
 
+            .block {
+              &.age0 {
+                margin: -24px 0 0 0px !important;
+              }
+
+              &.age12 {
+                margin: -24px 0 0 21px !important;
+              }
+
+              &.age26 {
+                margin: -24px 10px 0 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 34px 0 -24px 9px !important;
+                }
+
+                &.age18 {
+                  margin: 34px 5px -24px 0 !important;
+                }
+                .age-group-circle {
+                 margin: 10px 0 0px;
+                }
+              }
+              
+              .age-group-circle{
+                margin: 0px 0 10px;
+              }
+            }
+          }
+        }
+       }
+     .explore-btn {
+        bottom: 5%;
+    }
+      }
         .col {
             width: 100%;
         }
-    }
-
-    .patient-journey {
+     }
+     .patient-journey {
         gap: 16px;
         margin: 30px 0;
         width: 100%;
@@ -2085,7 +2222,71 @@
 }
 }
 }
+@media (max-width: 600px) {
+  .journey-box {
+    .explore-journey {
 
+      .filter-age {
+        h3 {
+          top: 30px;
+        }
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+
+            .block {
+              font-size: 12px;
+
+              &.age0 {
+                margin: -22px 0 0 -3px !important;
+              }
+
+              &.age12 {
+                margin: -22px 0 0 24px !important;
+              }
+
+              &.age26 {
+                margin: -22px 10px 0 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 37px 0 -24px 9px !important;
+                }
+
+                &.age18 {
+                  margin: 37px 8px -24px 0 !important;
+                }
+              }
+              .age-gap{
+                font-size: 10px;
+              }
+            }
+
+            .age-group-circle {
+              width: 60px;
+              height: 60px;
+              padding: 5px;
+              margin: 0 -1px 0 0;
+
+              img {
+                width: 50px;
+              }
+            }
+
+          }
+        }
+      }
+
+      .explore-btn {
+        bottom: 7%;
+      }
+
+    }
+  }
+}
 @media (max-width: $layout-breakpoint-extraSmall) {
 
   .login-left {
@@ -2094,17 +2295,26 @@
     }
   }
 
-  .journey-box {
+  .confirmation{ 
+    .confirmation-card.delete{ 
+        .confirmation-btn{
+          width: 100%;
 
-    .journey-box-right {
-      width: 100%;
-      flex-direction: column;
+          button{
+            width: 131px;
+            padding: 8px 18px;
+          }
+        }
     }
+}
+}
+@media (max-width: 480px) {
+ .journey-box {
 
     .explore-journey {
 
       .filter-age {
-        height: 634px;
+        height: 800px;
 
         h3 {
           top: 18px;
@@ -2140,7 +2350,7 @@
         .explore-journey-block-inner {
 
           .age-filter-block {
-            max-width: 78%;
+            max-width: 63%;
             flex-direction: column;
 
             p {
@@ -2149,12 +2359,12 @@
             }
 
             .block {
-              margin: 26px 0 0;
+              // margin: 34px 0 0 !important;
               flex-direction: row;
               animation: slideLeftToRight 1.2s ease forwards;
 
               &.age0 {
-                margin: 18px 0 0;
+                  margin: -19px 0 0 0 !important;
 
                 .line {
                   border-top: 1px dashed var(--green);
@@ -2166,6 +2376,7 @@
               }
 
               &.age12 {
+                       margin: 3px 0 0 !important;
                 .line {
                   border-top: 1px dashed var(--gradient-orange);
 
@@ -2175,11 +2386,12 @@
                 }
 
                 .age-group-circle {
-                  margin: 0 1px 0 0;
+                  margin: 0 1px 0 0 !important;
                 }
               }
 
               &.age26 {
+                margin: 36px 0 -42px 0 !important;
                 .line {
                   border-top: 1px dashed var(--gradient-pink);
 
@@ -2203,7 +2415,7 @@
                 animation: slideRightToLeft 1.2s ease forwards;
 
                 &.age6 {
-                  margin: 24px 0 0;
+                 margin: 38px 0 21px 0 !important;
 
                   .line {
                     border-top: 1px dashed #7DB8A8;
@@ -2215,7 +2427,7 @@
                 }
 
                 &.age18 {
-                  margin: 26px 0 0;
+                  margin: 26px 0 0 !important;
 
                   .line {
                     border-top: 1px dashed #F37B50;
@@ -2224,9 +2436,8 @@
                       background: #F37B50;
                     }
                   }
-
                   .age-group-circle {
-                    margin: 0 0 0 -2px;
+                    margin: 0 0 0 -1px !important;
                   }
                 }
 
@@ -2259,7 +2470,7 @@
 
                 .age-group-circle {
                   order: 2;
-                  margin: 0 0 0 6px;
+                  margin: 0 0 0 6px !important;
                 }
               }
 
@@ -2309,13 +2520,13 @@
 
             .age-group-circle {
               display: flex;
-              width: 60px;
-              height: 60px;
+              width: 80px;
+              height: 80px;
               padding: 6px;
-              margin: 0 6px 0 0;
+              margin: 0 6px 0 0 !important;
 
               img {
-                width: 52px;
+                width: 68px;
               }
             }
           }
@@ -2324,7 +2535,7 @@
     }
 
     .explore-btn {
-      bottom: 10px !important;
+      bottom: 13px !important;
 
       a {
         background: #fff;
@@ -2336,18 +2547,318 @@
       }
     }
   }
-  .confirmation{ 
-    .confirmation-card.delete{ 
-        .confirmation-btn{
-          width: 100%;
+}
+@media (max-width: 414px) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 700px;
+      }
 
-          button{
-            width: 131px;
-            padding: 8px 18px;
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 73%;
+
+            .block {
+              // margin: 25px 0 0;
+
+              &.age0 {
+                margin: 21px 0 0 -2px !important;
+              }
+
+              &.age12,
+              &.age26 {
+                margin: 25px 0 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6,
+                &.age18 {
+                  margin: 25px 0 0 !important;
+                }
+              }
+            }
+
+            .age-group-circle {
+              width: 70px;
+              height: 70px;
+              padding: 6px;
+
+              img {
+                width: 60px;
+              }
+            }
           }
         }
+      }
     }
+  }
 }
+@media (max-width: 375px) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 620px;
+      }
+     .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 71%;
+            p {
+              max-width: 50px;
+            }
+
+            .block {
+              &.age0 {
+                margin: 18px 0 0 !important;
+
+                .age-group-circle {
+                  margin: 0 3px 0 0 !important;
+                }
+              }
+
+              &.age12 {
+                margin: 25px 0 0 !important;
+                .age-group-circle {
+                  margin: 0 -3px 0 0 !important;
+                }
+              }
+
+              &.age26 {
+                margin: 27px 0 0 !important;
+              }
+
+              p {
+                margin: 3px 16px 0 0;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 22px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 24px 0 0 !important;
+
+                  .age-group-circle {
+                    margin: 0 0 0 2px !important;
+                  }
+                }
+
+                p {
+                  margin: -6px 0 0 9px;
+                }
+
+                .line {
+                  width: 30px;
+                }
+              }
+
+              .line {
+                width: 30px;
+              }
+            }
+
+            .age-group-circle {
+              width: 60px;
+              height: 60px;
+              padding: 6px;
+              margin: 0 -1px 0 0 !important;
+
+              img{
+                width: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .explore-btn{
+      bottom: 10px !important;
+    }
+  }
 }
+@media (max-width: 360px) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 610px;
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 75%;
+
+            p {
+              max-width: 50px;
+            }
+
+            .block {
+              margin: 22px 0 0 !important;
+
+              &.age0 {
+                margin: 18px 0 0 !important;
+
+                .age-group-circle {
+                  margin: 0 3px 0 0 !important;
+                }
+              }
+
+              &.age12 {
+                .age-group-circle {
+                  margin: 0 -3px 0 0 !important;
+                }
+              }
+
+              &.age26 {
+                        margin: 22px 0 0 !important;
+              }
+
+              p {
+                margin: 3px 16px 0 0;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 19px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 22px 0 0 !important;
+
+                  .age-group-circle {
+                    margin: 0 0 0 2px !important;
+                  }
+                }
+
+                p {
+                  margin: -6px 0 0 9px;
+                }
+
+                .line {
+                  width: 30px;
+                }
+              }
+
+              .line {
+                width: 30px;
+              }
+            }
+
+            .age-group-circle {
+              width: 60px;
+              height: 60px;
+              padding: 6px;
+              margin: 0 -1px 0 0 !important;
+
+              img{
+                width: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 320px) {
+  .journey-box {
+   
+    .explore-journey {
+      .filter-age {
+        height: 555px;
+        h3 {
+          font-size: 18px;
+        }
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 82%;
+
+            p {
+              max-width: 50px;
+            }
+
+            .block {
+              margin: 22px 0 0;
+
+              &.age0 {
+                margin: 16px 0 0 !important;
+
+                .age-group-circle {
+                  margin: 0 3px 0 0;
+                }
+              }
+
+              &.age12 {
+                .age-group-circle {
+                  margin: 0 -3px 0 0;
+                }
+              }
+
+              &.age26 {
+                // p{
+                //    margin: 3px 11px 0 0; 
+                // }
+              }
+
+              p {
+                margin: 3px 16px 0 0;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 19px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 18px 0 0 !important;
+
+                  .age-group-circle {
+                    margin: 0 0 0 2px;
+                  }
+                }
+
+                p {
+                  order: 4;
+                  margin: -6px 0 0 9px;
+                }
+
+                .line {
+                  width: 30px;
+                }
+
+                .age-group-circle {
+                  order: 2;
+                  margin: 0 0 0 6px;
+                }
+              }
+
+              .line {
+                width: 30px;
+              }
+            }
+
+            .age-group-circle {
+              width: 50px;
+              height: 50px;
+              padding: 6px;
+              margin: 0;
+
+              img {
+                width: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 
 
