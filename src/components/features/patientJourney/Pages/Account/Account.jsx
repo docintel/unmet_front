@@ -2,8 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import { Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { getData } from "../../../../../services/axios/apiHelper";
-import endPoint from "../../../../../services/axios/apiEndpoint";
 import { ContentContext } from "../../../../../context/ContentContext";
 import FixedSizeList from "../../Common/FixedSizedList";
 import AskIbu from "./AskIbu";
@@ -15,24 +13,13 @@ const Account = () =>
 {
   const { favorite, recentContent, userData, getAccountData } =
     useContext(ContentContext);
-  // const [favorite, setFavorite] = useState([]);
-  // const [recentContent, setRecentContent] = useState([]);
-  // const [userData, setUserData] = useState([]);
   const [questionCount, setQuestionCount] = useState(0);
   const location = useLocation();
   const cameFromSsi = location.state?.fromSsi;
-
-  const { setIsLoading } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const navigate = useNavigate();
 
-  useEffect(() =>
-  {
-    getAccountData();
-  }, []);
-  
-
-
+  useEffect(() => getAccountData(), []);
 
   return (
     <div className="main-page">
