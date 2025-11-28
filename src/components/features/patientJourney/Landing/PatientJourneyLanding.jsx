@@ -17,11 +17,11 @@ const PatientJourneyLanding = () => {
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
   const handleSectionClick = (section) => setActiveSection(section);
 
-    const [isMobileSrceen, setIsMobileSrceen] = React.useState(window.innerWidth <= 567);
+    const [isMobileSrceen, setIsMobileSrceen] = React.useState(window.innerWidth <= 480);
   
     React.useEffect(() => {
       const handleResize = () => {
-        setIsMobileSrceen(window.innerWidth <= 567);
+        setIsMobileSrceen(window.innerWidth <= 480);
       };
   
       window.addEventListener("resize", handleResize);
