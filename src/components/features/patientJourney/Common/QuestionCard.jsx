@@ -94,7 +94,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         <div className="question-section">
           {!isEditing && <div className="heading">{questionText}</div>}
           {account && isEditing && (
-            <div className={inputError ? "error" : ""}>
+            <div className={inputError ? "error" : "answer-textarea"}>
               {" "}
               <textarea
                 className="edit-input"
@@ -212,11 +212,11 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
                     Cancel
                   </button>
                   <button
-                    className="done"
+                    className="delete"
                     type="button"
                     onClick={handleDeleteQuestion}
                   >
-                    Done
+                   Delete question
                   </button>
                 </div>
               </div>

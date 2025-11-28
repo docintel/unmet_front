@@ -5,6 +5,7 @@ import TouchPoints from "../components/features/patientJourney/Pages/Touchpoints
 import LoginWithSSO from "../components/features/auth/components/LoginWithSSO";
 import { lazy } from "react";
 import Logout from "../components/features/auth/components/Logout";
+import Redirect from "../components/features/auth/components/Redirect";
 const PatientJourneyLanding = lazy(() =>
   import("../components/features/patientJourney/Landing/PatientJourneyLanding")
 );
@@ -20,4 +21,5 @@ export const privateRoutes = [
 export const publicRoutes = [
   { path: "/", element: <LoginWithSSO /> },
   { path: "/login", element: <LoginWithSSO /> },
+  { path: "/redirect",element:<Redirect /> },
 ];

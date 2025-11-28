@@ -574,6 +574,7 @@ const AskIBU = () => {
         <Form className="ask-ibu-form">
           <FormGroup className={"form-group " + (error ? "error" : "")}>
             <Form.Label className="question-label">Your Question</Form.Label>
+            <div className="question-textarea">
             <Form.Control
               id="question"
               as="textarea"
@@ -582,6 +583,7 @@ const AskIBU = () => {
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Type your question for IBU..."
             />
+            </div>
             {error && <div className="validation">{error}</div>}
           </FormGroup>
           <div className="disclaimer-box">
