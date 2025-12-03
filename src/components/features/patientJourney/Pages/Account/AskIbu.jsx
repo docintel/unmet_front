@@ -75,7 +75,7 @@ const AskIbu = ({ setQuestionCount }) =>
           title="You haven&apos;t asked IBU anything yet!"
           description="Have something in mind?"
           buttonText="Ask Your First Question"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
         />
       ) : (
         <AskIbuScroll items={questionData} itemCount={6} account={true} updateDeleteQuestion={updateDeleteQuestion} />

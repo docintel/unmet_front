@@ -115,7 +115,7 @@ const Account = () =>
                         title="You haven't viewed anything yet."
                         description="Explore the touchpoints to get started."
                         buttonText="Start Exploring"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/touchpoints")}
                       />
                     )}
                   </div>
@@ -152,7 +152,7 @@ const Account = () =>
                         title="You haven't liked anything yet."
                         description="Explore the touchpoints to get started."
                         buttonText="Start Exploring"
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/touchpoints")}
                       />
                     )}
                   </div>

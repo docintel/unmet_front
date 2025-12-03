@@ -591,28 +591,28 @@ const AskIBU = () => {
               Please don&apos;t include any personal or confidential information
               in your question.
             </p>
-            <button
-              type="button"
-              className="submit-btn"
-              onClick={(e) => {
-                if (!question || !question.trim()) {
-                  setError("Question is required");
-                  setQuestion(question.trim());
-                  return;
-                }
-                handleSubmit(
-                  e,
-                  setError,
-                  question,
-                  setQuestion,
-                  setIsLoading,
-                  setToast,
-                  setShowConfirmationModal
-                );
-              }}
-            >
-              Submit <img src={path_image + "send-icon.svg"} alt="send" />
-            </button>
+         <button
+           type="button"
+           className={`submit-btn ${!question.trim() ? "disable" : ""}`}
+           disabled={!question.trim()}
+           onClick={(e) => {
+           if (!question.trim()) {
+           setError("Question is required");
+           return;
+           }
+           handleSubmit(
+           e,
+           setError,
+           question,
+           setQuestion,
+           setIsLoading,
+           setToast,
+           setShowConfirmationModal
+          );
+          }}
+        >
+         Submit <img src={path_image + "send-icon.svg"} alt="send" />
+         </button>
           </div>
         </Form>
       }
