@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 import JourneySectionList from "../Sections/JourneySectionList";
 import JourneySectionDetail from "../Sections/JourneySectionDetail";
 import { ContentContext } from "../../../../context/ContentContext";
+import { trackingUserAction } from "../../../../helper/helper";
 
 const PatientJourneyLanding = () => {
-  const { filterAges, fetchAgeGroups } = useContext(ContentContext);
+  const { filterAges, fetchAgeGroups,currentTabValue } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [activeSection, setActiveSection] = useState(null);
   // const [isHcpSelected, setIsHcpSelected] = useState(false);
@@ -15,10 +16,13 @@ const PatientJourneyLanding = () => {
     (async () => await fetchAgeGroups())();
   }, []);
   // const toggleUserType = () => setIsHcpSelected((prev) => !prev);
-  const handleSectionClick = (section) => setActiveSection(section);
+  const handleSectionClick = (section) =>{
+    setActiveSection(section)
+    trackingUserAction("section_clicked", section?.title, currentTabValue);
+  };
 
-    const [isMobileSrceen, setIsMobileSrceen] = React.useState(window.innerWidth <= 480);
-  
+  const [isMobileSrceen, setIsMobileSrceen] = React.useState(window.innerWidth <= 480);
+
     React.useEffect(() => {
       const handleResize = () => {
         setIsMobileSrceen(window.innerWidth <= 480);
