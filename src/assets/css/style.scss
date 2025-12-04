@@ -845,11 +845,11 @@ a {
         transform: scaleX(0);
         transition: none;
         will-change: transform;
-        animation: revealGradient 2s ease-out forwards;
         animation-delay: 1s;
         z-index: -1;
         transition: 2s ease width;
         animation: revealGradient 2.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards;
+        // animation: revealGradient 2s ease-out forwards;
         // animation-delay: 0.6s;
         // height:315px;
         // top: 50%;
@@ -935,22 +935,6 @@ a {
       flex: 0 0 auto;
       height: calc(35% - 16px);
         
-      .explore {
-           position: relative;
-           overflow: hidden;
-           will-change: transform, opacity;
-           animation: exploreExpand 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
-          }
-
-      .faq {
-        transition: 2s width linear;
-        animation: faqSlide 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
-         }
-
-       .latest-content {
-        // animation: fadeIn 0.7s ease-out forwards;
-        // animation-delay: 0.3s;
-      }
        .explore-box {
          height: 100%;
          min-height: initial;
@@ -962,8 +946,11 @@ a {
         border-radius: 24px;      
         padding: 1px;            
         overflow: hidden;
+        position: relative;
+        will-change: transform, opacity;
+        animation: exploreExpandLeft 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
 
-      &::before {
+       &::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -976,49 +963,53 @@ a {
         transform-origin: left center;
         transform: scaleX(0);              
         will-change: transform;
-        animation: revealGradient 2s ease-out forwards;
+        animation: revealGradient1 2s ease-out forwards;
         // animation-delay: 0.1s; 
         animation-delay: 0.9s;            
         z-index: 0;
        }
 
-     @keyframes revealGradient {
-     from {
-      transform: scaleX(0);
-     }
-      to {
-      transform: scaleX(1);
-      }
-      }
-     .explore-box {
-      min-height: initial;
+        @keyframes revealGradient1 {
+          from {
+            transform: scaleX(0);
+          }
+            to {
+            transform: scaleX(1);
+            }
+          }
+        .explore-box {
+          min-height: initial;
 
-      &.explore{
-      position: relative;
-      background: #1d3f50;
-      border-radius: 22px;
-      padding: 24px;
-      z-index: 1; 
-     @include flex-align-center;
+          &.explore{
+          position: relative;
+          background: #1d3f50;
+          border-radius: 22px;
+          padding: 24px;
+          z-index: 1; 
+        @include flex-align-center;
       
-      .heading{
-        font-size: 24px;
-        font-weight: 300;
+          .heading{
+            font-size: 24px;
+            font-weight: 300;
 
-        span{
-           font-weight: 600;
-        }
-      }
-      img{
-        display: none;
-      }
-      }
-      }
+            span{
+              font-weight: 600;
+            }
+          }
+          img{
+            display: none;
+          }
+          }
+          }
 
-        h6 {
-          margin: 0;
-        }
+          h6 {
+            margin: 0;
+          }
       }
+       .faq {
+        transition: 2s width linear;
+        animation: faqSlide 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+         }
       }
     }
 
@@ -1040,7 +1031,7 @@ a {
         position: relative;
         overflow: hidden;
         will-change: transform, opacity;
-        animation: exploreExpand1 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        animation: exploreExpandRight 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
       }
       .faq {
         transition: 2s width linear;
@@ -1051,7 +1042,7 @@ a {
         animation: latest-content1 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
       }
 
-      @keyframes exploreExpand1 {
+      @keyframes exploreExpandRight {
         0% {
           transform: translate(-60%, 600px) scale(1);
           opacity: 0;
@@ -1743,7 +1734,7 @@ a {
     opacity: 1;
   }
 }
-@keyframes exploreExpand {
+@keyframes exploreExpandLeft {
   0% {
     transform: translate(60%, 600px) scale(1);
     opacity: 0;
@@ -2290,7 +2281,7 @@ a {
       height: 100%;
       object-fit: cover;
       filter: grayscale(0.86);
-      opacity: 0.4;
+      opacity: 0.8;
       mix-blend-mode: luminosity;
       box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
     }
@@ -3346,16 +3337,6 @@ a {
           border-radius: 8px 8px 16px 16px;
           background:  #FDFEFF;
           box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
-          
-          .question-section{
-            .answer-textarea{
-              textarea{
-                textarea::-webkit-scrollbar {
-                width: 0;
-               }
-              }
-            }
-          }
         }
 
         &:last-child {
