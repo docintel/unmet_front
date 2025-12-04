@@ -7,7 +7,7 @@ import AskIbuScroll from "../Common/AskIbuScroll";
 const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
-  const { setIsLoading } = useContext(ContentContext);
+  const { setIsLoading,currentTabValue } = useContext(ContentContext);
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
   const [showFilterBox, setShowFilterBox] = useState(false);
@@ -591,28 +591,29 @@ const AskIBU = () => {
               Please don&apos;t include any personal or confidential information
               in your question.
             </p>
-            <button
-              type="button"
-              className="submit-btn"
-              onClick={(e) => {
-                if (!question || !question.trim()) {
-                  setError("Question is required");
-                  setQuestion(question.trim());
-                  return;
-                }
-                handleSubmit(
-                  e,
-                  setError,
-                  question,
-                  setQuestion,
-                  setIsLoading,
-                  setToast,
-                  setShowConfirmationModal
-                );
-              }}
-            >
-              Submit <img src={path_image + "send-icon.svg"} alt="send" />
-            </button>
+         <button
+           type="button"
+           className={`submit-btn ${!question.trim() ? "disable" : ""}`}
+           disabled={!question.trim()}
+           onClick={(e) => {
+           if (!question.trim()) {
+           setError("Question is required");
+           return;
+           }
+           handleSubmit(
+           e,
+           setError,
+           question,
+           setQuestion,
+           setIsLoading,
+           setToast,
+           setShowConfirmationModal,
+           currentTabValue
+          );
+          }}
+        >
+         Submit <img src={path_image + "send-icon.svg"} alt="send" />
+         </button>
           </div>
         </Form>
       }

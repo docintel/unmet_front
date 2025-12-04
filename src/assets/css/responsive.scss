@@ -1,6 +1,38 @@
 @use "./variable"as *;
 @use "./mixin"as *;
 
+@media (min-width: 2560px) {
+  .journey-box {
+    .explore-journey {
+      .age-filter-block {
+        
+        .block {
+          margin: 19px 0 0 !important;
+          font-size: 22px;
+
+          &:nth-child(even) {
+            margin: 0 0 22px !important;
+          }
+        }
+
+        .age-group-circle {
+          width: 160px;
+          height: 160px;
+          border-radius: 90px;
+
+          img {
+            width: 140px;
+            height: 140px;
+          }
+        }
+
+        .age-gap {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}
 
 @media (max-width: $layout-breakpoint-xextraLarge) {
 
@@ -20,7 +52,7 @@
         }
     }
 }
-@media (max-width: 1680px) {
+@media (max-width: $bp_xl_1680) {
   .journey-box {
     flex-direction: row;
     gap: 24px;
@@ -56,7 +88,7 @@
 }
   }
 }
-@media (max-width: 1536px) {
+@media (max-width: $bp_xl_1536) {
   .journey-box {
     .explore-journey {
       .explore-journey-block {
@@ -134,11 +166,11 @@
   .data-box {
     .filter-section {
       .filter-list {
-        max-width: 600px;
+        max-width: 700px;
        }
     }
+   }
   }
-      }
 
       .left-side {
         .explore-box {
@@ -301,7 +333,7 @@
         }
     }
 }
-@media (max-width: 1365px) {
+@media (max-width: $bp_xl_1365) {
     .content-count-box {
         .content-count {
             gap: 18px;
@@ -801,7 +833,7 @@
   }
 }
 }
-@media (max-width: 991px) {
+@media (max-width: $bp_md_991) {
     .header {
         .nav {
             .navbar-nav {
@@ -1267,6 +1299,7 @@
         }
     }
 .account-section{
+  height: 100%;
     .account-header{
         flex-direction: column;
         .profile,
@@ -1285,7 +1318,7 @@
       }
    }
 }
-@media (max-width: 1024px) {
+@media (max-width: $bp_lg_1024) {
   .journey-box {
     .explore-journey {
       .explore-journey-block {
@@ -1318,7 +1351,7 @@
     }
   }
 }
-@media (max-width: 834px) {
+@media (max-width: $bp_md_834) {
   .journey-box {
     .explore-journey {
       .explore-journey-block {
@@ -2222,7 +2255,7 @@
 }
 }
 }
-@media (max-width: 600px) {
+@media (max-width: $bp_sm_600) {
   .journey-box {
     .explore-journey {
 
@@ -2308,7 +2341,7 @@
     }
 }
 }
-@media (max-width: 480px) {
+@media (max-width: $bp_sm_480) {
  .journey-box {
 
     .explore-journey {
@@ -2547,8 +2580,53 @@
       }
     }
   }
+  .account-section{
+    .profile{
+    padding: 12px 20px 12px 12px;
+    gap:12px;
+    align-items: baseline;
+    .profile-img{
+    width: 50px;
+    height: 50px;
+    img{
+    width: 50px;
+    height: 50px;
+    }
+    }
+    .profile-content{
+      h4{
+        font-size: 18px;
+      }
+      svg{
+        width: 18px;
+        height: 18px;
+      }
+    }
+    }
+    .content-download{
+      padding: 12px;
+      .download{
+        padding: 12px;
+        .label{
+          img{
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+      .shared{
+        padding: 12px;
+        .label{
+          img{
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+    }
+  }
 }
-@media (max-width: 414px) {
+@media (max-width: $bp_sm_414) {
   .journey-box {
     .explore-journey {
       .filter-age {
@@ -2595,7 +2673,91 @@
     }
   }
 }
-@media (max-width: 375px) {
+@media (max-width: $bp_xs_390) {
+    .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 650px;
+      }
+     .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 67%;
+            p {
+              max-width: 50px;
+            }
+
+            .block {
+              &.age0 {
+                margin: 18px 0 0 !important;
+
+                .age-group-circle {
+                  margin: 0 3px 0 0 !important;
+                }
+              }
+
+              &.age12 {
+                margin: 29px 0 0px 0 !important;
+                .age-group-circle {
+                  margin: 0 -3px 0 0 !important;
+                }
+              }
+
+              &.age26 {
+                margin: 27px 0 0 !important;
+              }
+
+              p {
+                margin: 3px 16px 0 0;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 27px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 30px 0 0 !important;
+
+                  .age-group-circle {
+                    margin: 0 0 0 2px !important;
+                  }
+                }
+
+                p {
+                  margin: -6px 0 0 9px;
+                }
+
+                .line {
+                  width: 30px;
+                }
+              }
+
+              .line {
+                width: 30px;
+              }
+            }
+
+            .age-group-circle {
+              width: 60px;
+              height: 60px;
+              padding: 6px;
+              margin: 0 -1px 0 0 !important;
+
+              img{
+                width: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .explore-btn{
+      bottom: 10px !important;
+    }
+  }
+}
+@media (max-width: $bp_xs_375) {
   .journey-box {
     .explore-journey {
       .filter-age {
@@ -2679,7 +2841,7 @@
     }
   }
 }
-@media (max-width: 360px) {
+@media (max-width: $bp_xs_360) {
   .journey-box {
     .explore-journey {
       .filter-age {
@@ -2763,7 +2925,7 @@
     }
   }
 }
-@media (max-width: 320px) {
+@media (max-width: $bp_xs_320) {
   .journey-box {
    
     .explore-journey {

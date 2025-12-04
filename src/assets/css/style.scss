@@ -845,11 +845,11 @@ a {
         transform: scaleX(0);
         transition: none;
         will-change: transform;
-        animation: revealGradient 2s ease-out forwards;
         animation-delay: 1s;
         z-index: -1;
         transition: 2s ease width;
         animation: revealGradient 2.4s cubic-bezier(0.17, 0.84, 0.44, 1) forwards;
+        // animation: revealGradient 2s ease-out forwards;
         // animation-delay: 0.6s;
         // height:315px;
         // top: 50%;
@@ -870,9 +870,6 @@ a {
         // width: 100%;
       }
     }
-
-
-
     .start-btn {
       @include action-button;
       color: var(--white);
@@ -936,27 +933,12 @@ a {
     .col {
       width: 100%;
       flex: 0 0 auto;
-      transform: translateY(2200px);
-      opacity: 0;
-      animation: slideUp 0.8s normal forwards;
       height: calc(35% - 16px);
-
-      &:nth-child(1) {
-        animation-delay: 0s;
-      }
-
-      &:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-
-      &:nth-child(3) {
-        animation-delay: 0.4s;
-      }
-
-      .explore-box {
-        height: 100%;
-        min-height: initial;
-      }
+        
+       .explore-box {
+         height: 100%;
+         min-height: initial;
+       }
 
       &.explore {
         height: calc(30% - 16px);
@@ -964,8 +946,11 @@ a {
         border-radius: 24px;      
         padding: 1px;            
         overflow: hidden;
+        position: relative;
+        will-change: transform, opacity;
+        animation: exploreExpandLeft 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
 
-      &::before {
+       &::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -978,50 +963,55 @@ a {
         transform-origin: left center;
         transform: scaleX(0);              
         will-change: transform;
-        animation: revealGradient 2s ease-out forwards;
-        animation-delay: 0.1s;             
+        animation: revealGradient1 2s ease-out forwards;
+        // animation-delay: 0.1s; 
+        animation-delay: 0.9s;            
         z-index: 0;
        }
 
-     @keyframes revealGradient {
-     from {
-      transform: scaleX(0);
-     }
-    to {
-      transform: scaleX(1);
-    }
-   }
-    .explore-box {
-      min-height: initial;
+        @keyframes revealGradient1 {
+          from {
+            transform: scaleX(0);
+          }
+            to {
+            transform: scaleX(1);
+            }
+          }
+        .explore-box {
+          min-height: initial;
 
-      &.explore{
-      position: relative;
-      background: #1d3f50;
-      border-radius: 22px;
-      padding: 24px;
-      z-index: 1; 
-     @include flex-align-center;
+          &.explore{
+          position: relative;
+          background: #1d3f50;
+          border-radius: 22px;
+          padding: 24px;
+          z-index: 1; 
+        @include flex-align-center;
       
-      .heading{
-        font-size: 24px;
-        font-weight: 300;
+          .heading{
+            font-size: 24px;
+            font-weight: 300;
 
-        span{
-           font-weight: 600;
-        }
+            span{
+              font-weight: 600;
+            }
+          }
+          img{
+            display: none;
+          }
+          }
+          }
+
+          h6 {
+            margin: 0;
+          }
       }
-      img{
-        display: none;
-      }
+       .faq {
+        transition: 2s width linear;
+        animation: faqSlide 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+         }
       }
     }
-
-        h6 {
-          margin: 0;
-        }
-      }
-    }
-  }
 
   .flex-row-reverse {
     .right-side {
@@ -1034,6 +1024,57 @@ a {
             height: calc(100% - 70px);
             max-height: 100%;
       }
+    }
+    .left-side{
+    .col {
+      .explore {
+        position: relative;
+        overflow: hidden;
+        will-change: transform, opacity;
+        animation: exploreExpandRight 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+      }
+      .faq {
+        transition: 2s width linear;
+        animation: faqSlide1 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+      }
+      .latest-content {
+        transition: 2s width linear;
+        animation: latest-content1 1s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+      }
+
+      @keyframes exploreExpandRight {
+        0% {
+          transform: translate(-60%, 600px) scale(1);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes faqSlide1 {
+        0% {
+          transform: translate(-60%, 200px) scale(0.95);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+      }
+      @keyframes latest-content1 {
+        0% {
+          transform: translate(-60%, 200px) scale(0.95);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+      }
+    }
+
     }
   }
 
@@ -1160,24 +1201,30 @@ a {
       margin: 0;
     }
 
-    .submit-btn {
-      display: inline-flex;
-      padding: 10px 24px;
-      justify-content: center;
-      align-items: center; 
-      gap: 8px;
-      border: none;
-      border-radius: 40px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--white);
-      background: linear-gradient(90deg, #f79548 0%, #e94262 100%);
-      cursor: pointer;
+   .submit-btn {
+     display: inline-flex;
+     padding: 10px 24px;
+     justify-content: center;
+     align-items: center; 
+     gap: 8px;
+     border: none;
+     border-radius: 40px;
+     font-size: 16px;
+     font-weight: 400;
+     line-height: 20px;
+     color: var(--white);
+     background: linear-gradient(90deg, #f79548 0%, #e94262 100%);
+     cursor: pointer;
+
+     &.disable {  
+       background: #5E7683 !important; 
+       cursor: not-allowed;
+       opacity: 0.5;
+     }
 
       img {
         width: 16px;
         height: 16px;
-        // transform: translateY(1px);
       }
 
       &:hover {
@@ -1274,7 +1321,6 @@ a {
         .filter-list{
         display: flex;
         align-items: center; 
-        // justify-content: center; 
         gap: 8px; 
         text-align: center;
         overflow-x: scroll;
@@ -1685,6 +1731,29 @@ a {
 
   to {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes exploreExpandLeft {
+  0% {
+    transform: translate(60%, 600px) scale(1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes faqSlide {
+0% {
+    transform: translate(60%, 200px) scale(0.95);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
     opacity: 1;
   }
 }
@@ -2212,7 +2281,7 @@ a {
       height: 100%;
       object-fit: cover;
       filter: grayscale(0.86);
-      opacity: 0.4;
+      opacity: 0.8;
       mix-blend-mode: luminosity;
       box-shadow: 0 0 8px 0 rgba(0, 39, 59, 0.50);
     }
@@ -3268,16 +3337,6 @@ a {
           border-radius: 8px 8px 16px 16px;
           background:  #FDFEFF;
           box-shadow: 0 1px 10px 0 rgba(0, 39, 59, 0.50);
-          
-          .question-section{
-            .answer-textarea{
-              textarea{
-                textarea::-webkit-scrollbar {
-                width: 0;
-               }
-              }
-            }
-          }
         }
 
         &:last-child {
@@ -3372,7 +3431,6 @@ input[type="search"]::-webkit-search-results-decoration:hover {
   justify-content: center;
   width: calc(100% - 80px);
   padding: 32px;
-  min-height: 200px;
   text-align: center;
   color: var(--light-gray);
   border: 1px dashed var(--gray300);
@@ -3380,6 +3438,7 @@ input[type="search"]::-webkit-search-results-decoration:hover {
   margin: -16px auto 0;
   gap: 20px;
   min-height: 530px;
+  height: calc(100vh - 300px);
 
   h5 {
     font-weight: 300;

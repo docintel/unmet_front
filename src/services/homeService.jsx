@@ -1,5 +1,6 @@
 import { postData, getData, putData, deleteData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
+import { trackingUserAction } from "../helper/helper";
 
 export const fetchQuestions = async (setIsLoading,setQuestList) => {
   setIsLoading(true);
@@ -50,7 +51,8 @@ export const handleSubmit = async (
   setQuestion,
   setIsLoading,
   setToast,
-  setShowConfirmationModal
+  setShowConfirmationModal,
+  currentTabValue
 ) => {
   e.preventDefault();
 
@@ -67,6 +69,11 @@ export const handleSubmit = async (
     });
     setShowConfirmationModal(true)
     setQuestion("");
+    trackingUserAction(
+      "question_submit",
+      { question_id: response?.data?.data?.id },
+      currentTabValue
+    );
   } catch (error) {
     console.error("Error submitting question:", error);
     setToast({

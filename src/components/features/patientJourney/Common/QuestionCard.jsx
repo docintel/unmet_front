@@ -6,11 +6,13 @@ import
   updateIbuQuestion,
 } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
+import { trackingUserAction } from "../../../../helper/helper";
 
 const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
 {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { setIsLoading, setToast } = useContext(ContentContext);
+  const { setIsLoading, setToast, currentTabValue, contentHolder } =
+    useContext(ContentContext);
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -20,12 +22,12 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
   {
     try {
       if (!questionText || !questionText.trim()) {
-        setInputError("Question is required.")
+        setInputError("Question is required.");
         return;
       }
       await updateIbuQuestion(question.id, questionText.trim(), setIsLoading);
       updateDeleteQuestion(question.id, questionText.trim(), true);
-      setQuestionText(questionText.trim())
+      setQuestionText(questionText.trim());
       setIsEditing(false);
       setToast({
         show: true,
@@ -33,7 +35,12 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         title: "Edited",
         message: "Question updated successfully.",
       });
-      setInputError("")
+      setInputError("");
+      trackingUserAction(
+        "question_edit",
+        { question_id: question.id, contentHolder: contentHolder },
+        currentTabValue
+      );
     } catch (ex) {
       setToast({
         show: true,
@@ -41,7 +48,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         title: "Failed",
         message: "Failed to update the question.",
       });
-      setInputError("")
+      setInputError("");
     }
   };
 
@@ -57,6 +64,11 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         title: "Deleted",
         message: "Question deleted successfully.",
       });
+      trackingUserAction(
+        "question_delete",
+        { question_id: question.id, contentHolder: contentHolder },
+        currentTabValue
+      );
     } catch (ex) {
       setToast({
         show: true,

@@ -29,6 +29,7 @@ const Content = ({ section, idx, favTab }) => {
     setIsLoading,
     setToast,
     currentTabValue,
+    contentHolder,
     updateDownload,
     updateContentShared,
   } = useContext(ContentContext);
@@ -101,7 +102,11 @@ const Content = ({ section, idx, favTab }) => {
       const selfRate = section.self_rate === 1 ? 0 : 1;
       trackingUserAction(
         "content_like_clicked",
-        { title: section?.title, pdf_id: section?.id },
+        {
+          title: section?.title,
+          pdf_id: section?.id,
+          contentHolder: contentHolder,
+        },
         currentTabValue
       );
       const response = await updateContentRating(
@@ -894,7 +899,11 @@ const Content = ({ section, idx, favTab }) => {
                       handleShareClick();
                       trackingUserAction(
                         "share_clicked",
-                        { title: section?.title, pdf_id: section?.id },
+                        {
+                          title: section?.title,
+                          pdf_id: section?.id,
+                          contentHolder: contentHolder,
+                        },
                         currentTabValue
                       );
                     }}
@@ -923,7 +932,11 @@ const Content = ({ section, idx, favTab }) => {
                       handleDownloadClick();
                       trackingUserAction(
                         "download_clicked",
-                        { title: section?.title, pdf_id: section?.id },
+                        {
+                          title: section?.title,
+                          pdf_id: section?.id,
+                          contentHolder: contentHolder,
+                        },
                         currentTabValue
                       );
                     }}
@@ -1040,7 +1053,11 @@ const Content = ({ section, idx, favTab }) => {
               if (!readContent) {
                 trackingUserAction(
                   "view_clicked",
-                  { title: section?.title, pdf_id: section?.id },
+                  {
+                    title: section?.title,
+                    pdf_id: section?.id,
+                    contentHolder: contentHolder,
+                  },
                   currentTabValue
                 );
               }
@@ -1125,15 +1142,6 @@ const Content = ({ section, idx, favTab }) => {
           fullscreen
           dialogClassName="iframe-custom-modal"
         >
-          {/* <Modal.Header className="custom-modal-header">
-            <button className="back-btn" onClick={() => setReadContent(false)}>
-              <img src={path_image + "left-white-arrow.svg"} alt="" />
-              <span>Back</span>
-            </button>
-            <div className="modal-logo">
-              <img src={path_image + "vwd-journey-logo.svg"} alt="" />
-            </div>
-          </Modal.Header> */}
           <Modal.Header className="custom-modal-header">
             <button className="back-btn" onClick={() => setReadContent(false)}>
               <img src={path_image + "left-white-arrow.svg"} alt="Back" />
