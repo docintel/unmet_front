@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import JourneySectionList from "../Sections/JourneySectionList";
 import JourneySectionDetail from "../Sections/JourneySectionDetail";
 import { ContentContext } from "../../../../context/ContentContext";
+import { trackingUserAction } from "../../../../helper/helper";
 
 const PatientJourneyLanding = () => {
   const { filterAges, fetchAgeGroups } = useContext(ContentContext);
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [activeSection, setActiveSection] = useState(null);
-  // const [isHcpSelected, setIsHcpSelected] = useState(false);
 
   useEffect(() => {
     (async () => await fetchAgeGroups())();
@@ -27,6 +27,13 @@ const PatientJourneyLanding = () => {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }, []);
+
+    const handleExploreClick = () =>
+      trackingUserAction(
+        "start_exploring_clicked",
+        "start exploring clicked",
+        "home"
+      );
 
   return (
     <div className="main-page">
@@ -104,7 +111,7 @@ const PatientJourneyLanding = () => {
                     </div>
                     </div>
                     <div className="explore-btn">
-                      <Link to="/touchpoints" className="btn-primary">
+                      <Link to="/touchpoints" className="btn-primary" onClick={handleExploreClick}>
                         Start exploring
                         {isMobileSrceen ? <img src={path_image + "arrow-right.svg"} alt="" /> :
                         <img src={path_image + "left-arrow-white.svg"} alt="" />
@@ -119,7 +126,6 @@ const PatientJourneyLanding = () => {
                   onSectionClick={handleSectionClick}
                   section={activeSection}
                 />
-
                 </div>
               </>
             ) : (

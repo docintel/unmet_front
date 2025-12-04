@@ -7,7 +7,7 @@ import AskIbuScroll from "../Common/AskIbuScroll";
 const AskIBU = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setToast } = useContext(ContentContext);
-  const { setIsLoading } = useContext(ContentContext);
+  const { setIsLoading,currentTabValue } = useContext(ContentContext);
   const [question, setQuestion] = useState("");
   const [error, setError] = useState("");
   const [showFilterBox, setShowFilterBox] = useState(false);
@@ -607,7 +607,8 @@ const AskIBU = () => {
            setQuestion,
            setIsLoading,
            setToast,
-           setShowConfirmationModal
+           setShowConfirmationModal,
+           currentTabValue
           );
           }}
         >

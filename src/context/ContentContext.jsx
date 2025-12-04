@@ -44,6 +44,7 @@ export const ContentProvider = ({ children }) => {
     show: false,
   });
   const [currentTabValue, setCurrentTabValue] = useState("");
+  const [contentHolder,setContentHolder] = useState("");
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -234,6 +235,8 @@ export const ContentProvider = ({ children }) => {
         favorite,
         recentContent,
         userData,
+        contentHolder,
+        setContentHolder,
         setCurrentTabValue,
         updateRating,
         setIsLoading,
@@ -243,7 +246,7 @@ export const ContentProvider = ({ children }) => {
         setToast,
         getAccountData,
         updateDownload,
-        updateContentShared
+        updateContentShared,
       }}
     >
       {" "}

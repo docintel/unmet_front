@@ -1,10 +1,14 @@
 import { Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { trackingUserAction } from "../../../../helper/helper";
+import { useContext } from "react";
+import { ContentContext } from "../../../../context/ContentContext";
 
 export default function JourneySectionList({ onSectionClick, section })
 {
   const navigate = useNavigate();
   const path_image = import.meta.env.VITE_IMAGES_PATH;
+  const { currentTabValue, setContentHolder } = useContext(ContentContext);
 
   const data = [
     {
@@ -31,6 +35,13 @@ export default function JourneySectionList({ onSectionClick, section })
     },
   ];
 
+  const handleSectionClickTracking = (action) =>
+    trackingUserAction(
+      "tab_clicked",
+      `${action.replaceAll("-", " ")} tab clicked`,
+      currentTabValue
+    );
+
   return data.map((item, index) =>
   {
     if (item.class == "explore" && !section) return null;
@@ -44,6 +55,8 @@ export default function JourneySectionList({ onSectionClick, section })
             onSectionClick
               ? () =>
               {
+                setContentHolder(item.class)
+                handleSectionClickTracking(item.class);
                 if (item.class === "explore") {
                   navigate("/touchpoints");
                 }

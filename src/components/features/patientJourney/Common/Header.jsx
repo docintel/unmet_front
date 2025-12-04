@@ -12,8 +12,14 @@ import { ContentContext } from "../../../../context/ContentContext";
 
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const { isHcp, setIsHcp, setCurrentTabValue, currentTabValue, setIsLoading } =
-    useContext(ContentContext);
+  const {
+    isHcp,
+    setIsHcp,
+    setCurrentTabValue,
+    currentTabValue,
+    setIsLoading,
+    setContentHolder,
+  } = useContext(ContentContext);
   const [show, setShow] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 991);
   const location = useLocation();
@@ -92,8 +98,16 @@ const Header = () => {
   useEffect(() => {
     if (location.pathname.includes("/touchpoints")) {
       setCurrentTabValue("touchpoints");
+      setContentHolder("touchpoints");
     } else if (location.pathname.includes("/resources")) {
       setCurrentTabValue("resources");
+      setContentHolder("resources");
+    } else if (location.pathname.includes("/home")) {
+      setCurrentTabValue("home");
+      setContentHolder("home");
+    } else if (location.pathname.includes("/account")) {
+      setCurrentTabValue("account");
+      setContentHolder("account");
     }
   }, [location.pathname, setCurrentTabValue]);
 

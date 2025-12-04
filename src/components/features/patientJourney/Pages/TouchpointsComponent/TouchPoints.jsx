@@ -13,7 +13,7 @@ import FixedSizeList from "../../Common/FixedSizedList";
 import Category from "./Category";
 import AgeGroups from "./AgeGroups";
 import ActiveNarration from "./ActiveNarration";
-import { trackingUserAction } from "../../../../../helper/helper";
+import { stripHTML, trackingUserAction } from "../../../../../helper/helper";
 
 const Content = lazy(() => import("../../Common/Content"));
 
@@ -396,7 +396,13 @@ const TouchPoints = () => {
       if (searchText.length >= 3 || selectedTag.length != 0) {
         trackingUserAction(
           "content_searched",
-          { searchText, selectedTag: selectedTag },
+          {
+            searchText,
+            selectedTag: selectedTag,
+            associated_age: stripHTML(activeJourney.label),
+            associated_touchpoint: stripHTML(activeKey.name),
+            isAllSelected: !isAllSelected,
+          },
           currentTabValue
         );
       }
@@ -540,7 +546,17 @@ const TouchPoints = () => {
                               ) {
                                 trackingUserAction(
                                   "content_searched",
-                                  { searchText, selectedTag: selectedTag },
+                                  {
+                                    searchText,
+                                    selectedTag: selectedTag,
+                                    associated_age: stripHTML(
+                                      activeJourney.label
+                                    ),
+                                    associated_touchpoint: stripHTML(
+                                      activeKey.name
+                                    ),
+                                    isAllSelected: !isAllSelected,
+                                  },
                                   currentTabValue
                                 );
                               }
