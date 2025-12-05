@@ -33,7 +33,7 @@ const Resources = () => {
   const [searchBackspace, setSearchBackspace] = useState(false);
   const [tagLimit, setTagLimit] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
-  
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);

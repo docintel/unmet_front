@@ -25,6 +25,7 @@ const Content = ({ section, idx, favTab }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
     filterCategory,
+    isHcp,
     updateRating,
     setIsLoading,
     setToast,
@@ -892,7 +893,7 @@ const Content = ({ section, idx, favTab }) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {section.share == 1 && (
+                {section.share == 1 && isHcp && (
                   <Dropdown.Item
                     // onClick={handleShareClick}
                     onClick={async () => {

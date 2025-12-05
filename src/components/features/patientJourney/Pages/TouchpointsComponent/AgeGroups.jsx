@@ -86,9 +86,7 @@ const AgeGroups = ({
     const handleResize = () => placeBox();
     window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, [activeJourney, filterAges.data, isAllSelected, activeKey]);
 
   return (
