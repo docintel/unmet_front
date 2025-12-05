@@ -1,12 +1,5 @@
-import React, {
-  lazy,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Form, Row } from "react-bootstrap";
-// import Content from "../Common/Content";
 import { ContentContext } from "../../../../../context/ContentContext";
 import { iconMapping } from "../../../../../constants/iconMapping";
 import FixedSizeList from "../../Common/FixedSizedList";
@@ -15,31 +8,13 @@ import AgeGroups from "./AgeGroups";
 import ActiveNarration from "./ActiveNarration";
 import { stripHTML, trackingUserAction } from "../../../../../helper/helper";
 
-const Content = lazy(() => import("../../Common/Content"));
-
 const TouchPoints = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const [isAllSelected, setIsAllSelected] = useState(false);
-  // const toggleUserType = () => setIsAllSelected((prev) => !prev);
-  const toggleUserType = () => {
-    const newValue = !isAllSelected;
-    setIsAllSelected((prev) => !prev);
-    trackingUserAction(
-      "filter_clicked",
-      newValue ? "Female" : "All",
-      currentTabValue
-    );
-  };
-
-  const [activeKey, setActiveKey] = useState({ id: null, name: "" }); // no tab selected initially
-  const [activeJourney, setActiveJourney] = useState({ id: null, label: "" }); // no journey selected initially
-
   const {
     content,
     filterAges,
     filterCategory,
     narrative,
-    filterTag,
     isHcp,
     categoryList,
     fetchAgeGroups,
@@ -47,7 +22,11 @@ const TouchPoints = () => {
     setToast,
     currentTabValue,
   } = useContext(ContentContext);
+  const containerTagRef = useRef();
   const [contents, setContents] = useState([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+  const [activeKey, setActiveKey] = useState({ id: null, name: "" });
+  const [activeJourney, setActiveJourney] = useState({ id: null, label: "" });
   const [filteredContents, setFilteredContents] = useState([]);
   const [categoryTags, setCategoryTags] = useState();
   const [activeNarration, setActiveNarration] = useState(null);
@@ -62,6 +41,15 @@ const TouchPoints = () => {
   const [expandNarrativeTitle, setExpandNarrativeTitle] = useState(false);
   const [expandContributionTitle, setExpandContributionTitle] = useState(false);
   const [searchBackspace, setSearchBackspace] = useState(false);
+  const [tagLimit, setTagLimit] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 767);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
   useEffect(() => {
     filterContents();
     filterTags();
@@ -141,6 +129,63 @@ const TouchPoints = () => {
       filterTags();
     }
   }, [content]);
+
+  useEffect(() => {
+    calculateVisibleTags();
+    window.addEventListener("resize", calculateVisibleTags);
+    return () => window.removeEventListener("resize", calculateVisibleTags);
+  }, [tags, tagShowAllClicked, isMobile]);
+
+  const calculateVisibleTags = () => {
+    const container = containerTagRef.current;
+    if (!container) return;
+    if (tagShowAllClicked) {
+      setTagLimit(tags.length);
+    } else {
+      const containerWidth = container.clientWidth;
+
+      let totalWidth = 250;
+      let count = 0;
+
+      const temp = document.createElement("div");
+      temp.style.visibility = "hidden";
+      temp.style.position = "absolute";
+      temp.style.whiteSpace = "nowrap";
+      temp.className = "tag-list d-flex";
+      document.body.appendChild(temp);
+
+      tags.forEach((tag) => {
+        const div = document.createElement("div");
+        div.className =
+          "tag-item " + (tag.startsWith("prefix_") ? "f-tag" : "n-tag");
+        div.style.display = "inline-block";
+        div.style.marginRight = "6px";
+        div.innerText = tag.replace("prefix_", "");
+
+        temp.appendChild(div);
+        const width = div.offsetWidth + 8; // margin + spacing
+
+        if (totalWidth + width <= containerWidth) {
+          totalWidth += width;
+          count++;
+        }
+      });
+
+      document.body.removeChild(temp);
+      setTagLimit(isMobile ? 10 : count);
+    }
+  };
+  
+  // const toggleUserType = () => setIsAllSelected((prev) => !prev);
+  const toggleUserType = () => {
+    const newValue = !isAllSelected;
+    setIsAllSelected((prev) => !prev);
+    trackingUserAction(
+      "filter_clicked",
+      newValue ? "Female" : "All",
+      currentTabValue
+    );
+  };
 
   const filterActiveNarrative = () => {
     if (activeKey.id && activeJourney.id) {
@@ -399,8 +444,14 @@ const TouchPoints = () => {
           {
             searchText,
             selectedTag: selectedTag,
-            associated_age: stripHTML(activeJourney.label),
-            associated_touchpoint: stripHTML(activeKey.name),
+            associated_age: {
+              id: activeJourney.id,
+              name: stripHTML(activeJourney.label),
+            },
+            associated_touchpoint: {
+              id: activeJourney.id,
+              name: stripHTML(activeKey.name),
+            },
             isAllSelected: !isAllSelected,
           },
           currentTabValue
@@ -528,7 +579,11 @@ const TouchPoints = () => {
                             <Form.Control
                               type="search"
                               aria-label="Search"
-                              placeholder={selectedTag.length === 0 ? "Search by tag or content title":""}
+                              placeholder={
+                                selectedTag.length === 0
+                                  ? "Search by tag or content title"
+                                  : ""
+                              }
                               value={searchText}
                               onChange={(e) =>
                                 setSearchText(e.target.value.trim())
@@ -549,12 +604,14 @@ const TouchPoints = () => {
                                   {
                                     searchText,
                                     selectedTag: selectedTag,
-                                    associated_age: stripHTML(
-                                      activeJourney.label
-                                    ),
-                                    associated_touchpoint: stripHTML(
-                                      activeKey.name
-                                    ),
+                                    associated_age: {
+                                      id: activeJourney.id,
+                                      name: stripHTML(activeJourney.label),
+                                    },
+                                    associated_touchpoint: {
+                                      id: activeJourney.id,
+                                      name: stripHTML(activeKey.name),
+                                    },
                                     isAllSelected: !isAllSelected,
                                   },
                                   currentTabValue
@@ -586,12 +643,12 @@ const TouchPoints = () => {
                         ) : (
                           tags &&
                           tags.length > 0 && (
-                            <div className="tag-list d-flex">
+                            <div
+                              className="tag-list d-flex"
+                              ref={containerTagRef}
+                            >
                               {tags &&
-                                (tagShowAllClicked
-                                  ? tags
-                                  : tags.slice(0, 10)
-                                ).map((tag, idx) => {
+                                tags.slice(0, tagLimit).map((tag, idx) => {
                                   let cName = tag.startsWith("prefix_")
                                     ? "f-tag"
                                     : "n-tag";
