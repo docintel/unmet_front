@@ -1,17 +1,25 @@
 @use "./variable"as *;
 @use "./mixin"as *;
 
-@media (min-width: 2560px) {
+@media (min-width: $bp_xxl_2560) {
   .journey-box {
+    .explore-box{
+    .explore-title h6 {
+      font-size: 24px;
+    }
+    p{
+      font-size: 18px;
+    }
+  }
     .explore-journey {
       .age-filter-block {
         
         .block {
-          margin: 19px 0 0 !important;
+          margin: -4px 0 0 !important;
           font-size: 22px;
 
           &:nth-child(even) {
-            margin: 0 0 22px !important;
+            margin: 0 !important;
           }
         }
 
@@ -30,7 +38,20 @@
           font-size: 22px;
         }
       }
+      .filter-age{
+        h3{
+          font-size: 42px !important;
+        }
+      }
+      .explore-btn
+      a{
+        font-size: 20px;
+        padding: 12px 28px;
+      }
     }
+    .journey-box-right{
+        width: 600px;
+      }
   }
 }
 
@@ -2364,7 +2385,7 @@
           );
           transform-origin: top center;
           transform: scaleY(0);
-          animation: revealGradientMobile 2s ease-out forwards;
+          animation: revealGradientMobile 0.3s ease-out forwards;
         }
 
         @keyframes revealGradientMobile {
@@ -2569,6 +2590,16 @@
 
     .explore-btn {
       bottom: 13px !important;
+      animation: fadeOut 2s ease-out forwards;
+
+      @keyframes fadeOut {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
 
       a {
         background: #fff;
