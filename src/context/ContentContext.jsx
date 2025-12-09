@@ -44,7 +44,7 @@ export const ContentProvider = ({ children }) => {
     show: false,
   });
   const [currentTabValue, setCurrentTabValue] = useState("");
-  const [contentHolder,setContentHolder] = useState("");
+  const [contentHolder, setContentHolder] = useState("");
   const [favorite, setFavorite] = useState([]);
   const [recentContent, setRecentContent] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -214,11 +214,21 @@ export const ContentProvider = ({ children }) => {
     });
   };
 
-  const updateContentShared = ()=>{
+  const updateContentShared = () => {
     setUserData((prev) => {
       return { ...prev, total_shared: prev.total_shared + 1 };
     });
-  }
+  };
+
+  const updateUserPorfileData = (name, role, country, region) => {
+    setUserData((prev) => ({
+      ...prev,
+      name: name,
+      role: role,
+      country: country,
+      region: region,
+    }));
+  };
 
   return (
     <ContentContext.Provider
@@ -247,6 +257,7 @@ export const ContentProvider = ({ children }) => {
         getAccountData,
         updateDownload,
         updateContentShared,
+        updateUserPorfileData,
       }}
     >
       {" "}

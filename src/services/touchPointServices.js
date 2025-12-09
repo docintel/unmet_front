@@ -1,4 +1,4 @@
-import { postData, getData } from "./axios/apiHelper";
+import { postData, getData, putData, deleteData } from "./axios/apiHelper";
 import endPoint from "./axios/apiEndpoint";
 
 export const fetchAgeGroupCategories = async (
@@ -6,8 +6,7 @@ export const fetchAgeGroupCategories = async (
   setToast,
   setFilterCategory,
   setFilterAges
-) =>
-{
+) => {
   try {
     setIsLoading(true);
     setFilterCategory({
@@ -21,15 +20,15 @@ export const fetchAgeGroupCategories = async (
       data: [],
     });
     const data = await getData(endPoint.GET_AGE_GROUP_CATEGORIES);
-    const itemList = data?.data?.data?.ageGroups.map((item) =>
-    {
+    const itemList = data?.data?.data?.ageGroups.map((item) => {
       const id = item.id;
       const label =
         item.label +
-        (`<br />Age ${(parseInt(item.min_age) == 0 && "&lt;") ||
+        (`<br />Age ${
+          (parseInt(item.min_age) == 0 && "&lt;") ||
           (item.max_age === null && "&gt;") ||
           ""
-          }` +
+        }` +
           (item.max_age
             ? item.min_age === 0
               ? item.max_age
@@ -42,13 +41,22 @@ export const fetchAgeGroupCategories = async (
         femaleImage: item.female_tab_thumb,
       };
     });
-    const catArr= ["Diagnosis","Surgery","Pregnancy & Childbirth","HMB","Joint & Bone Health","WIL-PROPHY","Personalized Prophylaxis","On-demand"];
+    const catArr = [
+      "Diagnosis",
+      "Surgery",
+      "Pregnancy & Childbirth",
+      "HMB",
+      "Joint & Bone Health",
+      "WIL-PROPHY",
+      "Personalized Prophylaxis",
+      "On-demand",
+    ];
     let catItem = [];
-    catArr.forEach((item)=>{
-      data?.data?.data?.categories.forEach((cat)=>{
-        if(cat.name === item) catItem = [...catItem,cat]
-      })
-    })
+    catArr.forEach((item) => {
+      data?.data?.data?.categories.forEach((cat) => {
+        if (cat.name === item) catItem = [...catItem, cat];
+      });
+    });
     setFilterCategory({
       loading: false,
       error: false,
@@ -89,8 +97,7 @@ export const fetchNarrativeList = async (
   narration_type,
   setIsLoading,
   setToast
-) =>
-{
+) => {
   try {
     setIsLoading(true);
     const data = await getData(endPoint.FETCH_NARRATION_LIST);
@@ -112,8 +119,7 @@ export const fetchNarrativeList = async (
   }
 };
 
-export const fetchContentList = async (setIsLoading, setToast, setContents) =>
-{
+export const fetchContentList = async (setIsLoading, setToast, setContents) => {
   try {
     setIsLoading(true);
     setContents({
@@ -145,8 +151,7 @@ export const fetchContentList = async (setIsLoading, setToast, setContents) =>
   }
 };
 
-export const updateContentRating = async (id, setIsLoading, setToast) =>
-{
+export const updateContentRating = async (id, setIsLoading, setToast) => {
   try {
     setIsLoading(true);
 
@@ -168,8 +173,7 @@ export const updateContentRating = async (id, setIsLoading, setToast) =>
   }
 };
 
-export const TrackDownloads = async (id, setIsLoading, setToast) =>
-{
+export const TrackDownloads = async (id, setIsLoading, setToast) => {
   try {
     // setIsLoading(true);
 
@@ -188,21 +192,17 @@ export const SubmitShareContent = async (
   id,
   email,
   name,
-  country,
-  consent,
+  message,
   setIsLoading,
   setToast
-) =>
-{
+) => {
   try {
     setIsLoading(true);
-
-    const data = await postData(endPoint.CONTENT_SHARE, {
+    await postData(endPoint.CONTENT_SHARE, {
       pdf_id: id,
       email: email,
-      consent: consent,
-      country: country?.value,
       name: name,
+      message: message,
     });
   } catch (error) {
     console.error("Error while updating rating:", error);
@@ -218,8 +218,7 @@ export const SubmitShareContent = async (
   }
 };
 
-export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) =>
-{
+export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) => {
   try {
     setQrCodeUrl({
       loading: true,
@@ -230,7 +229,6 @@ export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) =>
     const data = await postData(endPoint.GENERATE_QRCODE_URL, {
       pdf_id: pdfId,
     });
-
 
     if (data.status === 201) {
       setQrCodeUrl({
@@ -250,7 +248,58 @@ export const GenerateQrcodeUrl = async (pdfId, setQrCodeUrl) =>
       loading: false,
       error: true,
       data: "",
-    }); console.error("Error while updating rating:", error);
+    });
+    console.error("Error while updating rating:", error);
+  }
+};
 
+export const updateUserProfileDetails = async (
+  name,
+  role,
+  country,
+  region,
+  setToast,
+  setIsLoading
+) => {
+  try {
+    setIsLoading(true);
+    await putData(endPoint.UPDATE_USER_DETAILS, {
+      role: role,
+      region: region,
+      country: country,
+      name: name,
+    });
+    setIsLoading(false);
+  } catch (ex) {
+    setIsLoading(false);
+    console.error("Error while updating profile details:", ex);
+    setToast({
+      show: true,
+      type: "danger",
+      title: "Error",
+      message: "Oops!! Failed to update profile details.",
+    });
+    throw new Error("Error while updating profile details");
+  }
+};
+
+export const deleteUserProfile = async (
+  setToast,
+  setIsLoading
+) => {
+  try {
+    setIsLoading(true);
+    await deleteData(endPoint.DELETE_USER_ACCOUNT);
+    setIsLoading(false);
+  } catch (ex) {
+    setIsLoading(false);
+    console.error("Error while while deleting user profile:", ex);
+    setToast({
+      show: true,
+      type: "danger",
+      title: "Error",
+      message: "Oops!! Falied to delete user profile.",
+    });
+    throw new Error("Error while while deleting user profile");
   }
 };

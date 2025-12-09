@@ -5,9 +5,13 @@ import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { clearLocalStorage, trackingUserAction } from "../../../../helper/helper";
+import {
+  clearLocalStorage,
+  trackingUserAction,
+} from "../../../../helper/helper";
 import Loader from "../../patientJourney/Common/Loader";
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -37,20 +41,23 @@ const LoginWithSSO = () => {
 
   const isUserVerified = (res, email = "") => {
     clearLocalStorage();
-    const { jwtToken, userRegistered, name, userToken,sessionId } = res?.data?.data || {};
+    const { jwtToken, userRegistered, name, userToken, sessionId } =
+      res?.data?.data || {};
     if (!userRegistered) {
       setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken,sessionId });
+      setUserDetails({ name, jwtToken, userToken, sessionId });
     } else {
       localStorage.setItem("user_id", userToken);
       localStorage.setItem("name", name);
       localStorage.setItem("decrypted_token", jwtToken);
       localStorage.setItem("sessionId", sessionId);
-      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
+      trackingUserAction(
+        "login_clicked",
+        `Login through ${isHcp ? "HCP" : "Octapharma"}`,
+        ""
+      );
       if (!isHcp) navigate("/home");
       else navigate("/touchpoints");
-      // if (!isHcp) navigate("/touchpoints");
-      // else navigate("/touchpoints");
     }
     setLoader(false);
   };
@@ -63,37 +70,37 @@ const LoginWithSSO = () => {
   };
 
   async function loginAsGuest() {
-    const mail = "Meznah.a.k@docintel.app";
-    setLoader(true);
-    const res = await postData("/auth/login", { mail });
-    const { jwtToken, userRegistered, name, userToken ,sessionId} = res?.data?.data;
+    try {
+      const mail = "Meznah.a.k@docintel.app";
+      setLoader(true);
+      const res = await postData("/auth/login", { mail });
+      const { jwtToken, userRegistered, name, userToken, sessionId } =
+        res?.data?.data;
 
-    if (!userRegistered) {
-      setUserVerified(true);
-      setUserDetails({ name, jwtToken, userToken,sessionId });
-    } else {
-      clearLocalStorage();
-      localStorage.setItem("user_id", userToken);
-      localStorage.setItem("name", name);
-      localStorage.setItem("decrypted_token", jwtToken);
-      localStorage.setItem("sessionId", sessionId);
-      trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
-      if (!isHcp) navigate("/home");
-      else navigate("/touchpoints");
-      // if (!isHcp) navigate("/touchpoints");
-      // else navigate("/touchpoints");
+      if (!userRegistered) {
+        setUserVerified(true);
+        setUserDetails({ name, jwtToken, userToken, sessionId });
+      } else {
+        clearLocalStorage();
+        localStorage.setItem("user_id", userToken);
+        localStorage.setItem("name", name);
+        localStorage.setItem("decrypted_token", jwtToken);
+        localStorage.setItem("sessionId", sessionId);
+        trackingUserAction(
+          "login_clicked",
+          `Login through ${isHcp ? "HCP" : "Octapharma"}`,
+          ""
+        );
+        if (!isHcp) navigate("/home");
+        else navigate("/touchpoints");
+      }
+    } catch (ex) {
+      console.log("Failed to login", ex);
+      if (ex.status === 400) toast.error("User does not exists");
+      else toast.error("Failed to login");
+    } finally {
+      setLoader(false);
     }
-
-    // clearLocalStorage();
-    // localStorage.setItem("user_id", userDetails?.userToken);
-    // localStorage.setItem("name", userDetails?.name);
-    // localStorage.setItem("decrypted_token", userDetails?.jwtToken);
-    setLoader(false);
-    // if (!isHcp) navigate("/home");
-    // else navigate("/touchpoints");
-
-    // if (!isHcp) navigate("/touchpoints");
-    // else navigate("/touchpoints");
   }
 
   return (

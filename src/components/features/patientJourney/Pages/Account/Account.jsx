@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Row } from "react-bootstrap";
+import { Dropdown, Modal, Row, Button } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { ContentContext } from "../../../../../context/ContentContext";
@@ -8,10 +8,18 @@ import AskIbu from "./AskIbu";
 import NoData from "../../Common/NoData";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { trackingUserAction } from "../../../../../helper/helper";
+import {
+  clearLocalStorage,
+  trackingUserAction,
+} from "../../../../../helper/helper";
+import { deleteUserProfile } from "../../../../../services/touchPointServices";
+import EditProfilePopup from "./EditProfilePopup";
 
-const Account = () =>
-{
+const Account = () => {
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const cameFromSsi = location.state?.fromSsi;
   const {
     favorite,
     recentContent,
@@ -19,15 +27,15 @@ const Account = () =>
     currentTabValue,
     getAccountData,
     setContentHolder,
+    setToast,
+    setIsLoading,
   } = useContext(ContentContext);
   const [questionCount, setQuestionCount] = useState(0);
-  const location = useLocation();
-  const cameFromSsi = location.state?.fromSsi;
-  const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const navigate = useNavigate();
+  const [editProfilePopupShow, setEditProfilePopupShow] = useState(false);
+  const [deleteProfilePopupShow, setDeleteProfilePopupShow] = useState(false);
 
   useEffect(() => {
-    (async () => await getAccountData())()
+    (async () => await getAccountData())();
   }, []);
 
   useEffect(() => {
@@ -42,13 +50,27 @@ const Account = () =>
     );
   }, [cameFromSsi]);
 
-  const handleTabSelect = (key) => {
+  const handleTabSelect = async (key) => {
     setContentHolder(key);
-    trackingUserAction(
+    await trackingUserAction(
       "tab_selected",
       `${key.replaceAll("-", " ")} tab clicked`,
       currentTabValue
     );
+  };
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteUserProfile(setToast, setIsLoading);
+      await trackingUserAction(
+        "profile_deleted",
+        `user_profile_deleted`,
+        currentTabValue
+      );
+      clearLocalStorage();
+      navigate("/login");
+    } catch (ex) {}
   };
 
   return (
@@ -141,6 +163,26 @@ const Account = () =>
                       </>
                     )}{" "}
                   </p>
+
+                  <span>
+                    <Dropdown align="end">
+                      <Dropdown.Toggle>
+                        <img src={path_image + "options.svg"} alt="dropdown" />
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item
+                          onClick={() => setEditProfilePopupShow(true)}
+                        >
+                          Edit Profile
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => setDeleteProfilePopupShow(true)}
+                        >
+                          Delete Account
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </span>
                 </div>
               </div>
               <div className="content-download">
@@ -257,7 +299,58 @@ const Account = () =>
               </Tabs>
             </div>
           </div>
+          <EditProfilePopup
+            editProfilePopupShow={editProfilePopupShow}
+            setEditProfilePopupShow={setEditProfilePopupShow}
+            userData={userData}
+          />
         </Row>
+      </div>
+      <div className="pop_up">
+        <Modal
+          show={deleteProfilePopupShow}
+          onHide={() => setDeleteProfilePopupShow(false)}
+          backdrop="static"
+          keyboard={false}
+          centered
+          className="confirmation"
+          size="lg"
+        >
+          <Modal.Body>
+            <div className="confirmation-card">
+              <div className="check-icon">
+                <img src={path_image + "check-icon-img.png"} alt="success" />
+              </div>
+              <h2 className="title">All Set</h2>
+              <div className="description-box">
+                <p className="description">
+                  If you continue, your account and all saved content will be
+                  permanently removed from VWD Journey.{" "}
+                </p>
+                <p className="description">
+                  This action can&apos;t be undone.{" "}
+                </p>
+                <Button
+                  type="button"
+                  className="btn done"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDeleteProfilePopupShow(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  className="btn done"
+                  onClick={handleDeleteAccount}
+                >
+                  Delete my account
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );
