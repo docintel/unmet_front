@@ -20,5 +20,6 @@ export const iconMapping = {
     "Slide Deck": "narrative_slide_deck.svg",
     Collection: "narrative_collection.svg",
     Websites: "narrative_website.svg",
+    FAQ:"narrative_faq.svg"
   },
 };
