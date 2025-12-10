@@ -70,7 +70,7 @@ const Account = () => {
       );
       clearLocalStorage();
       navigate("/login");
-    } catch (ex) {}
+    } catch (ex) { }
   };
 
   return (
@@ -164,25 +164,28 @@ const Account = () => {
                     )}{" "}
                   </p>
 
-                  <span>
-                    <Dropdown align="end">
-                      <Dropdown.Toggle>
-                        <img src={path_image + "options.svg"} alt="dropdown" />
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={() => setEditProfilePopupShow(true)}
-                        >
-                          Edit Profile
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={() => setDeleteProfilePopupShow(true)}
-                        >
-                          Delete Account
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </span>
+                </div>
+               <div style={{ marginLeft: "auto" }}>
+                  <Dropdown align="end" className="profile-menu">
+                    <Dropdown.Toggle as="span" style={{ cursor: "pointer" }}>
+                      <img src={path_image + "options.svg"} alt="dropdown" />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="profile-dropdown">
+                      <Dropdown.Item onClick={() => setEditProfilePopupShow(true)}>
+                        <img src={path_image + "edit-gray-icon.svg"} alt="" className="menu-icon" />
+                        <span>Edit Profile</span>
+                      </Dropdown.Item>
+
+                      <Dropdown.Item
+                        className="delete-item"
+                        onClick={() => setDeleteProfilePopupShow(true)}
+                      >
+                        <img src={path_image + "delete-icon.svg"} alt="" className="menu-icon" />
+                        <span>Delete Account</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
               <div className="content-download">
@@ -317,36 +320,40 @@ const Account = () => {
           size="lg"
         >
           <Modal.Body>
-            <div className="confirmation-card">
+            <div className="confirmation-card delete-account">
               <div className="check-icon">
-                <img src={path_image + "check-icon-img.png"} alt="success" />
+                <img src={path_image + "alert-icon.svg"} alt="success" />
               </div>
-              <h2 className="title">All Set</h2>
+
+              <h2 className="title">Are you sure you want to delete your account?</h2>
               <div className="description-box">
                 <p className="description">
-                  If you continue, your account and all saved content will be
-                  permanently removed from VWD Journey.{" "}
+                  Your question is still awaiting IBU&apos;s answer. If you
+                  delete it, you won&apos;t receive a reply and it will be
+                  removed from My Account.
                 </p>
-                <p className="description">
-                  This action can&apos;t be undone.{" "}
-                </p>
-                <Button
-                  type="button"
-                  className="btn done"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setDeleteProfilePopupShow(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="button"
-                  className="btn done"
-                  onClick={handleDeleteAccount}
-                >
-                  Delete my account
-                </Button>
+
+                <p className="note">This action can&apos;t be undone.</p>
+
+                <div className="confirmation-btn">
+                  <button
+                    className="cencel"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setDeleteProfilePopupShow(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="delete"
+                    type="button"
+                    onClick={handleDeleteAccount}
+                  >
+                    Delete my account
+                  </button>
+                </div>
               </div>
             </div>
           </Modal.Body>

@@ -158,13 +158,14 @@ const EditProfilePopup = ({
           backdrop="static"
           keyboard={false}
           centered
-          className="confirmation"
+          className="Edit-modal"
           size="lg"
         >
+          <Modal.Header>
+            <Modal.Title>Edit Profile</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
-            <div className="confirmation-card">
-              <h2 className="title">Edit Profile</h2>
-              <div className="description-box">
+            <div className="Edit-form">
                 <Form className="registration-form">
                   <Form.Group className="form-group">
                     <Form.Label>
@@ -248,7 +249,7 @@ const EditProfilePopup = ({
                           .classList.remove("active")
                       }
                     >
-                      <Select
+                      <Select 
                         className={`split-button ${
                           error.region ? "error" : ""
                         }`}
@@ -325,7 +326,7 @@ const EditProfilePopup = ({
                   </Form.Group>
                   <div className="form-buttons">
                     <Button
-                      className="btn cancel"
+                      className="btn edit-cancel"
                       type="button"
                       onClick={() => {
                         setEditProfilePopupShow((prev) => !prev);
@@ -335,17 +336,17 @@ const EditProfilePopup = ({
                       Cancel
                     </Button>
                     <Button
-                      className="btn share"
+                      className="btn edit-save"
+                      // Add class "disable"
                       type="button"
                       onClick={handleEditProfile}
                     >
                       Save
-                      <img src={path_image + "send-icon.svg"} alt="" />
+                      <img src={path_image + "correct.svg"} alt="" style={{width:"20px" , height:"20px" }} />
                     </Button>
                   </div>
                 </Form>
               </div>
-            </div>
           </Modal.Body>
         </Modal>
       </div>
@@ -356,7 +357,7 @@ const EditProfilePopup = ({
           backdrop="static"
           keyboard={false}
           centered
-          className="confirmation"
+          className="edit-confirmation"
           size="lg"
         >
           <Modal.Body>
@@ -367,11 +368,11 @@ const EditProfilePopup = ({
               <h2 className="title">All Set</h2>
               <div className="description-box">
                 <p className="description">
-                  Your profile information has been saved and updated.
+                  Your profile information has been saved<br/> and updated.
                 </p>
                 <Button
                   type="button"
-                  className="btn done"
+                  className="btn edit-done"
                   onClick={() => setShowConfirmationModal(false)}
                 >
                   Done
