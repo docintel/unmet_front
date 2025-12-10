@@ -31,12 +31,19 @@ const LoginWithSSO = () => {
   const userId = id.slice(4, id.length - 2);
 
   useEffect(() => {
-    if (userId) {
-      (async () => {
+    if (!userId) return;
+
+    const fetchUser = async () => {
+      try {
         const userD = await getUserDetails(userId);
-        setUserData(userD);
-      })();
-    }
+        if (userD) setUserData(userD);
+        else toast.error("Invalid url.");
+      } catch (e) {
+        toast.error("Invalid url.");
+      }
+    };
+
+    fetchUser();
   }, [userId]);
 
   const isUserVerified = (res, email = "") => {

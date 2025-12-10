@@ -9,6 +9,7 @@ import "./assets/fonts/fonts.css";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "./hooks/authConfig.jsx";
+import { ToastContainer } from "react-toastify";
 const msalInstance = new PublicClientApplication(msalConfig);
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <MsalProvider instance={msalInstance}>
+      <ToastContainer position="top-right" autoClose={3000} />
       <RouterProvider router={Routing} />{" "}
     </MsalProvider>
   );
