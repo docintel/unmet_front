@@ -243,7 +243,13 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                       <Select
                         className={`split-button ${errors.role ? "error" : ""}`}
                         value={selectedRole}
-                        onChange={setSelectedRole}
+                        onChange={(e) => {
+                          setErrors((prev) => ({
+                            ...prev,
+                            role: "",
+                          }));
+                          setSelectedRole(e);
+                        }}
                         placeholder="Select your role"
                         options={roleOptions}
                         styles={{
@@ -329,7 +335,10 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           errors.region ? "error" : ""
                         }`}
                         value={selectedRegion}
-                        onChange={handleRegionChange}
+                        onChange={(e) => {
+                          setErrors((prev) => ({ ...prev, region: "" }));
+                          handleRegionChange(e);
+                        }}
                         placeholder="Select your region"
                         options={regionList}
                         styles={{
@@ -376,7 +385,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                             strokeWidth="1.5"
                             strokeLinejoin="round"
                           />
-                        </svg>
+                        </svg>{" "}
                       </span>
 
                       {errors.country && errors.region && (
@@ -407,7 +416,10 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           errors.country && errors.region ? "error" : ""
                         }`}
                         value={selectedCountry}
-                        onChange={setSelectedCountry}
+                        onChange={(e) => {
+                          setErrors((prev) => ({ ...prev, country: "" }));
+                          setSelectedCountry(e);
+                        }}
                         placeholder="Select your country"
                         options={countryList}
                         styles={{
@@ -455,7 +467,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                             stroke="#B5C2D3"
                             strokeWidth="1.5"
                           />
-                        </svg>
+                        </svg>{" "}
                       </span>
                       {errors.country && errors.region && (
                         <div className="validation">{errors.country}</div>
