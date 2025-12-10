@@ -1,6 +1,6 @@
 import FixedSizeList from "../Common/FixedSizedList";
 
-const FaqAndLatestContent = ({ content, isFaq,itemSize }) => {
+const FaqAndLatestContent = ({ content, isFaq ,itemSize }) => {
 
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   return (
