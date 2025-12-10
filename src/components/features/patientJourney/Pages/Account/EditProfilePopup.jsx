@@ -15,19 +15,30 @@ const EditProfilePopup = ({
   const { currentTabValue, setToast, setIsLoading, updateUserPorfileData } =
     useContext(ContentContext);
   const [name, setName] = useState("");
-  const [selectedRole, setSelectedRole] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [error, setError] = useState({
-    name: { error: false, message: "" },
-    email: { error: false, message: "" },
-    global: { error: false, message: "" },
-  });
+  const [selectedRole, setSelectedRole] = useState({});
+  const [selectedCountry, setSelectedCountry] = useState({});
+  const [selectedRegion, setSelectedRegion] = useState({});
+  const [error, setError] = useState({});
   const [countryList, setCountryList] = useState([]);
   const [regionList, setRegionList] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [saveDisabled,setSaveDisabled] = useState(true);
 
   useEffect(() => setPropertyState(), [userData]);
+
+  useEffect(() => {
+    if (
+      name !== userData?.name ||
+      selectedCountry.value !== userData?.country ||
+      selectedRegion.value !== userData?.region ||
+      selectedRole.value !== userData?.role
+    ) {
+      if (name.trim() == "") setSaveDisabled(true);
+      else setSaveDisabled(false);
+    } else setSaveDisabled(true);
+  }, [name, selectedRole, selectedCountry, selectedRegion]);
+
+  useEffect(()=>{console.log(saveDisabled)},[saveDisabled])
 
   useEffect(() => {
     filterRegions();
@@ -80,23 +91,25 @@ const EditProfilePopup = ({
   const setPropertyState = () => {
     setName(userData?.name || "");
     setSelectedRole(
-      userData?.role ? { value: userData?.role, label: userData?.role } : null
+      userData?.role ? { value: userData?.role, label: userData?.role } : {}
     );
     setSelectedRegion(
       userData?.region
         ? { value: userData?.region, label: userData?.region }
-        : null
+        : {}
     );
     setSelectedCountry(
       userData?.country
         ? { value: userData?.country, label: userData?.country }
-        : null
+        : {}
     );
+
+    setError({})
   };
 
   const handleRegionChange = (val) => {
     setSelectedRegion(val);
-    setSelectedCountry(null);
+    setSelectedCountry({});
   };
 
   const handleEditProfile = async (e) => {
@@ -104,10 +117,14 @@ const EditProfilePopup = ({
     try {
       const newError = {};
       if (!name.trim()) newError.name = "name is required!!";
-      if (!selectedRole.value) newError.role = "role is required!!";
-      if (!selectedRegion.value)
+      if (!Object.keys(selectedRole).length)
+        newError.role = "role is required!!";
+      if (!Object.keys(selectedRegion).length)
         newError.region = "either region or country is required!!";
-      if (!selectedRegion.value && !selectedCountry.value)
+      if (
+        !Object.keys(selectedRegion).length &&
+        !Object.keys(selectedCountry).length
+      )
         newError.country = "either region or country is required!!";
 
       if (Object.keys(newError).length) {
@@ -118,8 +135,8 @@ const EditProfilePopup = ({
       await updateUserProfileDetails(
         name,
         selectedRole.value,
-        selectedCountry.value,
-        selectedRegion.value,
+        Object.keys(selectedCountry).length ? selectedCountry.value : null,
+        Object.keys(selectedRegion).length ? selectedRegion.value : null,
         setToast,
         setIsLoading
       );
@@ -129,8 +146,8 @@ const EditProfilePopup = ({
       updateUserPorfileData(
         name,
         selectedRole.value,
-        selectedCountry.value,
-        selectedRegion.value
+        Object.keys(selectedCountry).length ? selectedCountry.value : null,
+        Object.keys(selectedRegion).length ? selectedRegion.value : null
       );
       await trackingUserAction(
         "profile_updated",
@@ -166,187 +183,187 @@ const EditProfilePopup = ({
           </Modal.Header>
           <Modal.Body>
             <div className="Edit-form">
-                <Form className="registration-form">
-                  <Form.Group className="form-group">
-                    <Form.Label>
-                      HCP Name{" "}
-                      <span style={{ fontWeight: "lighter" }}>(Required)</span>
-                    </Form.Label>
-                    <div
-                      className={
-                        "input-with-icon" + (error.name.error ? " error" : "")
-                      }
-                    >
-                      <span className="icon">
-                        <img src={path_image + "hcp-name.svg"} alt="Logo" />
-                      </span>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>{" "}
-                    {error.name.error && (
-                      <div className="validation">{error.name.message}</div>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="form-group">
-                    <Form.Label>
-                      Role <span>(Required)</span>
-                    </Form.Label>
-                    <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
-                      <Select
-                        className={`split-button ${error.role ? "error" : ""}`}
-                        value={selectedRole}
-                        onChange={setSelectedRole}
-                        placeholder="Select your role"
-                        options={roleOptions}
-                        styles={{
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#E6F7F8"
-                              : state.isFocused
-                              ? "#F4F6F9"
-                              : "white",
-                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                          }),
-                        }}
-                      />
-                      <span>
-                        <img src={path_image + "role-icon.svg"} alt="" />
-                      </span>
-                      {error.role && (
-                        <div className="validation">{error.role}</div>
-                      )}
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="form-group">
-                    <Form.Label>
-                      Region <span>(Required)</span>
-                    </Form.Label>
-                    <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
-                      <Select 
-                        className={`split-button ${
-                          error.region ? "error" : ""
-                        }`}
-                        value={selectedRegion}
-                        onChange={handleRegionChange}
-                        placeholder="Select your region"
-                        options={regionList}
-                        styles={{
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
-                              : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
-                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                          }),
-                        }}
-                        isClearable
-                      />
-                      <span>
-                        <img src={path_image + "region-icon.svg"} alt="" />
-                      </span>
-
-                      {error.country && error.region && (
-                        <div className="validation">{error.region}</div>
-                      )}
-                    </div>
-                  </Form.Group>
-                  <Form.Group className="form-group">
-                    <Form.Label>
-                      Country <span>(Required)</span>
-                    </Form.Label>
-                    <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
-                      <Select
-                        className={`split-button ${
-                          error.country && error.region ? "error" : ""
-                        }`}
-                        value={selectedCountry}
-                        onChange={setSelectedCountry}
-                        placeholder="Select your country"
-                        options={countryList}
-                        styles={{
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
-                              : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
-                            color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                          }),
-                        }}
-                        isClearable
-                      />
-                      <span>
-                        <img src={path_image + "country-icon.svg"} alt="" />
-                      </span>
-                      {error.country && error.region && (
-                        <div className="validation">{error.country}</div>
-                      )}
-                    </div>
-                  </Form.Group>
-                  <div className="form-buttons">
-                    <Button
-                      className="btn edit-cancel"
-                      type="button"
-                      onClick={() => {
-                        setEditProfilePopupShow((prev) => !prev);
-                        setPropertyState();
+              <Form className="registration-form">
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    HCP Name{" "}
+                    <span style={{ fontWeight: "lighter" }}>(Required)</span>
+                  </Form.Label>
+                  <div
+                    className={"input-with-icon" + (error.name ? " error" : "")}
+                  >
+                    <span className="icon">
+                      <img src={path_image + "hcp-name.svg"} alt="Logo" />
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>{" "}
+                  {error.name && <div className="validation">{error.name}</div>}
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    Role <span>(Required)</span>
+                  </Form.Label>
+                  <div
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.remove("active")
+                    }
+                  >
+                    <Select
+                      className={`split-button ${error.role ? "error" : ""}`}
+                      value={selectedRole}
+                      onChange={setSelectedRole}
+                      placeholder="Select your role"
+                      options={roleOptions}
+                      styles={{
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#E6F7F8"
+                            : state.isFocused
+                            ? "#F4F6F9"
+                            : "white",
+                          color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                        }),
                       }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className="btn edit-save"
-                      // Add class "disable"
-                      type="button"
-                      onClick={handleEditProfile}
-                    >
-                      Save
-                      <img src={path_image + "correct.svg"} alt="" style={{width:"20px" , height:"20px" }} />
-                    </Button>
+                    />
+                    <span>
+                      <img src={path_image + "role-icon.svg"} alt="" />
+                    </span>
+                    {error.role && (
+                      <div className="validation">{error.role}</div>
+                    )}
                   </div>
-                </Form>
-              </div>
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    Region <span>(Required)</span>
+                  </Form.Label>
+                  <div
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.remove("active")
+                    }
+                  >
+                    <Select
+                      className={`split-button ${error.region ? "error" : ""}`}
+                      value={selectedRegion}
+                      onChange={handleRegionChange}
+                      placeholder="Select your region"
+                      options={regionList}
+                      styles={{
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#E6F7F8" // background for selected option
+                            : state.isFocused
+                            ? "#F4F6F9" // background on hover
+                            : "white",
+                          color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                        }),
+                      }}
+                      isClearable
+                    />
+                    <span>
+                      <img src={path_image + "region-icon.svg"} alt="" />
+                    </span>
+
+                    {error.country && error.region && (
+                      <div className="validation">{error.region}</div>
+                    )}
+                  </div>
+                </Form.Group>
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    Country <span>(Required)</span>
+                  </Form.Label>
+                  <div
+                    onMouseEnter={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.add("active")
+                    }
+                    onMouseLeave={(e) =>
+                      e.currentTarget
+                        .querySelector(".split-button")
+                        .classList.remove("active")
+                    }
+                  >
+                    <Select
+                      className={`split-button ${
+                        error.country && error.region ? "error" : ""
+                      }`}
+                      value={selectedCountry}
+                      onChange={setSelectedCountry}
+                      placeholder="Select your country"
+                      options={countryList}
+                      styles={{
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#E6F7F8" // background for selected option
+                            : state.isFocused
+                            ? "#F4F6F9" // background on hover
+                            : "white",
+                          color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                        }),
+                      }}
+                      isClearable
+                    />
+                    <span>
+                      <img src={path_image + "country-icon.svg"} alt="" />
+                    </span>
+                    {error.country && error.region && (
+                      <div className="validation">{error.country}</div>
+                    )}
+                  </div>
+                </Form.Group>
+                <div className="form-buttons">
+                  <Button
+                    className="btn edit-cancel"
+                    type="button"
+                    onClick={() => {
+                      setEditProfilePopupShow((prev) => !prev);
+                      setPropertyState();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className={
+                      "btn edit-save " + (saveDisabled ? "disable" : "")
+                    }
+                    type="button"
+                    onClick={handleEditProfile}
+                    disabled={saveDisabled}
+                  >
+                    Save
+                    <img
+                      src={path_image + "correct.svg"}
+                      alt=""
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </Button>
+                </div>
+              </Form>
+            </div>
           </Modal.Body>
         </Modal>
       </div>
@@ -368,7 +385,8 @@ const EditProfilePopup = ({
               <h2 className="title">All Set</h2>
               <div className="description-box">
                 <p className="description">
-                  Your profile information has been saved<br/> and updated.
+                  Your profile information has been saved
+                  <br /> and updated.
                 </p>
                 <Button
                   type="button"
