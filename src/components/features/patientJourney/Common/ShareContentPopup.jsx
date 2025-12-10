@@ -160,11 +160,13 @@ const ShareContentPopup = ({ section, showModal, setShowModal }) => {
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>Message </Form.Label>
-                  <div className={"input-with-icon"}>
+                  <div className={"textarea-with-icon"}>
                     <Form.Control
+                      as="textarea"
                       type="textarea"
                       placeholder="Type your message for the HCP"
                       value={message}
+                      className="styled-textarea"
                       onChange={(e) => setMessage(e.target.value)}
                     />
                   </div>
