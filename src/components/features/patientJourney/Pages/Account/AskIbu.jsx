@@ -62,7 +62,19 @@ const AskIbu = ({ setQuestionCount }) => {
       {questionList.loading ? (
         <></>
       ) : questionList.error ? (
-        <></>
+        <>
+          <NoData
+            image="bubble-chat-question.svg"
+            title="You haven't asked IBU anything yet!"
+            description="Have something in mind?"
+            buttonText="Ask Your First Question"
+            onClick={() =>
+              navigate("/home", {
+                state: { name: "ask-ibu" },
+              })
+            }
+          />
+        </>
       ) : !questionData || questionData.length === 0 ? (
         <NoData
           image="bubble-chat-question.svg"
