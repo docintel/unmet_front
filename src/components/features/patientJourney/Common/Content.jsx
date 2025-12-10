@@ -1,101 +1,40 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Button, Form, Tab, Tabs } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { ContentContext } from "../../../../context/ContentContext";
 import Modal from "react-bootstrap/Modal";
-import Select from "react-select";
 import {
-  GenerateQrcodeUrl,
-  SubmitShareContent,
   TrackDownloads,
   updateContentRating,
 } from "../../../../services/touchPointServices";
 import IframeComponent from "./IframeComponent";
-import { toast } from "react-toastify";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { iconMapping } from "../../../../constants/iconMapping";
-import { countryRegionArray } from "../../../../constants/countryRegion";
-import QRCode from "react-qr-code";
 import { trackingUserAction } from "../../../../helper/helper";
-// import Select from "react-select/base";
+import ShareContentPopup from "./ShareContentPopup";
 
 const Content = ({ section, idx, favTab }) => {
   const staticUrl = import.meta.env.VITE_AWS_DOWNLOAD_URL;
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
     filterCategory,
+    isHcp,
     updateRating,
     setIsLoading,
     setToast,
     currentTabValue,
     contentHolder,
     updateDownload,
-    updateContentShared,
   } = useContext(ContentContext);
   const iframeRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [progress, setProgress] = useState(0);
   const [downloading, setDownloading] = useState(false);
-  const [error, setError] = useState({
-    name: { error: false, message: "" },
-    email: { error: false, message: "" },
-    country: { error: false, message: "" },
-    consent: { error: false, message: "" },
-    global: { error: false, message: "" },
-  });
-  const [country, setCountry] = useState("");
   const [readContent, setReadContent] = useState(false);
-  const [countryList, setCountryList] = useState([]);
-  const [checkboxChecked, setCheckboxChecked] = useState({
-    checkbox3: false,
-    checkbox4: false,
-    checkbox5: false,
-    checkbox6: false,
-  });
   const [isStarHovered, setIsStarHovered] = useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] = useState({
-    existingMember: false,
-    newMember: false,
-    open: false,
-  });
-  const [qrCodeUrl, setQrCodeUrl] = useState({
-    loading: false,
-    error: false,
-    data: "",
-  });
   const [ratingFocus, setRatingFocus] = useState(false);
   const circumference = 2 * Math.PI * 45;
-
-  useEffect(() => {
-    setQrCodeUrl({
-      loading: false,
-      error: false,
-      data: "",
-    });
-  }, [showModal]);
-
-  const filterCountries = () => {
-    const coutries = Object.entries(countryRegionArray).map(([country]) => ({
-      value: country,
-      label: country,
-    }));
-    setCountryList(coutries);
-  };
-
-  const handleTabSelect = async (key) => {
-    if (key === "existing-member") {
-      try {
-        if (!qrCodeUrl.data) await GenerateQrcodeUrl(section.id, setQrCodeUrl);
-      } catch (ex) {}
-    }
-  };
-
-  useEffect(() => {
-    filterCountries();
-  }, [country]);
 
   const handleStarClick = async () => {
     try {
@@ -260,154 +199,25 @@ const Content = ({ section, idx, favTab }) => {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    emptyFormField();
-  };
-
-  const handleSubmitClick = async (e) => {
-    e.preventDefault();
-    try {
-      let newError = {
-        name: { error: false, message: "" },
-        email: { error: false, message: "" },
-        country: { error: false, message: "" },
-        consent: { error: false, message: "" },
-        global: { error: false, message: "" },
-      };
-
-      if (!email) {
-        newError.email = { error: true, message: "Email is required" };
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        newError.email = {
-          error: true,
-          message: "Please enter valid email",
-        };
-      }
-
-      if (!name) {
-        newError.name = { error: true, message: "Name is required" };
-      }
-
-      if (!country) {
-        newError.country = { error: true, message: "Country is required" };
-      }
-
-      if (
-        !checkboxChecked.checkbox3 &&
-        !checkboxChecked.checkbox4 &&
-        !checkboxChecked.checkbox5 &&
-        !checkboxChecked.checkbox6
-      ) {
-        newError.consent = { error: true, message: "Consent is required" };
-      }
-
-      setError(newError);
-
-      if (
-        newError.name.error ||
-        newError.email.error ||
-        newError.country.error ||
-        newError.consent.error
-      )
-        return;
-
-      let consentStr = "";
-      if (checkboxChecked.checkbox5)
-        consentStr = "checkbox3~checkbox4~checkbox5";
-      else if (checkboxChecked.checkbox3) consentStr = "checkbox3";
-      else if (checkboxChecked.checkbox4) consentStr = "checkbox4";
-      else if (checkboxChecked.checkbox6) consentStr = "checkbox6";
-
-      await SubmitShareContent(
-        section.id,
-        email,
-        name,
-        country,
-        consentStr,
-        setIsLoading,
-        setToast
-      );
-      updateContentShared();
-      toast.success("Content shared via email successfully");
-      setShowModal(false);
-      setShowConfirmationModal({
-        existingMember: false,
-        newMember: true,
-        open: true,
+  const handleCopy = (value) => {
+    navigator.clipboard.writeText(value)
+      .then(() => {
+        setToast({
+          show: true,
+          type: "success",
+          title: "Link copied!",
+          message: "The article link has been successfully copied.",
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        setToast({
+          show: true,
+          type: "danger",
+          title: "Error",
+          message: "Failed to copy the link.",
+        });
       });
-    } catch (ex) {
-      setError({
-        name: { error: false, message: "" },
-        email: { error: false, message: "" },
-        country: { error: false, message: "" },
-        consent: { error: false, message: "" },
-        global: { error: true, message: "Oops!! Something went wrong." },
-      });
-    }
-  };
-
-  const handleCheckBoxClick = (name, isChecked) => {
-    let checkbox3 = false,
-      checkbox4 = false,
-      checkbox5 = false,
-      checkbox6 = false;
-    if (name === "checkbox3") {
-      if (isChecked) {
-        checkbox3 = true;
-        if (checkboxChecked.checkbox4 || checkboxChecked.checkbox5) {
-          checkbox4 = true;
-          checkbox5 = true;
-        }
-      } else checkbox4 = checkboxChecked.checkbox4;
-    } else if (name === "checkbox4") {
-      if (isChecked) {
-        checkbox4 = true;
-        if (checkboxChecked.checkbox3 || checkboxChecked.checkbox5) {
-          checkbox3 = true;
-          checkbox5 = true;
-        }
-      } else checkbox3 = checkboxChecked.checkbox3;
-    } else if (name === "checkbox5") {
-      if (isChecked) {
-        checkbox3 = true;
-        checkbox4 = true;
-        checkbox5 = true;
-      }
-    } else if (name === "checkbox6") {
-      if (isChecked) checkbox6 = true;
-    }
-
-    setCheckboxChecked({
-      checkbox3: checkbox3,
-      checkbox4: checkbox4,
-      checkbox5: checkbox5,
-      checkbox6: checkbox6,
-    });
-  };
-
-  const emptyFormField = () => {
-    setError({
-      name: { error: false, message: "" },
-      email: { error: false, message: "" },
-      country: { error: false, message: "" },
-      consent: { error: false, message: "" },
-      global: { error: true, message: "" },
-    });
-    setEmail("");
-    setName("");
-    setCountry("");
-    setCheckboxChecked({
-      checkbox3: false,
-      checkbox4: false,
-      checkbox5: false,
-      checkbox6: false,
-    });
-    setShowConfirmationModal({
-      existingMember: false,
-      newMember: false,
-      open: false,
-    });
   };
 
   return (
@@ -419,456 +229,11 @@ const Content = ({ section, idx, favTab }) => {
           </div>
         ))}
       </div>
-      <div className="pop_up">
-        <Modal
-          show={showModal}
-          onHide={handleCloseModal}
-          backdrop="static"
-          keyboard={false}
-          centered
-          className="share-modal"
-          size="lg"
-        >
-          <Modal.Header>
-            <Modal.Title>Share content with HCP</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Tabs
-              defaultActiveKey="new-member"
-              id="share_modal"
-              className="mb-3"
-              onSelect={handleTabSelect}
-            >
-              <Tab eventKey="new-member" title="New Member">
-                <div className="message-info">
-                  <div className="warning-message">
-                    <div className="info-icon">
-                      <img src={path_image + "warning-icon.svg"} alt="" />
-                    </div>
-                    <div className="text-message">
-                      This screen is for the HCP. Please hand them your device
-                      to review and give consent.
-                    </div>
-                  </div>
-                  <div className="info-message">
-                    By registering, you agree to receive the selected content by
-                    email. Your data will be handled according to the
-                    data-privacy policy of{" "}
-                    <a
-                      href="https://onesource.octapharma.com/octapharma-privacy"
-                      target="_blank"
-                    >
-                      Octapharma AG
-                    </a>{" "}
-                    and{" "}
-                    <a
-                      href="https://onesource.octapharma.com/docintel-privacy"
-                      target="_blank"
-                    >
-                      Docintel.app
-                    </a>
-                    .
-                  </div>
-                </div>
-                <div className="share-form">
-                  <Form className="registration-form">
-                    <Form.Group className="form-group">
-                      <Form.Label>
-                        HCP Name{" "}
-                        <span style={{ fontWeight: "lighter" }}>
-                          (Required)
-                        </span>
-                      </Form.Label>
-                      <div
-                        className={
-                          "input-with-icon" + (error.name.error ? " error" : "")
-                        }
-                      >
-                        <span className="icon">
-                          <svg
-                            width="22"
-                            height="20"
-                            viewBox="0 0 22 20"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M3.93007 13.0464C2.67249 13.7835 -0.624787 15.2886 1.38348 17.172C2.3645 18.092 3.4571 18.75 4.83077 18.75H12.6692C14.0429 18.75 15.1355 18.092 16.1165 17.172C18.1248 15.2886 14.8275 13.7835 13.5699 13.0464C10.6209 11.3179 6.87906 11.3179 3.93007 13.0464Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M12.75 4.75C12.75 6.95914 10.9591 8.75 8.75 8.75C6.54086 8.75 4.75 6.95914 4.75 4.75C4.75 2.54086 6.54086 0.75 8.75 0.75C10.9591 0.75 12.75 2.54086 12.75 4.75Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M18.3721 2.31564C18.5957 2.07342 18.7074 1.95232 18.8262 1.88168C19.1128 1.71123 19.4657 1.70593 19.7571 1.8677C19.8779 1.93474 19.9931 2.05244 20.2235 2.28783C20.4539 2.52322 20.5692 2.64092 20.6348 2.76428C20.7931 3.06194 20.788 3.42244 20.6211 3.71521C20.5519 3.83655 20.4334 3.95073 20.1963 4.1791L17.3752 6.89629C16.9259 7.32906 16.7012 7.54545 16.4204 7.65512C16.1396 7.76479 15.831 7.75672 15.2136 7.74057L15.1296 7.73838C14.9417 7.73346 14.8477 7.73101 14.7931 7.66901C14.7385 7.60702 14.7459 7.5113 14.7608 7.31985L14.7689 7.2159C14.8109 6.67706 14.8319 6.40765 14.9371 6.16547C15.0423 5.92328 15.2238 5.72664 15.5868 5.33335L18.3721 2.31564Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                        </span>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter your name"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                        />
-                      </div>{" "}
-                      {error.name.error && (
-                        <div className="validation">{error.name.message}</div>
-                      )}
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label>
-                        HCP Email{" "}
-                        <span style={{ fontWeight: "lighter" }}>
-                          (Required)
-                        </span>
-                      </Form.Label>
-                      <div
-                        className={
-                          "input-with-icon" +
-                          (error.email.error ? " error" : "")
-                        }
-                      >
-                        <span className="icon">
-                          <svg
-                            width="22"
-                            height="19"
-                            viewBox="0 0 22 19"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="fill-svg"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M7.83038 0.0367951C9.78323 -0.0122598 11.7174 -0.0122703 13.6702 0.0367951C15.2216 0.0757754 16.4676 0.104667 17.4632 0.278006C18.4925 0.457314 19.3296 0.801922 20.0364 1.5114C20.7402 2.2179 21.0822 3.04271 21.2581 4.05535C21.4277 5.03232 21.4525 6.24871 21.4847 7.75847C21.5059 8.75443 21.5059 9.74495 21.4847 10.7409C21.4525 12.2506 21.4277 13.467 21.2581 14.444C21.0823 15.4566 20.74 16.2815 20.0364 16.988C19.3297 17.6974 18.4925 18.0421 17.4632 18.2214C16.4676 18.3947 15.2216 18.4236 13.6702 18.4626C11.7174 18.5116 9.78324 18.5116 7.83038 18.4626C6.27894 18.4236 5.03308 18.3947 4.03741 18.2214C3.00791 18.0421 2.17103 17.6975 1.46417 16.988C0.760314 16.2814 0.418361 15.4568 0.242486 14.444C0.072883 13.467 0.0481204 12.2507 0.0159232 10.7409C-0.00530575 9.74494 -0.00530975 8.75443 0.0159232 7.75847C0.0481185 6.24872 0.0728526 5.03231 0.242486 4.05535C0.418381 3.04276 0.760406 2.21787 1.46417 1.5114C2.17095 0.802098 3.00809 0.457266 4.03741 0.278006C5.03306 0.10472 6.279 0.0757713 7.83038 0.0367951ZM14.2054 7.81902C12.9121 8.55179 11.8608 8.99969 10.7483 8.99969C9.63597 8.99961 8.58448 8.55174 7.29131 7.81902L1.67022 4.63445C1.56681 5.42602 1.54499 6.42655 1.51592 7.78972C1.49513 8.76464 1.49514 9.73473 1.51592 10.7096C1.54908 12.2646 1.57435 13.3478 1.72002 14.1872C1.8596 14.9909 2.09952 15.5005 2.52667 15.9294C2.9509 16.3552 3.46683 16.5987 4.29424 16.7428C5.15535 16.8928 6.27126 16.9234 7.86749 16.9636C9.79529 17.012 11.7053 17.012 13.6331 16.9636C15.2293 16.9234 16.3453 16.8928 17.2064 16.7428C18.0335 16.5987 18.5498 16.3551 18.9739 15.9294C19.4008 15.5006 19.641 14.9907 19.7806 14.1872C19.9262 13.3478 19.9515 12.2645 19.9847 10.7096C20.0055 9.73475 20.0055 8.76463 19.9847 7.78972C19.9556 6.42535 19.9321 5.4244 19.8284 4.6325L14.2054 7.81902ZM13.6331 1.53582C11.7053 1.48738 9.79528 1.48739 7.86749 1.53582C6.27133 1.57592 5.15534 1.60661 4.29424 1.75652C3.46706 1.9006 2.95083 2.14438 2.52667 2.57C2.35282 2.74453 2.21075 2.93342 2.09307 3.1491L8.03155 6.51433C9.28641 7.22531 10.0483 7.49961 10.7483 7.49969C11.4485 7.49969 12.2101 7.22539 13.4651 6.51433L19.4046 3.14812C19.2871 2.93315 19.1473 2.74408 18.9739 2.57C18.5497 2.1442 18.0336 1.90065 17.2064 1.75652C16.3453 1.60656 15.2293 1.57593 13.6331 1.53582Z"
-                              fill="#B5C2D3"
-                            />
-                          </svg>
-                        </span>
-                        <Form.Control
-                          type="email"
-                          placeholder="Enter your email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        />
-                      </div>
-                      {error.email.error && (
-                        <div className="validation">{error.email.message}</div>
-                      )}
-                    </Form.Group>
-                    <Form.Group className="form-group">
-                      <Form.Label>
-                        HCP Country{" "}
-                        <span style={{ fontWeight: "lighter" }}>
-                          (Required)
-                        </span>
-                      </Form.Label>
-                      <div
-                        onMouseEnter={(e) =>
-                          e.currentTarget
-                            .querySelector(".split-button")
-                            .classList.add("active")
-                        }
-                        onMouseLeave={(e) =>
-                          e.currentTarget
-                            .querySelector(".split-button")
-                            .classList.remove("active")
-                        }
-                      >
-                        <Select
-                          className={`split-button ${
-                            error.country.error ? "error" : ""
-                          }`}
-                          value={country}
-                          onChange={(selectedOption) =>
-                            setCountry(selectedOption)
-                          }
-                          placeholder="Select your country"
-                          options={countryList}
-                          styles={{
-                            option: (provided, state) => ({
-                              ...provided,
-                              backgroundColor: state.isSelected
-                                ? "#E6F7F8" // background for selected option
-                                : state.isFocused
-                                ? "#F4F6F9" // background on hover
-                                : "white",
-                              color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                            }),
-                          }}
-                          isClearable
-                        />
-                        <span>
-                          <svg
-                            width="22"
-                            height="22"
-                            viewBox="0 0 22 22"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                            />
-                            <path
-                              d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path
-                              d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z"
-                              stroke="#B5C2D3"
-                              strokeWidth="1.5"
-                            />
-                          </svg>
-                        </span>
-                        {error.country && error.region && (
-                          <div className="validation">{error.region}</div>
-                        )}
-                      </div>
-
-                      {error.country.error && (
-                        <div className="validation">
-                          {error.country.message}
-                        </div>
-                      )}
-                    </Form.Group>
-
-                    <Form.Group className="form-group consent-group">
-                      <Form.Label className="checkbox-label">
-                        I also consent to: <span>(Required)</span>
-                      </Form.Label>
-                      <div className="radio-options">
-                        <Form.Check
-                          type="checkbox"
-                          id="checkbox3"
-                          onChange={(e) =>
-                            handleCheckBoxClick("checkbox3", e.target.checked)
-                          }
-                          checked={checkboxChecked.checkbox3}
-                          label="Receive One Source updates and new materials from
-                          Octapharma."
-                          name="consent"
-                        />
-                        <Form.Check
-                          type="checkbox"
-                          id="checkbox4"
-                          onChange={(e) =>
-                            handleCheckBoxClick("checkbox4", e.target.checked)
-                          }
-                          checked={checkboxChecked.checkbox4}
-                          label="Receive invitations to future events."
-                          name="consent"
-                        />
-                        <Form.Check
-                          type="checkbox"
-                          id="checkbox5"
-                          onChange={(e) =>
-                            handleCheckBoxClick("checkbox5", e.target.checked)
-                          }
-                          checked={checkboxChecked.checkbox5}
-                          label="Both of the options above."
-                          name="consent"
-                        />
-                        <Form.Check
-                          type="checkbox"
-                          id="checkbox6"
-                          onChange={(e) =>
-                            handleCheckBoxClick("checkbox6", e.target.checked)
-                          }
-                          checked={checkboxChecked.checkbox6}
-                          label="None of the options above."
-                          name="consent"
-                        />
-                      </div>
-                      {error.consent.error && (
-                        <div className="validation">
-                          {error.consent.message}
-                        </div>
-                      )}
-                    </Form.Group>
-
-                    <div className="message">
-                      <div className="info-icon">
-                        <img src={path_image + "info-icon.svg"} alt="" />
-                      </div>
-                      <Form.Text className="text-message">
-                        Your consent can be changed or withdrawn at any time in
-                        your One Source (Docintel) account after registration.
-                      </Form.Text>
-                    </div>
-
-                    <div className="form-buttons">
-                      <button
-                        className="btn cancel"
-                        type="button"
-                        onClick={handleCloseModal}
-                      >
-                        Cancel
-                      </button>
-                      <Button
-                        className="btn share"
-                        type="button"
-                        onClick={handleSubmitClick}
-                      >
-                        Share
-                        <img src={path_image + "send-icon.svg"} alt="" />
-                      </Button>
-                    </div>
-                  </Form>
-                </div>
-              </Tab>
-              <Tab eventKey="existing-member" title="Existing Member">
-                <div className="existing-member">
-                  <div className="warning-message">
-                    <div className="info-icon">
-                      <img src={path_image + "warning-icon.svg"} alt="" />
-                    </div>
-                    <div className="text-message">
-                      This screen is for the HCP. Please hand them your device
-                      to review and give consent.
-                    </div>
-                  </div>
-                  <div className="qr-section">
-                    <span>Scan to open the content</span>
-                    {qrCodeUrl.loading ? (
-                      <div className="qr-skeleton">
-                        <div className="skeleton-box"></div>
-                        {/* <p>Generating your QR code...</p> */}
-                      </div>
-                    ) : qrCodeUrl.error || !qrCodeUrl.data ? (
-                      <div className="qr-status error">
-                        <img src={path_image + "error-alert.svg"} alt="error" />
-                        <p>
-                          Failed to generate
-                          <br /> the QR code
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="qr-box">
-                        <QRCode
-                          value={qrCodeUrl.data}
-                          size={192}
-                          fgColor="#183B4D"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="info-message">
-                    Ask the HCP to scan this code. They&apos;ll authenticate
-                    with their One Source account and the content will open on
-                    their phone.
-                  </div>
-
-                  <Button
-                    className="btn done"
-                    type="button"
-                    onClick={() => {
-                      setShowConfirmationModal({
-                        existingMember: true,
-                        newMember: false,
-                        open: true,
-                      });
-                      setShowModal(false);
-                    }}
-                  >
-                    Done
-                    <img src={path_image + "correct.svg"} alt="" />
-                  </Button>
-                </div>
-              </Tab>
-            </Tabs>
-          </Modal.Body>
-        </Modal>
-      </div>
-
-      <div className="pop_up">
-        <Modal
-          show={showConfirmationModal.open}
-          onHide={handleCloseModal}
-          backdrop="static"
-          keyboard={false}
-          centered
-          className="confirmation"
-          size="lg"
-        >
-          <Modal.Body>
-            <div className="confirmation-card">
-              <div className="check-icon">
-                <img src={path_image + "check-icon-img.png"} alt="success" />
-              </div>
-
-              <h2 className="title">You&apos;re All Done — Content Shared</h2>
-              {showConfirmationModal.existingMember && (
-                <div className="description-box">
-                  <p className="description">
-                    The HCP can now access the shared content directly on One
-                    Source using their existing account.
-                  </p>
-
-                  <p className="note">
-                    They&apos;ll also receive an email shortly with a secure
-                    link to the same content for reference.
-                  </p>
-
-                  <Button
-                    type="button"
-                    className="btn done"
-                    onClick={handleCloseModal}
-                  >
-                    Done
-                  </Button>
-                </div>
-              )}
-              {showConfirmationModal.newMember && (
-                <div className="description-box">
-                  <p className="description">
-                    The HCP has been successfully registered, and the content
-                    has been sent to:
-                    <br />
-                    <span className="email"> {email}</span>
-                  </p>
-
-                  <p className="note">
-                    They&apos;ll receive an email shortly with a secure link to
-                    access the content on
-                    <br />
-                    <span className="highlight"> One Source.</span>
-                  </p>
-
-                  <Button
-                    type="button"
-                    className="btn done"
-                    onClick={handleCloseModal}
-                  >
-                    Done
-                  </Button>
-                </div>
-              )}
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
-
+      <ShareContentPopup
+        section={section}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
       <div className="content-box">
         <div className="format">
           <div className="d-flex align-items-center">
@@ -892,7 +257,8 @@ const Content = ({ section, idx, favTab }) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {section.share == 1 && (
+                {section.share == 1 && isHcp && (
+                  <>
                   <Dropdown.Item
                     // onClick={handleShareClick}
                     onClick={async () => {
@@ -924,6 +290,26 @@ const Content = ({ section, idx, favTab }) => {
                     </svg>
                     Share
                   </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={async () => {
+                      handleCopy(section?.docintelLink);
+                      trackingUserAction(
+                        "copy_content_link",
+                        {
+                          title: section?.title,
+                          pdf_id: section?.id,
+                          contentHolder: contentHolder,
+                        },
+                        currentTabValue
+                      );
+                    }}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.91602 1.04199C9.27049 1.04199 10.3413 1.04135 11.1867 1.14128C12.0458 1.24283 12.7533 1.4556 13.3441 1.94043C13.5444 2.10486 13.7282 2.28859 13.8926 2.48893C14.352 3.04875 14.5677 3.71337 14.6755 4.51286C14.7629 5.16211 14.7833 5.9439 14.7886 6.88509C15.3072 6.89587 15.7626 6.91888 16.159 6.97217C16.9091 7.07301 17.5406 7.28926 18.0422 7.79085C18.5438 8.29245 18.76 8.9239 18.8608 9.67399C18.9592 10.4061 18.9577 11.3396 18.9577 12.5003V13.3337C18.9577 14.4944 18.9592 15.4279 18.8608 16.16C18.76 16.9101 18.5438 17.5415 18.0422 18.0431C17.5406 18.5447 16.9091 18.761 16.159 18.8618C15.4269 18.9602 14.4934 18.9587 13.3327 18.9587H12.4993C11.3386 18.9587 10.4051 18.9602 9.67301 18.8618C8.92293 18.761 8.29147 18.5447 7.78988 18.0431C7.28828 17.5415 7.07204 16.9101 6.97119 16.16C6.91791 15.7636 6.8949 15.3081 6.88411 14.7896C5.94293 14.7843 5.16113 14.7639 4.51188 14.6764C3.71239 14.5687 3.04778 14.353 2.48796 13.8936C2.28762 13.7291 2.10388 13.5454 1.93945 13.3451C1.45462 12.7543 1.24186 12.0468 1.1403 11.1877C1.04038 10.3423 1.04102 9.27147 1.04102 7.91699C1.04102 6.56252 1.04038 5.49167 1.1403 4.64632C1.24186 3.78722 1.45462 3.0797 1.93945 2.48893C2.10388 2.28859 2.28762 2.10486 2.48796 1.94043C3.07872 1.4556 3.78624 1.24283 4.64534 1.14128C5.49069 1.04135 6.56154 1.04199 7.91602 1.04199ZM12.4993 8.12533C11.3034 8.12533 10.4693 8.12701 9.83984 8.21159C9.22836 8.2938 8.9043 8.44401 8.67367 8.67464C8.44303 8.90528 8.29282 9.22934 8.21061 9.84082C8.12603 10.4702 8.12435 11.3044 8.12435 12.5003V13.3337C8.12435 14.5296 8.12603 15.3637 8.21061 15.9932C8.29282 16.6046 8.44303 16.9287 8.67367 17.1593C8.9043 17.39 9.22837 17.5402 9.83984 17.6224C10.4693 17.707 11.3034 17.7087 12.4993 17.7087H13.3327C14.5286 17.7087 15.3628 17.707 15.9922 17.6224C16.6037 17.5402 16.9277 17.39 17.1584 17.1593C17.389 16.9287 17.5392 16.6046 17.6214 15.9932C17.706 15.3637 17.7077 14.5296 17.7077 13.3337V12.5003C17.7077 11.3044 17.706 10.4702 17.6214 9.84082C17.5392 9.22934 17.389 8.90528 17.1584 8.67464C16.9277 8.44401 16.6037 8.2938 15.9922 8.21159C15.3628 8.12701 14.5286 8.12533 13.3327 8.12533H12.4993ZM7.91602 2.29199C6.53092 2.29199 5.54676 2.29309 4.79183 2.38232C4.0511 2.46991 3.6125 2.63481 3.28141 2.90641C3.14428 3.01896 3.01798 3.14526 2.90544 3.28239C2.63383 3.61348 2.46894 4.05208 2.38135 4.79281C2.29211 5.54773 2.29102 6.5319 2.29102 7.91699C2.29102 9.30208 2.29211 10.2863 2.38135 11.0412C2.46894 11.7819 2.63383 12.2205 2.90544 12.5516C3.01798 12.6887 3.14428 12.815 3.28141 12.9276C3.59547 13.1852 4.00659 13.3471 4.67952 13.4378C5.24529 13.514 5.94949 13.5333 6.87435 13.5387V12.5003C6.87435 11.3396 6.87278 10.4061 6.97119 9.67399C7.07204 8.9239 7.28828 8.29245 7.78988 7.79085C8.29147 7.28926 8.92292 7.07301 9.67301 6.97217C10.4051 6.87376 11.3386 6.87533 12.4993 6.87533H13.5378C13.5323 5.95047 13.5131 5.24627 13.4368 4.6805C13.3462 4.00757 13.1842 3.59645 12.9266 3.28239C12.8141 3.14526 12.6878 3.01896 12.5506 2.90641C12.2195 2.63481 11.7809 2.46991 11.0402 2.38232C10.2853 2.29309 9.30111 2.29199 7.91602 2.29199Z" fill="var(--gray)" />
+                      </svg>
+                      Copy
+                    </Dropdown.Item>
+                  </>
                 )}{" "}
                 {section.download == 1 && (
                   <Dropdown.Item
@@ -1048,7 +434,6 @@ const Content = ({ section, idx, favTab }) => {
           </div>
           <Button
             variant="primary"
-            // onClick={(e) => setReadContent(!readContent)}
             onClick={async (e) => {
               if (!readContent) {
                 trackingUserAction(

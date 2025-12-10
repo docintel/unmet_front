@@ -18,7 +18,9 @@ const endPoint = {
   GENERATE_QRCODE_URL: "/content/create-qr-url",
   UPDATE_IBU_QUESTION:"/questions/update-question",
   DELETE_IBU_QUESTION:"/questions/delete-question",
-  Tracking : "/activity/tracking"
+  Tracking : "/activity/tracking",
+  UPDATE_USER_DETAILS : "/users/update-user-details",
+  DELETE_USER_ACCOUNT : "/users/delete-account"
 };
 
 export default endPoint;

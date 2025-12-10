@@ -1,12 +1,9 @@
-import React, { lazy, useContext, useEffect, useState } from "react";
-import { Button, Form, Placeholder, Row } from "react-bootstrap";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Button, Form, Row } from "react-bootstrap";
 import { ContentContext } from "../../../../../context/ContentContext";
-// import Content from "../Common/Content";
-import { toast } from "react-toastify";
 import { iconMapping } from "../../../../../constants/iconMapping";
 import FixedSizeList from "../../Common/FixedSizedList";
 import { trackingUserAction } from "../../../../../helper/helper";
-const Content = lazy(() => import("../../Common/Content"));
 
 const Resources = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
@@ -21,6 +18,8 @@ const Resources = () => {
     filterCategory,
     setToast,
   } = useContext(ContentContext);
+  const containerTagRef = useRef();
+
   const [contents, setContents] = useState([]);
   const [filteredContents, setFilteredContents] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -32,6 +31,14 @@ const Resources = () => {
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
   const [searchBackspace, setSearchBackspace] = useState(false);
+  const [tagLimit, setTagLimit] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 767);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (filterAges.data)
@@ -92,6 +99,52 @@ const Resources = () => {
       filterContents();
     }
   }, [searchText]);
+
+  useEffect(() => {
+    calculateVisibleTags();
+    window.addEventListener("resize", calculateVisibleTags);
+    return () => window.removeEventListener("resize", calculateVisibleTags);
+  }, [tag, tagShowAllClicked, isMobile]);
+
+  const calculateVisibleTags = () => {
+    const container = containerTagRef.current;
+    if (!container) return;
+    if (tagShowAllClicked) {
+      setTagLimit(tag.length);
+    } else {
+      const containerWidth = container.clientWidth;
+
+      let totalWidth = 250;
+      let count = 0;
+
+      const temp = document.createElement("div");
+      temp.style.visibility = "hidden";
+      temp.style.position = "absolute";
+      temp.style.whiteSpace = "nowrap";
+      temp.className = "tag-list d-flex";
+      document.body.appendChild(temp);
+
+      tag.forEach((tag) => {
+        const div = document.createElement("div");
+        div.className =
+          "tag-item" + " " + (tag.startsWith("prefix_") ? "f-tag" : "n-tag");
+        div.style.display = "inline-block";
+        div.style.marginRight = "6px";
+        div.innerText = tag.replace("prefix_", "");
+
+        temp.appendChild(div);
+        const width = div.offsetWidth + 8;
+
+        if (totalWidth + width <= containerWidth) {
+          totalWidth += width;
+          count++;
+        }
+      });
+
+      document.body.removeChild(temp);
+      setTagLimit(isMobile ? 10 : count);
+    }
+  };
 
   const getCategoryTags = (content) => {
     if (categoryList) {
@@ -300,7 +353,11 @@ const Resources = () => {
                       <Form.Control
                         type="search"
                         aria-label="Search"
-                        placeholder={filters.length === 0 ? "Search by tag or content title":""}
+                        placeholder={
+                          filters.length === 0
+                            ? "Search by tag or content title"
+                            : ""
+                        }
                         value={searchText}
                         name="search"
                         id="search"
@@ -327,7 +384,6 @@ const Resources = () => {
                     </Button>
                   </Form>
                 </div>
-
                 <div className="tags d-flex">
                   <div className="tag-title">Touchpoints:</div>
                   <div className="tag-list d-flex">
@@ -361,9 +417,9 @@ const Resources = () => {
                   ) : (
                     tag &&
                     tag.length > 0 && (
-                      <div className="tag-list d-flex">
+                      <div className="tag-list d-flex" ref={containerTagRef}>
                         {tag &&
-                          (tagShowAllClicked ? tag : tag.slice(0, 10)).map(
+                          (tag.slice(0, tagLimit)).map(
                             (tags, idx) => (
                               <div
                                 className={

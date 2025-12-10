@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { Row } from "react-bootstrap";
+import { Dropdown, Modal, Row, Button } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { ContentContext } from "../../../../../context/ContentContext";
@@ -8,10 +8,18 @@ import AskIbu from "./AskIbu";
 import NoData from "../../Common/NoData";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { trackingUserAction } from "../../../../../helper/helper";
+import {
+  clearLocalStorage,
+  trackingUserAction,
+} from "../../../../../helper/helper";
+import { deleteUserProfile } from "../../../../../services/touchPointServices";
+import EditProfilePopup from "./EditProfilePopup";
 
-const Account = () =>
-{
+const Account = () => {
+  const path_image = import.meta.env.VITE_IMAGES_PATH;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const cameFromSsi = location.state?.fromSsi;
   const {
     favorite,
     recentContent,
@@ -19,15 +27,15 @@ const Account = () =>
     currentTabValue,
     getAccountData,
     setContentHolder,
+    setToast,
+    setIsLoading,
   } = useContext(ContentContext);
   const [questionCount, setQuestionCount] = useState(0);
-  const location = useLocation();
-  const cameFromSsi = location.state?.fromSsi;
-  const path_image = import.meta.env.VITE_IMAGES_PATH;
-  const navigate = useNavigate();
+  const [editProfilePopupShow, setEditProfilePopupShow] = useState(false);
+  const [deleteProfilePopupShow, setDeleteProfilePopupShow] = useState(false);
 
   useEffect(() => {
-    (async () => await getAccountData())()
+    (async () => await getAccountData())();
   }, []);
 
   useEffect(() => {
@@ -42,13 +50,27 @@ const Account = () =>
     );
   }, [cameFromSsi]);
 
-  const handleTabSelect = (key) => {
+  const handleTabSelect = async (key) => {
     setContentHolder(key);
-    trackingUserAction(
+    await trackingUserAction(
       "tab_selected",
       `${key.replaceAll("-", " ")} tab clicked`,
       currentTabValue
     );
+  };
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    try {
+      await deleteUserProfile(setToast, setIsLoading);
+      await trackingUserAction(
+        "profile_deleted",
+        `user_profile_deleted`,
+        currentTabValue
+      );
+      clearLocalStorage();
+      navigate("/login");
+    } catch (ex) { }
   };
 
   return (
@@ -141,6 +163,29 @@ const Account = () =>
                       </>
                     )}{" "}
                   </p>
+
+                </div>
+               <div style={{ marginLeft: "auto" }}>
+                  <Dropdown align="end" className="profile-menu">
+                    <Dropdown.Toggle as="span" style={{ cursor: "pointer" }}>
+                      <img src={path_image + "options.svg"} alt="dropdown" />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="profile-dropdown">
+                      <Dropdown.Item onClick={() => setEditProfilePopupShow(true)}>
+                        <img src={path_image + "edit-gray-icon.svg"} alt="" className="menu-icon" />
+                        <span>Edit Profile</span>
+                      </Dropdown.Item>
+
+                      <Dropdown.Item
+                        className="delete-item"
+                        onClick={() => setDeleteProfilePopupShow(true)}
+                      >
+                        <img src={path_image + "delete-icon.svg"} alt="" className="menu-icon" />
+                        <span>Delete Account</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
               <div className="content-download">
@@ -257,7 +302,62 @@ const Account = () =>
               </Tabs>
             </div>
           </div>
+          <EditProfilePopup
+            editProfilePopupShow={editProfilePopupShow}
+            setEditProfilePopupShow={setEditProfilePopupShow}
+            userData={userData}
+          />
         </Row>
+      </div>
+      <div className="pop_up">
+        <Modal
+          show={deleteProfilePopupShow}
+          onHide={() => setDeleteProfilePopupShow(false)}
+          backdrop="static"
+          keyboard={false}
+          centered
+          className="confirmation"
+          size="lg"
+        >
+          <Modal.Body>
+            <div className="confirmation-card delete-account">
+              <div className="check-icon">
+                <img src={path_image + "alert-icon.svg"} alt="success" />
+              </div>
+
+              <h2 className="title">Are you sure you want to delete your account?</h2>
+              <div className="description-box">
+                <p className="description">
+                  Your question is still awaiting IBU&apos;s answer. If you
+                  delete it, you won&apos;t receive a reply and it will be
+                  removed from My Account.
+                </p>
+
+                <p className="note">This action can&apos;t be undone.</p>
+
+                <div className="confirmation-btn">
+                  <button
+                    className="cencel"
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setDeleteProfilePopupShow(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="delete"
+                    type="button"
+                    onClick={handleDeleteAccount}
+                  >
+                    Delete my account
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );

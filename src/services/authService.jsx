@@ -80,7 +80,6 @@ export const getUserDetails = async (userId) => {
     if (userData.status === 200) return userData.data.data;
     else return null;
   } catch (error) {
-    console.error("Error fetching user details:", error);
     return null;
   }
 };

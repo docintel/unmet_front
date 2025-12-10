@@ -97,9 +97,9 @@ const Header = () => {
 
   useEffect(() => {
     if (location.pathname.includes("/touchpoints")) {
-      setCurrentTabValue("touchpoints");
       setContentHolder("touchpoints");
-    } else if (location.pathname.includes("/resources")) {
+      setCurrentTabValue("touchpoints")}
+    else if (location.pathname.includes("/resources")) {
       setCurrentTabValue("resources");
       setContentHolder("resources");
     } else if (location.pathname.includes("/home")) {

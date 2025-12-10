@@ -57,11 +57,11 @@ const AskIBU = () => {
         topicsArr.push(...item.topics);
       });
 
-      regionArr = [...new Set(regionArr)].filter((item) => item.trim() !== "");
+      regionArr = [...new Set(regionArr)].filter((item) =>item &&  item.trim() !== "");
       countryArr = [...new Set(countryArr)].filter(
-        (item) => item.trim() !== ""
+        (item) => item && item.trim() !== ""
       );
-      topicsArr = [...new Set(topicsArr)].filter((item) => item.trim() !== "");
+      topicsArr = [...new Set(topicsArr)].filter((item) =>item &&  item.trim() !== "");
       if (regionArr.includes("Other")) {
         regionArr = regionArr.filter((item) => item !== "Other").push("Other");
       }
