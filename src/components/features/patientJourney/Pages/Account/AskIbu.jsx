@@ -5,8 +5,7 @@ import AskIbuScroll from "../../Common/AskIbuScroll";
 import NoData from "../../Common/NoData";
 import { useNavigate } from "react-router-dom";
 
-const AskIbu = ({ setQuestionCount }) =>
-{
+const AskIbu = ({ setQuestionCount }) => {
   const { setIsLoading } = useContext(ContentContext);
   const [questionData, setQuestionData] = useState([]);
   const [questionList, setQuestionList] = useState({
@@ -15,16 +14,13 @@ const AskIbu = ({ setQuestionCount }) =>
     questions: [],
   });
   const navigate = useNavigate();
-  useEffect(() =>
-  {
-    (async () =>
-    {
+  useEffect(() => {
+    (async () => {
       await fetchYourQuestions(setIsLoading, setQuestionList);
     })();
   }, []);
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     if (
       !questionList.loading &&
       !questionList.error &&
@@ -42,12 +38,10 @@ const AskIbu = ({ setQuestionCount }) =>
     }
   }, [questionList]);
 
-  const updateDeleteQuestion = (qId, questionText, isUpdate) =>
-  {
+  const updateDeleteQuestion = (qId, questionText, isUpdate) => {
     if (isUpdate) {
       const updatedData = [];
-      questionList.questions.forEach((item) =>
-      {
+      questionList.questions.forEach((item) => {
         if (item.id === qId) {
           let updatedObj = { ...item };
           updatedObj.question = questionText;
@@ -72,13 +66,22 @@ const AskIbu = ({ setQuestionCount }) =>
       ) : !questionData || questionData.length === 0 ? (
         <NoData
           image="bubble-chat-question.svg"
-          title="You haven&apos;t asked IBU anything yet!"
+          title="You haven't asked IBU anything yet!"
           description="Have something in mind?"
           buttonText="Ask Your First Question"
-          onClick={() => navigate("/home")}
+          onClick={() =>
+            navigate("/home", {
+              state: { name: "ask-ibu" },
+            })
+          }
         />
       ) : (
-        <AskIbuScroll items={questionData} itemCount={6} account={true} updateDeleteQuestion={updateDeleteQuestion} />
+        <AskIbuScroll
+          items={questionData}
+          itemCount={6}
+          account={true}
+          updateDeleteQuestion={updateDeleteQuestion}
+        />
       )}
     </>
   );
