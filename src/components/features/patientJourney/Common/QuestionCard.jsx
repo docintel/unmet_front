@@ -78,7 +78,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
       });
     }
   };
-
+  
   return (
     <div className="detail-data-box ask-ibu-question">
       <div className="question-header">
@@ -106,16 +106,21 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         <div className="question-section">
           {!isEditing && <div className="heading">{questionText}</div>}
           {account && isEditing && (
-            <div className={inputError ? "error" : "answer-textarea"}>
-              {" "}
-              <textarea
-                className="edit-input"
-                placeholder="Edit your question..."
-                value={questionText}
-                onChange={(e) => setQuestionText(e.target.value)}
-              ></textarea>
-              {inputError && <span>{inputError}</span>}
-            </div>
+          <div className={inputError ? "error" : "answer-textarea"}>
+            <textarea
+              rows="1"
+              className="edit-input"
+              placeholder="Edit your question..."
+              value={questionText}
+              onChange={(e) => {
+                setQuestionText(e.target.value);
+                // Auto resize
+                e.target.style.height = "auto";
+                e.target.style.height = e.target.scrollHeight + "px";
+              }}
+            ></textarea>
+            {inputError && <span>{inputError}</span>}
+          </div>
           )}
           <div className="region">
             {!question.region && !question.country ? (
