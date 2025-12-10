@@ -199,6 +199,27 @@ const Content = ({ section, idx, favTab }) => {
     }
   };
 
+  const handleCopy = (value) => {
+    navigator.clipboard.writeText(value)
+      .then(() => {
+        setToast({
+          show: true,
+          type: "success",
+          title: "Link copied!",
+          message: "The article link has been successfully copied.",
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        setToast({
+          show: true,
+          type: "danger",
+          title: "Error",
+          message: "Failed to copy the link.",
+        });
+      });
+  };
+
   return (
     <div className="detail-data-box" key={idx}>
       <div className="age-format d-flex">
