@@ -4,12 +4,11 @@ import { trackingUserAction } from "../../../../helper/helper";
 import { useContext } from "react";
 import { ContentContext } from "../../../../context/ContentContext";
 
-export default function JourneySectionList({ onSectionClick, section })
+export default function JourneySectionList({ onSectionClick, section, tempAnimationClass="" })
 {
   const navigate = useNavigate();
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { currentTabValue, setContentHolder } = useContext(ContentContext);
-
   const data = [
     {
       class: "explore",
@@ -50,7 +49,7 @@ export default function JourneySectionList({ onSectionClick, section })
     return (
       <Col key={index} className={item.class}>
         <div
-          className={"explore-box " + item.class}
+          className={"explore-box " + item.class+ " " + tempAnimationClass}
           onClick={
             onSectionClick
               ? () =>
