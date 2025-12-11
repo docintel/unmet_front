@@ -62,6 +62,7 @@ const Header = () => {
     setIsLoading(true);
     await trackingUserAction("logout_clicked", "Logout", currentTabValue);
     clearLocalStorage();
+    document.cookie = "isHcp=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.documentElement.setAttribute("data-bs-theme", "light");
     setIsLoading(false);
     navigate("/");

@@ -23,7 +23,10 @@ const Redirect = () => {
         localStorage.setItem("decrypted_token", jwtToken);
         localStorage.setItem("sessionId", sessionId);
         trackingUserAction("login_clicked", `Login through  SSI link`,'');
-         navigate("/account", { state: { fromSsi: true } });
+        //  navigate("/account", { state: { fromSsi: true } });
+
+        if(res.data.data.userRegistered) navigate("/home");
+        else navigate("/login", { state: { userData: res.data.data } });
         }else{
            navigate("/login");
            return;
