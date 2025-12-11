@@ -8,11 +8,14 @@ const LatestContent = () => {
 
   useEffect(() => {
     if (content.loading || content.error) return;
-    const sortedData = content.data.sort((a, b) => {
-      const dateA = new Date(a.creation_date.split(".").reverse().join("-")); // "25.September.2025" -> "2025-September-25"
-      const dateB = new Date(b.creation_date.split(".").reverse().join("-"));
-      return dateB - dateA; // latest first
-    }).slice(0,5);
+    const sortedData = content.data
+      .filter((item) => item.category.toLowerCase() !== "faq")
+      .sort((a, b) => {
+        const dateA = new Date(a.creation_date.split(".").reverse().join("-")); // "25.September.2025" -> "2025-September-25"
+        const dateB = new Date(b.creation_date.split(".").reverse().join("-"));
+        return dateB - dateA; // latest first
+      })
+      .slice(0, 5);
 
     setLatestContent(sortedData);
   }, []);
