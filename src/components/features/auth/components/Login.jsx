@@ -17,6 +17,8 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
   const [regionList, setRegionList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [errors, setErrors] = useState({});
+  const [isFocused, setIsFocused] = useState(false);
+
   // const regionDropdownRef = useRef(null);
 
   // Options
@@ -229,7 +231,11 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     <Form.Label>
                       Role <span>(Required)</span>
                     </Form.Label>
-                    <div className={"input-with-icon"}>
+                    <div  className={
+                      "input-with-icon " +
+                      (errors.role ? "error " : "") +
+                      (isFocused ? "active" : "")
+                    }>
                       <span className="icon">
                         <span>
                           <svg
@@ -271,6 +277,8 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                         placeholder="Enter your role"
                         value={selectedRole}
                         onChange={(e) => setSelectedRole(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
                       />
                     </div>{" "}
                     {errors.role && (

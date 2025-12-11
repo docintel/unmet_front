@@ -388,7 +388,40 @@ a {
         label {
           @include form-label
         }
-
+        .input-with-icon {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: 40px;
+            padding: 8px 24px;
+            box-shadow: 0 0 8px 0 rgba(181, 194, 211, 0.4);
+            input {
+              flex: 1;
+              border: none !important;
+              outline: none !important;
+              box-shadow: none !important;
+              font-size: 14px;
+              color: var(--gray300);  
+              background: transparent;
+             :hover,
+             :focus,
+             :active {
+                border: none;
+                outline: none;
+              }
+              
+            }
+            &.active { 
+              svg {
+                path {
+                  stroke: var(--green);
+                }
+            }
+          }
+          &.error {
+                box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
+              }
+        }
         .split-button {
           &.active {
             +span {
