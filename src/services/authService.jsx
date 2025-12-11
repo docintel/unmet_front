@@ -48,7 +48,8 @@ export const handleSubmit = async (
   }
   setLoader(true);
   const data = {
-    role: selectedRole.value,
+    // role: selectedRole.value,
+    role: selectedRole,
     region: selectedRegion ? selectedRegion.value : null,
     country: selectedCountry ? selectedCountry.value : null,
   };

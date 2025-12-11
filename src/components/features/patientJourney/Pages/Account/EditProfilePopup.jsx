@@ -15,7 +15,8 @@ const EditProfilePopup = ({
   const { currentTabValue, setToast, setIsLoading, updateUserPorfileData } =
     useContext(ContentContext);
   const [name, setName] = useState("");
-  const [selectedRole, setSelectedRole] = useState({});
+  // const [selectedRole, setSelectedRole] = useState({});
+  const [selectedRole, setSelectedRole] = useState();
   const [selectedCountry, setSelectedCountry] = useState({});
   const [selectedRegion, setSelectedRegion] = useState({});
   const [error, setError] = useState({});
@@ -31,7 +32,8 @@ const EditProfilePopup = ({
       name !== userData?.name ||
       selectedCountry.value !== userData?.country ||
       selectedRegion.value !== userData?.region ||
-      selectedRole.value !== userData?.role
+      selectedRole !== userData?.role
+      // selectedRole.value !== userData?.role
     ) {
       if (name.trim() == "") setSaveDisabled(true);
       else setSaveDisabled(false);
@@ -50,14 +52,14 @@ const EditProfilePopup = ({
     }
   }, [selectedCountry, selectedRegion]);
 
-  const roleOptions = useMemo(
-    () => [
-      { value: "HCP", label: "HCP" },
-      { value: "Staff", label: "Staff" },
-      { value: "Test", label: "Test" },
-    ],
-    []
-  );
+  // const roleOptions = useMemo(
+  //   () => [
+  //     { value: "HCP", label: "HCP" },
+  //     { value: "Staff", label: "Staff" },
+  //     { value: "Test", label: "Test" },
+  //   ],
+  //   []
+  // );
 
   const filterRegions = () => {
     const uniqueRegions = [
@@ -88,8 +90,11 @@ const EditProfilePopup = ({
 
   const setPropertyState = () => {
     setName(userData?.name || "");
+    // setSelectedRole(
+    //   userData?.role ? { value: userData?.role, label: userData?.role } : {}
+    // );
     setSelectedRole(
-      userData?.role ? { value: userData?.role, label: userData?.role } : {}
+      userData?.role ? userData?.role : ""
     );
     setSelectedRegion(
       userData?.region
@@ -115,7 +120,8 @@ const EditProfilePopup = ({
     try {
       const newError = {};
       if (!name.trim()) newError.name = "name is required!!";
-      if (!Object.keys(selectedRole).length)
+      // if (!Object.keys(selectedRole).length)
+      if (!selectedRole)
         newError.role = "role is required!!";
       if (!Object.keys(selectedRegion).length)
         newError.region = "either region or country is required!!";
@@ -132,7 +138,8 @@ const EditProfilePopup = ({
 
       await updateUserProfileDetails(
         name,
-        selectedRole.value,
+        // selectedRole.value,
+        selectedRole,
         Object.keys(selectedCountry).length ? selectedCountry.value : null,
         Object.keys(selectedRegion).length ? selectedRegion.value : null,
         setToast,
@@ -143,7 +150,8 @@ const EditProfilePopup = ({
       setShowConfirmationModal(true);
       updateUserPorfileData(
         name,
-        selectedRole.value,
+        // selectedRole.value,
+        selectedRole,
         Object.keys(selectedCountry).length ? selectedCountry.value : null,
         Object.keys(selectedRegion).length ? selectedRegion.value : null
       );
@@ -151,7 +159,8 @@ const EditProfilePopup = ({
         "profile_updated",
         {
           name: name,
-          selected_role: selectedRole.value,
+          // selected_role: selectedRole.value,
+          selected_role: selectedRole,
           selected_country: selectedCountry.value,
           selected_region: selectedRegion.value,
         },
@@ -207,6 +216,25 @@ const EditProfilePopup = ({
                     Role <span>(Required)</span>
                   </Form.Label>
                   <div
+                    className={"input-with-icon" + (error.role ? " error" : "")}
+                  >
+                    <span className="icon">
+                      <img src={path_image + "role-icon.svg"} alt="" />
+                      </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter your role"
+                      value={selectedRole}
+                      onChange={(e) => setSelectedRole(e.target.value)}
+                    />
+                  </div>{" "}
+                  {error.role && <div className="validation">{error.role}</div>}
+                </Form.Group>
+                {/* <Form.Group className="form-group">
+                  <Form.Label>
+                    Role <span>(Required)</span>
+                  </Form.Label>
+                  <div
                     onMouseEnter={(e) =>
                       e.currentTarget
                         .querySelector(".split-button")
@@ -243,7 +271,7 @@ const EditProfilePopup = ({
                       <div className="validation">{error.role}</div>
                     )}
                   </div>
-                </Form.Group>
+                </Form.Group> */}
                 <Form.Group className="form-group">
                   <Form.Label>
                     Region <span>(Required)</span>
