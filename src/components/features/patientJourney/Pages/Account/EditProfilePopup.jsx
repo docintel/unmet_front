@@ -38,8 +38,6 @@ const EditProfilePopup = ({
     } else setSaveDisabled(true);
   }, [name, selectedRole, selectedCountry, selectedRegion]);
 
-  useEffect(()=>{console.log(saveDisabled)},[saveDisabled])
-
   useEffect(() => {
     filterRegions();
     filterCountries();
@@ -160,7 +158,7 @@ const EditProfilePopup = ({
         currentTabValue
       );
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
       setError({ global: "Oops!! Failed to update profile details." });
       setPropertyState();
     }

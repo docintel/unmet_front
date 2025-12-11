@@ -24,8 +24,7 @@ const AskIbu = ({ setQuestionCount }) => {
     if (
       !questionList.loading &&
       !questionList.error &&
-      questionList.questions &&
-      questionList.questions.length > 0
+      questionList.questions
     ) {
       setQuestionData(
         [...questionList.questions].sort(

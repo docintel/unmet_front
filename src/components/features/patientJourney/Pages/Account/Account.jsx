@@ -70,7 +70,7 @@ const Account = () => {
       );
       clearLocalStorage();
       navigate("/login");
-    } catch (ex) { }
+    } catch (ex) {}
   };
 
   return (
@@ -163,17 +163,22 @@ const Account = () => {
                       </>
                     )}{" "}
                   </p>
-
                 </div>
-               <div style={{ marginLeft: "auto" }}>
+                <div style={{ marginLeft: "auto" }}>
                   <Dropdown align="end" className="profile-menu">
                     <Dropdown.Toggle as="span" style={{ cursor: "pointer" }}>
                       <img src={path_image + "options.svg"} alt="dropdown" />
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu className="profile-dropdown">
-                      <Dropdown.Item onClick={() => setEditProfilePopupShow(true)}>
-                        <img src={path_image + "edit-gray-icon.svg"} alt="" className="menu-icon" />
+                      <Dropdown.Item
+                        onClick={() => setEditProfilePopupShow(true)}
+                      >
+                        <img
+                          src={path_image + "edit-gray-icon.svg"}
+                          alt=""
+                          className="menu-icon"
+                        />
                         <span>Edit Profile</span>
                       </Dropdown.Item>
 
@@ -181,7 +186,11 @@ const Account = () => {
                         className="delete-item"
                         onClick={() => setDeleteProfilePopupShow(true)}
                       >
-                        <img src={path_image + "delete-icon.svg"} alt="" className="menu-icon" />
+                        <img
+                          src={path_image + "delete-icon.svg"}
+                          alt=""
+                          className="menu-icon"
+                        />
                         <span>Delete Account</span>
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -325,12 +334,13 @@ const Account = () => {
                 <img src={path_image + "alert-icon.svg"} alt="success" />
               </div>
 
-              <h2 className="title">Are you sure you want to delete your account?</h2>
+              <h2 className="title">
+                Are you sure you want to delete your account?
+              </h2>
               <div className="description-box">
                 <p className="description">
-                  Your question is still awaiting IBU&apos;s answer. If you
-                  delete it, you won&apos;t receive a reply and it will be
-                  removed from My Account.
+                  If you continue, your account and all saved content will be
+                  permanently removed from VWD Journey.
                 </p>
 
                 <p className="note">This action can&apos;t be undone.</p>
