@@ -3350,6 +3350,7 @@ a {
     @include flex-align-center;
     padding: 16px 24px 16px 16px;
     gap: 16px;
+    width: 100%; 
 
     .profile-img {
       img {
@@ -3362,14 +3363,21 @@ a {
     .profile-content {
       display: flex;
       gap: 24px;
+      flex: 1;         
+      min-width: 0;   
 
       h4 {
         color: var(--green);
         font-size: 24px;
         font-weight: 600;
+        margin: 0;
       }
 
-      p {
+      
+      .profile-details{
+        display: flex;
+        gap: 24px;      
+        p {
         color: var(--gray);
         font-size: 16px;
         font-weight: 400;
@@ -3379,9 +3387,6 @@ a {
         margin: 0;
 
         svg {
-
-          // width: 24px;
-          // height: 24px;
           path {
             stroke: var(--gray);
           }
@@ -3390,6 +3395,7 @@ a {
         &:last-child {
           margin: 0;
         }
+      }
       }
     }
   }
@@ -4473,7 +4479,13 @@ input[type="search"]::-webkit-search-results-decoration:hover {
               transition: all 0.3s ease;
 
               &.cancel {
-                @include cancel;
+                // @include cancel;
+                background: var(--white);
+                color: rgb(240, 108, 85);
+                border: 1px solid rgb(240, 108, 85);
+                 &:hover {
+                  background: rgba(254, 244, 237, 0.50);
+                }
               }
 
               &.edit-cancel {
@@ -4729,6 +4741,59 @@ input[type="search"]::-webkit-search-results-decoration:hover {
             }
           }
         }
+          .Edit-form {
+          .registration-form {
+            .consent-group {
+              .checkbox-label {
+                font-size: 14px;
+                margin: 0 0 7px;
+              }
+            }
+
+            .form-group {
+              .input-with-icon {
+                padding: 4px 20px;
+
+                .icon {
+                  svg {
+                    width: 18px;
+                    height: auto;
+                  }
+                }
+              }
+
+              label {
+                font-size: 12px;
+                margin: 0 0 6px;
+
+                span {
+                  font-size: 10px;
+                }
+              }
+
+              .split-button {
+                &>div:nth-child(3) {
+                  padding: 11px 38px 10px 52px;
+                  font-size: 12px;
+                }
+
+                &+span {
+                  top: 36px;
+                  left: 19px;
+
+                  svg {
+                    width: 18px;
+                    height: auto;
+                  }
+                }
+              }
+            }
+
+            .message {
+              padding: 8px 8px;
+            }
+          }
+        }
       }
     }
 
@@ -4806,12 +4871,17 @@ input[type="search"]::-webkit-search-results-decoration:hover {
       flex-direction: column;
       align-items: center;
 
-
-      .description {
+      .allset-description{
         font-size: 16px;
         font-weight: 600;
         line-height: 20px;
         color: var(--primary-color);
+      }
+      .description {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 20px;
+        color: var(--gray300);
 
         .email {
           color: var(--green);
@@ -4870,7 +4940,7 @@ input[type="search"]::-webkit-search-results-decoration:hover {
             @include cancel;
 
             &:hover {
-              border: none;
+              border: transparent;
             }
           }
 

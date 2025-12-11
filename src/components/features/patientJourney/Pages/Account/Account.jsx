@@ -85,6 +85,7 @@ const Account = () => {
                 </div>
                 <div className="profile-content">
                   <h4>{userData?.name}</h4>
+                  <div className="profile-details">
                   <p>
                     <svg
                       width="22"
@@ -163,7 +164,7 @@ const Account = () => {
                       </>
                     )}{" "}
                   </p>
-
+                </div>
                 </div>
                <div style={{ marginLeft: "auto" }}>
                   <Dropdown align="end" className="profile-menu">
@@ -328,9 +329,7 @@ const Account = () => {
               <h2 className="title">Are you sure you want to delete your account?</h2>
               <div className="description-box">
                 <p className="description">
-                  Your question is still awaiting IBU&apos;s answer. If you
-                  delete it, you won&apos;t receive a reply and it will be
-                  removed from My Account.
+                  If you continue, your account and all saved content will be<br/> permanently removed from VWD Journey.
                 </p>
 
                 <p className="note">This action can&apos;t be undone.</p>

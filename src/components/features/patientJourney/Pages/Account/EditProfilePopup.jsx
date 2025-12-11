@@ -384,7 +384,7 @@ const EditProfilePopup = ({
               </div>
               <h2 className="title">All Set</h2>
               <div className="description-box">
-                <p className="description">
+                <p className="allset-description">
                   Your profile information has been saved
                   <br /> and updated.
                 </p>

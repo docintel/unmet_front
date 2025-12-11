@@ -1604,7 +1604,10 @@
       }
     }
   }
-
+    .share-modal .modal-dialog, .Edit-modal .modal-dialog {
+        margin: 0px auto;
+        padding: 0 10px;
+    }
   .login-right {
     min-height: initial;
     padding: 40px 24px 25px;
@@ -2304,21 +2307,23 @@
 
     .profile {
       .profile-content {
-        gap: 15px;
+        flex-direction: column;
+        gap: 10px;
 
         h4 {
           font-size: 20px;
         }
-
+       .profile-details{
+        width: 100%;
         p {
-          font-size: 12px;
-
+          font-size: 14px;
           img {
             width: 20px;
             height: 20px;
           }
         }
       }
+    }
     }
 
     .content-download {
@@ -2476,14 +2481,34 @@
     }
   }
 
-  .confirmation {
-    .confirmation-card.delete {
-      .confirmation-btn {
-        width: 100%;
+  .edit-confirmation {
+    padding: 0 10px;
+  }
 
-        button {
-          width: 131px;
-          padding: 8px 18px;
+  .confirmation {
+    .confirmation-card {
+      &.delete {
+        .confirmation-btn {
+          max-width: 320px;
+          width: 100%;
+
+          button {
+            width: 131px;
+            padding: 8px 14px;
+            font-size: 12px;
+          }
+        }
+      }
+
+      &.delete-account {
+        .confirmation-btn {
+          width: 100%;
+
+          button {
+            width: 131px;
+            padding: 8px 10px;
+            font-size: 12px;
+          }
         }
       }
     }
@@ -2765,7 +2790,6 @@
     .profile {
       padding: 12px 20px 12px 12px;
       gap: 12px;
-      align-items: baseline;
 
       .profile-img {
         width: 50px;
@@ -2780,6 +2804,7 @@
       .profile-content {
         h4 {
           font-size: 18px;
+          margin: 0;
         }
 
         svg {
@@ -2814,6 +2839,11 @@
         }
       }
     }
+        .account-tabs {
+          .tab-content {
+            padding: 16px 0;
+          }
+        }
   }
 }
 
@@ -3229,4 +3259,61 @@
       }
     }
   }
+.account-section {
+
+  .account-header {
+    gap: 12px;
+  }
+
+  .profile {
+    padding: 8px;
+    gap: 8px;
+
+    .profile-img {
+      width: 45px;
+      height: 45px;
+
+      img {
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    .profile-content {
+      h4 {
+        font-size: 16px;
+        margin: 0;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+        .profile-details{
+        p {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .content-download {
+    padding: 8px;
+
+    .download,
+    .shared {
+      padding: 8px;
+
+      .label img {
+        width: 16px;
+        height: 16px;
+      }
+
+      h5 {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
 }
