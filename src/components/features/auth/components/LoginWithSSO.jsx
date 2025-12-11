@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [searchParams] = useSearchParams();
-const location = useLocation();
+  const location = useLocation();
   const { login } = useAuth();
   // const isAuthenticatedUser = localStorage.getItem("decrypted_token")
   //   ? true
