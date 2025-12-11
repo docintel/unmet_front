@@ -15,27 +15,27 @@ const Redirect = () => {
         setLoader(true);
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
-        const res = await postData("/auth/login", { user_id:token });
-        if(res.status === 200){
-        const {userToken,name,jwtToken,sessionId} = res?.data?.data;
-        localStorage.setItem("user_id", userToken);
-        localStorage.setItem("name", name);
-        localStorage.setItem("decrypted_token", jwtToken);
-        localStorage.setItem("sessionId", sessionId);
-        trackingUserAction("login_clicked", `Login through  SSI link`,'');
-        //  navigate("/account", { state: { fromSsi: true } });
+        const res = await postData("/auth/login", { user_id: token });
+        if (res.status === 200) {
+          const { userToken, name, jwtToken, sessionId } = res?.data?.data;
+          localStorage.setItem("user_id", userToken);
+          localStorage.setItem("name", name);
+          localStorage.setItem("decrypted_token", jwtToken);
+          localStorage.setItem("sessionId", sessionId);
+          trackingUserAction("login_clicked", `Login through  SSI link`, "");
+          //  navigate("/account", { state: { fromSsi: true } });
 
-        if(res.data.data.userRegistered) navigate("/home");
-        else navigate("/login", { state: { userData: res.data.data } });
-        }else{
-           navigate("/login");
-           return;
+          if (res.data.data.userRegistered) navigate("/home");
+          else navigate("/login", { state: { userData: res.data.data } });
+        } else {
+          navigate("/login");
+          return;
         }
       } catch (err) {
         setLoader(false);
         console.error("Auto login failed:", err);
         navigate("/login");
-      }finally{
+      } finally {
         setLoader(false);
       }
     };
