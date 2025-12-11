@@ -38,8 +38,6 @@ const EditProfilePopup = ({
     } else setSaveDisabled(true);
   }, [name, selectedRole, selectedCountry, selectedRegion]);
 
-  useEffect(()=>{console.log(saveDisabled)},[saveDisabled])
-
   useEffect(() => {
     filterRegions();
     filterCountries();
@@ -160,7 +158,7 @@ const EditProfilePopup = ({
         currentTabValue
       );
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
       setError({ global: "Oops!! Failed to update profile details." });
       setPropertyState();
     }
@@ -384,7 +382,7 @@ const EditProfilePopup = ({
               </div>
               <h2 className="title">All Set</h2>
               <div className="description-box">
-                <p className="allset-description">
+                <p className="description allset-msg">
                   Your profile information has been saved
                   <br /> and updated.
                 </p>

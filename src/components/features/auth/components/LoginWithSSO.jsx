@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const [searchParams] = useSearchParams();
-
+  const location = useLocation();
   const { login } = useAuth();
   // const isAuthenticatedUser = localStorage.getItem("decrypted_token")
   //   ? true
@@ -29,6 +29,13 @@ const LoginWithSSO = () => {
   const [userData, setUserData] = useState(null);
   const id = searchParams.get("user-id") || "";
   const userId = id.slice(4, id.length - 2);
+
+  useEffect(() => {
+    if (location.state && location.state?.userData) {
+      setUserDetails(location.state.userData);
+      setUserVerified(true);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!userId) return;

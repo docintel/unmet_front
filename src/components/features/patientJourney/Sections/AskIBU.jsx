@@ -555,7 +555,10 @@ const AskIBU = () => {
           {questionList.loading ? (
             <></>
           ) : questionList.error ? (
-            <></>
+            <>
+              {" "}
+              <div className="no_data_found">No data Found</div>
+            </>
           ) : !questionData || questionData.length === 0 ? (
             <div className="no_data_found">No data Found</div>
           ) : (
@@ -575,14 +578,14 @@ const AskIBU = () => {
           <FormGroup className={"form-group " + (error ? "error" : "")}>
             <Form.Label className="question-label">Your Question</Form.Label>
             <div className="question-textarea">
-            <Form.Control
-              id="question"
-              as="textarea"
-              rows={2}
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Type your question for IBU..."
-            />
+              <Form.Control
+                id="question"
+                as="textarea"
+                rows={2}
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="Type your question for IBU..."
+              />
             </div>
             {error && <div className="validation">{error}</div>}
           </FormGroup>
@@ -591,29 +594,29 @@ const AskIBU = () => {
               Please don&apos;t include any personal or confidential information
               in your question.
             </p>
-         <button
-           type="button"
-           className={`submit-btn ${!question.trim() ? "disable" : ""}`}
-           disabled={!question.trim()}
-           onClick={(e) => {
-           if (!question.trim()) {
-           setError("Question is required");
-           return;
-           }
-           handleSubmit(
-           e,
-           setError,
-           question,
-           setQuestion,
-           setIsLoading,
-           setToast,
-           setShowConfirmationModal,
-           currentTabValue
-          );
-          }}
-        >
-         Submit <img src={path_image + "send-icon.svg"} alt="send" />
-         </button>
+            <button
+              type="button"
+              className={`submit-btn ${!question.trim() ? "disable" : ""}`}
+              disabled={!question.trim()}
+              onClick={(e) => {
+                if (!question.trim()) {
+                  setError("Question is required");
+                  return;
+                }
+                handleSubmit(
+                  e,
+                  setError,
+                  question,
+                  setQuestion,
+                  setIsLoading,
+                  setToast,
+                  setShowConfirmationModal,
+                  currentTabValue
+                );
+              }}
+            >
+              Submit <img src={path_image + "send-icon.svg"} alt="send" />
+            </button>
           </div>
         </Form>
       }
