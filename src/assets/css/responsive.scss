@@ -642,6 +642,16 @@
               top: 44px;
             }
           }
+        .input-with-icon {
+          input {
+           padding: 0 10px;
+           font-size: 12px;
+          }
+        }
+        svg{
+        width: 20px;
+        height: 20px;
+        }
         }
 
         .message {
