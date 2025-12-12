@@ -300,6 +300,8 @@ a {
   .login-form,
   .share-modal {
     margin: 48px 0 10px;
+    max-width: 448px;
+    width: 100%;
 
     form {
       max-width: 448px;
@@ -4940,7 +4942,8 @@ input[type="search"]::-webkit-search-results-decoration:hover {
         }
 
         &.delete-msg,
-        &.allset-msg {
+        &.allset-msg,
+        &.question-sent {
           font-size: 16px;
           font-weight: 600;
           line-height: 20px;

@@ -640,7 +640,7 @@ const AskIBU = () => {
 
               <h2 className="title">Question Sent</h2>
               <div className="description-box">
-                <p className="description">
+                <p className="description question-sent">
                   Your question has been successfully submitted!
                   <br />
                   You&apos;ll receive an email once IBU replies to your
@@ -648,8 +648,7 @@ const AskIBU = () => {
                 </p>
 
                 <p className="note">
-                  You can also find all your submitted questions anytime in your
-                  My Account page.
+                  You can also find all your submitted questions anytime in your <strong>My Account </strong>page.
                 </p>
 
                 <Button
