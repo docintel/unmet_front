@@ -209,14 +209,14 @@ const Account = () => {
                     <img src={path_image + "download-img.svg"} alt="Download" />
                     <h6>Content Downloaded</h6>
                   </div>
-                  <h5>{userData?.total_download ?? "00"}</h5>
+                  <h5>{userData?.total_download ?? "0"}</h5>
                 </div>
                 <div className="shared">
                   <div className="label">
                     <img src={path_image + "share-img.svg"} alt="Shared" />
                     <h6>Content Shared</h6>
                   </div>
-                  <h5>{userData?.total_shared ?? "00"}</h5>
+                  <h5>{userData?.total_shared ?? "0"}</h5>
                 </div>
               </div>
             </div>

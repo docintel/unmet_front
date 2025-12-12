@@ -210,17 +210,23 @@ export const ContentProvider = ({ children }) => {
 
   const updateDownload = () => {
     setUserData((prev) => {
-      return { ...prev, total_download: prev.total_download + 1 };
+      return {
+        ...prev,
+        total_download: prev?.total_download ? prev?.total_download + 1 : 1,
+      };
     });
   };
 
   const updateContentShared = () => {
     setUserData((prev) => {
-      return { ...prev, total_shared: prev.total_shared + 1 };
+      return {
+        ...prev,
+        total_shared: prev?.total_shared ? prev.total_shared + 1 : 1,
+      };
     });
   };
 
-  const updateUserPorfileData = (name, role, country, region) => {
+  const updateUserPorfileData = (name, role, country) => {
     setUserData((prev) => ({
       ...prev,
       name: name,
