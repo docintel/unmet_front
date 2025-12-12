@@ -25,8 +25,10 @@ const Redirect = () => {
           trackingUserAction("login_clicked", `Login through  SSI link`, "");
           //  navigate("/account", { state: { fromSsi: true } });
 
-          if (res.data.data.userRegistered) navigate("/home");
-          else navigate("/login", { state: { userData: res.data.data } });
+          if (res.data.data.userRegistered) {
+            document.cookie = `isHcp=${false}; 1; path=/`;
+            navigate("/home");
+          } else navigate("/login", { state: { userData: res.data.data } });
         } else {
           navigate("/login");
           return;
