@@ -86,7 +86,6 @@ const LoginWithSSO = () => {
   async function loginAsGuest() {
     try {
       const mail = "Meznah.a.k@docintel.app";
-      // const mail = "radhey.shyam@shinedezign.com";
       setLoader(true);
       const res = await postData("/auth/login", { mail });
       const { jwtToken, userRegistered, name, userToken, sessionId } =

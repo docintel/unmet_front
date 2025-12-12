@@ -53,7 +53,7 @@ export const ContentProvider = ({ children }) => {
     document.cookie.split(";").forEach((item) => {
       let hcpArr = item.split("=");
       if (hcpArr[0].trim() == "isHcp") {
-        setIsHcp(JSON.parse(hcpArr[1]));
+        setIsHcp(JSON.parse(hcpArr[1]) || false);
       }
     });
 
@@ -226,7 +226,7 @@ export const ContentProvider = ({ children }) => {
       name: name,
       role: role,
       country: country,
-      region: region,
+      // region: region,
     }));
   };
 

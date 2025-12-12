@@ -1,25 +1,22 @@
 import { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
-import
-{
+import {
   deleteIbuQuestion,
   updateIbuQuestion,
 } from "../../../../services/homeService";
 import { ContentContext } from "../../../../context/ContentContext";
 import { trackingUserAction } from "../../../../helper/helper";
 
-const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
-{
+const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const { setIsLoading, setToast, currentTabValue, contentHolder } =
     useContext(ContentContext);
   const [isEditing, setIsEditing] = useState(false);
   const [questionText, setQuestionText] = useState(question.question);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [inputError, setInputError] = useState("")
+  const [inputError, setInputError] = useState("");
 
-  const handleEditSubmission = async () =>
-  {
+  const handleEditSubmission = async () => {
     try {
       if (!questionText || !questionText.trim()) {
         setInputError("Question is required.");
@@ -52,8 +49,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
     }
   };
 
-  const handleDeleteQuestion = async () =>
-  {
+  const handleDeleteQuestion = async () => {
     try {
       await deleteIbuQuestion(question.id, setIsLoading);
       updateDeleteQuestion(question.id, "", false);
@@ -78,7 +74,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
       });
     }
   };
-  
+
   return (
     <div className="detail-data-box ask-ibu-question">
       <div className="question-header">
@@ -106,33 +102,39 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
         <div className="question-section">
           {!isEditing && <div className="heading">{questionText}</div>}
           {account && isEditing && (
-          <div className={inputError ? "error" : "answer-textarea"}>
-            <textarea
-              rows="1"
-              className="edit-input"
-              placeholder="Edit your question..."
-              value={questionText}
-              onChange={(e) => {
-                setQuestionText(e.target.value);
-                // Auto resize
-                e.target.style.height = "auto";
-                e.target.style.height = e.target.scrollHeight + "px";
-              }}
-            ></textarea>
-            {inputError && <span>{inputError}</span>}
-          </div>
+            <div className={inputError ? "error" : "answer-textarea"}>
+              <textarea
+                rows="1"
+                className="edit-input"
+                placeholder="Edit your question..."
+                value={questionText}
+                onChange={(e) => {
+                  setQuestionText(e.target.value);
+                  // Auto resize
+                  e.target.style.height = "auto";
+                  e.target.style.height = e.target.scrollHeight + "px";
+                }}
+              ></textarea>
+              {inputError && <span>{inputError}</span>}
+            </div>
           )}
           <div className="region">
-            {!question.region && !question.country ? (
-              "N/A"
-            ) : (
-              <>
-                {[question.region || " ", question.country || " "]
-                  .join(", ")
-                  .replace(" ,", "")
-                  .replace(",  ", "")}
-              </>
-            )}{" "}
+            {
+              // !question.region &&
+              !question.country ? (
+                "N/A"
+              ) : (
+                <>
+                  {[
+                    // question.region || " ",
+                    question.country || " ",
+                  ]
+                    .join(", ")
+                    .replace(" ,", "")
+                    .replace(",  ", "")}
+                </>
+              )
+            }{" "}
           </div>
         </div>
         {question.visibility_status !== "Not Answer" && (
@@ -233,7 +235,7 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) =>
                     type="button"
                     onClick={handleDeleteQuestion}
                   >
-                   Delete question
+                    Delete question
                   </button>
                 </div>
               </div>

@@ -12,8 +12,8 @@ const AskIBU = () => {
   const [error, setError] = useState("");
   const [showFilterBox, setShowFilterBox] = useState(false);
   const [showTagsDropdown, setShowTagsDropdown] = useState(false);
-  const [regions, setRegions] = useState([]);
-  const [selectedRegions, setSelectedRegions] = useState([]);
+  // const [regions, setRegions] = useState([]);
+  // const [selectedRegions, setSelectedRegions] = useState([]);
   const [countries, setCountries] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [topics, setTopics] = useState([]);
@@ -47,26 +47,26 @@ const AskIBU = () => {
             new Date(a.created.replaceAll(".", " "))
         )
       );
-      let regionArr = [],
-        countryArr = [],
-        topicsArr = [];
+      let countryArr = [],
+      topicsArr = [];
+      // regionArr = [],
 
       questionList.questions.forEach((item) => {
-        regionArr.push(item.region);
+        // regionArr.push(item.region);
         countryArr.push(item.country);
         topicsArr.push(...item.topics);
       });
 
-      regionArr = [...new Set(regionArr)].filter((item) =>item &&  item.trim() !== "");
+      // regionArr = [...new Set(regionArr)].filter((item) =>item &&  item.trim() !== "");
       countryArr = [...new Set(countryArr)].filter(
         (item) => item && item.trim() !== ""
       );
       topicsArr = [...new Set(topicsArr)].filter((item) =>item &&  item.trim() !== "");
-      if (regionArr.includes("Other")) {
-        regionArr = regionArr.filter((item) => item !== "Other").push("Other");
-      }
+      // if (regionArr.includes("Other")) {
+      //   regionArr = regionArr.filter((item) => item !== "Other").push("Other");
+      // }
 
-      setRegions(regionArr);
+      // setRegions(regionArr);
       setCountries(countryArr);
       setTopics(topicsArr);
     }
@@ -74,7 +74,7 @@ const AskIBU = () => {
 
   useEffect(() => {
     if (
-      selectedRegions.length ||
+      // selectedRegions.length ||
       selectedCountries.length ||
       selectedTopics.length
     )
@@ -87,7 +87,8 @@ const AskIBU = () => {
             new Date(a.created.replaceAll(".", " "))
         )
       );
-  }, [selectedRegions, selectedCountries, selectedTopics]);
+  }, [//selectedRegions, 
+    selectedCountries, selectedTopics]);
 
   const filterQuestions = () => {
     const questionDataList = [...questionList.questions];
@@ -98,12 +99,12 @@ const AskIBU = () => {
       );
       tempList = [...tempList, ...data];
     }
-    if (selectedRegions.length > 0) {
-      const data = questionDataList.filter((item) =>
-        selectedRegions.includes(item.region)
-      );
-      tempList = [...tempList, ...data];
-    }
+    // if (selectedRegions.length > 0) {
+    //   const data = questionDataList.filter((item) =>
+    //     selectedRegions.includes(item.region)
+    //   );
+    //   tempList = [...tempList, ...data];
+    // }
     if (selectedTopics.length > 0) {
       const data = questionDataList.filter((item) => {
         if (item.topics) {
@@ -127,7 +128,7 @@ const AskIBU = () => {
     tempList.forEach((item) => {
       let count = 0;
       if (selectedCountries.includes(item.country)) count++;
-      if (selectedRegions.includes(item.region)) count++;
+      // if (selectedRegions.includes(item.region)) count++;
       item.topics.forEach((element) => {
         if (selectedTopics.includes(element)) count++;
       });
@@ -151,14 +152,14 @@ const AskIBU = () => {
     setQuestionData(filteredItem);
   };
 
-  const toggleRegion = (region) => {
-    if (selectedRegions.includes(region)) {
-      const data = selectedRegions.filter((item) => item !== region);
-      setSelectedRegions(data);
-    } else {
-      setSelectedRegions([...selectedRegions, region]);
-    }
-  };
+  // const toggleRegion = (region) => {
+  //   if (selectedRegions.includes(region)) {
+  //     const data = selectedRegions.filter((item) => item !== region);
+  //     setSelectedRegions(data);
+  //   } else {
+  //     setSelectedRegions([...selectedRegions, region]);
+  //   }
+  // };
 
   const toggleCountry = (country) => {
     if (selectedCountries.includes(country)) {
@@ -180,7 +181,7 @@ const AskIBU = () => {
 
   // Remove all filters
   const clearAllFilters = () => {
-    setSelectedRegions([]);
+    // setSelectedRegions([]);
     setSelectedCountries([]);
     setSelectedTopics([]);
   };
@@ -191,12 +192,13 @@ const AskIBU = () => {
       <div className="ask-ibu-filter">
         {/* Applied filters */}
         <div className="filter-section">
-          {(selectedRegions.length > 0 ||
+          {(
+            // selectedRegions.length > 0 ||
             selectedCountries.length > 0 ||
             selectedTopics.length > 0) && (
             <div className="filter-list">
               <p className="label">Result:</p>
-              {selectedRegions.length > 0 &&
+              {/* {selectedRegions.length > 0 &&
                 selectedRegions.map((region, index) => {
                   let count = 0;
                   questionData.forEach((item) => {
@@ -217,7 +219,7 @@ const AskIBU = () => {
                       </button>
                     </span>
                   );
-                })}
+                })} */}
               {selectedCountries.length > 0 &&
                 selectedCountries.map((country, index) => {
                   let count = 0;
@@ -269,7 +271,8 @@ const AskIBU = () => {
             </div>
           )}
           <div className="filter-container">
-            {(regions.length > 0 ||
+            {(
+              // regions.length > 0 ||
               countries.length > 0 ||
               topics.length > 0) && (
               <button
@@ -279,11 +282,11 @@ const AskIBU = () => {
                 {" "}
                 Filter
                 {selectedCountries.length +
-                selectedRegions.length +
+                // selectedRegions.length +
                 selectedTopics.length ? (
                   <span className="filter-count">
                     {selectedCountries.length +
-                      selectedRegions.length +
+                      // selectedRegions.length +
                       selectedTopics.length}{" "}
                   </span>
                 ) : null}
@@ -300,7 +303,7 @@ const AskIBU = () => {
             <div className="filter-box-overlay">
               <div className="filter-box">
                 {/* Regions */}
-                <div className="filter-group">
+                {/* <div className="filter-group">
                   <label className="filter-label">Regions</label>
                   <div
                     className={`dropdown-toggle ${
@@ -381,7 +384,7 @@ const AskIBU = () => {
                       </div>
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 {/* Countries */}
                 <div className="filter-group">

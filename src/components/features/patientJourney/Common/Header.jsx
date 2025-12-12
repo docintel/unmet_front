@@ -13,7 +13,7 @@ import { ContentContext } from "../../../../context/ContentContext";
 const Header = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
   const {
-    isHcp,
+    isHcp = false,
     setIsHcp,
     setCurrentTabValue,
     currentTabValue,

@@ -257,7 +257,7 @@ export const updateUserProfileDetails = async (
   name,
   role,
   country,
-  region,
+  // region,
   setToast,
   setIsLoading
 ) => {
@@ -265,7 +265,7 @@ export const updateUserProfileDetails = async (
     setIsLoading(true);
     await putData(endPoint.UPDATE_USER_DETAILS, {
       role: role,
-      region: region,
+      // region: region,
       country: country,
       name: name,
     });

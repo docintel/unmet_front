@@ -12,9 +12,9 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
   // State
   // const [selectedRole, setSelectedRole] = useState(null);
   const [selectedRole, setSelectedRole] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  // const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [regionList, setRegionList] = useState([]);
+  // const [regionList, setRegionList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [errors, setErrors] = useState({});
   const [isFocused, setIsFocused] = useState(false);
@@ -39,9 +39,39 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
     if (selectedCountry) setErrors({ ...errors, country: "", region: "" });
   }, [selectedCountry]);
 
-  useEffect(() => {
-    if (selectedRegion) setErrors({ ...errors, region: "" });
-  }, [selectedRegion]);
+  useEffect(() => filterCountries(), []);
+
+  // Validation
+  const validateForm = useCallback(() => {
+    const newErrors = {};
+    if (!selectedRole) newErrors.role = "Role is required.";
+    else newErrors.role = "";
+    // if (!selectedRegion)
+    //   newErrors.region = "Oops! Pick at least a region or a country.";
+    // else newErrors.region = "";
+    if (!selectedCountry)
+      newErrors.country = "Oops! Pick a country.";
+    else newErrors.country = "";
+    setErrors(newErrors);
+
+    let valid = false;
+
+    if (
+      selectedRole
+      && selectedCountry
+      // && selectedRegion
+    )
+      valid = true;
+    return valid;
+  }, [
+    selectedRole,
+    // selectedRegion,
+    selectedCountry,
+  ]);
+
+  // useEffect(() => {
+  //   if (selectedRegion) setErrors({ ...errors, region: "" });
+  // }, [selectedRegion]);
 
   // const regionOptions = useMemo(() => {
   //   const uniqueRegions = [...new Set(Object.values(countryRegionArray))];
@@ -62,76 +92,61 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
   //     .map(([country]) => ({ value: country, label: country }));
   // }, [selectedRegion]);
 
-  const filterRegions = () => {
-    const uniqueRegions = [
-      ...new Set(
-        Object.entries(countryRegionArray)
-          .map(([, region]) => region)
-          .filter((region) => region !== "Other")
-      ),
-    ]
+  // const filterRegions = () => {
+  //   const uniqueRegions = [
+  //     ...new Set(
+  //       Object.entries(countryRegionArray)
+  //         .map(([, region]) => region)
+  //         .filter((region) => region !== "Other")
+  //     ),
+  //   ]
 
-      .map((region) => ({ value: region, label: region }))
-      .sort((a, b) =>
-        a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-      );
+  //     .map((region) => ({ value: region, label: region }))
+  //     .sort((a, b) =>
+  //       a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+  //     );
 
-    setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
-  };
+  //   setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
+  // };
 
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray)
-      .filter(([, region]) => {
-        if (selectedRegion) return region === selectedRegion.value;
-        else return true;
-      })
+      // .filter(([, region]) => {
+      //   if (selectedRegion) return region === selectedRegion.value;
+      //   else return true;
+      // })
       .map(([country]) => ({ value: country, label: country }));
     setCountryList(coutries);
   };
 
-  useEffect(() => {
-    filterRegions();
-    filterCountries();
-    if (selectedCountry && !selectedRegion) {
-      const region = Object.entries(countryRegionArray).filter(
-        ([country]) => country === selectedCountry.value
-      );
-      setSelectedRegion({ value: region[0][1], label: region[0][1] });
-      filterRegions();
-    }
-  }, [selectedCountry, selectedRegion]);
-
-  // Validation
-  const validateForm = useCallback(() => {
-    const newErrors = {};
-    if (!selectedRole) newErrors.role = "Role is required.";
-    else newErrors.role = "";
-    if (!selectedRegion)
-      newErrors.region = "Oops! Pick at least a region or a country.";
-    else newErrors.region = "";
-    if (!selectedCountry)
-      newErrors.country = "Oops! Pick at least a region or a country.";
-    else newErrors.country = "";
-    setErrors(newErrors);
-
-    let valid = false;
-
-    if (selectedRole && selectedRegion) valid = true;
-    return valid;
-  }, [selectedRole, selectedRegion, selectedCountry]);
+  // useEffect(() => {
+  // filterRegions();
+  // filterCountries();
+  // if (selectedCountry
+  // && !selectedRegion
+  // ) {
+  // const region = Object.entries(countryRegionArray).filter(
+  //   ([country]) => country === selectedCountry.value
+  // );
+  // setSelectedRegion({ value: region[0][1], label: region[0][1] });
+  // filterRegions();
+  // }
+  // }, [selectedCountry
+  // , selectedRegion
+  // ]);
 
   // Handlers
-  const handleRegionChange = (val) => {
-    setSelectedRegion(val);
-    setSelectedCountry(null);
-  };
+  // const handleRegionChange = (val) => {
+  //   setSelectedRegion(val);
+  //   setSelectedCountry(null);
+  // };
 
   const onSubmit = useCallback(
     (e) => {
       handleSubmit(
         e,
         selectedRole,
-        selectedRegion,
+        // selectedRegion,
         selectedCountry,
         validateForm,
         navigate,
@@ -142,7 +157,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
     },
     [
       selectedRole,
-      selectedRegion,
+      // selectedRegion,
       selectedCountry,
       validateForm,
       navigate,
@@ -231,11 +246,13 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     <Form.Label>
                       Role <span>(Required)</span>
                     </Form.Label>
-                    <div  className={
-                      "input-with-icon " +
-                      (errors.role ? "error " : "") +
-                      (isFocused ? "active" : "")
-                    }>
+                    <div
+                      className={
+                        "input-with-icon " +
+                        (errors.role ? "error " : "") +
+                        (isFocused ? "active" : "")
+                      }
+                    >
                       <span className="icon">
                         <span>
                           <svg
@@ -375,7 +392,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     </Form.Text>
                   </div>
                   {/* Region */}
-                  <Form.Group className="form-group">
+                  {/* <Form.Group className="form-group">
                     <Form.Label>
                       Region <span>(Required)</span>
                     </Form.Label>
@@ -453,7 +470,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                         <div className="validation">{errors.region}</div>
                       )}
                     </div>
-                  </Form.Group>
+                  </Form.Group> */}
 
                   {/* Country */}
                   <Form.Group className="form-group">
@@ -474,7 +491,9 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     >
                       <Select
                         className={`split-button ${
-                          errors.country && errors.region ? "error" : ""
+                          errors.country 
+                          // && errors.region
+                           ? "error" : ""
                         }`}
                         value={selectedCountry}
                         onChange={(e) => {
@@ -530,7 +549,9 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           />
                         </svg>{" "}
                       </span>
-                      {errors.country && errors.region && (
+                      {errors.country && 
+                      // errors.region &&
+                       (
                         <div className="validation">{errors.country}</div>
                       )}
                     </div>
