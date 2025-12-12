@@ -330,11 +330,11 @@ const LoginWithSSO = () => {
           size="lg"
         >
           <Modal.Body>
-            <div className="confirmation-card">
-              <div className="check-icon">
-                {/* <img src={path_image + "cross-btn.svg"} alt="success" /> */}
+            <div className="confirmation-card deactivated">
+                <div className="check-icon">
+                <img src={path_image + "alert-icon.svg"} alt="success" />
               </div>
-              <h2 className="title">Account Deleted</h2>
+              <h2 className="title">Account Deactivated</h2>
               <div className="description-box">
                 <p className="description">
                 Your account has been deactivated. Please contact <b>VWD admin</b>.<br/>
