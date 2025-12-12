@@ -2546,7 +2546,7 @@
 
         h3 {
           top: 18px;
-          font-size: 20px;
+          font-size: 24px;
         }
 
         &::before {
@@ -2590,12 +2590,11 @@
             }
 
             .block {
-              // margin: 34px 0 0 !important;
               flex-direction: row;
-              animation: slideLeftToRight 1.2s ease forwards;
+              // animation: slideLeftToRight 1.2s ease forwards;
 
               &.age0 {
-                margin: -16px 0 0 0 !important;
+              margin: -15px 0 0 -2px !important;
 
                 .line {
                   border-top: 1px dashed var(--green);
@@ -2604,10 +2603,13 @@
                     background: var(--green);
                   }
                 }
+                opacity: 0;
+                animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 0s;
               }
 
               &.age12 {
-                margin: 3px 0 0 !important;
+                margin: 5px 0 0 -5px !important;
 
                 .line {
                   border-top: 1px dashed var(--gradient-orange);
@@ -2616,10 +2618,9 @@
                     background: var(--gradient-orange);
                   }
                 }
-
-                .age-group-circle {
-                  margin: 0 1px 0 0 !important;
-                }
+                opacity: 0;
+                animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 1s;
               }
 
               &.age26 {
@@ -2632,6 +2633,9 @@
                     background: var(--gradient-pink);
                   }
                 }
+                opacity: 0;
+                animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 2s;
               }
 
               .age-gap {
@@ -2645,7 +2649,7 @@
               }
 
               &:nth-child(even) {
-                animation: slideRightToLeft 1.2s ease forwards;
+                // animation: slideRightToLeft 1.2s ease forwards;
 
                 &.age6 {
                   margin: 32px 0 25px 0 !important;
@@ -2657,10 +2661,17 @@
                       background: #7DB8A8;
                     }
                   }
+                opacity: 0;
+                animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                animation-delay: 0.5s;
+
+                  .age-group-circle {
+                  margin: 0 0 0 6px !important;
+                }
                 }
 
                 &.age18 {
-                  margin: 31px 0 0 !important;
+                  margin: 31px -7px 0 0 !important;
 
                   .line {
                     border-top: 1px dashed #F37B50;
@@ -2669,10 +2680,13 @@
                       background: #F37B50;
                     }
                   }
+                opacity: 0;
+                animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                 animation-delay: 1.5s;
 
                   .age-group-circle {
-                    margin: 0 0 0 -1px !important;
-                  }
+                  margin: 0 0 0 6px !important;
+                }
                 }
 
                 p {
@@ -2704,7 +2718,6 @@
 
                 .age-group-circle {
                   order: 2;
-                  margin: 0 0 0 6px !important;
                 }
               }
 
@@ -2862,34 +2875,38 @@
     .explore-journey {
       .filter-age {
         height: 700px;
+          h3 {
+          font-size: 20px;
+        }
       }
 
       .explore-journey-block {
         .explore-journey-block-inner {
           .age-filter-block {
-            max-width: 73%;
+            max-width: 72%;
 
             .block {
-              // margin: 25px 0 0;
-
               &.age0 {
                 margin: 21px 0 0 -2px !important;
               }
 
-              &.age12,
+              &.age12{
+                margin: 25px 0 0 -6px !important
+              }
               &.age26 {
-                margin: 25px 0 0 !important;
+                margin: 25px 0 0 -1px !important;
               }
 
               &:nth-child(even) {
 
-                &.age6,
+                &.age6{
+                margin: 25px 0 0 !important;
+                }
                 &.age18 {
-                  margin: 25px 0 0 !important;
+                  margin: 25px -7px 0 !important
                 }
               }
             }
-
             .age-group-circle {
               width: 70px;
               height: 70px;
@@ -2924,23 +2941,15 @@
 
             .block {
               &.age0 {
-                margin: 18px 0 0 !important;
-
-                .age-group-circle {
-                  margin: 0 3px 0 0 !important;
-                }
+                margin: 18px 0 0 -3px !important;
               }
 
               &.age12 {
-                margin: 29px 0 0px 0 !important;
-
-                .age-group-circle {
-                  margin: 0 -3px 0 0 !important;
-                }
+                margin: 29px 0 0px -9px !important;
               }
 
               &.age26 {
-                margin: 27px 0 0 !important;
+                margin: 27px 0 0 -7px !important;
               }
 
               p {
@@ -2949,15 +2958,11 @@
 
               &:nth-child(even) {
                 &.age6 {
-                  margin: 27px 0 0 !important;
+                  margin: 27px 1px 0 0 !important;
                 }
 
                 &.age18 {
-                  margin: 30px 0 0 !important;
-
-                  .age-group-circle {
-                    margin: 0 0 0 2px !important;
-                  }
+                  margin: 30px -3px 0 0 !important;
                 }
 
                 p {
@@ -2978,7 +2983,6 @@
               width: 60px;
               height: 60px;
               padding: 6px;
-              margin: 0 -1px 0 0 !important;
 
               img {
                 width: 52px;
@@ -3000,12 +3004,15 @@
     .explore-journey {
       .filter-age {
         height: 620px;
+         h3 {
+          font-size: 20px;
+        }
       }
 
       .explore-journey-block {
         .explore-journey-block-inner {
           .age-filter-block {
-            max-width: 71%;
+            max-width: 73%;
 
             p {
               max-width: 50px;
@@ -3014,22 +3021,14 @@
             .block {
               &.age0 {
                 margin: 18px 0 0 !important;
-
-                .age-group-circle {
-                  margin: 0 3px 0 0 !important;
-                }
               }
 
               &.age12 {
-                margin: 25px 0 0 !important;
-
-                .age-group-circle {
-                  margin: 0 -3px 0 0 !important;
-                }
+                margin: 25px 0 0 -6px !important;
               }
 
               &.age26 {
-                margin: 27px 0 0 !important;
+                margin: 27px 0 0 -3px !important;
               }
 
               p {
@@ -3038,15 +3037,11 @@
 
               &:nth-child(even) {
                 &.age6 {
-                  margin: 22px 0 0 !important;
+                  margin: 26px 4px 0 0px !important;
                 }
 
                 &.age18 {
                   margin: 24px 0 0 !important;
-
-                  .age-group-circle {
-                    margin: 0 0 0 2px !important;
-                  }
                 }
 
                 p {
@@ -3067,7 +3062,6 @@
               width: 60px;
               height: 60px;
               padding: 6px;
-              margin: 0 -1px 0 0 !important;
 
               img {
                 width: 52px;
@@ -3101,24 +3095,17 @@
             }
 
             .block {
-              margin: 22px 0 0 !important;
 
               &.age0 {
-                margin: 18px 0 0 !important;
-
-                .age-group-circle {
-                  margin: 0 3px 0 0 !important;
-                }
+                margin: 22px 0px 0 -4px !important
               }
 
               &.age12 {
-                .age-group-circle {
-                  margin: 0 -3px 0 0 !important;
-                }
+                margin: 25px 0 0 -10px !important
               }
 
               &.age26 {
-                margin: 22px 0 0 !important;
+                margin: 22px 0 0 -7px !important;
               }
 
               p {
@@ -3131,11 +3118,7 @@
                 }
 
                 &.age18 {
-                  margin: 22px 0 0 !important;
-
-                  .age-group-circle {
-                    margin: 0 0 0 2px !important;
-                  }
+                  margin: 22px -4px 0 0!important;
                 }
 
                 p {
@@ -3156,7 +3139,6 @@
               width: 60px;
               height: 60px;
               padding: 6px;
-              margin: 0 -1px 0 0 !important;
 
               img {
                 width: 52px;
@@ -3191,26 +3173,17 @@
             }
 
             .block {
-              margin: 22px 0 0;
 
               &.age0 {
-                margin: 16px 0 0 !important;
-
-                .age-group-circle {
-                  margin: 0 1px 0 0 !important;
-                }
+                margin: 15px 0px 0 -5px !important;
               }
 
               &.age12 {
-                .age-group-circle {
-                  margin: 0 -3px 0 0;
-                }
+                margin: 22px 0 0 -10px !important
               }
 
               &.age26 {
-                // p{
-                //    margin: 3px 11px 0 0; 
-                // }
+                margin: 20px 0 0 -7px !important;
               }
 
               p {
@@ -3223,11 +3196,7 @@
                 }
 
                 &.age18 {
-                  margin: 18px 0 0 !important;
-
-                  .age-group-circle {
-                    margin: 0 0 0 2px;
-                  }
+                  margin: 22px -3px 0 0 !important;
                 }
 
                 p {
@@ -3258,7 +3227,6 @@
               width: 50px;
               height: 50px;
               padding: 6px;
-              margin: 0;
 
               img {
                 width: 52px;
