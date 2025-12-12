@@ -230,7 +230,10 @@ const EditProfilePopup = ({
                       type="text"
                       placeholder="Enter your role"
                       value={selectedRole}
-                      onChange={(e) => setSelectedRole(e.target.value)}
+                      onChange={(e) =>
+                        e.target.value.length <= 50 &&
+                        setSelectedRole(e.target.value)
+                      }
                     />
                   </div>{" "}
                   {error.role && <div className="validation">{error.role}</div>}
@@ -339,9 +342,10 @@ const EditProfilePopup = ({
                   >
                     <Select
                       className={`split-button ${
-                        error.country 
-                        // && error.region 
-                        ? "error" : ""
+                        error.country
+                          ? // && error.region
+                            "error"
+                          : ""
                       }`}
                       value={selectedCountry}
                       onChange={setSelectedCountry}
@@ -363,9 +367,8 @@ const EditProfilePopup = ({
                     <span>
                       <img src={path_image + "country-icon.svg"} alt="" />
                     </span>
-                    {error.country && 
-                    // error.region && 
-                    (
+                    {error.country && (
+                      // error.region &&
                       <div className="validation">{error.country}</div>
                     )}
                   </div>

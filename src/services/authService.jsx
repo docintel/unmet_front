@@ -2,7 +2,12 @@ import endPoint from "./axios/apiEndpoint";
 import { postData } from "./axios/apiHelper";
 import { clearLocalStorage, trackingUserAction } from "../helper/helper";
 
-export const handleSso = async (login, handleLoginSuccess, setLoader) => {
+export const handleSso = async (
+  login,
+  handleLoginSuccess,
+  setLoader,
+  setAccountDeleteShow
+) => {
   try {
     const data = await login();
     if (!data) {
@@ -25,8 +30,9 @@ export const handleSso = async (login, handleLoginSuccess, setLoader) => {
       setLoader(false);
     } else {
       console.error("Unexpected login error:", error);
-      alert("Login failed. Please try again later.");
+      // alert("Login failed. Please try again later.");
       setLoader(false);
+      setAccountDeleteShow(true);
     }
   }
 };

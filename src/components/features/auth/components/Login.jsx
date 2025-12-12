@@ -293,7 +293,10 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                         type="text"
                         placeholder="Enter your role"
                         value={selectedRole}
-                        onChange={(e) => setSelectedRole(e.target.value)}
+                        onChange={(e) =>
+                          e.target.value.length <= 50 &&
+                          setSelectedRole(e.target.value)
+                        }
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                       />
@@ -491,9 +494,10 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     >
                       <Select
                         className={`split-button ${
-                          errors.country 
-                          // && errors.region
-                           ? "error" : ""
+                          errors.country
+                            ? // && errors.region
+                              "error"
+                            : ""
                         }`}
                         value={selectedCountry}
                         onChange={(e) => {
@@ -549,9 +553,8 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                           />
                         </svg>{" "}
                       </span>
-                      {errors.country && 
-                      // errors.region &&
-                       (
+                      {errors.country && (
+                        // errors.region &&
                         <div className="validation">{errors.country}</div>
                       )}
                     </div>

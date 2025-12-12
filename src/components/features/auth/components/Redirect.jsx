@@ -16,6 +16,7 @@ const Redirect = () => {
         const params = new URLSearchParams(window.location.search);
         const token = params.get("token");
         const res = await postData("/auth/login", { user_id: token });
+
         if (res.status === 200) {
           const { userToken, name, jwtToken, sessionId } = res?.data?.data;
           localStorage.setItem("user_id", userToken);
@@ -36,7 +37,9 @@ const Redirect = () => {
       } catch (err) {
         setLoader(false);
         console.error("Auto login failed:", err);
-        navigate("/login");
+        let error = "";
+        if(err.status == "400") error = "USER_DELETED";
+        navigate("/login", { state: { error } });
       } finally {
         setLoader(false);
       }

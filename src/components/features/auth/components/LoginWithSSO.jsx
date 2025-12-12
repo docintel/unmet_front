@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getUserDetails, handleSso } from "../../../../services/authService";
 import { postData } from "../../../../services/axios/apiHelper";
 import Login from "./Login";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import {
   clearLocalStorage,
   trackingUserAction,
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 const LoginWithSSO = () => {
   const path_image = import.meta.env.VITE_IMAGES_PATH;
+
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { login } = useAuth();
@@ -27,13 +28,18 @@ const LoginWithSSO = () => {
   const [loader, setLoader] = useState(false);
   const [isHcp, setIsHcp] = useState(false);
   const [userData, setUserData] = useState(null);
+  const [accountDeleteShow, setAccountDeleteShow] = useState(false);
+
   const id = searchParams.get("user-id") || "";
   const userId = id.slice(4, id.length - 2);
 
   useEffect(() => {
-    if (location.state && location.state?.userData) {
-      setUserDetails(location.state.userData);
+    if (location?.state && location?.state?.userData) {
+      setUserDetails(location?.state?.userData);
       setUserVerified(true);
+    }
+    if (location?.state?.error === "USER_DELETED") {
+      setAccountDeleteShow(true);
     }
   }, [location]);
 
@@ -110,8 +116,9 @@ const LoginWithSSO = () => {
       }
     } catch (ex) {
       console.log("Failed to login", ex);
-      if (ex.status === 400) toast.error("User does not exists");
-      else toast.error("Failed to login");
+      if (ex.status === 400) {
+        setAccountDeleteShow(true);
+      } else toast.error("Failed to login");
     } finally {
       setLoader(false);
     }
@@ -249,7 +256,12 @@ const LoginWithSSO = () => {
                         variant="primary"
                         onClick={() => {
                           document.cookie = `isHcp=${isHcp}; 1; path=/`;
-                          handleSso(login, isUserVerified, setLoader);
+                          handleSso(
+                            login,
+                            isUserVerified,
+                            setLoader,
+                            setAccountDeleteShow
+                          );
                         }}
                         className="rounded-lg transition"
                       >
@@ -307,6 +319,40 @@ const LoginWithSSO = () => {
           </div>
         </div>
       )}
+      <div className="pop_up">
+        <Modal
+          show={accountDeleteShow}
+          onHide={() => setAccountDeleteShow(false)}
+          backdrop="static"
+          keyboard={false}
+          centered
+          className="confirmation"
+          size="lg"
+        >
+          <Modal.Body>
+            <div className="confirmation-card">
+              <div className="check-icon">
+                {/* <img src={path_image + "cross-btn.svg"} alt="success" /> */}
+              </div>
+              <h2 className="title">Account Deleted</h2>
+              <div className="description-box">
+                <p className="description">
+                Your account has been deactivated. Please contact <b>VWD admin</b>.<br/>
+                (wvdjourney@octapharma.com)
+                </p>
+
+                <Button
+                  type="button"
+                  className="btn done"
+                  onClick={() => setAccountDeleteShow(false)}
+                >
+                  Okay
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </div>
     </>
   );
 };
