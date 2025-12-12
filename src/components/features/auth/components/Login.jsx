@@ -50,7 +50,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
     //   newErrors.region = "Oops! Pick at least a region or a country.";
     // else newErrors.region = "";
     if (!selectedCountry)
-      newErrors.country = "Oops! Pick a country.";
+      newErrors.country = "Country is required.";
     else newErrors.country = "";
     setErrors(newErrors);
 
@@ -381,7 +381,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                       )}
                     </div>
                   </Form.Group> */}
-                  <div className="message">
+                  {/* <div className="message">
                     <div className="info-icon">
                       <img src={path_image + "info-icon.svg"} alt="" />
                     </div>
@@ -390,7 +390,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                       required — entering both is recommended for the best
                       experience.
                     </Form.Text>
-                  </div>
+                  </div> */}
                   {/* Region */}
                   {/* <Form.Group className="form-group">
                     <Form.Label>
