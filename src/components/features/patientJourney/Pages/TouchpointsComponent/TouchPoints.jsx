@@ -40,20 +40,26 @@ const TouchPoints = () => {
   const [expandNarrative, setExapandNarrative] = useState(false);
   const [expandNarrativeTitle, setExpandNarrativeTitle] = useState(false);
   const [expandContributionTitle, setExpandContributionTitle] = useState(false);
-  const [searchBackspace, setSearchBackspace] = useState(false);
+  // const [searchBackspace, setSearchBackspace] = useState(false);
   const [tagLimit, setTagLimit] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+  const [showClear, setShowClear] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
   useEffect(() => {
     filterContents();
     filterTags();
   }, [selectedTag]);
+
+  useEffect(() => {
+    if (searchText.trim() || selectedTag.length) setShowClear(true);
+    else setShowClear(false);
+  }, [searchText, selectedTag]);
 
   useEffect(() => {
     if (contents) {
@@ -103,6 +109,7 @@ const TouchPoints = () => {
   useEffect(() => {
     setSelectedTag([]);
     filterTags();
+    setSearchText("")
   }, [activeKey, activeJourney, isAllSelected, isHcp]);
 
   useEffect(() => {
@@ -116,7 +123,7 @@ const TouchPoints = () => {
 
   useEffect(() => {
     if (searchText.length == 0) {
-      if (!searchBackspace) setSelectedTag([]);
+      // if (!searchBackspace) setSelectedTag([]);
       handleSearchClick();
     }
   }, [searchText]);
@@ -175,7 +182,7 @@ const TouchPoints = () => {
       setTagLimit(isMobile ? 10 : count);
     }
   };
-  
+
   // const toggleUserType = () => setIsAllSelected((prev) => !prev);
   const toggleUserType = () => {
     const newValue = !isAllSelected;
@@ -426,8 +433,8 @@ const TouchPoints = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
-    if (e.key === "Backspace") setSearchBackspace(true);
-    else setSearchBackspace(false);
+    // if (e.key === "Backspace") setSearchBackspace(true);
+    // else setSearchBackspace(false);
     if (e.key === "Enter") {
       if (searchText.length <= 3)
         setToast({
@@ -577,8 +584,8 @@ const TouchPoints = () => {
                               </div>
                             )}
                             <Form.Control
-                              type="search"
-                              aria-label="Search"
+                              type="text"
+                              // aria-label="Search"
                               placeholder={
                                 selectedTag.length === 0
                                   ? "Search by tag or content title"
@@ -590,6 +597,16 @@ const TouchPoints = () => {
                               }
                               onKeyUp={handleSearchTextKeyUp}
                             />
+                            {showClear && (
+                              <span className="cross-icon"
+                                onClick={() => {
+                                  setSelectedTag([]);
+                                  setSearchText("");
+                                }}
+                              >
+                                <img src={path_image + "cross-btn.svg"} alt="Clear" />
+                              </span>
+                            )}
                           </div>
                           <Button
                             variant="outline-success"

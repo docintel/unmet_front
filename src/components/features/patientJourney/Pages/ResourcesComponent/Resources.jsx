@@ -30,15 +30,21 @@ const Resources = () => {
   const [filters, setFilters] = useState([]);
   const [contentCategory, setContentCategory] = useState("All");
   const [tagShowAllClicked, setTagShowAllClicked] = useState(false);
-  const [searchBackspace, setSearchBackspace] = useState(false);
+  // const [searchBackspace, setSearchBackspace] = useState(false);
   const [tagLimit, setTagLimit] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+  const [showClear, setShowClear] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 767);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    setFilters([]);
+    setSearchText("");
+  }, [isHcp]);
 
   useEffect(() => {
     if (filterAges.data)
@@ -84,21 +90,36 @@ const Resources = () => {
 
   useEffect(() => {
     if (searchText.length === 0) {
-      if (!searchBackspace) {
-        setFilters([]);
-        if (filterAges.data)
-          setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
-        if (filterTag) setTag([...filterTag]);
-        if (filterCategory.data)
-          setCategory(
-            [...filterCategory.data].sort((a, b) =>
-              b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
-            )
-          );
-      }
+      setFilters([]);
+      if (filterAges.data)
+        setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
+      if (filterTag) setTag([...filterTag]);
+      if (filterCategory.data)
+        setCategory(
+          [...filterCategory.data].sort((a, b) =>
+            b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
+          )
+        );
+      // if (!searchBackspace) {
+      //   setFilters([]);
+      //   if (filterAges.data)
+      //     setAgeGroup([...filterAges.data].sort((a, b) => a.id - b.id));
+      //   if (filterTag) setTag([...filterTag]);
+      //   if (filterCategory.data)
+      //     setCategory(
+      //       [...filterCategory.data].sort((a, b) =>
+      //         b.name.localeCompare(a.name, undefined, { sensitivity: "base" })
+      //       )
+      //     );
+      // }
       filterContents();
     }
   }, [searchText]);
+
+  useEffect(() => {
+    if (searchText.trim() || filters.length) setShowClear(true);
+    else setShowClear(false);
+  }, [filters, searchText]);
 
   useEffect(() => {
     calculateVisibleTags();
@@ -236,8 +257,8 @@ const Resources = () => {
   };
 
   const handleSearchTextKeyUp = (e) => {
-    if (e.key === "Backspace") setSearchBackspace(true);
-    else setSearchBackspace(false);
+    // if (e.key === "Backspace") setSearchBackspace(true);
+    // else setSearchBackspace(false);
 
     if (e.key === "Enter") {
       if (searchText.length < 3) filterContents();
@@ -351,8 +372,8 @@ const Resources = () => {
                         </div>
                       )}
                       <Form.Control
-                        type="search"
-                        aria-label="Search"
+                        type="text"
+                        // aria-label="Search"
                         placeholder={
                           filters.length === 0
                             ? "Search by tag or content title"
@@ -364,6 +385,16 @@ const Resources = () => {
                         onChange={(e) => setSearchText(e.target.value.trim())}
                         onKeyUp={handleSearchTextKeyUp}
                       />
+                      {showClear && (
+                        <span
+                          onClick={() => {
+                            setFilters([]);
+                            setSearchText("");
+                          }}
+                        >
+                          <img src={path_image + "cross-btn.svg"} alt="Clear" />
+                        </span>
+                      )}
                     </div>
                     <Button
                       variant="outline-success"
@@ -419,33 +450,29 @@ const Resources = () => {
                     tag.length > 0 && (
                       <div className="tag-list d-flex" ref={containerTagRef}>
                         {tag &&
-                          (tag.slice(0, tagLimit)).map(
-                            (tags, idx) => (
-                              <div
-                                className={
-                                  "tag-item" +
-                                  " " +
-                                  (tags.startsWith("prefix_")
-                                    ? "f-tag"
-                                    : "n-tag")
+                          tag.slice(0, tagLimit).map((tags, idx) => (
+                            <div
+                              className={
+                                "tag-item" +
+                                " " +
+                                (tags.startsWith("prefix_") ? "f-tag" : "n-tag")
+                              }
+                              key={idx}
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                try {
+                                  selectFilters(tags, 0, "tag");
+                                } catch (error) {
+                                  console.log(
+                                    "Error selecting tag filter:",
+                                    error
+                                  );
                                 }
-                                key={idx}
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  try {
-                                    selectFilters(tags, 0, "tag");
-                                  } catch (error) {
-                                    console.log(
-                                      "Error selecting tag filter:",
-                                      error
-                                    );
-                                  }
-                                }}
-                              >
-                                {tags.replace("prefix_", "")}
-                              </div>
-                            )
-                          )}{" "}
+                              }}
+                            >
+                              {tags.replace("prefix_", "")}
+                            </div>
+                          ))}{" "}
                         {tag && tag.length > 10 && (
                           <Button
                             className={

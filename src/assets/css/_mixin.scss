@@ -970,3 +970,19 @@
 }
 }
 }
+@mixin cross-icon {
+  @include flex-middle;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(148, 167, 191, 0.05);
+  }
+
+  &:active {
+    background: rgba(148, 167, 191, 0.10);
+  }
+}

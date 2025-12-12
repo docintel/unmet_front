@@ -1462,19 +1462,7 @@ a {
       }
 
       .cross-icon {
-        @include flex-middle;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin: 8px;
-
-        &:hover {
-          background: rgba(148, 167, 191, 0.05);
-        }
-
-        &:active {
-          background: rgba(148, 167, 191, 0.10);
-        }
+       @include cross-icon;
       }
     }
 
@@ -2605,7 +2593,11 @@ a {
         background: var(--secondary-color);
         border-radius: 40px;
         padding: 7px 16px;
+        align-items: baseline !important;
 
+        .cross-icon {
+          cursor: pointer;
+         }
       }
 
       .tag-list {
