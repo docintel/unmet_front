@@ -120,13 +120,13 @@ const QuestionCard = ({ question, account, updateDeleteQuestion }) => {
           )}
           <div className="region">
             {
-              // !question.region &&
+              !question.region &&
               !question.country ? (
                 "N/A"
               ) : (
                 <>
                   {[
-                    // question.region || " ",
+                    question.region || " ",
                     question.country || " ",
                   ]
                     .join(", ")

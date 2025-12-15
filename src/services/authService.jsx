@@ -40,7 +40,7 @@ export const handleSso = async (
 export const handleSubmit = async (
   e,
   selectedRole,
-  // selectedRegion,
+  selectedRegion,
   selectedCountry,
   validateForm,
   navigate,
@@ -56,7 +56,7 @@ export const handleSubmit = async (
   const data = {
     // role: selectedRole.value,
     role: selectedRole,
-    // region: selectedRegion ? selectedRegion.value : null,
+    region: selectedRegion ? selectedRegion.value : null,
     country: selectedCountry ? selectedCountry.value : null,
   };
   await postData(endPoint.VERIFY_USER, data, {
@@ -72,7 +72,8 @@ export const handleSubmit = async (
   setLoader(false);
   trackingUserAction("login_clicked", `Login through ${isHcp ? "HCP" : "Octapharma"}`,'');
   // navigate("/touchpoints");
-  navigate("/home");
+  if(!isHcp)navigate("/home");
+  else navigate("/touchpoints");
 };
 
 export const getUserDetails = async (userId) => {

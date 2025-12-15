@@ -18,10 +18,10 @@ const EditProfilePopup = ({
   // const [selectedRole, setSelectedRole] = useState({});
   const [selectedRole, setSelectedRole] = useState();
   const [selectedCountry, setSelectedCountry] = useState({});
-  // const [selectedRegion, setSelectedRegion] = useState({});
+  const [selectedRegion, setSelectedRegion] = useState({});
   const [error, setError] = useState({});
   const [countryList, setCountryList] = useState([]);
-  // const [regionList, setRegionList] = useState([]);
+  const [regionList, setRegionList] = useState([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [saveDisabled, setSaveDisabled] = useState(true);
 
@@ -39,26 +39,19 @@ const EditProfilePopup = ({
       if (name.trim() == "") setSaveDisabled(true);
       else setSaveDisabled(false);
     } else setSaveDisabled(true);
-  }, [
-    name,
-    selectedRole,
-    selectedCountry,
-    // , selectedRegion
-  ]);
+  }, [name, selectedRole, selectedCountry, selectedRegion]);
 
-  // useEffect(() => {
-  // filterRegions();
-  // filterCountries();
-  // if (selectedCountry
-  //   && !selectedRegion
-  // ) {
-  //   const region = Object.entries(countryRegionArray).filter(
-  //     ([country]) => country === selectedCountry.value
-  //   );
-  //   setSelectedRegion({ value: region[0][1], label: region[0][1] });
-  //   filterRegions();
-  // }
-  // }, [selectedCountry, selectedRegion]);
+  useEffect(() => {
+    filterRegions();
+    filterCountries();
+    if (selectedCountry && !selectedRegion) {
+      const region = Object.entries(countryRegionArray).filter(
+        ([country]) => country === selectedCountry.value
+      );
+      setSelectedRegion({ value: region[0][1], label: region[0][1] });
+      filterRegions();
+    }
+  }, [selectedCountry, selectedRegion]);
 
   // const roleOptions = useMemo(
   //   () => [
@@ -69,29 +62,29 @@ const EditProfilePopup = ({
   //   []
   // );
 
-  // const filterRegions = () => {
-  //   const uniqueRegions = [
-  //     ...new Set(
-  //       Object.entries(countryRegionArray)
-  //         .map(([, region]) => region)
-  //         .filter((region) => region !== "Other")
-  //     ),
-  //   ]
+  const filterRegions = () => {
+    const uniqueRegions = [
+      ...new Set(
+        Object.entries(countryRegionArray)
+          .map(([, region]) => region)
+          .filter((region) => region !== "Other")
+      ),
+    ]
 
-  //     .map((region) => ({ value: region, label: region }))
-  //     .sort((a, b) =>
-  //       a.label.toLowerCase().localeCompare(b.label.toLowerCase())
-  //     );
+      .map((region) => ({ value: region, label: region }))
+      .sort((a, b) =>
+        a.label.toLowerCase().localeCompare(b.label.toLowerCase())
+      );
 
-  //   setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
-  // };
+    setRegionList([...uniqueRegions, { value: "Other", label: "Other" }]);
+  };
 
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray)
-      // .filter(([, region]) => {
-      //   if (selectedRegion) return region === selectedRegion.value;
-      //   else return true;
-      // })
+      .filter(([, region]) => {
+        if (selectedRegion) return region === selectedRegion.value;
+        else return true;
+      })
       .map(([country]) => ({ value: country, label: country }));
     setCountryList(coutries);
   };
@@ -102,11 +95,11 @@ const EditProfilePopup = ({
     //   userData?.role ? { value: userData?.role, label: userData?.role } : {}
     // );
     setSelectedRole(userData?.role ? userData?.role : "");
-    // setSelectedRegion(
-    //   userData?.region
-    //     ? { value: userData?.region, label: userData?.region }
-    //     : {}
-    // );
+    setSelectedRegion(
+      userData?.region
+        ? { value: userData?.region, label: userData?.region }
+        : {}
+    );
     setSelectedCountry(
       userData?.country
         ? { value: userData?.country, label: userData?.country }
@@ -116,10 +109,10 @@ const EditProfilePopup = ({
     setError({});
   };
 
-  // const handleRegionChange = (val) => {
-  //   setSelectedRegion(val);
-  //   setSelectedCountry({});
-  // };
+  const handleRegionChange = (val) => {
+    setSelectedRegion(val);
+    setSelectedCountry({});
+  };
 
   const handleEditProfile = async (e) => {
     e.preventDefault();
@@ -128,10 +121,10 @@ const EditProfilePopup = ({
       if (!name.trim()) newError.name = "name is required!!";
       // if (!Object.keys(selectedRole).length)
       if (!selectedRole) newError.role = "role is required!!";
-      // if (!Object.keys(selectedRegion).length)
-      //   newError.region = "either region or country is required!!";
+      if (!Object.keys(selectedRegion).length)
+        newError.region = "either region or country is required!!";
       if (
-        // !Object.keys(selectedRegion).length &&
+        !Object.keys(selectedRegion).length &&
         !Object.keys(selectedCountry).length
       )
         newError.country = "country is required!!";
@@ -146,7 +139,7 @@ const EditProfilePopup = ({
         // selectedRole.value,
         selectedRole,
         Object.keys(selectedCountry).length ? selectedCountry.value : null,
-        // Object.keys(selectedRegion).length ? selectedRegion.value : null,
+        Object.keys(selectedRegion).length ? selectedRegion.value : null,
         setToast,
         setIsLoading
       );
@@ -157,8 +150,8 @@ const EditProfilePopup = ({
         name,
         // selectedRole.value,
         selectedRole,
-        Object.keys(selectedCountry).length ? selectedCountry.value : null
-        // Object.keys(selectedRegion).length ? selectedRegion.value : null
+        Object.keys(selectedCountry).length ? selectedCountry.value : null,
+        Object.keys(selectedRegion).length ? selectedRegion.value : null
       );
       await trackingUserAction(
         "profile_updated",
@@ -167,7 +160,7 @@ const EditProfilePopup = ({
           // selected_role: selectedRole.value,
           selected_role: selectedRole,
           selected_country: selectedCountry.value,
-          // selected_region: selectedRegion.value,
+          selected_region: selectedRegion.value,
         },
         currentTabValue
       );
@@ -198,7 +191,7 @@ const EditProfilePopup = ({
               <Form className="registration-form">
                 <Form.Group className="form-group">
                   <Form.Label>
-                    HCP Name{" "}
+                    Name{" "}
                     <span style={{ fontWeight: "lighter" }}>(Required)</span>
                   </Form.Label>
                   <div
@@ -280,7 +273,7 @@ const EditProfilePopup = ({
                     )}
                   </div>
                 </Form.Group> */}
-                {/* <Form.Group className="form-group">
+                <Form.Group className="form-group">
                   <Form.Label>
                     Region <span>(Required)</span>
                   </Form.Label>
@@ -323,10 +316,11 @@ const EditProfilePopup = ({
                       <div className="validation">{error.region}</div>
                     )}
                   </div>
-                </Form.Group> */}
+                </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
-                    Country <span>(Required)</span>
+                    Country 
+                    {/* <span>(Required)</span> */}
                   </Form.Label>
                   <div
                     onMouseEnter={(e) =>
@@ -342,10 +336,7 @@ const EditProfilePopup = ({
                   >
                     <Select
                       className={`split-button ${
-                        error.country
-                          ? // && error.region
-                            "error"
-                          : ""
+                        error.country && error.region ? "error" : ""
                       }`}
                       value={selectedCountry}
                       onChange={setSelectedCountry}
@@ -367,8 +358,7 @@ const EditProfilePopup = ({
                     <span>
                       <img src={path_image + "country-icon.svg"} alt="" />
                     </span>
-                    {error.country && (
-                      // error.region &&
+                    {error.country && error.region && (
                       <div className="validation">{error.country}</div>
                     )}
                   </div>

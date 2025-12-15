@@ -226,13 +226,13 @@ export const ContentProvider = ({ children }) => {
     });
   };
 
-  const updateUserPorfileData = (name, role, country) => {
+  const updateUserPorfileData = (name, role, country,region) => {
     setUserData((prev) => ({
       ...prev,
       name: name,
       role: role,
       country: country,
-      // region: region,
+      region: region,
     }));
   };
 

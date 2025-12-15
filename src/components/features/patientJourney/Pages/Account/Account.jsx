@@ -153,15 +153,11 @@ const Account = () => {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {!userData?.country ? (
-                        // && !userData?.region
+                      {!userData?.country && !userData?.region ? (
                         "N/A"
                       ) : (
                         <>
-                          {[
-                            // userData?.region || " ",
-                            userData?.country || " ",
-                          ]
+                          {[userData?.region || " ", userData?.country || " "]
                             .join(", ")
                             .replace(" ,", "")
                             .replace(",  ", "")}
