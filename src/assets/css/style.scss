@@ -429,6 +429,14 @@ a {
           &.error {
             box-shadow: 0 0 8px 0 rgba(233, 66, 98, 0.40);
           }
+
+          &.error {
+            svg {
+              path {
+                stroke: var(--gradient-pink);
+              }
+            }
+          }
         }
 
         .split-button {
@@ -442,16 +450,16 @@ a {
             }
           }
 
-          // &.error {
-          //   +span {
-          //     svg {
-          //       path {
-          //         stroke: var(--gradient-pink);
-          //       }
-          //     }
+          &.error {
+            +span {
+              svg {
+                path {
+                  stroke: var(--gradient-pink);
+                }
+              }
 
-          //   }
-          // }
+            }
+          }
 
           // &.error {
           //   &.active {
@@ -1464,7 +1472,7 @@ a {
       }
 
       .cross-icon {
-       @include cross-icon;
+        @include cross-icon;
       }
     }
 
@@ -2599,7 +2607,7 @@ a {
 
         .cross-icon {
           cursor: pointer;
-         }
+        }
       }
 
       .tag-list {
@@ -4375,6 +4383,28 @@ input[type="search"]::-webkit-search-results-decoration:hover {
                 }
               }
 
+              &.active {
+                +span {
+                  svg {
+                    path {
+                      stroke: var(--green);
+                    }
+                  }
+                }
+              }
+
+              .split-button {
+                &.active {
+                  +span {
+                    svg {
+                      path {
+                        stroke: var(--green);
+                      }
+                    }
+                  }
+                }
+              }
+
               .icon {
                 @include flex-align-center;
               }
@@ -4745,6 +4775,24 @@ input[type="search"]::-webkit-search-results-decoration:hover {
                     height: auto;
                   }
                 }
+
+                &.active {
+                  +span {
+                    svg {
+                      path {
+                        stroke: var(--green);
+                      }
+                    }
+                  }
+                }
+
+                &.error {
+                  svg {
+                    path {
+                      stroke: var(--gradient-pink);
+                    }
+                  }
+                }
               }
 
               label {
@@ -5049,7 +5097,8 @@ input[type="search"]::-webkit-search-results-decoration:hover {
         }
       }
     }
-    &.deactivated{
+
+    &.deactivated {
       border-top: 8px solid var(--gradient-pink);
     }
   }
