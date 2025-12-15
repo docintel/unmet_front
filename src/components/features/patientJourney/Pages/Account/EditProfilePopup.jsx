@@ -27,7 +27,8 @@ const EditProfilePopup = ({
   const [isFocused, setIsFocused] = useState({
     name: false,
     role: false,
-    country: false
+    country: false,
+    region: false
   });
 
 
@@ -219,11 +220,11 @@ const EditProfilePopup = ({
                       placeholder="Enter your name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      onFocus={() => setIsFocused(prev=>({
-                        ...prev,name:true
+                      onFocus={() => setIsFocused(prev => ({
+                        ...prev, name: true
                       }))}
-                      onBlur={() => setIsFocused(prev=>({
-                        ...prev,name:false
+                      onBlur={() => setIsFocused(prev => ({
+                        ...prev, name: false
                       }))}
                     />
                   </div>{" "}
@@ -281,11 +282,11 @@ const EditProfilePopup = ({
                         e.target.value.length <= 50 &&
                         setSelectedRole(e.target.value)
                       }
-                      onFocus={() => setIsFocused(prev=>({
-                        ...prev,role:true
+                      onFocus={() => setIsFocused(prev => ({
+                        ...prev, role: true
                       }))}
-                      onBlur={() => setIsFocused(prev=>({
-                        ...prev,role:true
+                      onBlur={() => setIsFocused(prev => ({
+                        ...prev, role: true
                       }))}
                     />
                   </div>{" "}
@@ -339,18 +340,18 @@ const EditProfilePopup = ({
                   </Form.Label>
                   <div
                     onMouseEnter={(e) =>
-                      e.currentTarget
-                        .querySelector(".split-button")
-                        .classList.add("active")
+                      setIsFocused(prev => ({
+                        ...prev, region: true
+                      }))
                     }
                     onMouseLeave={(e) =>
-                      e.currentTarget
-                        .querySelector(".split-button")
-                        .classList.remove("active")
+                      setIsFocused(prev => ({
+                        ...prev, region: false
+                      }))
                     }
                   >
                     <Select
-                      className={`split-button ${error.region ? "error" : ""}`}
+                      className={`split-button ${error.region ? "error" : ""} ${isFocused.region ? "active" : ""}`}
                       value={selectedRegion}
                       onChange={handleRegionChange}
                       placeholder="Select your region"
@@ -361,15 +362,20 @@ const EditProfilePopup = ({
                           backgroundColor: state.isSelected
                             ? "#E6F7F8" // background for selected option
                             : state.isFocused
-                            ? "#F4F6F9" // background on hover
-                            : "white",
+                              ? "#F4F6F9" // background on hover
+                              : "white",
                           color: state.isSelected ? "#4CC6CF" : "#5E7683",
                         }),
                       }}
                       isClearable
                     />
                     <span>
-                      <img src={path_image + "region-icon.svg"} alt="" />
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21 11.2565C21 5.73362 16.5228 1.25647 11 1.25647C5.47715 1.25647 1 5.73362 1 11.2565C1 16.7793 5.47715 21.2565 11 21.2565C16.5228 21.2565 21 16.7793 21 11.2565Z" stroke="#B5C2D3" stroke-width="1.5" />
+                        <path d="M19 4.95546C18.0653 5.02283 16.8681 5.38471 16.0379 6.45924C14.5385 8.40008 13.039 8.56203 12.0394 7.91508C10.5399 6.94467 11.8 5.37283 10.0401 4.51862C8.89313 3.96189 8.73321 2.44692 9.37158 1.25647" stroke="#B5C2D3" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M1 10.2565C1.7625 10.9186 2.83046 11.5247 4.08874 11.5247C6.68843 11.5247 7.20837 12.0214 7.20837 14.0083C7.20837 15.9951 7.20837 15.9951 7.72831 17.4853C8.06651 18.4546 8.18472 19.4239 7.5106 20.2565" stroke="#B5C2D3" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M21 12.7088C20.1129 12.1976 19 11.9873 17.8734 12.7969C15.7177 14.3463 14.2314 13.0625 13.5619 14.3454C12.5765 16.234 16.0957 16.8276 13 21.2565" stroke="#B5C2D3" stroke-width="1.5" stroke-linejoin="round" />
+                      </svg>
                     </span>
 
                     {error.country && error.region && (
@@ -379,7 +385,7 @@ const EditProfilePopup = ({
                 </Form.Group>
                 <Form.Group className="form-group">
                   <Form.Label>
-                    Country 
+                    Country
                     {/* <span>(Required)</span> */}
                   </Form.Label>
                   <div
@@ -396,9 +402,9 @@ const EditProfilePopup = ({
                   >
                     <Select
                       className={`split-button ${error.country && error.region
-                          ?
-                          "error"
-                          : ""
+                        ?
+                        "error"
+                        : ""
                         } ${isFocused.country ? "active" : ""}`}
                       value={selectedCountry}
                       onChange={setSelectedCountry}
@@ -408,9 +414,9 @@ const EditProfilePopup = ({
                         option: (provided, state) => ({
                           ...provided,
                           backgroundColor: state.isSelected
-                            ? "#E6F7F8" 
+                            ? "#E6F7F8"
                             : state.isFocused
-                              ? "#F4F6F9" 
+                              ? "#F4F6F9"
                               : "white",
                           color: state.isSelected ? "#4CC6CF" : "#5E7683",
                         }),
@@ -418,37 +424,37 @@ const EditProfilePopup = ({
                       isClearable
                     />
                     <span>
-                     <svg
-                          width="22"
-                          height="22"
-                          viewBox="0 0 22 22"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756"
-                            stroke="#B5C2D3"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797"
-                            stroke="#B5C2D3"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                          <path
-                            d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z"
-                            stroke="#B5C2D3"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z"
-                            stroke="#B5C2D3"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.08082 1.25647C4.47023 2.19237 1 6.26865 1 11.1554C1 16.7341 5.52238 21.2565 11.101 21.2565C15.9878 21.2565 20.0641 17.7862 21 13.1756"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M17.9375 17.2565C18.3216 17.1731 18.6771 17.0405 19 16.8595M13.6875 16.5971C14.2831 16.858 14.8576 17.0513 15.4051 17.1783M9.85461 14.2042C10.2681 14.4945 10.71 14.8426 11.1403 15.1429M2 13.0814C2.32234 12.924 2.67031 12.7433 3.0625 12.5886M5.45105 12.2565C6.01293 12.3189 6.64301 12.4791 7.35743 12.7797"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M17 6.75647C17 5.92804 16.3284 5.25647 15.5 5.25647C14.6716 5.25647 14 5.92804 14 6.75647C14 7.5849 14.6716 8.25647 15.5 8.25647C16.3284 8.25647 17 7.5849 17 6.75647Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M16.488 12.8766C16.223 13.1203 15.8687 13.2565 15.5001 13.2565C15.1315 13.2565 14.7773 13.1203 14.5123 12.8766C12.0855 10.6321 8.83336 8.12462 10.4193 4.48427C11.2769 2.51596 13.3353 1.25647 15.5001 1.25647C17.6649 1.25647 19.7234 2.51596 20.5809 4.48427C22.1649 8.12003 18.9207 10.6398 16.488 12.8766Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
                     </span>
                     {error.country && error.region && (
                       <div className="validation">{error.country}</div>
