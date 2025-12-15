@@ -14,6 +14,7 @@ const Redirect = () => {
       try {
         setLoader(true);
         const params = new URLSearchParams(window.location.search);
+        const gotoquestion = params.has('gotoquestion');
         const token = params.get("token");
         const res = await postData("/auth/login", { user_id: token });
 
@@ -24,7 +25,10 @@ const Redirect = () => {
           localStorage.setItem("decrypted_token", jwtToken);
           localStorage.setItem("sessionId", sessionId);
           trackingUserAction("login_clicked", `Login through  SSI link`, "");
-          //  navigate("/account", { state: { fromSsi: true } });
+          if(gotoquestion){
+             navigate("/account", { state: { fromSsi: true } });
+             return;
+          }
 
           if (res.data.data.userRegistered) {
             document.cookie = `isHcp=${false}; 1; path=/`;
