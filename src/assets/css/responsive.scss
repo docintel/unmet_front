@@ -642,16 +642,18 @@
               top: 44px;
             }
           }
-        .input-with-icon {
-          input {
-           padding: 0 10px;
-           font-size: 12px;
+
+          .input-with-icon {
+            input {
+              padding: 0 10px;
+              font-size: 12px;
+            }
           }
-        }
-        svg{
-        width: 20px;
-        height: 20px;
-        }
+
+          svg {
+            width: 20px;
+            height: 20px;
+          }
         }
 
         .message {
@@ -1502,6 +1504,78 @@
   }
 }
 
+@media (max-width: 768px) {
+  .journey-box {
+    padding: 15px 0px 10px;
+    gap: 15px;
+
+    .journey-box-right {
+      width: 100%;
+    }
+
+    .explore-journey {
+      .start-btn {
+        font-size: 14px;
+        min-width: 100px;
+        padding: 6px 24px;
+      }
+
+      .filter-age {
+        h3 {
+          top: 30px;
+        }
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+
+            .block {
+              &.age0 {
+                margin: -24px 0 0 0px !important;
+              }
+
+              &.age12 {
+                margin: -24px 0 0 21px !important;
+              }
+
+              &.age26 {
+                margin: -24px 10px 0 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 34px 0 -24px 9px !important;
+                }
+
+                &.age18 {
+                  margin: 34px 5px -24px 0 !important;
+                }
+
+                .age-group-circle {
+                  margin: 10px 0 0px;
+                }
+              }
+
+              .age-group-circle {
+                margin: 0px 0 10px;
+              }
+            }
+          }
+        }
+      }
+
+      .explore-btn {
+        bottom: 5%;
+      }
+    }
+
+    .col {
+      width: 100%;
+    }
+  }
+}
+
 @media (max-width: $layout-breakpoint-small) {
   .login {
     padding: 20px 15px;
@@ -1614,10 +1688,13 @@
       }
     }
   }
-    .share-modal .modal-dialog, .Edit-modal .modal-dialog {
-        margin: 0px auto;
-        padding: 0 10px;
-    }
+
+  .share-modal .modal-dialog,
+  .Edit-modal .modal-dialog {
+    margin: 0px auto;
+    padding: 0 10px;
+  }
+
   .login-right {
     min-height: initial;
     padding: 40px 24px 25px;
@@ -1761,15 +1838,6 @@
   }
 
   .journey-box {
-    padding: 15px 0px 10px;
-    flex-direction: column;
-    gap: 15px;
-
-    .journey-box-right {
-      width: 100%;
-      flex-direction: column;
-    }
-
     .journey-boxes {
       .left-side {
         width: 350px;
@@ -2323,17 +2391,20 @@
         h4 {
           font-size: 20px;
         }
-       .profile-details{
-        width: 100%;
-        p {
-          font-size: 14px;
-          img {
-            width: 20px;
-            height: 20px;
+
+        .profile-details {
+          width: 100%;
+
+          p {
+            font-size: 14px;
+
+            img {
+              width: 20px;
+              height: 20px;
+            }
           }
         }
       }
-    }
     }
 
     .content-download {
@@ -2418,6 +2489,13 @@
 
 @media (max-width: $bp_sm_600) {
   .journey-box {
+    flex-direction: column;
+
+    .journey-box-right {
+      width: 100%;
+      flex-direction: column;
+    }
+
     .explore-journey {
 
       .filter-age {
@@ -2557,7 +2635,7 @@
               #E94262 90.14%);
           transform-origin: top center;
           transform: scaleY(0);
-          animation: revealGradientMobile 0.3s ease-out forwards;
+          animation: revealGradientMobile 0.1s ease-out forwards;
         }
 
         @keyframes revealGradientMobile {
@@ -2594,7 +2672,7 @@
               // animation: slideLeftToRight 1.2s ease forwards;
 
               &.age0 {
-              margin: -15px 0 0 -2px !important;
+                margin: -15px 0 0 -2px !important;
 
                 .line {
                   border-top: 1px dashed var(--green);
@@ -2603,6 +2681,7 @@
                     background: var(--green);
                   }
                 }
+
                 opacity: 0;
                 animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                 animation-delay: 0s;
@@ -2618,6 +2697,7 @@
                     background: var(--gradient-orange);
                   }
                 }
+
                 opacity: 0;
                 animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                 animation-delay: 1s;
@@ -2633,6 +2713,7 @@
                     background: var(--gradient-pink);
                   }
                 }
+
                 opacity: 0;
                 animation: slideLeftToRight 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                 animation-delay: 2s;
@@ -2661,13 +2742,14 @@
                       background: #7DB8A8;
                     }
                   }
-                opacity: 0;
-                animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                animation-delay: 0.5s;
+
+                  opacity: 0;
+                  animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                  animation-delay: 0.5s;
 
                   .age-group-circle {
-                  margin: 0 0 0 6px !important;
-                }
+                    margin: 0 0 0 6px !important;
+                  }
                 }
 
                 &.age18 {
@@ -2680,13 +2762,14 @@
                       background: #F37B50;
                     }
                   }
-                opacity: 0;
-                animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                 animation-delay: 1.5s;
+
+                  opacity: 0;
+                  animation: slideRightToLeft 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                  animation-delay: 1.5s;
 
                   .age-group-circle {
-                  margin: 0 0 0 6px !important;
-                }
+                    margin: 0 0 0 6px !important;
+                  }
                 }
 
                 p {
@@ -2862,11 +2945,127 @@
         }
       }
     }
-        .account-tabs {
-          .tab-content {
-            padding: 16px 0;
-          }
+
+    .account-tabs {
+      .tab-content {
+        padding: 16px 0;
+      }
+    }
+  }
+}
+
+@media (max-width: $bp_sm_440) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 740px;
+
+        h3 {
+          font-size: 22px;
         }
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 67%;
+
+            .block {
+              &.age0 {
+                margin: -15px 0 0 0 !important;
+              }
+
+              &.age12 {
+                margin: 5px 0 0 -5px !important;
+              }
+
+              &.age26 {
+                margin: 36px 0 -42px 0 !important;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 29px 0 25px 0 !important;
+                }
+
+                &.age18 {
+                  margin: 31px -7px 0 0 !important;
+                }
+              }
+            }
+
+            .age-group-circle {
+              width: 70px;
+              height: 70px;
+              padding: 6px;
+
+              img {
+                width: 60px;
+              }
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $bp_sm_430) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 720px;
+
+        h3 {
+          font-size: 22px;
+        }
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 69%;
+
+            .block {
+              &.age0 {
+                margin: 21px 0 0 0 !important;
+              }
+
+              &.age12 {
+                margin: 29px 0 0 -6px !important
+              }
+
+              &.age26 {
+                margin: 25px 0 0 -1px !important;
+              }
+
+              &:nth-child(even) {
+
+                &.age6 {
+                  margin: 26px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 32px -7px 0 !important
+                }
+              }
+            }
+
+            .age-group-circle {
+              width: 70px;
+              height: 70px;
+              padding: 6px;
+
+              img {
+                width: 60px;
+              }
+            }
+          }
+
+        }
+      }
+    }
   }
 }
 
@@ -2875,7 +3074,8 @@
     .explore-journey {
       .filter-age {
         height: 700px;
-          h3 {
+
+        h3 {
           font-size: 20px;
         }
       }
@@ -2890,23 +3090,26 @@
                 margin: 21px 0 0 -2px !important;
               }
 
-              &.age12{
+              &.age12 {
                 margin: 25px 0 0 -6px !important
               }
+
               &.age26 {
                 margin: 25px 0 0 -1px !important;
               }
 
               &:nth-child(even) {
 
-                &.age6{
-                margin: 25px 0 0 !important;
+                &.age6 {
+                  margin: 25px 0 0 !important;
                 }
+
                 &.age18 {
                   margin: 25px -7px 0 !important
                 }
               }
             }
+
             .age-group-circle {
               width: 70px;
               height: 70px;
@@ -2919,6 +3122,82 @@
           }
         }
       }
+    }
+  }
+}
+
+@media (max-width: $bp_xs_393) {
+  .journey-box {
+    .explore-journey {
+      .filter-age {
+        height: 655px;
+      }
+
+      .explore-journey-block {
+        .explore-journey-block-inner {
+          .age-filter-block {
+            max-width: 67%;
+
+            p {
+              max-width: 50px;
+            }
+
+            .block {
+              &.age0 {
+                margin: 18px 0 0 -2px !important;
+              }
+
+              &.age12 {
+                margin: 29px 0 0px -7px !important;
+              }
+
+              &.age26 {
+                margin: 27px 0 0 -5px !important;
+              }
+
+              p {
+                margin: 3px 16px 0 0;
+              }
+
+              &:nth-child(even) {
+                &.age6 {
+                  margin: 27px 2px 0 0 !important;
+                }
+
+                &.age18 {
+                  margin: 30px -2px 0 0 !important;
+                }
+
+                p {
+                  margin: -6px 0 0 9px;
+                }
+
+                .line {
+                  width: 30px;
+                }
+              }
+
+              .line {
+                width: 30px;
+              }
+            }
+
+            .age-group-circle {
+              width: 60px;
+              height: 60px;
+              padding: 6px;
+
+              img {
+                width: 52px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .explore-btn {
+      bottom: 10px !important;
     }
   }
 }
@@ -3004,7 +3283,8 @@
     .explore-journey {
       .filter-age {
         height: 620px;
-         h3 {
+
+        h3 {
           font-size: 20px;
         }
       }
@@ -3118,7 +3398,7 @@
                 }
 
                 &.age18 {
-                  margin: 22px -4px 0 0!important;
+                  margin: 22px -4px 0 0 !important;
                 }
 
                 p {
@@ -3237,61 +3517,63 @@
       }
     }
   }
-.account-section {
 
-  .account-header {
-    gap: 12px;
-  }
+  .account-section {
 
-  .profile {
-    padding: 8px;
-    gap: 8px;
+    .account-header {
+      gap: 12px;
+    }
 
-    .profile-img {
-      width: 45px;
-      height: 45px;
+    .profile {
+      padding: 8px;
+      gap: 8px;
 
-      img {
+      .profile-img {
         width: 45px;
         height: 45px;
+
+        img {
+          width: 45px;
+          height: 45px;
+        }
+      }
+
+      .profile-content {
+        h4 {
+          font-size: 16px;
+          margin: 0;
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        .profile-details {
+          p {
+            font-size: 12px;
+          }
+        }
       }
     }
 
-    .profile-content {
-      h4 {
-        font-size: 16px;
-        margin: 0;
-      }
+    .content-download {
+      padding: 8px;
 
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-        .profile-details{
-        p {
-          font-size: 12px;
+      .download,
+      .shared {
+        padding: 8px;
+
+        .label img {
+          width: 16px;
+          height: 16px;
+        }
+
+        h5 {
+          font-size: 16px;
         }
       }
     }
   }
-
-  .content-download {
-    padding: 8px;
-
-    .download,
-    .shared {
-      padding: 8px;
-
-      .label img {
-        width: 16px;
-        height: 16px;
-      }
-
-      h5 {
-        font-size: 16px;
-      }
-    }
-  }
-}
 
 }
