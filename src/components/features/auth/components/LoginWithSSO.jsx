@@ -267,7 +267,7 @@ const LoginWithSSO = () => {
                       >
                         Login <img src={path_image + "login-icon.svg"} alt="" />
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="primary"
                         onClick={() => {
                           document.cookie = `isHcp=${isHcp}; 1; path=/`;
@@ -277,7 +277,7 @@ const LoginWithSSO = () => {
                       >
                         Login As Guest{" "}
                         <img src={path_image + "login-icon.svg"} alt="" />
-                      </Button>
+                      </Button> */}
                     </Form>
                   </div>
                 </div>
