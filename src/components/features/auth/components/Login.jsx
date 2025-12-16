@@ -43,19 +43,29 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
     if (selectedRegion) setErrors({ ...errors, region: "" });
   }, [selectedRegion]);
 
-  useEffect(() => filterCountries(), []);
+  useEffect(() => {
+    filterCountries();
+    filterRegions();
+  }, []);
 
   // Validation
   const validateForm = useCallback(() => {
     const newErrors = {};
     if (!selectedRole) newErrors.role = "Role is required.";
     else newErrors.role = "";
-    if (!selectedRegion)
+    if (selectedRegion || selectedCountry) {
+      newErrors.region = "";
+      newErrors.country = "";
+    } else {
       newErrors.region = "Oops! Pick at least a region or a country.";
-    else newErrors.region = "";
-    if (!selectedRegion && !selectedCountry)
       newErrors.country = "Oops! Pick at least a region or a country.";
-    else newErrors.country = "";
+    }
+    // if (!selectedRegion)
+    //   newErrors.region = "Oops! Pick at least a region or a country.";
+    // else newErrors.region = "";
+    // if (!selectedRegion && !selectedCountry)
+    //   newErrors.country = "Oops! Pick at least a region or a country.";
+    // else newErrors.country = "";
     setErrors(newErrors);
 
     let valid = false;
@@ -82,30 +92,30 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
 
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray)
-      .filter(([, region]) => {
-        if (selectedRegion) return region === selectedRegion.value;
-        else return true;
-      })
+      // .filter(([, region]) => {
+      //   if (selectedRegion) return region === selectedRegion.value;
+      //   else return true;
+      // })
       .map(([country]) => ({ value: country, label: country }));
     setCountryList(coutries);
   };
 
-  useEffect(() => {
-    filterRegions();
-    filterCountries();
-    if (selectedCountry && !selectedRegion) {
-      const region = Object.entries(countryRegionArray).filter(
-        ([country]) => country === selectedCountry.value
-      );
-      setSelectedRegion({ value: region[0][1], label: region[0][1] });
-      filterRegions();
-    }
-  }, [selectedCountry, selectedRegion]);
+  // useEffect(() => {
+  //   filterRegions();
+  //   filterCountries();
+  //   if (selectedCountry && !selectedRegion) {
+  //     const region = Object.entries(countryRegionArray).filter(
+  //       ([country]) => country === selectedCountry.value
+  //     );
+  //     setSelectedRegion({ value: region[0][1], label: region[0][1] });
+  //     filterRegions();
+  //   }
+  // }, [selectedCountry, selectedRegion]);
 
   // Handlers
   const handleRegionChange = (val) => {
     setSelectedRegion(val);
-    setSelectedCountry(null);
+    // setSelectedCountry(null);
   };
 
   const onSubmit = useCallback(

@@ -33,13 +33,16 @@ const EditProfilePopup = ({
 
 
   useEffect(() => setPropertyState(), [userData]);
-  useEffect(() => filterCountries(), []);
+  useEffect(() => {
+    filterCountries();
+    filterRegions();
+  }, []);
 
   useEffect(() => {
     if (
       name !== userData?.name ||
       selectedCountry.value !== userData?.country ||
-      // selectedRegion.value !== userData?.region ||
+      selectedRegion.value !== userData?.region ||
       selectedRole !== userData?.role
       // selectedRole.value !== userData?.role
     ) {
@@ -48,17 +51,17 @@ const EditProfilePopup = ({
     } else setSaveDisabled(true);
   }, [name, selectedRole, selectedCountry, selectedRegion]);
 
-  useEffect(() => {
-    filterRegions();
-    filterCountries();
-    if (selectedCountry && !selectedRegion) {
-      const region = Object.entries(countryRegionArray).filter(
-        ([country]) => country === selectedCountry.value
-      );
-      setSelectedRegion({ value: region[0][1], label: region[0][1] });
-      filterRegions();
-    }
-  }, [selectedCountry, selectedRegion]);
+  // useEffect(() => {
+  //   filterRegions();
+  //   filterCountries();
+  //   if (selectedCountry && !selectedRegion) {
+  //     const region = Object.entries(countryRegionArray).filter(
+  //       ([country]) => country === selectedCountry.value
+  //     );
+  //     setSelectedRegion({ value: region[0][1], label: region[0][1] });
+  //     filterRegions();
+  //   }
+  // }, [selectedCountry, selectedRegion]);
 
   // const roleOptions = useMemo(
   //   () => [
@@ -88,10 +91,10 @@ const EditProfilePopup = ({
 
   const filterCountries = () => {
     const coutries = Object.entries(countryRegionArray)
-      .filter(([, region]) => {
-        if (selectedRegion) return region === selectedRegion.value;
-        else return true;
-      })
+      // .filter(([, region]) => {
+      //   if (selectedRegion) return region === selectedRegion.value;
+      //   else return true;
+      // })
       .map(([country]) => ({ value: country, label: country }));
     setCountryList(coutries);
   };
@@ -118,7 +121,7 @@ const EditProfilePopup = ({
 
   const handleRegionChange = (val) => {
     setSelectedRegion(val);
-    setSelectedCountry({});
+    // setSelectedCountry({});
   };
 
   const handleEditProfile = async (e) => {
