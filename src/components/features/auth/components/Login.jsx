@@ -18,6 +18,9 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
   const [countryList, setCountryList] = useState([]);
   const [errors, setErrors] = useState({});
   const [isFocused, setIsFocused] = useState(false);
+  const [isRegionActive, setIsRegionActive] = useState(false);
+  const [isCountryActive, setIsCountryActive] = useState(false);
+
 
   // const regionDropdownRef = useRef(null);
 
@@ -366,43 +369,35 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     <Form.Label>
                       Region <span>(Required)</span>
                     </Form.Label>
-                    <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
+
+                    <div>
                       <Select
-                        className={`split-button ${
-                          errors.region ? "error" : ""
-                        }`}
+                        className={`split-button ${isRegionActive ? "active" : ""
+                          } ${errors.region ? "error" : ""}`}
                         value={selectedRegion}
                         onChange={(e) => {
                           setErrors((prev) => ({ ...prev, region: "" }));
                           handleRegionChange(e);
                         }}
+                        onFocus={() => setIsRegionActive(true)}
+                        onBlur={() => setIsRegionActive(false)}
                         placeholder="Select your region"
                         options={regionList}
+                        isClearable
                         styles={{
                           option: (provided, state) => ({
                             ...provided,
                             backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
+                              ? "#E6F7F8"
                               : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
+                                ? "#F4F6F9"
+                                : "white",
                             color: state.isSelected ? "#4CC6CF" : "#5E7683",
                           }),
                         }}
-                        isClearable
                       />
-                      <span>
+
+                      <span className="select-icon">
                         <svg
                           width="22"
                           height="22"
@@ -433,7 +428,7 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                             strokeWidth="1.5"
                             strokeLinejoin="round"
                           />
-                        </svg>{" "}
+                        </svg>
                       </span>
 
                       {errors.country && errors.region && (
@@ -442,50 +437,41 @@ const Login = ({ userDetails, setLoader, isHcp }) => {
                     </div>
                   </Form.Group>
 
+
                   {/* Country */}
 
                   <Form.Group className="form-group">
                     <Form.Label>
                       Country {
-                          selectedCountry || selectedRegion ? null :<span>(Required)</span>
-                        }
+                        selectedCountry || selectedRegion ? null : <span>(Required)</span>
+                      }
                     </Form.Label>
-                    <div
-                      onMouseEnter={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.add("active")
-                      }
-                      onMouseLeave={(e) =>
-                        e.currentTarget
-                          .querySelector(".split-button")
-                          .classList.remove("active")
-                      }
-                    >
+                    <div>
                       <Select
-                        className={`split-button ${
-                          errors.country && errors.region ? "error" : ""
-                        }`}
+                       className={`split-button ${isCountryActive ? "active" : ""
+                          } ${errors.region ? "error" : ""}`}
                         value={selectedCountry}
                         onChange={(e) => {
                           setErrors((prev) => ({ ...prev, country: "" }));
                           setSelectedCountry(e);
                         }}
+                        onFocus={() => setIsCountryActive(true)}
+                        onBlur={() => setIsCountryActive(false)}
                         placeholder="Select your country"
                         options={countryList}
                         styles={{
                           option: (provided, state) => ({
                             ...provided,
                             backgroundColor: state.isSelected
-                              ? "#E6F7F8" // background for selected option
+                              ? "#E6F7F8" 
                               : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
+                                ? "#F4F6F9" 
+                                : "white",
                             color: state.isSelected ? "#4CC6CF" : "#5E7683",
                           }),
                         }}
                         isClearable
-                        // isDisabled={!selectedRegion}
+                      // isDisabled={!selectedRegion}
                       />
                       <span>
                         <svg
