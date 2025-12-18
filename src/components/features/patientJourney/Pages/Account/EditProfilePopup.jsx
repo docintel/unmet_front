@@ -239,7 +239,7 @@ const EditProfilePopup = ({
                   </Form.Label>
                   <div
                     className={"input-with-icon" +
-                      (error.name ? " error" : "") +
+                      (error.role ? " error" : "") +
                       (isFocused.role ? " active" : "")
                     }
                   >
@@ -289,7 +289,7 @@ const EditProfilePopup = ({
                         ...prev, role: true
                       }))}
                       onBlur={() => setIsFocused(prev => ({
-                        ...prev, role: true
+                        ...prev, role: false
                       }))}
                     />
                   </div>{" "}
@@ -341,78 +341,27 @@ const EditProfilePopup = ({
                   <Form.Label>
                     Region <span>(Required)</span>
                   </Form.Label>
-                  <div
-                    onMouseEnter={(e) =>
-                      setIsFocused(prev => ({
-                        ...prev, region: true
-                      }))
-                    }
-                    onMouseLeave={(e) =>
-                      setIsFocused(prev => ({
-                        ...prev, region: false
-                      }))
-                    }
-                  >
+
+                  <div className="select-wrapper">
                     <Select
-                      className={`split-button ${error.region ? "error" : ""} ${isFocused.region ? "active" : ""}`}
+                      className={`split-button
+                    ${error.region ? "error" : ""}
+                    ${isFocused.region ? "active" : ""}`
+                      }
                       value={selectedRegion}
-                      onChange={handleRegionChange}
+                      onChange={(e) => {
+                        handleRegionChange(e);
+                        setIsFocused((prev) => ({ ...prev, region: false }));
+                      }}
+                      onFocus={() =>
+                        setIsFocused((prev) => ({ ...prev, region: true }))
+                      }
+                      onBlur={() =>
+                        setIsFocused((prev) => ({ ...prev, region: false }))
+                      }
                       placeholder="Select your region"
                       options={regionList}
-                      styles={{
-                        option: (provided, state) => ({
-                          ...provided,
-                          backgroundColor: state.isSelected
-                            ? "#E6F7F8" // background for selected option
-                            : state.isFocused
-                              ? "#F4F6F9" // background on hover
-                              : "white",
-                          color: state.isSelected ? "#4CC6CF" : "#5E7683",
-                        }),
-                      }}
                       isClearable
-                    />
-                    <span>
-                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 11.2565C21 5.73362 16.5228 1.25647 11 1.25647C5.47715 1.25647 1 5.73362 1 11.2565C1 16.7793 5.47715 21.2565 11 21.2565C16.5228 21.2565 21 16.7793 21 11.2565Z" stroke="#B5C2D3" strokeWidth="1.5" />
-                        <path d="M19 4.95546C18.0653 5.02283 16.8681 5.38471 16.0379 6.45924C14.5385 8.40008 13.039 8.56203 12.0394 7.91508C10.5399 6.94467 11.8 5.37283 10.0401 4.51862C8.89313 3.96189 8.73321 2.44692 9.37158 1.25647" stroke="#B5C2D3" strokeWidth="1.5" strokeLinejoin="round" />
-                        <path d="M1 10.2565C1.7625 10.9186 2.83046 11.5247 4.08874 11.5247C6.68843 11.5247 7.20837 12.0214 7.20837 14.0083C7.20837 15.9951 7.20837 15.9951 7.72831 17.4853C8.06651 18.4546 8.18472 19.4239 7.5106 20.2565" stroke="#B5C2D3" strokeWidth="1.5" strokeLinejoin="round" />
-                        <path d="M21 12.7088C20.1129 12.1976 19 11.9873 17.8734 12.7969C15.7177 14.3463 14.2314 13.0625 13.5619 14.3454C12.5765 16.234 16.0957 16.8276 13 21.2565" stroke="#B5C2D3" strokeWidth="1.5" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-
-                    {error.country && error.region && (
-                      <div className="validation">{error.region}</div>
-                    )}
-                  </div>
-                </Form.Group>
-                <Form.Group className="form-group">
-                  <Form.Label>
-                    Country
-                    {/* <span>(Required)</span> */}
-                  </Form.Label>
-                  <div
-                    onMouseEnter={(e) =>
-                      setIsFocused(prev => ({
-                        ...prev, country: true
-                      }))
-                    }
-                    onMouseLeave={(e) =>
-                      setIsFocused(prev => ({
-                        ...prev, country: false
-                      }))
-                    }
-                  >
-                    <Select
-                      className={`split-button ${error.country && error.region
-                        ?
-                        "error"
-                        : ""
-                        } ${isFocused.country ? "active" : ""}`}
-                      value={selectedCountry}
-                      onChange={setSelectedCountry}
-                      placeholder="Select your country"
-                      options={countryList}
                       styles={{
                         option: (provided, state) => ({
                           ...provided,
@@ -424,9 +373,86 @@ const EditProfilePopup = ({
                           color: state.isSelected ? "#4CC6CF" : "#5E7683",
                         }),
                       }}
-                      isClearable
                     />
-                    <span>
+
+                    <span className={`select-icon ${isFocused.region ? "active" : ""}`}>
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M21 11.2565C21 5.73362 16.5228 1.25647 11 1.25647C5.47715 1.25647 1 5.73362 1 11.2565C1 16.7793 5.47715 21.2565 11 21.2565C16.5228 21.2565 21 16.7793 21 11.2565Z"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                        />
+                        <path
+                          d="M19 4.95546C18.0653 5.02283 16.8681 5.38471 16.0379 6.45924C14.5385 8.40008 13.039 8.56203 12.0394 7.91508C10.5399 6.94467 11.8 5.37283 10.0401 4.51862C8.89313 3.96189 8.73321 2.44692 9.37158 1.25647"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M1 10.2565C1.7625 10.9186 2.83046 11.5247 4.08874 11.5247C6.68843 11.5247 7.20837 12.0214 7.20837 14.0083C7.20837 15.9951 7.20837 15.9951 7.72831 17.4853C8.06651 18.4546 8.18472 19.4239 7.5106 20.2565"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M21 12.7088C20.1129 12.1976 19 11.9873 17.8734 12.7969C15.7177 14.3463 14.2314 13.0625 13.5619 14.3454C12.5765 16.234 16.0957 16.8276 13 21.2565"
+                          stroke="#B5C2D3"
+                          strokeWidth="1.5"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+
+                    {error.country && error.region && (
+                      <div className="validation">{error.region}</div>
+                    )}
+                  </div>
+                </Form.Group>
+
+                <Form.Group className="form-group">
+                  <Form.Label>
+                    Country <span>(Required)</span>
+                  </Form.Label>
+
+                  <div className="select-wrapper">
+                    <Select
+                      className={`split-button
+                        ${error.country && error.region ? "error" : ""}
+                        ${isFocused.country ? "active" : ""}`}
+                      value={selectedCountry}
+                      onChange={(e) => {
+                        setSelectedCountry(e);
+                        setIsFocused((prev) => ({ ...prev, country: false }));
+                      }}
+                      onFocus={() =>
+                        setIsFocused((prev) => ({ ...prev, country: true }))
+                      }
+                      onBlur={() =>
+                        setIsFocused((prev) => ({ ...prev, country: false }))
+                      }
+                      placeholder="Select your country"
+                      options={countryList}
+                      isClearable
+                      styles={{
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#E6F7F8"
+                            : state.isFocused
+                              ? "#F4F6F9"
+                              : "white",
+                          color: state.isSelected ? "#4CC6CF" : "#5E7683",
+                        }),
+                      }}
+                    />
+
+                    <span className={`select-icon ${isFocused.country ? "active" : ""}`}>
                       <svg
                         width="22"
                         height="22"
@@ -459,11 +485,13 @@ const EditProfilePopup = ({
                         />
                       </svg>
                     </span>
+
                     {error.country && error.region && (
                       <div className="validation">{error.country}</div>
                     )}
                   </div>
                 </Form.Group>
+
                 <div className="form-buttons">
                   <Button
                     className="btn edit-cancel"
