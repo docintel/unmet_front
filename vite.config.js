@@ -5,14 +5,18 @@ export default defineConfig({
   server: { port: 3000 },
   plugins: [react()],
   define: {
-    global: {}, // prevent Firebase/MSAL from expecting Node's global
+    // This prevents crypto-js from trying to use Node's crypto module
+    'process.env': {},
+    'global': 'globalThis',
   },
   resolve: {
     alias: {
-      crypto: false, // ensure Node crypto isn’t bundled
+      // This maps the 'crypto' import to a null object so esbuild doesn't crash
+      crypto: 'crypto-js', 
     },
   },
   optimizeDeps: {
-    exclude: ['crypto'],
+    // This forces Vite to handle crypto-js differently
+    include: ['crypto-js'],
   },
 });
