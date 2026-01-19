@@ -29,7 +29,7 @@ const Redirect = () => {
         setLoader(true);
         const params = new URLSearchParams(window.location.search);
         const gotoquestion = params.has("gotoquestion");
-        const token = myDecrypt(params.get("agdfrds"));
+        const token = params.get("agdfrds");
         const res = await postData("/auth/login", { user_id: token });
 
         if (res.status === 200) {
@@ -55,13 +55,16 @@ const Redirect = () => {
       } catch (err) {
         setLoader(false);
         console.error("Auto login failed:", err);
-        let error = "";
-        toast.error("Invalid URL"); // modify later
-        // if(err.status == "400") error = "USER_DELETED"; //uncomment later
-        navigate(
-          "/login"
-          // , { state: { error } } //uncomment later
-        );
+        if(err.status == "403"){
+          let error = "USER_DELETED";
+          navigate(
+            "/login"
+            , { state: { error } }
+          );
+        }else{
+          toast.error("Invalid URL");
+          navigate("/login");
+        }
       } finally {
         setLoader(false);
       }
